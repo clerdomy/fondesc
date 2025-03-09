@@ -1,0 +1,594 @@
+/* Estilos para a página de professores */
+
+/* Hero Section */
+.page-hero {
+  background-color: var(--secondary);
+  color: var(--text-light);
+  padding: var(--spacing-xl) 0;
+  text-align: center;
+}
+
+.breadcrumbs {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: var(--spacing-md);
+}
+
+.breadcrumbs a {
+  color: rgba(255, 255, 255, 0.7);
+  transition: color 0.3s ease;
+}
+
+.breadcrumbs a:hover {
+  color: var(--primary);
+}
+
+.page-hero h1 {
+  font-size: 2.5rem;
+  margin-bottom: var(--spacing-md);
+  color: var(--text-light);
+}
+
+.hero-description {
+  font-size: 1.25rem;
+  max-width: 800px;
+  margin: 0 auto;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* Faculty Intro Section */
+.faculty-intro {
+  padding: var(--spacing-xxl) 0;
+}
+
+.intro-content {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-xl);
+}
+
+@media (min-width: 992px) {
+  .intro-content {
+    grid-template-columns: 3fr 2fr;
+  }
+}
+
+.intro-text p {
+  margin-bottom: var(--spacing-md);
+  line-height: 1.6;
+}
+
+.intro-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spacing-md);
+}
+
+.stat-item {
+  background-color: var(--background-white);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-lg);
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.stat-item:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-md);
+}
+
+.stat-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--secondary);
+  margin-bottom: var(--spacing-xs);
+}
+
+.stat-label {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}
+
+/* Gray Background Sections */
+.gray-bg {
+  background-color: var(--background-light);
+}
+
+/* Faculty Leadership Section */
+.faculty-leadership {
+  padding: var(--spacing-xxl) 0;
+}
+
+.leadership-grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: var(--spacing-lg);
+}
+
+@media (min-width: 768px) {
+  .leadership-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Faculty Card Styles */
+.faculty-card {
+  background-color: var(--background-white);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.faculty-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-md);
+}
+
+.faculty-image {
+  height: 200px;
+  overflow: hidden;
+}
+
+.faculty-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.faculty-card:hover .faculty-image img {
+  transform: scale(1.05);
+}
+
+.faculty-info {
+  padding: var(--spacing-md);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.faculty-info h3 {
+  color: var(--secondary);
+  margin-bottom: var(--spacing-xs);
+  font-size: 1.25rem;
+}
+
+.faculty-title {
+  color: var(--primary);
+  font-weight: 600;
+  margin-bottom: var(--spacing-sm);
+}
+
+.faculty-credentials {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-xs);
+  margin-bottom: var(--spacing-sm);
+}
+
+.credential {
+  background-color: rgba(255, 204, 41, 0.1);
+  color: var(--secondary);
+  font-size: 0.75rem;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-sm);
+}
+
+.faculty-bio {
+  color: var(--text-muted);
+  margin-bottom: var(--spacing-md);
+  font-size: 0.875rem;
+  line-height: 1.6;
+  flex-grow: 1;
+}
+
+.faculty-contact {
+  margin-top: auto;
+}
+
+.faculty-email {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  color: var(--secondary);
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.faculty-email:hover {
+  color: var(--primary);
+}
+
+/* Faculty Departments Section */
+.faculty-departments {
+  padding: var(--spacing-xxl) 0;
+}
+
+.department-tabs {
+  display: flex;
+  overflow-x: auto;
+  margin-bottom: var(--spacing-lg);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.tab-button {
+  padding: var(--spacing-md) var(--spacing-lg);
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  cursor: pointer;
+  white-space: nowrap;
+  font-weight: 600;
+  color: var(--text-muted);
+  transition: all 0.3s ease;
+}
+
+.tab-button:hover {
+  color: var(--secondary);
+}
+
+.tab-button.active {
+  color: var(--secondary);
+  border-bottom-color: var(--primary);
+}
+
+.department-pane {
+  display: none;
+}
+
+.department-pane.active {
+  display: block;
+}
+
+.faculty-grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: var(--spacing-lg);
+}
+
+@media (min-width: 576px) {
+  .faculty-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 992px) {
+  .faculty-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Teaching Approach Section */
+.teaching-approach {
+  padding: var(--spacing-xxl) 0;
+}
+
+.approach-grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: var(--spacing-lg);
+}
+
+@media (min-width: 576px) {
+  .approach-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 992px) {
+  .approach-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.approach-card {
+  background-color: var(--background-white);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-lg);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.approach-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-md);
+}
+
+.approach-icon {
+  width: 4rem;
+  height: 4rem;
+  background-color: rgba(255, 204, 41, 0.2);
+  color: var(--secondary);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--spacing-md);
+}
+
+.approach-icon i {
+  font-size: 1.5rem;
+}
+
+.approach-card h3 {
+  color: var(--secondary);
+  margin-bottom: var(--spacing-sm);
+  font-size: 1.125rem;
+}
+
+.approach-card p {
+  color: var(--text-muted);
+  margin-bottom: 0;
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+/* Faculty Development Section */
+.faculty-development {
+  padding: var(--spacing-xxl) 0;
+}
+
+.development-content {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-xl);
+}
+
+@media (min-width: 992px) {
+  .development-content {
+    grid-template-columns: 2fr 3fr;
+  }
+}
+
+.development-image {
+  height: 100%;
+}
+
+.development-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+}
+
+.development-text p {
+  margin-bottom: var(--spacing-md);
+  line-height: 1.6;
+}
+
+.development-text h3 {
+  color: var(--secondary);
+  margin-top: var(--spacing-lg);
+  margin-bottom: var(--spacing-md);
+  font-size: 1.25rem;
+}
+
+.development-list {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: var(--spacing-lg);
+}
+
+.development-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-sm);
+}
+
+.development-list i {
+  color: var(--primary);
+  margin-top: 0.25rem;
+}
+
+/* Faculty Testimonials Section */
+.faculty-testimonials {
+  padding: var(--spacing-xxl) 0;
+}
+
+.testimonials-slider {
+  position: relative;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.testimonial-slide {
+  display: none;
+}
+
+.testimonial-slide.active {
+  display: block;
+}
+
+.testimonial-content {
+  background-color: var(--background-white);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-lg);
+  box-shadow: var(--shadow-md);
+}
+
+.testimonial-quote {
+  position: relative;
+  padding-left: var(--spacing-lg);
+  margin-bottom: var(--spacing-lg);
+}
+
+.testimonial-quote i {
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--primary);
+  font-size: 1.5rem;
+}
+
+.testimonial-quote p {
+  font-style: italic;
+  line-height: 1.6;
+  color: var(--text-dark);
+}
+
+.testimonial-author {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.author-image {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.author-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.author-info h4 {
+  color: var(--secondary);
+  margin-bottom: var(--spacing-xs);
+  font-size: 1.125rem;
+}
+
+.author-info p {
+  color: var(--text-muted);
+  margin-bottom: 0;
+  font-size: 0.875rem;
+}
+
+.testimonial-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-lg);
+}
+
+.testimonial-prev,
+.testimonial-next {
+  background: none;
+  border: none;
+  color: var(--secondary);
+  font-size: 1.25rem;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.testimonial-prev:hover,
+.testimonial-next:hover {
+  color: var(--primary);
+}
+
+.testimonial-dots {
+  display: flex;
+  gap: var(--spacing-xs);
+}
+
+.dot {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 50%;
+  background-color: var(--border-color);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.dot.active {
+  background-color: var(--primary);
+}
+
+/* Join Our Team Section */
+.join-team {
+  padding: var(--spacing-xxl) 0;
+}
+
+.join-content {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-xl);
+}
+
+@media (min-width: 992px) {
+  .join-content {
+    grid-template-columns: 3fr 2fr;
+  }
+}
+
+.join-text h2 {
+  color: var(--secondary);
+  margin-bottom: var(--spacing-md);
+  text-align: left;
+}
+
+.join-text p {
+  margin-bottom: var(--spacing-md);
+  line-height: 1.6;
+}
+
+.join-text h3 {
+  color: var(--secondary);
+  margin-top: var(--spacing-lg);
+  margin-bottom: var(--spacing-md);
+  font-size: 1.25rem;
+}
+
+.benefits-list {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: var(--spacing-lg);
+}
+
+.benefits-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-sm);
+}
+
+.benefits-list i {
+  color: var(--primary);
+  margin-top: 0.25rem;
+}
+
+.join-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 767px) {
+  .page-hero h1 {
+    font-size: 2rem;
+  }
+  
+  .hero-description {
+    font-size: 1rem;
+  }
+  
+  .department-tabs {
+    flex-wrap: wrap;
+  }
+  
+  .tab-button {
+    flex: 1 1 auto;
+    text-align: center;
+    padding: var(--spacing-sm) var(--spacing-md);
+  }
+}

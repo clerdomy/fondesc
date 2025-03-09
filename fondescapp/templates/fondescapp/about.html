@@ -1,0 +1,178 @@
+{% extends 'fondescapp/base.html' %}
+
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/about.css' %}">
+{% endblock %}
+
+
+{% block content %}
+    <main>
+        <!-- Page Header -->
+        <section class="page-header">
+            <div class="container">
+                <h1>Kimoun Nou Ye</h1>
+                <div class="breadcrumbs">
+                    <a href="../index.html">Akèy</a> / 
+                    <a href="#">Sou Nou</a> / 
+                    <span>Kimoun Nou Ye</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section class="about-section">
+            <div class="container">
+                <div class="about-grid">
+                    <div class="about-content">
+                        <h2>Istwa Nou</h2>
+                        <p>FONDESC (Fòmasyon Nasyonal a Distans) te fonde an 2010 ak yon vizyon pou transfòme edikasyon siperyè an Ayiti. Nou te kòmanse ak yon ti ekip pwofesè ak espesyalis nan edikasyon ki te kwè nan pouvwa edikasyon a distans pou rive jwenn plis etidyan atravè peyi a.</p>
+                        
+                        <p>Depi kreyasyon nou, nou te grandi pou nou vin youn nan enstitisyon edikasyon a distans ki pi respekte nan peyi a, ak plis pase 5,000 etidyan ki gradye nan pwogram nou yo. Nou fyè de chemen nou fè, men nou toujou gade devan pou pwochen defi yo.</p>
+                        
+                        <p>Jounen jodi a, FONDESC ofri plis pase 20 pwogram diferan, soti nan nivo sètifika rive nan nivo metriz, tout disponib konplètman a distans pou asire aksè pou tout moun, kèlkeswa kote yo ye.</p>
+                    </div>
+                    {% comment %}
+                    <div class="about-image">
+                        <img src="../images/about-history.jpg" alt="Istwa FONDESC">
+                    </div>
+                    {% endcomment %}
+                </div>
+            </div>
+        </section>
+
+        <!-- Mission & Vision Section -->
+        <section class="mission-section">
+            <div class="container">
+                <div class="mission-grid">
+                    <div class="mission-card">
+                        <div class="mission-icon">
+                            <i class="fas fa-bullseye"></i>
+                        </div>
+                        <h3>Misyon Nou</h3>
+                        <p>Misyon FONDESC se pou demokratize aksè a edikasyon siperyè kalite atravè teknoloji, pou pèmèt chak Ayisyen, kèlkeswa kote yo ye, jwenn opòtinite pou yo devlope konpetans yo epi reyalize potansyèl yo.</p>
+                    </div>
+                    <div class="mission-card">
+                        <div class="mission-icon">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                        <h3>Vizyon Nou</h3>
+                        <p>Vizyon nou se vin lidè nan edikasyon a distans nan Karayib la, rekonèt pou inovasyon nou, kalite akademik nou, ak angajman nou pou transfòme lavi atravè edikasyon.</p>
+                    </div>
+                    <div class="mission-card">
+                        <div class="mission-icon">
+                            <i class="fas fa-handshake"></i>
+                        </div>
+                        <h3>Valè Nou yo</h3>
+                        <p>Nou kwè nan ekselans, aksesibilite, inovasyon, entegrite, ak respè. Valè sa yo gide tout desizyon nou yo epi yo nan kè tout sa nou fè.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Leadership Section -->
+        <section class="leadership-section">
+            <div class="container">
+                <h2>Ekip Direksyon Nou</h2>
+                <p class="section-intro">Konnen lidè ki dèyè FONDESC - yon ekip pwofesyonèl ki angaje pou ofri edikasyon kalite siperyè.</p>
+                
+                <div class="leadership-grid">
+                    <div class="leader-card">
+                        <div class="leader-image">
+                            <img src="../images/leader-1.jpg" alt="Dr. Jean Baptiste">
+                        </div>
+                        <div class="leader-info">
+                            <h3>Dr. Jean Baptiste</h3>
+                            <p class="leader-title">Direktè Jeneral</p>
+                            <p class="leader-bio">Dr. Baptiste gen plis pase 20 ane eksperyans nan edikasyon siperyè. Li te resevwa doktora li nan Edikasyon nan Inivèsite Harvard epi li te dirije plizyè inisyativ edikasyon inovatif anvan li te fonde FONDESC.</p>
+                        </div>
+                    </div>
+                    <div class="leader-card">
+                        <div class="leader-image">
+                            <img src="../images/leader-2.jpg" alt="Marie Durand">
+                        </div>
+                        <div class="leader-info">
+                            <h3>Marie Durand</h3>
+                            <p class="leader-title">Direktris Akademik</p>
+                            <p class="leader-bio">Marie Durand te pase 15 ane nan devlope pwogram akademik kalite siperyè. Li gen yon metriz nan Teknoloji Edikasyonèl epi li espesyalize nan kreye eksperyans aprantisaj angajan pou etidyan a distans.</p>
+                        </div>
+                    </div>
+                    <div class="leader-card">
+                        <div class="leader-image">
+                            <img src="../images/leader-3.jpg" alt="Pierre Michel">
+                        </div>
+                        <div class="leader-info">
+                            <h3>Pierre Michel</h3>
+                            <p class="leader-title">Direktè Teknoloji</p>
+                            <p class="leader-bio">Pierre Michel dirije ekip teknoloji nou an, asire ke platfòm aprantisaj nou an toujou fonksyone byen epi li itilize dènye inovasyon yo. Li gen yon diplòm nan Enfòmatik epi li te travay nan plizyè konpayi teknoloji anvan li te vin jwenn FONDESC.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Achievements Section -->
+        <section class="achievements-section">
+            <div class="container">
+                <h2>Reyalizasyon Nou yo</h2>
+                <div class="achievements-grid">
+                    <div class="achievement-card">
+                        <div class="achievement-number">5,000+</div>
+                        <p>Etidyan Gradye</p>
+                    </div>
+                    <div class="achievement-card">
+                        <div class="achievement-number">20+</div>
+                        <p>Pwogram Akademik</p>
+                    </div>
+                    <div class="achievement-card">
+                        <div class="achievement-number">50+</div>
+                        <p>Pwofesè Ekspè</p>
+                    </div>
+                    <div class="achievement-card">
+                        <div class="achievement-number">10+</div>
+                        <p>Ane Eksperyans</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Partners Section -->
+        <section class="partners-section">
+            <div class="container">
+                <h2>Patnè Nou yo</h2>
+                <p class="section-intro">Nou fyè pou travay ak enstitisyon ak òganizasyon ki pataje vizyon nou pou edikasyon aksesib ak kalite.</p>
+                
+                <div class="partners-grid">
+                    <div class="partner-logo">
+                        <img src="../images/partner-1.jpg" alt="Patnè 1">
+                    </div>
+                    <div class="partner-logo">
+                        <img src="../images/partner-2.jpg" alt="Patnè 2">
+                    </div>
+                    <div class="partner-logo">
+                        <img src="../images/partner-3.jpg" alt="Patnè 3">
+                    </div>
+                    <div class="partner-logo">
+                        <img src="../images/partner-4.jpg" alt="Patnè 4">
+                    </div>
+                    <div class="partner-logo">
+                        <img src="../images/partner-5.jpg" alt="Patnè 5">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta">
+            <div class="container text-center">
+                <h2>Vin fè pati kominote FONDESC la</h2>
+                <p>Kòmanse vwayaj edikasyon ou jodi a epi dekouvri poukisa plizyè milye etidyan chwazi FONDESC</p>
+                <div class="cta-buttons">
+                    <a href="../enskri.html" class="button button-primary">Enskri Kounye a</a>
+                    <a href="../kontak.html" class="button button-outline light">Kontakte Nou</a>
+                </div>
+            </div>
+        </section>
+    </main>
+{% endblock %}

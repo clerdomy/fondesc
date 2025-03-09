@@ -1,0 +1,228 @@
+{% extends 'fondescapp/base.html' %}
+{% load static %}
+
+{% block content %}
+    
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h1>FONDESC - Fòmasyon Nasyonal a Distans</h1>
+                    <p>Transfòme avni ou avèk edikasyon kalite, fleksib epi aksesib</p>
+                    <div class="hero-buttons">
+                        <a href="{% url 'courses-page' %}" class="button button-primary">
+                            Dekouvri kou nou yo
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
+                        <a href="{% url 'login-page' %}" class="button button-outline light">Zòn Etidyan</a>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-shape"></div>
+        </section>
+
+        <!-- Avantaj yo Section -->
+        <section class="advantages">
+            <div class="container">
+                <h2>Poukisa chwazi FONDESC?</h2>
+                <div class="advantages-grid">
+                    <div class="advantage-card">
+                        <div class="advantage-icon">
+                            <i class="fas fa-book-open"></i>
+                        </div>
+                        <h3>Kontni Kalite</h3>
+                        <p>Materyèl didaktik aktyalize epi devlope pa ekspè yo</p>
+                    </div>
+                    <div class="advantage-card">
+                        <div class="advantage-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <h3>Fleksibilite</h3>
+                        <p>Etidye nan pwòp ritm ou, nenpòt kilè ak kote ou vle</p>
+                    </div>
+                    <div class="advantage-card">
+                        <div class="advantage-icon">
+                            <i class="fas fa-award"></i>
+                        </div>
+                        <h3>Sètifikasyon Rekonèt</h3>
+                        <p>Diplòm ki gen validite nasyonal</p>
+                    </div>
+                    <div class="advantage-card">
+                        <div class="advantage-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3>Sipò Kontinyèl</h3>
+                        <p>Pwofesè disponib pou ede ou nan vwayaj akademik ou</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Process Section -->
+        <section class="process">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Pwosesis Seleksyon Senp</h2>
+                    <p>Kòmanse vwayaj akademik ou an 4 etap senp</p>
+                </div>
+                
+                <div class="process-grid">
+                    <div class="process-step">
+                        <div class="step-number">1</div>
+                        <h3>Enskripsyon Anliy</h3>
+                        <p>Ranpli fòmilè enskripsyon an sou sit entènèt nou an</p>
+                    </div>
+                    <div class="process-step">
+                        <div class="step-number">2</div>
+                        <h3>Analiz Dokiman</h3>
+                        <p>Voye dokiman ou yo pou ekip nou an analize</p>
+                    </div>
+                    <div class="process-step">
+                        <div class="step-number">3</div>
+                        <h3>Enskripsyon</h3>
+                        <p>Peye frè enskripsyon an epi siyen kontra a</p>
+                    </div>
+                    <div class="process-step">
+                        <div class="step-number">4</div>
+                        <h3>Kòmansman Kou yo</h3>
+                        <p>Aksede platfòm nan epi kòmanse etidye</p>
+                    </div>
+                </div>
+                
+                <div class="text-center">
+                    <a href="{% url 'register-page' %}" class="button button-primary">Enskri kounye a</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Courses Section -->
+        <section class="courses">
+            <div class="container">
+                <h2>Kou Prensipal yo</h2>
+                <div class="courses-grid">
+                    <div class="course-card">
+                        <div class="course-image">
+                            <img src="images/course-admin.jpg" alt="Administrasyon">
+                            <div class="course-badge">Lisans</div>
+                        </div>
+                        <div class="course-content">
+                            <h3>Administrasyon</h3>
+                            <div class="course-meta">
+                                <i class="fas fa-clock"></i>
+                                <span>Dire: 4 ane</span>
+                            </div>
+                            <ul class="course-features">
+                                <li><i class="fas fa-check"></i> Jesyon Moun</li>
+                                <li><i class="fas fa-check"></i> Finans</li>
+                                <li><i class="fas fa-check"></i> Maketing</li>
+                                <li><i class="fas fa-check"></i> Antreprenarya</li>
+                            </ul>
+                            <a href="kou/administrasyon.html" class="button button-primary full-width">Plis enfòmasyon</a>
+                        </div>
+                    </div>
+                    <div class="course-card">
+                        <div class="course-image">
+                            <img src="images/course-systems.jpg" alt="Analiz ak Devlopman Sistèm">
+                            <div class="course-badge">Teknoloji</div>
+                        </div>
+                        <div class="course-content">
+                            <h3>Analiz ak Devlopman Sistèm</h3>
+                            <div class="course-meta">
+                                <i class="fas fa-clock"></i>
+                                <span>Dire: 2.5 ane</span>
+                            </div>
+                            <ul class="course-features">
+                                <li><i class="fas fa-check"></i> Pwogramasyon</li>
+                                <li><i class="fas fa-check"></i> Baz Done</li>
+                                <li><i class="fas fa-check"></i> Rezo</li>
+                                <li><i class="fas fa-check"></i> Devlopman Web</li>
+                            </ul>
+                            <a href="kou/analiz-devlopman-sistem.html" class="button button-primary full-width">Plis enfòmasyon</a>
+                        </div>
+                    </div>
+                    <div class="course-card">
+                        <div class="course-image">
+                            <img src="images/course-pedagogy.jpg" alt="Pedagoji">
+                            <div class="course-badge">Lisans</div>
+                        </div>
+                        <div class="course-content">
+                            <h3>Pedagoji</h3>
+                            <div class="course-meta">
+                                <i class="fas fa-clock"></i>
+                                <span>Dire: 4 ane</span>
+                            </div>
+                            <ul class="course-features">
+                                <li><i class="fas fa-check"></i> Didaktik</li>
+                                <li><i class="fas fa-check"></i> Sikoloji Edikasyon</li>
+                                <li><i class="fas fa-check"></i> Jesyon Lekòl</li>
+                                <li><i class="fas fa-check"></i> Enklizyon</li>
+                            </ul>
+                            <a href="kou/pedagoji.html" class="button button-primary full-width">Plis enfòmasyon</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <a href="{% url 'courses-page' %}" class="button button-outline">
+                        Wè tout kou yo
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials Section -->
+        <section class="testimonials">
+            <div class="container">
+                <h2>Sa etidyan nou yo di</h2>
+                <div class="testimonials-grid">
+                    <div class="testimonial-card">
+                        <div class="testimonial-header">
+                            <div class="testimonial-avatar">MJ</div>
+                            <div class="testimonial-meta">
+                                <p class="testimonial-name">Marie Jean</p>
+                                <p class="testimonial-course">Etidyan Administrasyon</p>
+                            </div>
+                        </div>
+                        <p class="testimonial-text">"FONDESC transfòme lavi pwofesyonèl mwen. Mwen te kapab konbine travay ak etid gras a fleksibilite edikasyon a distans."</p>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="testimonial-header">
+                            <div class="testimonial-avatar">JP</div>
+                            <div class="testimonial-meta">
+                                <p class="testimonial-name">Jean Pierre</p>
+                                <p class="testimonial-course">Etidyan Analiz Sistèm</p>
+                            </div>
+                        </div>
+                        <p class="testimonial-text">"Pwofesè yo ekselan epi materyèl didaktik la gen bon kalite. Mwen rekòmande tout moun kap chèche yon fòmasyon serye."</p>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="testimonial-header">
+                            <div class="testimonial-avatar">AL</div>
+                            <div class="testimonial-meta">
+                                <p class="testimonial-name">Anne Louis</p>
+                                <p class="testimonial-course">Etidyan Pedagoji</p>
+                            </div>
+                        </div>
+                        <p class="testimonial-text">"Sipò akademik la fè tout diferans lan. Chak fwa mwen te bezwen, pwofesè yo te toujou disponib pou ede mwen."</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta">
+            <div class="container text-center">
+                <h2>Kòmanse vwayaj akademik ou jodi a</h2>
+                <p>Enskri kounye a epi fè premye pa a nan direksyon avni pwofesyonèl ou</p>
+                <div class="cta-buttons">
+                    <a href="{% url 'register-page' %}" class="button button-primary">Enskri</a>
+                    <a href="kontak.html" class="button button-outline light">Pale ak yon konseye</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+{% endblock %}
+
+

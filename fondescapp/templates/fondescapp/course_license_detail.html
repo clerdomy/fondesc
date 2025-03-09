@@ -1,0 +1,780 @@
+{% extends 'fondescapp/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/course_detail.css' %}">
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'js/course_detail.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+
+  <main>
+      <!-- Course Hero Section -->
+      <section class="course-hero">
+          <div class="container">
+              <div class="course-hero-content">
+                  <div class="breadcrumbs">
+                      <a href="../index.html">Akèy</a> &gt; 
+                      <a href="../kou.html">Kou yo</a> &gt; 
+                      <a href="../kou/lisans.html">Lisans</a> &gt; 
+                      Administrasyon
+                  </div>
+                  <div class="course-badge">Lisans</div>
+                  <h1>Administrasyon</h1>
+                  <p class="course-tagline">Fòme nan Administrasyon epi prepare pou jere biznis ak dirije ekip</p>
+                  
+                  <div class="course-meta">
+                      <div class="meta-item">
+                          <i class="fas fa-clock"></i>
+                          <span>Dire: 4 ane</span>
+                      </div>
+                      <div class="meta-item">
+                          <i class="fas fa-graduation-cap"></i>
+                          <span>Nivo: Lisans</span>
+                      </div>
+                      <div class="meta-item">
+                          <i class="fas fa-calendar-alt"></i>
+                          <span>Kòmansman: Janvye, Me, Septanm</span>
+                      </div>
+                      <div class="meta-item">
+                          <i class="fas fa-users"></i>
+                          <span>Modalite: A distans</span>
+                      </div>
+                  </div>
+                  
+                  <div class="course-actions">
+                      <a href="../enskri.html?course=administrasyon" class="button button-primary">Enskri Kounye a</a>
+                      <a href="#" class="button button-outline light download-button">
+                          <i class="fas fa-download"></i>
+                          Telechaje Bwochi
+                      </a>
+                  </div>
+              </div>
+          </div>
+      </section>
+
+      <!-- Course Navigation -->
+      <section class="course-navigation">
+          <div class="container">
+              <nav class="course-nav">
+                  <a href="#overview" class="course-nav-item active">Apèsi</a>
+                  <a href="#curriculum" class="course-nav-item">Kourikoulòm</a>
+                  <a href="#admission" class="course-nav-item">Admisyon</a>
+                  <a href="#faculty" class="course-nav-item">Pwofesè yo</a>
+                  <a href="#testimonials" class="course-nav-item">Temwayaj</a>
+                  <a href="#career" class="course-nav-item">Karyè</a>
+                  <a href="#investment" class="course-nav-item">Envestisman</a>
+              </nav>
+          </div>
+      </section>
+
+      <!-- Course Overview Section -->
+      <section id="overview" class="course-section">
+          <div class="container">
+              <div class="section-header">
+                  <h2>Apèsi Kou a</h2>
+                  <p>Dekouvri sa ou pral aprann nan kou Administrasyon nou an</p>
+              </div>
+              
+              <div class="course-overview">
+                  <div class="overview-content">
+                      <p>Kou Administrasyon FONDESC la prepare ou pou vin yon lidè biznis efikas ak yon jesyonè konpetan. Pandan 4 ane etid ou, ou pral devlope konpetans nan jesyon resous imèn, finans, maketing, ak antreprenarya.</p>
+                      
+                      <p>Pwogram nou an konbine teyori ak pratik, ofri ou opòtinite pou aplike sa ou aprann nan sitiyasyon reyèl biznis. Ou pral etidye anba direksyon pwofesè ki gen eksperyans nan domèn nan epi ki pral gide ou nan vwayaj akademik ou.</p>
+                      
+                      <h3>Objektif Aprantisaj</h3>
+                      <ul class="overview-list">
+                          <li>
+                              <i class="fas fa-check-circle"></i>
+                              <span>Devlope konpetans lidèchip ak jesyon pou dirije ekip ak òganizasyon</span>
+                          </li>
+                          <li>
+                              <i class="fas fa-check-circle"></i>
+                              <span>Aprann prensip fondamantal finans, kontabilite, ak analiz finansye</span>
+                          </li>
+                          <li>
+                              <i class="fas fa-check-circle"></i>
+                              <span>Metrize estrateji maketing ak teknik pou pwomote pwodwi ak sèvis</span>
+                          </li>
+                          <li>
+                              <i class="fas fa-check-circle"></i>
+                              <span>Konprann prensip jesyon resous imèn ak devlopman anplwaye</span>
+                          </li>
+                          <li>
+                              <i class="fas fa-check-circle"></i>
+                              <span>Devlope konpetans antreprenarya pou kreye ak jere pwòp biznis ou</span>
+                          </li>
+                          <li>
+                              <i class="fas fa-check-circle"></i>
+                              <span>Aprann teknik rezolisyon pwoblèm ak priz desizyon estratejik</span>
+                          </li>
+                      </ul>
+                  </div>
+                  
+                  <div class="overview-image">
+                      <img src="../images/administration-overview.jpg" alt="Etidyan Administrasyon">
+                      <div class="overview-features">
+                          <div class="feature">
+                              <div class="feature-icon">
+                                  <i class="fas fa-laptop"></i>
+                              </div>
+                              <div class="feature-text">
+                                  <h4>Platfòm Dijital</h4>
+                                  <p>Aksè 24/7 a materyèl kou yo</p>
+                              </div>
+                          </div>
+                          <div class="feature">
+                              <div class="feature-icon">
+                                  <i class="fas fa-video"></i>
+                              </div>
+                              <div class="feature-text">
+                                  <h4>Videyo Kou</h4>
+                                  <p>Leson anrejistre ak an dirèk</p>
+                              </div>
+                          </div>
+                          <div class="feature">
+                              <div class="feature-icon">
+                                  <i class="fas fa-comments"></i>
+                              </div>
+                              <div class="feature-text">
+                                  <h4>Sipò Kontinyèl</h4>
+                                  <p>Aksè a pwofesè ak konseye</p>
+                              </div>
+                          </div>
+                          <div class="feature">
+                              <div class="feature-icon">
+                                  <i class="fas fa-certificate"></i>
+                              </div>
+                              <div class="feature-text">
+                                  <h4>Sètifikasyon</h4>
+                                  <p>Diplòm rekonèt nasyonalman</p>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </section>
+
+      <!-- Curriculum Section -->
+      <section id="curriculum" class="course-section bg-light">
+          <div class="container">
+              <div class="section-header">
+                  <h2>Kourikoulòm</h2>
+                  <p>Dekouvri sa ou pral etidye pandan 4 ane pwogram nan</p>
+              </div>
+              
+              <div class="curriculum-container">
+                  <div class="curriculum-year">
+                      <div class="year-header">
+                          <h3>Premye Ane</h3>
+                          <i class="fas fa-chevron-down"></i>
+                      </div>
+                      <div class="year-content">
+                          <div class="semester">
+                              <h4>Premye Semès</h4>
+                              <ul class="course-list">
+                                  <li>Entwodiksyon nan Administrasyon</li>
+                                  <li>Prensip Ekonomi</li>
+                                  <li>Matematik pou Biznis</li>
+                                  <li>Kominikasyon Pwofesyonèl</li>
+                                  <li>Enfòmatik pou Biznis</li>
+                              </ul>
+                          </div>
+                          <div class="semester">
+                              <h4>Dezyèm Semès</h4>
+                              <ul class="course-list">
+                                  <li>Kontabilite Fondamantal</li>
+                                  <li>Mikwo-ekonomi</li>
+                                  <li>Dwa Biznis</li>
+                                  <li>Estatistik pou Biznis</li>
+                                  <li>Etik Pwofesyonèl</li>
+                              </ul>
+                          </div>
+                      </div>
+                  </div>
+                  
+                  <div class="curriculum-year">
+                      <div class="year-header">
+                          <h3>Dezyèm Ane</h3>
+                          <i class="fas fa-chevron-down"></i>
+                      </div>
+                      <div class="year-content">
+                          <div class="semester">
+                              <h4>Premye Semès</h4>
+                              <ul class="course-list">
+                                  <li>Makwo-ekonomi</li>
+                                  <li>Jesyon Resous Imèn</li>
+                                  <li>Kontabilite Entèmedyè</li>
+                                  <li>Prensip Maketing</li>
+                                  <li>Metòd Rechèch Biznis</li>
+                              </ul>
+                          </div>
+                          <div class="semester">
+                              <h4>Dezyèm Semès</h4>
+                              <ul class="course-list">
+                                  <li>Finans Biznis</li>
+                                  <li>Konpòtman Òganizasyonèl</li>
+                                  <li>Jesyon Operasyon</li>
+                                  <li>Sistèm Enfòmasyon Jesyon</li>
+                                  <li>Pwojè Biznis I</li>
+                              </ul>
+                          </div>
+                      </div>
+                  </div>
+                  
+                  <div class="curriculum-year">
+                      <div class="year-header">
+                          <h3>Twazyèm Ane</h3>
+                          <i class="fas fa-chevron-down"></i>
+                      </div>
+                      <div class="year-content">
+                          <div class="semester">
+                              <h4>Premye Semès</h4>
+                              <ul class="course-list">
+                                  <li>Jesyon Estratejik</li>
+                                  <li>Maketing Avanse</li>
+                                  <li>Analiz Finansye</li>
+                                  <li>Jesyon Chanjman</li>
+                                  <li>Kominikasyon Òganizasyonèl</li>
+                              </ul>
+                          </div>
+                          <div class="semester">
+                              <h4>Dezyèm Semès</h4>
+                              <ul class="course-list">
+                                  <li>Antreprenarya</li>
+                                  <li>Jesyon Pwojè</li>
+                                  <li>Komès Entènasyonal</li>
+                                  <li>Jesyon Kalite</li>
+                                  <li>Pwojè Biznis II</li>
+                              </ul>
+                          </div>
+                      </div>
+                  </div>
+                  
+                  <div class="curriculum-year">
+                      <div class="year-header">
+                          <h3>Katriyèm Ane</h3>
+                          <i class="fas fa-chevron-down"></i>
+                      </div>
+                      <div class="year-content">
+                          <div class="semester">
+                              <h4>Premye Semès</h4>
+                              <ul class="course-list">
+                                  <li>Lidèchip Avanse</li>
+                                  <li>Jesyon Inovasyon</li>
+                                  <li>Biznis Elektwonik</li>
+                                  <li>Jesyon Risk</li>
+                                  <li>Seminè Rechèch</li>
+                              </ul>
+                          </div>
+                          <div class="semester">
+                              <h4>Dezyèm Semès</h4>
+                              <ul class="course-list">
+                                  <li>Estaj Pwofesyonèl</li>
+                                  <li>Pwojè Final</li>
+                                  <li>Preparasyon pou Karyè</li>
+                                  <li>Seminè Entegrasyon</li>
+                              </ul>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </section>
+
+      <!-- Admission Requirements Section -->
+      <section id="admission" class="course-section">
+          <div class="container">
+              <div class="section-header">
+                  <h2>Kondisyon Admisyon</h2>
+                  <p>Enfòmasyon sou kondisyon ak pwosesis admisyon</p>
+              </div>
+              
+              <div class="admission-container">
+                  <div class="admission-requirements">
+                      <h3>Kondisyon Debaz</h3>
+                      <ul class="requirements-list">
+                          <li>
+                              <i class="fas fa-check"></i>
+                              <span>Diplòm Bakaloreya oswa ekivalan</span>
+                          </li>
+                          <li>
+                              <i class="fas fa-check"></i>
+                              <span>Nòt satisfezan nan Matematik ak Kreyòl/Fransè</span>
+                          </li>
+                          <li>
+                              <i class="fas fa-check"></i>
+                              <span>Konpetans debaz nan enfòmatik</span>
+                          </li>
+                          <li>
+                              <i class="fas fa-check"></i>
+                              <span>Aksè a yon òdinatè ak koneksyon entènèt</span>
+                          </li>
+                      </ul>
+                      
+                      <h3>Dokiman Obligatwa</h3>
+                      <ul class="requirements-list">
+                          <li>
+                              <i class="fas fa-file-alt"></i>
+                              <span>Fòmilè aplikasyon ranpli</span>
+                          </li>
+                          <li>
+                              <i class="fas fa-file-alt"></i>
+                              <span>Kopi diplòm Bakaloreya</span>
+                          </li>
+                          <li>
+                              <i class="fas fa-file-alt"></i>
+                              <span>Relve nòt ofisyèl</span>
+                          </li>
+                          <li>
+                              <i class="fas fa-file-alt"></i>
+                              <span>Kopi pyès idantite</span>
+                          </li>
+                          <li>
+                              <i class="fas fa-file-alt"></i>
+                              <span>2 foto paspò</span>
+                          </li>
+                          <li>
+                              <i class="fas fa-file-alt"></i>
+                              <span>Lèt motivasyon</span>
+                          </li>
+                      </ul>
+                  </div>
+                  
+                  <div class="admission-process">
+                      <h3>Pwosesis Admisyon</h3>
+                      <div class="process-steps">
+                          <div class="process-step">
+                              <div class="step-number">1</div>
+                              <div class="step-content">
+                                  <h4>Aplikasyon Anliy</h4>
+                                  <p>Ranpli fòmilè aplikasyon an sou sit entènèt nou an epi peye frè aplikasyon an.</p>
+                              </div>
+                          </div>
+                          <div class="process-step">
+                              <div class="step-number">2</div>
+                              <div class="step-content">
+                                  <h4>Soumèt Dokiman</h4>
+                                  <p>Telechaje tout dokiman obligatwa yo nan pòtay aplikasyon an.</p>
+                              </div>
+                          </div>
+                          <div class="process-step">
+                              <div class="step-number">3</div>
+                              <div class="step-content">
+                                  <h4>Evalyasyon</h4>
+                                  <p>Ekip admisyon nou an pral evalye aplikasyon ou ak dokiman ou yo.</p>
+                              </div>
+                          </div>
+                          <div class="process-step">
+                              <div class="step-number">4</div>
+                              <div class="step-content">
+                                  <h4>Entèvyou (si nesesè)</h4>
+                                  <p>Kèk kandida ka envite pou yon entèvyou anliy ak ekip admisyon an.</p>
+                              </div>
+                          </div>
+                          <div class="process-step">
+                              <div class="step-number">5</div>
+                              <div class="step-content">
+                                  <h4>Desizyon Admisyon</h4>
+                                  <p>Ou pral resevwa desizyon admisyon an pa imèl nan 2-3 semèn.</p>
+                              </div>
+                          </div>
+                          <div class="process-step">
+                              <div class="step-number">6</div>
+                              <div class="step-content">
+                                  <h4>Enskripsyon</h4>
+                                  <p>Si ou aksepte, ranpli fòmilè enskripsyon an epi peye frè enskripsyon an.</p>
+                              </div>
+                          </div>
+                      </div>
+                      
+                      <div class="admission-cta">
+                          <p>Ou prè pou kòmanse vwayaj akademik ou?</p>
+                          <a href="../enskri.html?course=administrasyon" class="button button-primary">Aplike Kounye a</a>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </section>
+
+      <!-- Faculty Section -->
+      <section id="faculty" class="course-section bg-light">
+          <div class="container">
+              <div class="section-header">
+                  <h2>Pwofesè yo</h2>
+                  <p>Rankontre ekip pwofesè ki pral gide ou nan vwayaj akademik ou</p>
+              </div>
+              
+              <div class="faculty-grid">
+                  <div class="faculty-card">
+                      <div class="faculty-image">
+                          <img src="../images/professor-1.jpg" alt="Dr. Jean Baptiste">
+                      </div>
+                      <div class="faculty-content">
+                          <h3>Dr. Jean Baptiste</h3>
+                          <p class="faculty-title">Pwofesè Jesyon Estratejik</p>
+                          <p class="faculty-bio">Dr. Baptiste gen plis pase 15 ane eksperyans nan jesyon biznis ak konsiltasyon. Li te travay ak plizyè gwo konpayi entènasyonal epi li gen yon doktora nan Administrasyon Biznis.</p>
+                          <div class="faculty-specialties">
+                              <span>Jesyon Estratejik</span>
+                              <span>Lidèchip</span>
+                              <span>Antreprenarya</span>
+                          </div>
+                      </div>
+                  </div>
+                  
+                  <div class="faculty-card">
+                      <div class="faculty-image">
+                          <img src="../images/professor-2.jpg" alt="Prof. Marie Duval">
+                      </div>
+                      <div class="faculty-content">
+                          <h3>Prof. Marie Duval</h3>
+                          <p class="faculty-title">Pwofesè Maketing</p>
+                          <p class="faculty-bio">Prof. Duval se yon ekspè nan maketing dijital ak estrateji mak. Li te dirije depatman maketing nan plizyè gwo konpayi epi li gen yon metriz nan Maketing ak Kominikasyon.</p>
+                          <div class="faculty-specialties">
+                              <span>Maketing Dijital</span>
+                              <span>Estrateji Mak</span>
+                              <span>Rechèch Maketing</span>
+                          </div>
+                      </div>
+                  </div>
+                  
+                  <div class="faculty-card">
+                      <div class="faculty-image">
+                          <img src="../images/professor-3.jpg" alt="Dr. Pierre Louis">
+                      </div>
+                      <div class="faculty-content">
+                          <h3>Dr. Pierre Louis</h3>
+                          <p class="faculty-title">Pwofesè Finans</p>
+                          <p class="faculty-bio">Dr. Louis gen yon gwo eksperyans nan sektè finansye a. Li te travay kòm konsiltan finansye pou plizyè enstitisyon epi li gen yon doktora nan Finans.</p>
+                          <div class="faculty-specialties">
+                              <span>Finans Biznis</span>
+                              <span>Envestisman</span>
+                              <span>Analiz Finansye</span>
+                          </div>
+                      </div>
+                  </div>
+                  
+                  <div class="faculty-card">
+                      <div class="faculty-image">
+                          <img src="../images/professor-4.jpg" alt="Prof. Anne Michel">
+                      </div>
+                      <div class="faculty-content">
+                          <h3>Prof. Anne Michel</h3>
+                          <p class="faculty-title">Pwofesè Jesyon Resous Imèn</p>
+                          <p class="faculty-bio">Prof. Michel se yon espesyalis nan jesyon resous imèn ak devlopman òganizasyonèl. Li gen yon metriz nan Jesyon Resous Imèn epi li te travay kòm direktè RH nan plizyè konpayi.</p>
+                          <div class="faculty-specialties">
+                              <span>Jesyon Resous Imèn</span>
+                              <span>Devlopman Òganizasyonèl</span>
+                              <span>Jesyon Talan</span>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </section>
+
+      <!-- Testimonials Section -->
+      <section id="testimonials" class="course-section">
+          <div class="container">
+              <div class="section-header">
+                  <h2>Temwayaj Etidyan</h2>
+                  <p>Sa etidyan nou yo di sou eksperyans yo nan pwogram Administrasyon an</p>
+              </div>
+              
+              <div class="testimonials-slider">
+                  <div class="testimonial-slide">
+                      <div class="testimonial-card">
+                          <div class="testimonial-content">
+                              <p>"Pwogram Administrasyon FONDESC la te transfòme karyè mwen. Fleksibilite edikasyon a distans la te pèmèt mwen kontinye travay pandan m t ap etidye. Pwofesè yo te ekselan epi materyèl kou yo te aktyèl ak pratik."</p>
+                          </div>
+                          <div class="testimonial-author">
+                              <div class="author-image">
+                                  <img src="../images/student-1.jpg" alt="Jean Robert">
+                              </div>
+                              <div class="author-info">
+                                  <h4>Jean Robert</h4>
+                                  <p>Gradye 2022, Direktè Operasyon</p>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  
+                  <div class="testimonial-slide">
+                      <div class="testimonial-card">
+                          <div class="testimonial-content">
+                              <p>"Mwen te kapab aplike sa mwen te aprann nan kou yo dirèkteman nan travay mwen. Pwofesè yo te toujou disponib pou reponn kesyon epi bay konsèy. Kourikoulòm nan te byen balanse ant teyori ak aplikasyon pratik."</p>
+                          </div>
+                          <div class="testimonial-author">
+                              <div class="author-image">
+                                  <img src="../images/student-2.jpg" alt="Marie Claire">
+                              </div>
+                              <div class="author-info">
+                                  <h4>Marie Claire</h4>
+                                  <p>Gradye 2021, Jesyonè Maketing</p>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  
+                  <div class="testimonial-slide">
+                      <div class="testimonial-card">
+                          <div class="testimonial-content">
+                              <p>"Pwogram nan te ban mwen konfyans ak konpetans pou lanse pwòp biznis mwen. Kou antreprenarya yo te espesyalman itil, epi rezo kontak mwen te fè pandan etid mwen kontinye ede mwen jodi a."</p>
+                          </div>
+                          <div class="testimonial-author">
+                              <div class="author-image">
+                                  <img src="../images/student-3.jpg" alt="Pierre Michel">
+                              </div>
+                              <div class="author-info">
+                                  <h4>Pierre Michel</h4>
+                                  <p>Gradye 2020, Antreprenè</p>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              
+              <div class="testimonial-nav">
+                  <button class="prev-button"><i class="fas fa-chevron-left"></i></button>
+                  <div class="testimonial-dots">
+                      <span class="dot active"></span>
+                      <span class="dot"></span>
+                      <span class="dot"></span>
+                  </div>
+                  <button class="next-button"><i class="fas fa-chevron-right"></i></button>
+              </div>
+          </div>
+      </section>
+
+      <!-- Career Opportunities Section -->
+      <section id="career" class="course-section bg-light">
+          <div class="container">
+              <div class="section-header">
+                  <h2>Opòtinite Karyè</h2>
+                  <p>Dekouvri karyè potansyèl apre ou fini pwogram Administrasyon an</p>
+              </div>
+              
+              <div class="career-container">
+                  <div class="career-paths">
+                      <div class="career-path">
+                          <div class="career-icon">
+                              <i class="fas fa-briefcase"></i>
+                          </div>
+                          <div class="career-content">
+                              <h3>Jesyon Biznis</h3>
+                              <p>Travay kòm jesyonè nan divès depatman tankou operasyon, pwodwi, oswa sèvis kliyan.</p>
+                              <ul class="career-examples">
+                                  <li>Direktè Operasyon</li>
+                                  <li>Jesyonè Pwodwi</li>
+                                  <li>Jesyonè Sèvis Kliyan</li>
+                              </ul>
+                          </div>
+                      </div>
+                      
+                      <div class="career-path">
+                          <div class="career-icon">
+                              <i class="fas fa-chart-line"></i>
+                          </div>
+                          <div class="career-content">
+                              <h3>Maketing ak Vant</h3>
+                              <p>Devlope ak egzekite estrateji maketing ak vant pou pwodwi ak sèvis.</p>
+                              <ul class="career-examples">
+                                  <li>Jesyonè Maketing</li>
+                                  <li>Direktè Vant</li>
+                                  <li>Espesyalis Maketing Dijital</li>
+                              </ul>
+                          </div>
+                      </div>
+                      
+                      <div class="career-path">
+                          <div class="career-icon">
+                              <i class="fas fa-users"></i>
+                          </div>
+                          <div class="career-content">
+                              <h3>Jesyon Resous Imèn</h3>
+                              <p>Jere rekritman, fòmasyon, ak devlopman anplwaye nan yon òganizasyon.</p>
+                              <ul class="career-examples">
+                                  <li>Direktè Resous Imèn</li>
+                                  <li>Espesyalis Rekritman</li>
+                                  <li>Jesyonè Fòmasyon ak Devlopman</li>
+                              </ul>
+                          </div>
+                      </div>
+                      
+                      <div class="career-path">
+                          <div class="career-icon">
+                              <i class="fas fa-coins"></i>
+                          </div>
+                          <div class="career-content">
+                              <h3>Finans ak Kontabilite</h3>
+                              <p>Jere finans, bidjè, ak rapò finansye pou òganizasyon.</p>
+                              <ul class="career-examples">
+                                  <li>Analis Finansye</li>
+                                  <li>Jesyonè Bidjè</li>
+                                  <li>Kontwolè Finansye</li>
+                              </ul>
+                          </div>
+                      </div>
+                      
+                      <div class="career-path">
+                          <div class="career-icon">
+                              <i class="fas fa-lightbulb"></i>
+                          </div>
+                          <div class="career-content">
+                              <h3>Antreprenarya</h3>
+                              <p>Lanse ak jere pwòp biznis ou, devlope pwodwi ak sèvis inovatif.</p>
+                              <ul class="career-examples">
+                                  <li>Fondatè Biznis</li>
+                                  <li>Konsiltan Biznis</li>
+                                  <li>Direktè Jeneral</li>
+                              </ul>
+                          </div>
+                      </div>
+                  </div>
+                  
+                  <div class="career-stats">
+                      <h3>Estatistik Karyè Gradye Nou yo</h3>
+                      <div class="stats-grid">
+                          <div class="stat-card">
+                              <div class="stat-value">92%</div>
+                              <div class="stat-label">Gradye ki jwenn travay nan 6 mwa</div>
+                          </div>
+                          <div class="stat-card">
+                              <div class="stat-value">75%</div>
+                              <div class="stat-label">Gradye ki travay nan domèn etid yo</div>
+                          </div>
+                          <div class="stat-card">
+                              <div class="stat-value">25%</div>
+                              <div class="stat-label">Gradye ki lanse pwòp biznis yo</div>
+                          </div>
+                          <div class="stat-card">
+                              <div class="stat-value">85%</div>
+                              <div class="stat-label">Gradye ki satisfè ak karyè yo</div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </section>
+
+      <!-- Investment Section -->
+      <section id="investment" class="course-section">
+          <div class="container">
+              <div class="section-header">
+                  <h2>Envestisman</h2>
+                  <p>Enfòmasyon sou frè ak opsyon finansman</p>
+              </div>
+              
+              <div class="investment-container">
+                  <div class="tuition-info">
+                      <h3>Frè Etid</h3>
+                      <div class="tuition-table">
+                          <div class="tuition-row header">
+                              <div class="tuition-cell">Deskripsyon</div>
+                              <div class="tuition-cell">Montan (HTG)</div>
+                          </div>
+                          <div class="tuition-row">
+                              <div class="tuition-cell">Frè Aplikasyon (yon sèl fwa)</div>
+                              <div class="tuition-cell">1,500</div>
+                          </div>
+                          <div class="tuition-row">
+                              <div class="tuition-cell">Frè Enskripsyon (chak ane)</div>
+                              <div class="tuition-cell">5,000</div>
+                          </div>
+                          <div class="tuition-row">
+                              <div class="tuition-cell">Frè Etid (pa semès)</div>
+                              <div class="tuition-cell">25,000</div>
+                          </div>
+                          <div class="tuition-row">
+                              <div class="tuition-cell">Materyèl Didaktik (pa semès)</div>
+                              <div class="tuition-cell">3,000</div>
+                          </div>
+                          <div class="tuition-row total">
+                              <div class="tuition-cell">Total pa Ane</div>
+                              <div class="tuition-cell">61,000</div>
+                          </div>
+                      </div>
+                      
+                      <div class="payment-options">
+                          <h4>Opsyon Peman</h4>
+                          <ul class="payment-list">
+                              <li>
+                                  <i class="fas fa-check-circle"></i>
+                                  <span>Peman konplè (rabè 5%)</span>
+                              </li>
+                              <li>
+                                  <i class="fas fa-check-circle"></i>
+                                  <span>Peman pa semès</span>
+                              </li>
+                              <li>
+                                  <i class="fas fa-check-circle"></i>
+                                  <span>Plan peman mansyèl (frè adisyonèl 3%)</span>
+                              </li>
+                          </ul>
+                      </div>
+                  </div>
+                  
+                  <div class="financial-aid">
+                      <h3>Èd Finansye</h3>
+                      <p>Nou konprann ke edikasyon se yon envestisman enpòtan. Se poutèt sa nou ofri plizyè opsyon èd finansye pou ede ou reyalize objektif akademik ou.</p>
+                      
+                      <div class="aid-options">
+                          <div class="aid-option">
+                              <div class="aid-icon">
+                                  <i class="fas fa-award"></i>
+                              </div>
+                              <div class="aid-content">
+                                  <h4>Bous Detid</h4>
+                                  <p>Bous merit ak bous bezwen disponib pou etidyan ki kalifye. Rabè jiska 30% sou frè etid.</p>
+                              </div>
+                          </div>
+                          
+                          <div class="aid-option">
+                              <div class="aid-icon">
+                                  <i class="fas fa-handshake"></i>
+                              </div>
+                              <div class="aid-content">
+                                  <h4>Patnè Kòporatif</h4>
+                                  <p>Rabè espesyal pou anplwaye konpayi patnè nou yo. Kontakte nou pou plis enfòmasyon.</p>
+                              </div>
+                          </div>
+                          
+                          <div class="aid-option">
+                              <div class="aid-icon">
+                                  <i class="fas fa-university"></i>
+                              </div>
+                              <div class="aid-content">
+                                  <h4>Prè Etidyan</h4>
+                                  <p>Nou kolabore ak enstitisyon finansye pou ofri prè etidyan ak to enterè favorab.</p>
+                              </div>
+                          </div>
+                      </div>
+                      
+                      <div class="aid-cta">
+                          <p>Pou plis enfòmasyon sou opsyon finansman, kontakte depatman admisyon nou an.</p>
+                          <a href="../kontak.html" class="button button-primary">Kontakte Nou</a>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </section>
+
+      <!-- Enrollment CTA Section -->
+      <section class="enrollment-cta">
+          <div class="container">
+              <div class="cta-content">
+                  <h2>Kòmanse Vwayaj Akademik Ou Jodi a</h2>
+                  <p>Enskri nan pwogram Administrasyon nou an epi fè premye pa a nan direksyon yon karyè reyisi.</p>
+                  <div class="cta-buttons">
+                      <a href="../enskri.html?course=administrasyon" class="button button-primary">Enskri Kounye a</a>
+                      <a href="../kontak.html" class="button button-outline light">Pale ak yon Konseye</a>
+                  </div>
+              </div>
+          </div>
+      </section>
+  </main>
+{% endblock %}

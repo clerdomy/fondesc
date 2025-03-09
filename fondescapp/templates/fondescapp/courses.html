@@ -1,0 +1,602 @@
+{% extends 'fondescapp/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/courses.css' %}">
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'js/courses.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+  <main>
+      <!-- Page Header -->
+      <section class="page-header">
+          <div class="container">
+              <h1>Kou yo</h1>
+              <div class="breadcrumbs">
+                  <a href="index.html">Akèy</a> &gt; Kou yo
+              </div>
+          </div>
+      </section>
+
+      <!-- Courses Section -->
+      <section class="courses-section">
+          <div class="container">
+              <div class="courses-intro">
+                  <h2>Dekouvri gran ofri kou nou yo</h2>
+                  <p>Jwenn fòmasyon ideyal pou avni pwofesyonèl ou nan yon anviwònman fleksib ak aksesib.</p>
+              </div>
+
+              <!-- Course Tabs -->
+              <div class="course-tabs">
+                  <div class="tabs-header">
+                      <button class="tab-button active" data-tab="lisans">Lisans</button>
+                      <button class="tab-button" data-tab="metriz">Metriz</button>
+                      <button class="tab-button" data-tab="teknik">Teknik</button>
+                      <button class="tab-button" data-tab="lib">Kou Lib</button>
+                  </div>
+
+                  <div class="tabs-content">
+                      <!-- Lisans Tab -->
+                      <div class="tab-pane active" id="lisans-tab">
+                          <div class="courses-grid">
+                              <!-- Course Card 1 -->
+                              <div class="course-card">
+                                  <div class="course-image">
+                                      <img src="images/course-admin.jpg" alt="Administrasyon">
+                                      <div class="course-badge">Lisans</div>
+                                  </div>
+                                  <div class="course-content">
+                                      <h3>Administrasyon</h3>
+                                      <div class="course-meta">
+                                          <div class="meta-item">
+                                              <i class="fas fa-clock"></i>
+                                              <span>Dire: 4 ane</span>
+                                          </div>
+                                          <div class="meta-item">
+                                              <i class="fas fa-graduation-cap"></i>
+                                              <span>Nivo: Lisans</span>
+                                          </div>
+                                      </div>
+                                      <p>Fòme nan Administrasyon epi prepare pou jere biznis ak dirije ekip. Aprann jesyon resous imèn, finans, maketing, ak antreprenarya.</p>
+                                      <ul class="course-features">
+                                          <li><i class="fas fa-check"></i> Jesyon Resous Imèn</li>
+                                          <li><i class="fas fa-check"></i> Finans ak Kontabilite</li>
+                                          <li><i class="fas fa-check"></i> Maketing Estratejik</li>
+                                          <li><i class="fas fa-check"></i> Antreprenarya</li>
+                                      </ul>
+                                      <a href="{% url 'course-detail-page' 'lisans' %}" class="button button-primary full-width">Plis enfòmasyon</a>
+                                  </div>
+                              </div>
+
+                              <!-- Course Card 2 -->
+                              <div class="course-card">
+                                  <div class="course-image">
+                                      <img src="images/course-systems.jpg" alt="Analiz ak Devlopman Sistèm">
+                                      <div class="course-badge">Lisans</div>
+                                  </div>
+                                  <div class="course-content">
+                                      <h3>Analiz ak Devlopman Sistèm</h3>
+                                      <div class="course-meta">
+                                          <div class="meta-item">
+                                              <i class="fas fa-clock"></i>
+                                              <span>Dire: 3 ane</span>
+                                          </div>
+                                          <div class="meta-item">
+                                              <i class="fas fa-graduation-cap"></i>
+                                              <span>Nivo: Lisans</span>
+                                          </div>
+                                      </div>
+                                      <p>Aprann devlope sistèm ak aplikasyon pou mache teknoloji a. Metrize pwogramasyon, baz done, rezo, ak devlopman web.</p>
+                                      <ul class="course-features">
+                                          <li><i class="fas fa-check"></i> Pwogramasyon</li>
+                                          <li><i class="fas fa-check"></i> Baz Done</li>
+                                          <li><i class="fas fa-check"></i> Rezo Enfòmatik</li>
+                                          <li><i class="fas fa-check"></i> Devlopman Web</li>
+                                      </ul>
+                                      <a href="kou/analiz-devlopman-sistem.html" class="button button-primary full-width">Plis enfòmasyon</a>
+                                  </div>
+                              </div>
+
+                              <!-- Course Card 3 -->
+                              <div class="course-card">
+                                  <div class="course-image">
+                                      <img src="images/course-pedagogy.jpg" alt="Pedagoji">
+                                      <div class="course-badge">Lisans</div>
+                                  </div>
+                                  <div class="course-content">
+                                      <h3>Pedagoji</h3>
+                                      <div class="course-meta">
+                                          <div class="meta-item">
+                                              <i class="fas fa-clock"></i>
+                                              <span>Dire: 4 ane</span>
+                                          </div>
+                                          <div class="meta-item">
+                                              <i class="fas fa-graduation-cap"></i>
+                                              <span>Nivo: Lisans</span>
+                                          </div>
+                                      </div>
+                                      <p>Vin yon edikatè kalifye pou fòme pwochen jenerasyon yo. Etidye didaktik, sikoloji edikasyon, jesyon lekòl, ak enklizyon.</p>
+                                      <ul class="course-features">
+                                          <li><i class="fas fa-check"></i> Didaktik</li>
+                                          <li><i class="fas fa-check"></i> Sikoloji Edikasyon</li>
+                                          <li><i class="fas fa-check"></i> Jesyon Lekòl</li>
+                                          <li><i class="fas fa-check"></i> Enklizyon</li>
+                                      </ul>
+                                      <a href="kou/pedagoji.html" class="button button-primary full-width">Plis enfòmasyon</a>
+                                  </div>
+                              </div>
+
+                              <!-- Course Card 4 -->
+                              <div class="course-card">
+                                  <div class="course-image">
+                                      <img src="images/course-accounting.jpg" alt="Kontabilite">
+                                      <div class="course-badge">Lisans</div>
+                                  </div>
+                                  <div class="course-content">
+                                      <h3>Kontabilite</h3>
+                                      <div class="course-meta">
+                                          <div class="meta-item">
+                                              <i class="fas fa-clock"></i>
+                                              <span>Dire: 4 ane</span>
+                                          </div>
+                                          <div class="meta-item">
+                                              <i class="fas fa-graduation-cap"></i>
+                                              <span>Nivo: Lisans</span>
+                                          </div>
+                                      </div>
+                                      <p>Devlope konesans nan kontabilite finansye, odit, taksasyon, ak analiz finansye pou vin yon pwofesyonèl nan domèn finans.</p>
+                                      <ul class="course-features">
+                                          <li><i class="fas fa-check"></i> Kontabilite Finansye</li>
+                                          <li><i class="fas fa-check"></i> Odit</li>
+                                          <li><i class="fas fa-check"></i> Taksasyon</li>
+                                          <li><i class="fas fa-check"></i> Analiz Finansye</li>
+                                      </ul>
+                                      <a href="kou/kontabilite.html" class="button button-primary full-width">Plis enfòmasyon</a>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+
+                      <!-- Metriz Tab -->
+                      <div class="tab-pane" id="metriz-tab">
+                          <div class="courses-grid">
+                              <!-- Course Card 1 -->
+                              <div class="course-card">
+                                  <div class="course-image">
+                                      <img src="images/course-mba.jpg" alt="MBA nan Jesyon">
+                                      <div class="course-badge">Metriz</div>
+                                  </div>
+                                  <div class="course-content">
+                                      <h3>MBA nan Jesyon</h3>
+                                      <div class="course-meta">
+                                          <div class="meta-item">
+                                              <i class="fas fa-clock"></i>
+                                              <span>Dire: 2 ane</span>
+                                          </div>
+                                          <div class="meta-item">
+                                              <i class="fas fa-graduation-cap"></i>
+                                              <span>Nivo: Metriz</span>
+                                          </div>
+                                      </div>
+                                      <p>Elve konpetans jesyon ou ak yon MBA ki konsantre sou lidèchip, jesyon estratejik, ak inovasyon biznis.</p>
+                                      <ul class="course-features">
+                                          <li><i class="fas fa-check"></i> Lidèchip Avanse</li>
+                                          <li><i class="fas fa-check"></i> Jesyon Estratejik</li>
+                                          <li><i class="fas fa-check"></i> Finans pou Jesyonè</li>
+                                          <li><i class="fas fa-check"></i> Inovasyon Biznis</li>
+                                      </ul>
+                                      <a href="kou/mba-jesyon.html" class="button button-primary full-width">Plis enfòmasyon</a>
+                                  </div>
+                              </div>
+
+                              <!-- Course Card 2 -->
+                              <div class="course-card">
+                                  <div class="course-image">
+                                      <img src="images/course-mba-finance.jpg" alt="MBA nan Finans">
+                                      <div class="course-badge">Metriz</div>
+                                  </div>
+                                  <div class="course-content">
+                                      <h3>MBA nan Finans</h3>
+                                      <div class="course-meta">
+                                          <div class="meta-item">
+                                              <i class="fas fa-clock"></i>
+                                              <span>Dire: 2 ane</span>
+                                          </div>
+                                          <div class="meta-item">
+                                              <i class="fas fa-graduation-cap"></i>
+                                              <span>Nivo: Metriz</span>
+                                          </div>
+                                      </div>
+                                      <p>Espesyalize nan jesyon finansye, envestisman, ak analiz finansye pou vin yon lidè nan sektè finansye a.</p>
+                                      <ul class="course-features">
+                                          <li><i class="fas fa-check"></i> Jesyon Finansye Avanse</li>
+                                          <li><i class="fas fa-check"></i> Envestisman</li>
+                                          <li><i class="fas fa-check"></i> Analiz Finansye</li>
+                                          <li><i class="fas fa-check"></i> Mache Finansye</li>
+                                      </ul>
+                                      <a href="kou/mba-finans.html" class="button button-primary full-width">Plis enfòmasyon</a>
+                                  </div>
+                              </div>
+
+                              <!-- Course Card 3 -->
+                              <div class="course-card">
+                                  <div class="course-image">
+                                      <img src="images/course-psychopedagogy.jpg" alt="Sikopedagoji">
+                                      <div class="course-badge">Metriz</div>
+                                  </div>
+                                  <div class="course-content">
+                                      <h3>Sikopedagoji</h3>
+                                      <div class="course-meta">
+                                          <div class="meta-item">
+                                              <i class="fas fa-clock"></i>
+                                              <span>Dire: 1.5 ane</span>
+                                          </div>
+                                          <div class="meta-item">
+                                              <i class="fas fa-graduation-cap"></i>
+                                              <span>Nivo: Metriz</span>
+                                          </div>
+                                      </div>
+                                      <p>Apwofondi konesans ou nan sikopedagoji ak pwosesis aprantisaj pou ede elèv ki gen difikilte aprantisaj.</p>
+                                      <ul class="course-features">
+                                          <li><i class="fas fa-check"></i> Evalyasyon Sikopedagojik</li>
+                                          <li><i class="fas fa-check"></i> Entèvansyon Edikasyonèl</li>
+                                          <li><i class="fas fa-check"></i> Difikilte Aprantisaj</li>
+                                          <li><i class="fas fa-check"></i> Konsèy Edikasyonèl</li>
+                                      </ul>
+                                      <a href="kou/sikopedagoji.html" class="button button-primary full-width">Plis enfòmasyon</a>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+
+                      <!-- Teknik Tab -->
+                      <div class="tab-pane" id="teknik-tab">
+                          <div class="courses-grid">
+                              <!-- Course Card 1 -->
+                              <div class="course-card">
+                                  <div class="course-image">
+                                      <img src="images/course-nursing.jpg" alt="Teknik nan Enfimyè">
+                                      <div class="course-badge">Teknik</div>
+                                  </div>
+                                  <div class="course-content">
+                                      <h3>Teknik nan Enfimyè</h3>
+                                      <div class="course-meta">
+                                          <div class="meta-item">
+                                              <i class="fas fa-clock"></i>
+                                              <span>Dire: 2 ane</span>
+                                          </div>
+                                          <div class="meta-item">
+                                              <i class="fas fa-graduation-cap"></i>
+                                              <span>Nivo: Teknik</span>
+                                          </div>
+                                      </div>
+                                      <p>Fòme kòm teknik enfimyè epi travay nan domèn sante. Aprann swen pasyan, administrasyon medikaman, ak pwosedi medikal.</p>
+                                      <ul class="course-features">
+                                          <li><i class="fas fa-check"></i> Swen Pasyan</li>
+                                          <li><i class="fas fa-check"></i> Administrasyon Medikaman</li>
+                                          <li><i class="fas fa-check"></i> Pwosedi Medikal</li>
+                                          <li><i class="fas fa-check"></i> Etik Medikal</li>
+                                      </ul>
+                                      <a href="{% url 'course-detail-page' 'technique' %}" class="button button-primary full-width">Plis enfòmasyon</a>
+
+                                  </div>
+                              </div>
+
+                              <!-- Course Card 2 -->
+                              <div class="course-card">
+                                  <div class="course-image">
+                                      <img src="images/course-it.jpg" alt="Teknik nan Enfòmatik">
+                                      <div class="course-badge">Teknik</div>
+                                  </div>
+                                  <div class="course-content">
+                                      <h3>Teknik nan Enfòmatik</h3>
+                                      <div class="course-meta">
+                                          <div class="meta-item">
+                                              <i class="fas fa-clock"></i>
+                                              <span>Dire: 1.5 ane</span>
+                                          </div>
+                                          <div class="meta-item">
+                                              <i class="fas fa-graduation-cap"></i>
+                                              <span>Nivo: Teknik</span>
+                                          </div>
+                                      </div>
+                                      <p>Aprann antretyen òdinatè ak rezo. Devlope konpetans nan enstalasyon lojisyèl, depanaj, ak sekirite enfòmatik.</p>
+                                      <ul class="course-features">
+                                          <li><i class="fas fa-check"></i> Antretyen Òdinatè</li>
+                                          <li><i class="fas fa-check"></i> Rezo</li>
+                                          <li><i class="fas fa-check"></i> Enstalasyon Lojisyèl</li>
+                                          <li><i class="fas fa-check"></i> Sekirite Enfòmatik</li>
+                                      </ul>
+                                      <a href="kou/teknik-enfomatik.html" class="button button-primary full-width">Plis enfòmasyon</a>
+                                  </div>
+                              </div>
+
+                              <!-- Course Card 3 -->
+                              <div class="course-card">
+                                  <div class="course-image">
+                                      <img src="images/course-electricity.jpg" alt="Teknik nan Elektrisite">
+                                      <div class="course-badge">Teknik</div>
+                                  </div>
+                                  <div class="course-content">
+                                      <h3>Teknik nan Elektrisite</h3>
+                                      <div class="course-meta">
+                                          <div class="meta-item">
+                                              <i class="fas fa-clock"></i>
+                                              <span>Dire: 2 ane</span>
+                                          </div>
+                                          <div class="meta-item">
+                                              <i class="fas fa-graduation-cap"></i>
+                                              <span>Nivo: Teknik</span>
+                                          </div>
+                                      </div>
+                                      <p>Fòme nan enstalasyon elektrik, antretyen, ak reparasyon. Aprann sou sikwi elektrik, sekirite, ak enèji renouvlab.</p>
+                                      <ul class="course-features">
+                                          <li><i class="fas fa-check"></i> Enstalasyon Elektrik</li>
+                                          <li><i class="fas fa-check"></i> Sikwi Elektrik</li>
+                                          <li><i class="fas fa-check"></i> Sekirite Elektrik</li>
+                                          <li><i class="fas fa-check"></i> Enèji Renouvlab</li>
+                                      </ul>
+                                      <a href="kou/teknik-elektrisite.html" class="button button-primary full-width">Plis enfòmasyon</a>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+
+                      <!-- Kou Lib Tab -->
+                      <div class="tab-pane" id="lib-tab">
+                          <div class="courses-grid">
+                              <!-- Course Card 1 -->
+                              <div class="course-card">
+                                  <div class="course-image">
+                                      <img src="images/course-excel.jpg" alt="Excel Avanse">
+                                      <div class="course-badge">Kou Lib</div>
+                                  </div>
+                                  <div class="course-content">
+                                      <h3>Excel Avanse</h3>
+                                      <div class="course-meta">
+                                          <div class="meta-item">
+                                              <i class="fas fa-clock"></i>
+                                              <span>Dire: 40 èdtan</span>
+                                          </div>
+                                          <div class="meta-item">
+                                              <i class="fas fa-graduation-cap"></i>
+                                              <span>Nivo: Entèmedyè</span>
+                                          </div>
+                                      </div>
+                                      <p>Metrize fonksyon avanse Excel epi ogmante pwodiktivite ou. Aprann fòmil, makwo, ak analiz done.</p>
+                                      <ul class="course-features">
+                                          <li><i class="fas fa-check"></i> Fòmil Avanse</li>
+                                          <li><i class="fas fa-check"></i> Makwo</li>
+                                          <li><i class="fas fa-check"></i> Analiz Done</li>
+                                          <li><i class="fas fa-check"></i> Tablo Krwaze</li>
+                                      </ul>
+                                      <a href="kou/excel-avanse.html" class="button button-primary full-width">Plis enfòmasyon</a>
+                                  </div>
+                              </div>
+
+                              <!-- Course Card 2 -->
+                              <div class="course-card">
+                                  <div class="course-image">
+                                      <img src="images/course-english.jpg" alt="Anglè pou Biznis">
+                                      <div class="course-badge">Kou Lib</div>
+                                  </div>
+                                  <div class="course-content">
+                                      <h3>Anglè pou Biznis</h3>
+                                      <div class="course-meta">
+                                          <div class="meta-item">
+                                              <i class="fas fa-clock"></i>
+                                              <span>Dire: 60 èdtan</span>
+                                          </div>
+                                          <div class="meta-item">
+                                              <i class="fas fa-graduation-cap"></i>
+                                              <span>Nivo: Tout Nivo</span>
+                                          </div>
+                                      </div>
+                                      <p>Aprann anglè pou anviwònman biznis. Devlope vokabilè biznis, redaksyon pwofesyonèl, ak konpetans kominikasyon.</p>
+                                      <ul class="course-features">
+                                          <li><i class="fas fa-check"></i> Vokabilè Biznis</li>
+                                          <li><i class="fas fa-check"></i> Redaksyon Pwofesyonèl</li>
+                                          <li><i class="fas  Redaksyon Pwofesyonèl</li>
+                                          <li><i class="fas fa-check"></i> Prezantasyon Oral</li>
+                                          <li><i class="fas fa-check"></i> Negosyasyon</li>
+                                      </ul>
+                                      <a href="kou/angle-biznis.html" class="button button-primary full-width">Plis enfòmasyon</a>
+                                  </div>
+                              </div>
+
+                              <!-- Course Card 3 -->
+                              <div class="course-card">
+                                  <div class="course-image">
+                                      <img src="images/course-leadership.jpg" alt="Lidèchip ak Jesyon">
+                                      <div class="course-badge">Kou Lib</div>
+                                  </div>
+                                  <div class="course-content">
+                                      <h3>Lidèchip ak Jesyon</h3>
+                                      <div class="course-meta">
+                                          <div class="meta-item">
+                                              <i class="fas fa-clock"></i>
+                                              <span>Dire: 30 èdtan</span>
+                                          </div>
+                                          <div class="meta-item">
+                                              <i class="fas fa-graduation-cap"></i>
+                                              <span>Nivo: Entèmedyè</span>
+                                          </div>
+                                      </div>
+                                      <p>Devlope konpetans lidèchip ak jesyon pou amelyore kapasite ou pou dirije ekip ak jere pwojè.</p>
+                                      <ul class="course-features">
+                                          <li><i class="fas fa-check"></i> Teknik Lidèchip</li>
+                                          <li><i class="fas fa-check"></i> Jesyon Ekip</li>
+                                          <li><i class="fas fa-check"></i> Rezolisyon Konfli</li>
+                                          <li><i class="fas fa-check"></i> Kominikasyon Efikas</li>
+                                      </ul>
+                                      <a href="kou/lidechip-jesyon.html" class="button button-primary full-width">Plis enfòmasyon</a>
+                                  </div>
+                              </div>
+
+                              <!-- Course Card 4 -->
+                              <div class="course-card">
+                                  <div class="course-image">
+                                      <img src="images/course-digital-marketing.jpg" alt="Maketing Dijital">
+                                      <div class="course-badge">Kou Lib</div>
+                                  </div>
+                                  <div class="course-content">
+                                      <h3>Maketing Dijital</h3>
+                                      <div class="course-meta">
+                                          <div class="meta-item">
+                                              <i class="fas fa-clock"></i>
+                                              <span>Dire: 45 èdtan</span>
+                                          </div>
+                                          <div class="meta-item">
+                                              <i class="fas fa-graduation-cap"></i>
+                                              <span>Nivo: Debitan</span>
+                                          </div>
+                                      </div>
+                                      <p>Aprann estrateji maketing dijital, rezo sosyal, SEO, ak piblisite anliy pou pwomote biznis ou.</p>
+                                      <ul class="course-features">
+                                          <li><i class="fas fa-check"></i> Rezo Sosyal</li>
+                                          <li><i class="fas fa-check"></i> SEO</li>
+                                          <li><i class="fas fa-check"></i> Piblisite Anliy</li>
+                                          <li><i class="fas fa-check"></i> Analiz Done</li>
+                                      </ul>
+                                      <a href="kou/maketing-dijital.html" class="button button-primary full-width">Plis enfòmasyon</a>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </section>
+
+      <!-- Consultation Section -->
+      <section class="consultation-section">
+          <div class="container">
+              <div class="consultation-content">
+                  <div class="consultation-text">
+                      <h2>Ou pa konnen ki kou pou chwazi?</h2>
+                      <p>Konseye edikasyonèl nou yo prè pou ede ou jwenn kou ideyal pou objektif pwofesyonèl ou. Kontakte nou jodi a pou yon konsiltasyon gratis.</p>
+                      <a href="kontak.html" class="button button-primary">Pale ak yon konseye</a>
+                  </div>
+                  <div class="consultation-image">
+                      <img src="images/consultation.jpg" alt="Konsiltasyon Edikasyonèl">
+                  </div>
+              </div>
+          </div>
+      </section>
+
+      <!-- Why Choose Us Section -->
+      <section class="why-choose-section">
+          <div class="container">
+              <h2>Poukisa etidye nan FONDESC?</h2>
+              
+              <div class="features-grid">
+                  <div class="feature-card">
+                      <div class="feature-icon">
+                          <i class="fas fa-award"></i>
+                      </div>
+                      <h3>Sètifikasyon Rekonèt</h3>
+                      <p>Tout kou nou yo rekonèt pa Ministè Edikasyon epi valorize pa mache travay la.</p>
+                  </div>
+                  
+                  <div class="feature-card">
+                      <div class="feature-icon">
+                          <i class="fas fa-book-open"></i>
+                      </div>
+                      <h3>Materyèl Didaktik Eksklizif</h3>
+                      <p>Kontni aktyalize epi devlope pa ekspè nan chak domèn konesans.</p>
+                  </div>
+                  
+                  <div class="feature-card">
+                      <div class="feature-icon">
+                          <i class="fas fa-clock"></i>
+                      </div>
+                      <h3>Fleksibilite Orè</h3>
+                      <p>Etidye nan pwòp ritm ou, nenpòt kilè ak kote ou vle, san konpwomi sou kalite.</p>
+                  </div>
+                  
+                  <div class="feature-card">
+                      <div class="feature-icon">
+                          <i class="fas fa-users"></i>
+                      </div>
+                      <h3>Sipò Pèsonalize</h3>
+                      <p>Pwofesè ak konseye akademik disponib pou ede ou nan chak etap vwayaj ou.</p>
+                  </div>
+              </div>
+          </div>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+          <div class="container">
+              <h2>Kesyon Moun Poze Souvan</h2>
+              
+              <div class="faq-container">
+                  <div class="faq-item">
+                      <div class="faq-question">
+                          <h3>Kijan edikasyon a distans la fonksyone?</h3>
+                          <i class="fas fa-chevron-down"></i>
+                      </div>
+                      <div class="faq-answer">
+                          <p>Edikasyon a distans nou an fèt atravè platfòm anliy nou an, kote ou pral gen aksè a videyo kou, materyèl didaktik, aktivite ak sipò pwofesè yo. Ou ka etidye nan pwòp ritm ou epi aksede materyèl yo nenpòt kilè.</p>
+                      </div>
+                  </div>
+                  
+                  <div class="faq-item">
+                      <div class="faq-question">
+                          <h3>Èske diplòm yo gen validite nasyonal?</h3>
+                          <i class="fas fa-chevron-down"></i>
+                      </div>
+                      <div class="faq-answer">
+                          <p>Wi, tout kou nou yo rekonèt pa Ministè Edikasyon epi diplòm yo gen menm validite ak kou an pèsòn yo. Ou ka itilize diplòm ou pou kontinye etid ou oswa pou jwenn travay.</p>
+                      </div>
+                  </div>
+                  
+                  <div class="faq-item">
+                      <div class="faq-question">
+                          <h3>Konbyen tan kou yo dire?</h3>
+                          <i class="fas fa-chevron-down"></i>
+                      </div>
+                      <div class="faq-answer">
+                          <p>Dire a varye selon kou a. Lisans dire ant 3 ak 5 ane, metriz ant 1 ak 2 ane, kou teknik ant 1 ak 2 ane, epi kou lib yo ka dire ant kèk semèn ak kèk mwa.</p>
+                      </div>
+                  </div>
+                  
+                  <div class="faq-item">
+                      <div class="faq-question">
+                          <h3>Kijan pwosesis enskripsyon an fonksyone?</h3>
+                          <i class="fas fa-chevron-down"></i>
+                      </div>
+                      <div class="faq-answer">
+                          <p>Pwosesis enskripsyon an 100% anliy. Ou jis bezwen ranpli fòmilè enskripsyon an, voye dokiman yo mande yo epi peye premye frè a. Apre sa, ou pral resevwa aksè nan platfòm nan pou kòmanse etidye.</p>
+                      </div>
+                  </div>
+                  
+                  <div class="faq-item">
+                      <div class="faq-question">
+                          <h3>Èske gen bous disponib?</h3>
+                          <i class="fas fa-chevron-down"></i>
+                      </div>
+                      <div class="faq-answer">
+                          <p>Wi, nou ofri divès opsyon bous ak èd finansye pou etidyan ki kalifye. Kontakte depatman admisyon nou an pou plis enfòmasyon sou pwogram bous yo ak kondisyon kalifikasyon.</p>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </section>
+
+      <!-- CTA Section -->
+      <section class="cta-section">
+          <div class="container">
+              <h2>Kòmanse vwayaj akademik ou jodi a</h2>
+              <p>Enskri kounye a epi fè premye pa a nan direksyon avni pwofesyonèl ou</p>
+              <div class="cta-buttons">
+                  <a href="enskri.html" class="button button-primary">Enskri</a>
+                  <a href="kontak.html" class="button button-outline light">Pale ak yon konseye</a>
+              </div>
+          </div>
+      </section>
+  </main>
+{% endblock %}

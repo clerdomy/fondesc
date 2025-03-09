@@ -1,0 +1,139 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ht">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konekte - FONDESC</title>
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/auth.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h1>FONDESC</h1>
+                <p>Fòmasyon Nasyonal a Distans</p>
+            </div>
+            
+            <div class="auth-tabs">
+                <button class="auth-tab active" data-tab="login">Konekte</button>
+                <button class="auth-tab" data-tab="register">Enskri</button>
+            </div>
+            
+            <div class="auth-content">
+                <!-- Login Form -->
+                <div class="auth-form active" id="login-form">
+                    <h2>Zòn Etidyan</h2>
+                    <p class="auth-description">Konekte nan kont ou pou kontinye etid ou</p>
+                    
+                    <form action="" method="POST">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="login-email">itilizatè</label>
+                            <input type="text" id="login-email" name="username" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <div class="password-label-group">
+                                <label for="login-password">Modpas</label>
+                                <a href="rekipere-modpas.html" class="forgot-password">Bliye modpas?</a>
+                            </div>
+                            <div class="password-input-group">
+                                <input type="password" id="login-password" name="password" placeholder="••••••••" required>
+                                <button type="button" class="toggle-password">
+                                    <i class="far fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="button button-primary full-width">Konekte</button>
+                    </form>
+                </div>
+                
+                <!-- Register Form -->
+                <div class="auth-form" id="register-form">
+                    <h2>Kreye yon kont</h2>
+                    <p class="auth-description">Enskri pou aksede kou nou yo</p>
+                    {% comment %}
+                    <form action="register.php" method="POST">
+                        <div class="form-group">
+                            <label for="register-name">Non konplè</label>
+                            <input type="text" id="register-name" name="name" placeholder="Non konplè ou" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="register-email">Imèl</label>
+                            <input type="email" id="register-email" name="email" placeholder="ou@imèl.com" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="register-password">Modpas</label>
+                            <div class="password-input-group">
+                                <input type="password" id="register-password" name="password" placeholder="••••••••" required>
+                                <button type="button" class="toggle-password">
+                                    <i class="far fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="register-confirm-password">Konfime modpas</label>
+                            <input type="password" id="register-confirm-password" name="confirm_password" placeholder="••••••••" required>
+                        </div>
+                        
+                        <button type="submit" class="button button-primary full-width">Enskri</button>
+                    </form>
+                    {% endcomment %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tab switching
+            const tabs = document.querySelectorAll('.auth-tab');
+            const forms = document.querySelectorAll('.auth-form');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Remove active class from all tabs and forms
+                    tabs.forEach(t => t.classList.remove('active'));
+                    forms.forEach(f => f.classList.remove('active'));
+                    
+                    // Add active class to current tab
+                    this.classList.add('active');
+                    
+                    // Get the form to show based on data-tab attribute
+                    const formId = this.getAttribute('data-tab') + '-form';
+                    document.getElementById(formId).classList.add('active');
+                });
+            });
+            
+            // Toggle password visibility
+            const toggleButtons = document.querySelectorAll('.toggle-password');
+            
+            toggleButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const input = this.parentElement.querySelector('input');
+                    const icon = this.querySelector('i');
+                    
+                    if (input.type === 'password') {
+                        input.type = 'text';
+                        icon.classList.remove('fa-eye');
+                        icon.classList.add('fa-eye-slash');
+                    } else {
+                        input.type = 'password';
+                        icon.classList.remove('fa-eye-slash');
+                        icon.classList.add('fa-eye');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+

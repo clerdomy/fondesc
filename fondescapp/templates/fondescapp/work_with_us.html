@@ -1,0 +1,762 @@
+{% extends 'fondescapp/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/careers.css' %}">
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'js/careers.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+  <main>
+      <!-- Hero Section -->
+      <section class="page-hero">
+          <div class="container">
+              <div class="breadcrumbs">
+                  <a href="index.html">Akèy</a> &gt; 
+                  <span>Travay Avèk Nou</span>
+              </div>
+              <h1>Vin Fè Pati Ekip FONDESC</h1>
+              <p class="hero-description">Dekouvri opòtinite karyè nan yon enstitisyon k ap transfòme edikasyon a distans</p>
+          </div>
+      </section>
+
+      <!-- Why Join Us Section -->
+      <section class="why-join-us">
+          <div class="container">
+              <div class="section-header">
+                  <h2>Poukisa Travay nan FONDESC?</h2>
+                  <p>Dekouvri avantaj travay nan yon enstitisyon edikasyonèl inovatif ak enpak sosyal</p>
+              </div>
+              
+              <div class="join-us-content">
+                  <div class="join-us-video">
+                      <img src="images/careers/team-video.jpg" alt="Ekip FONDESC" class="video-placeholder">
+                      <div class="video-play-button">
+                          <i class="fas fa-play"></i>
+                      </div>
+                  </div>
+                  
+                  <div class="join-us-text">
+                      <p>Nan FONDESC, nou kwè ke siksè nou depann de kalite ak angajman ekip nou an. Nou valorize chak manm ekip nou epi nou ofri yon anviwònman travay ki ankouraje kreyativite, kolaborasyon, ak devlopman pwofesyonèl.</p>
+                      <p>Nou pa sèlman yon enstitisyon edikasyonèl, men nou se yon kominote ki gen menm vizyon pou transfòme edikasyon a distans epi fè li aksesib pou tout moun. Lè ou travay nan FONDESC, ou kontribye dirèkteman nan amelyore lavi etidyan nou yo ak devlopman peyi nou.</p>
+                      <p>Nou ofri opòtinite karyè nan divès domèn, soti nan ansèyman ak devlopman kourikoulòm rive nan teknoloji, maketing, ak administrasyon. Kèlkeswa domèn espesyalite ou, ou ka jwenn yon wòl ki pèmèt ou itilize talan ou pou fè yon diferans pozitif.</p>
+                  </div>
+              </div>
+          </div>
+      </section>
+
+      <!-- Our Values Section -->
+      <section class="our-values gray-bg">
+          <div class="container">
+              <div class="section-header">
+                  <h2>Valè Nou yo</h2>
+                  <p>Prensip ki gide nou nan tout sa nou fè</p>
+              </div>
+              
+              <div class="values-grid">
+                  <div class="value-card">
+                      <div class="value-icon">
+                          <i class="fas fa-star"></i>
+                      </div>
+                      <h3>Ekselans</h3>
+                      <p>Nou vize pi wo estanda kalite nan tout aspè travay nou, soti nan devlopman kourikoulòm rive nan sèvis kliyan.</p>
+                  </div>
+                  
+                  <div class="value-card">
+                      <div class="value-icon">
+                          <i class="fas fa-lightbulb"></i>
+                      </div>
+                      <h3>Inovasyon</h3>
+                      <p>Nou ankouraje panse kreyatif ak apwòch inovatif pou rezoud pwoblèm ak amelyore eksperyans aprantisaj la.</p>
+                  </div>
+                  
+                  <div class="value-card">
+                      <div class="value-icon">
+                          <i class="fas fa-hands-helping"></i>
+                      </div>
+                      <h3>Kolaborasyon</h3>
+                      <p>Nou kwè nan pouvwa travay ansanm, pataje konesans, ak sipòte youn lòt pou atenn objektif komen nou yo.</p>
+                  </div>
+                  
+                  <div class="value-card">
+                      <div class="value-icon">
+                          <i class="fas fa-globe-americas"></i>
+                      </div>
+                      <h3>Aksesibilite</h3>
+                      <p>Nou angaje pou rann edikasyon kalite aksesib pou tout moun, kèlkeswa kote yo ye oswa sitiyasyon yo.</p>
+                  </div>
+                  
+                  <div class="value-card">
+                      <div class="value-icon">
+                          <i class="fas fa-balance-scale"></i>
+                      </div>
+                      <h3>Entegrite</h3>
+                      <p>Nou aji ak onètete, transparans, ak respè nan tout relasyon nou, soti nan kòlèg rive nan etidyan yo.</p>
+                  </div>
+                  
+                  <div class="value-card">
+                      <div class="value-icon">
+                          <i class="fas fa-seedling"></i>
+                      </div>
+                      <h3>Kwasans</h3>
+                      <p>Nou ankouraje devlopman kontinyèl, aprantisaj tout lavi, ak kwasans pèsonèl ak pwofesyonèl.</p>
+                  </div>
+              </div>
+          </div>
+      </section>
+
+      <!-- Benefits Section -->
+      <section class="benefits">
+          <div class="container">
+              <div class="section-header">
+                  <h2>Avantaj Travay nan FONDESC</h2>
+                  <p>Dekouvri sa ki fè FONDESC yon kote ekselan pou travay</p>
+              </div>
+              
+              <div class="benefits-content">
+                  <div class="benefits-image">
+                      <img src="images/careers/benefits.jpg" alt="Avantaj Travay nan FONDESC">
+                  </div>
+                  
+                  <div class="benefits-list">
+                      <div class="benefit-item">
+                          <div class="benefit-icon">
+                              <i class="fas fa-chart-line"></i>
+                          </div>
+                          <div class="benefit-info">
+                              <h3>Devlopman Pwofesyonèl</h3>
+                              <p>Nou envesti nan kwasans ou atravè fòmasyon, atelye, konferans, ak opòtinite pou kontinye edikasyon ou.</p>
+                          </div>
+                      </div>
+                      
+                      <div class="benefit-item">
+                          <div class="benefit-icon">
+                              <i class="fas fa-clock"></i>
+                          </div>
+                          <div class="benefit-info">
+                              <h3>Fleksibilite Orè</h3>
+                              <p>Nou ofri orè fleksib ak opòtinite travay a distans pou plizyè pozisyon, pèmèt ou balanse travay ak lavi pèsonèl ou.</p>
+                          </div>
+                      </div>
+                      
+                      <div class="benefit-item">
+                          <div class="benefit-icon">
+                              <i class="fas fa-heart"></i>
+                          </div>
+                          <div class="benefit-info">
+                              <h3>Asirans Sante</h3>
+                              <p>Nou ofri plan asirans sante konpetitif pou asire byennèt ou ak fanmi ou.</p>
+                          </div>
+                      </div>
+                      
+                      <div class="benefit-item">
+                          <div class="benefit-icon">
+                              <i class="fas fa-graduation-cap"></i>
+                          </div>
+                          <div class="benefit-info">
+                              <h3>Rabè sou Kou</h3>
+                              <p>Anplwaye nou yo ak fanmi yo resevwa rabè sou kou ak pwogram FONDESC yo.</p>
+                          </div>
+                      </div>
+                      
+                      <div class="benefit-item">
+                          <div class="benefit-icon">
+                              <i class="fas fa-coins"></i>
+                          </div>
+                          <div class="benefit-info">
+                              <h3>Konpansasyon Konpetitif</h3>
+                              <p>Nou ofri salè konpetitif ak opòtinite pou prim ak ogmantasyon baze sou pèfòmans.</p>
+                          </div>
+                      </div>
+                      
+                      <div class="benefit-item">
+                          <div class="benefit-icon">
+                              <i class="fas fa-users"></i>
+                          </div>
+                          <div class="benefit-info">
+                              <h3>Kilti Pozitif</h3>
+                              <p>Nou kiltive yon anviwònman travay pozitif ak sipòtif kote ou ka pwospere ak devlope.</p>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </section>
+
+      <!-- Career Areas Section -->
+      <section class="career-areas gray-bg">
+          <div class="container">
+              <div class="section-header">
+                  <h2>Domèn Karyè</h2>
+                  <p>Eksplore divès opòtinite karyè nan FONDESC</p>
+              </div>
+              
+              <div class="areas-grid">
+                  <div class="area-card">
+                      <div class="area-icon">
+                          <i class="fas fa-chalkboard-teacher"></i>
+                      </div>
+                      <h3>Ansèyman ak Pedagoji</h3>
+                      <ul class="area-roles">
+                          <li>Pwofesè</li>
+                          <li>Devlopè Kourikoulòm</li>
+                          <li>Kowòdinatè Pedagojik</li>
+                          <li>Espesyalis Evalyasyon</li>
+                      </ul>
+                      <a href="#job-openings" class="button button-outline">Wè Pozisyon yo</a>
+                  </div>
+                  
+                  <div class="area-card">
+                      <div class="area-icon">
+                          <i class="fas fa-laptop-code"></i>
+                      </div>
+                      <h3>Teknoloji ak Devlopman</h3>
+                      <ul class="area-roles">
+                          <li>Devlopè Web</li>
+                          <li>Espesyalis LMS</li>
+                          <li>Analis Done</li>
+                          <li>Espesyalis Sekirite IT</li>
+                      </ul>
+                      <a href="#job-openings" class="button button-outline">Wè Pozisyon yo</a>
+                  </div>
+                  
+                  <div class="area-card">
+                      <div class="area-icon">
+                          <i class="fas fa-bullhorn"></i>
+                      </div>
+                      <h3>Maketing ak Kominikasyon</h3>
+                      <ul class="area-roles">
+                          <li>Espesyalis Maketing Dijital</li>
+                          <li>Manadjè Medya Sosyal</li>
+                          <li>Espesyalis Kontni</li>
+                          <li>Kowòdinatè Evènman</li>
+                      </ul>
+                      <a href="#job-openings" class="button button-outline">Wè Pozisyon yo</a>
+                  </div>
+                  
+                  <div class="area-card">
+                      <div class="area-icon">
+                          <i class="fas fa-headset"></i>
+                      </div>
+                      <h3>Sipò Etidyan</h3>
+                      <ul class="area-roles">
+                          <li>Konseye Akademik</li>
+                          <li>Reprezantan Sèvis Kliyan</li>
+                          <li>Kowòdinatè Admisyon</li>
+                          <li>Espesyalis Sipò Teknik</li>
+                      </ul>
+                      <a href="#job-openings" class="button button-outline">Wè Pozisyon yo</a>
+                  </div>
+                  
+                  <div class="area-card">
+                      <div class="area-icon">
+                          <i class="fas fa-chart-pie"></i>
+                      </div>
+                      <h3>Administrasyon ak Finans</h3>
+                      <ul class="area-roles">
+                          <li>Manadjè Administratif</li>
+                          <li>Espesyalis Finans</li>
+                          <li>Kowòdinatè Resous Imèn</li>
+                          <li>Analis Biznis</li>
+                      </ul>
+                      <a href="#job-openings" class="button button-outline">Wè Pozisyon yo</a>
+                  </div>
+                  
+                  <div class="area-card">
+                      <div class="area-icon">
+                          <i class="fas fa-project-diagram"></i>
+                      </div>
+                      <h3>Jesyon Pwojè</h3>
+                      <ul class="area-roles">
+                          <li>Manadjè Pwojè</li>
+                          <li>Kowòdinatè Pwogram</li>
+                          <li>Espesyalis Amelyorasyon Pwosesis</li>
+                          <li>Manadjè Kalite</li>
+                      </ul>
+                      <a href="#job-openings" class="button button-outline">Wè Pozisyon yo</a>
+                  </div>
+              </div>
+          </div>
+      </section>
+
+      <!-- Recruitment Process Section -->
+      <section class="recruitment-process">
+          <div class="container">
+              <div class="section-header">
+                  <h2>Pwosesis Rekritman Nou</h2>
+                  <p>Konprann etap yo pou vin fè pati ekip FONDESC</p>
+              </div>
+              
+              <div class="process-steps">
+                  <div class="process-step">
+                      <div class="step-number">1</div>
+                      <div class="step-content">
+                          <h3>Aplikasyon</h3>
+                          <p>Soumèt CV ou ak lèt motivasyon atravè fòmilè aplikasyon nou an oswa pa imèl. Asire w ke ou mete enfòmasyon kontak ou yo.</p>
+                      </div>
+                  </div>
+                  
+                  <div class="process-step">
+                      <div class="step-number">2</div>
+                      <div class="step-content">
+                          <h3>Evalyasyon Inisyal</h3>
+                          <p>Ekip rekritman nou an ap revize aplikasyon ou pou detèmine si konpetans ak eksperyans ou yo koresponn ak egzijans pozisyon an.</p>
+                      </div>
+                  </div>
+                  
+                  <div class="process-step">
+                      <div class="step-number">3</div>
+                      <div class="step-content">
+                          <h3>Entèvyou Telefòn</h3>
+                          <p>Si ou seleksyone, nou ap pwograme yon entèvyou telefòn pou diskite sou eksperyans ou, konpetans ou, ak enterè ou nan pozisyon an.</p>
+                      </div>
+                  </div>
+                  
+                  <div class="process-step">
+                      <div class="step-number">4</div>
+                      <div class="step-content">
+                          <h3>Entèvyou an Pèsòn oswa Vityèl</h3>
+                          <p>Kandida ki pase entèvyou telefòn nan ap envite pou yon entèvyou an pèsòn oswa vityèl ak manadjè anbochaj la ak manm ekip la.</p>
+                      </div>
+                  </div>
+                  
+                  <div class="process-step">
+                      <div class="step-number">5</div>
+                      <div class="step-content">
+                          <h3>Evalyasyon Teknik (si aplikab)</h3>
+                          <p>Pou sèten pozisyon, nou ka mande pou ou konplete yon evalyasyon teknik oswa yon egzèsis pratik pou demontre konpetans ou yo.</p>
+                      </div>
+                  </div>
+                  
+                  <div class="process-step">
+                      <div class="step-number">6</div>
+                      <div class="step-content">
+                          <h3>Verifikasyon Referans</h3>
+                          <p>Nou ap kontakte referans ou yo pou konfime eksperyans ou ak pèfòmans ou nan pozisyon anvan yo.</p>
+                      </div>
+                  </div>
+                  
+                  <div class="process-step">
+                      <div class="step-number">7</div>
+                      <div class="step-content">
+                          <h3>Òf Travay</h3>
+                          <p>Si tout etap yo satisfezan, nou ap prezante yon òf travay ki gen detay sou salè, avantaj, ak kondisyon travay yo.</p>
+                      </div>
+                  </div>
+                  
+                  <div class="process-step">
+                      <div class="step-number">8</div>
+                      <div class="step-content">
+                          <h3>Entegrasyon</h3>
+                          <p>Yon fwa ou aksepte òf la, nou ap kòmanse pwosesis entegrasyon pou ede ou adapte w ak nouvo wòl ou ak kilti FONDESC.</p>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </section>
+
+      <!-- Employee Testimonials Section -->
+      <section class="employee-testimonials gray-bg">
+          <div class="container">
+              <div class="section-header">
+                  <h2>Sa Anplwaye Nou yo Di</h2>
+                  <p>Tande eksperyans manm ekip FONDESC yo</p>
+              </div>
+              
+              <div class="testimonials-slider">
+                  <div class="testimonial-slide active">
+                      <div class="testimonial-content">
+                          <div class="testimonial-quote">
+                              <i class="fas fa-quote-left"></i>
+                              <p>"Travay nan FONDESC se youn nan pi bon desizyon karyè mwen te pran. Mwen jwenn yon anviwònman ki valorize kontribisyon mwen epi ki ankouraje mwen grandi pwofesyonèlman. Mwen renmen wè enpak dirèk travay mwen genyen sou siksè etidyan nou yo."</p>
+                          </div>
+                          <div class="testimonial-author">
+                              <div class="author-image">
+                                  <img src="images/careers/employee1.jpg" alt="Jean Paul">
+                              </div>
+                              <div class="author-info">
+                                  <h4>Jean Paul</h4>
+                                  <p>Pwofesè Administrasyon | 5 ane nan FONDESC</p>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  
+                  <div class="testimonial-slide">
+                      <div class="testimonial-content">
+                          <div class="testimonial-quote">
+                              <i class="fas fa-quote-left"></i>
+                              <p>"FONDESC ofri mwen opòtinite pou travay ak teknoloji dènye kri epi aplike konesans mwen pou amelyore eksperyans aprantisaj a distans. Kilti kolaborasyon ak inovasyon an pèmèt mwen devlope solisyon kreyatif pou defi konplèks."</p>
+                          </div>
+                          <div class="testimonial-author">
+                              <div class="author-image">
+                                  <img src="images/careers/employee2.jpg" alt="Marie Claire">
+                              </div>
+                              <div class="author-info">
+                                  <h4>Marie Claire</h4>
+                                  <p>Devlopè Sistèm LMS | 3 ane nan FONDESC</p>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  
+                  <div class="testimonial-slide">
+                      <div class="testimonial-content">
+                          <div class="testimonial-quote">
+                              <i class="fas fa-quote-left"></i>
+                              <p>"Sa ki fè FONDESC diferan se angajman li pou devlopman anplwaye yo. Depi mwen te kòmanse, mwen te resevwa anpil opòtinite fòmasyon ak mentora ki te ede m avanse nan karyè mwen. Mwen santi m valorize non sèlman pou sa mwen fè, men tou pou potansyèl mwen."</p>
+                          </div>
+                          <div class="testimonial-author">
+                              <div class="author-image">
+                                  <img src="images/careers/employee3.jpg" alt="Pierre Louis">
+                              </div>
+                              <div class="author-info">
+                                  <h4>Pierre Louis</h4>
+                                  <p>Manadjè Maketing | 4 ane nan FONDESC</p>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  
+                  <div class="testimonial-controls">
+                      <button class="testimonial-prev"><i class="fas fa-chevron-left"></i></button>
+                      <div class="testimonial-dots">
+                          <span class="dot active"></span>
+                          <span class="dot"></span>
+                          <span class="dot"></span>
+                      </div>
+                      <button class="testimonial-next"><i class="fas fa-chevron-right"></i></button>
+                  </div>
+              </div>
+          </div>
+      </section>
+
+      <!-- Job Openings Section -->
+      <section class="job-openings" id="job-openings">
+          <div class="container">
+              <div class="section-header">
+                  <h2>Pozisyon Ouvè</h2>
+                  <p>Eksplore opòtinite karyè aktyèl nan FONDESC</p>
+              </div>
+              
+              <div class="job-filters">
+                  <div class="filter-group">
+                      <label for="department-filter">Depatman:</label>
+                      <select id="department-filter" class="filter-select">
+                          <option value="all">Tout Depatman</option>
+                          <option value="teaching">Ansèyman ak Pedagoji</option>
+                          <option value="tech">Teknoloji ak Devlopman</option>
+                          <option value="marketing">Maketing ak Kominikasyon</option>
+                          <option value="support">Sipò Etidyan</option>
+                          <option value="admin">Administrasyon ak Finans</option>
+                      </select>
+                  </div>
+                  
+                  <div class="filter-group">
+                      <label for="type-filter">Tip Pozisyon:</label>
+                      <select id="type-filter" class="filter-select">
+                          <option value="all">Tout Tip</option>
+                          <option value="full-time">Plen Tan</option>
+                          <option value="part-time">Mi-Tan</option>
+                          <option value="contract">Kontra</option>
+                          <option value="remote">A Distans</option>
+                      </select>
+                  </div>
+                  
+                  <div class="filter-group">
+                      <label for="location-filter">Lokasyon:</label>
+                      <select id="location-filter" class="filter-select">
+                          <option value="all">Tout Lokasyon</option>
+                          <option value="port-au-prince">Pòtoprens</option>
+                          <option value="cap-haitien">Kap Ayisyen</option>
+                          <option value="remote">A Distans</option>
+                      </select>
+                  </div>
+              </div>
+              
+              <div class="job-listings">
+                  <div class="job-card" data-department="teaching" data-type="full-time" data-location="port-au-prince">
+                      <div class="job-header">
+                          <h3>Pwofesè Teknoloji Enfòmatik</h3>
+                          <span class="job-type full-time">Plen Tan</span>
+                      </div>
+                      <div class="job-details">
+                          <div class="job-meta">
+                              <span><i class="fas fa-map-marker-alt"></i> Pòtoprens</span>
+                              <span><i class="fas fa-building"></i> Ansèyman ak Pedagoji</span>
+                              <span><i class="fas fa-calendar-alt"></i> Pibliye: 15/05/2023</span>
+                          </div>
+                          <p class="job-description">Nou ap chèche yon pwofesè teknoloji enfòmatik ki gen eksperyans pou anseye kou sou pwogramasyon, baz done, ak devlopman web. Kandida ideyal la dwe gen omwen 3 ane eksperyans nan endistri a ak yon pasyon pou ansèyman.</p>
+                          <div class="job-actions">
+                              <a href="job-details.html?id=1" class="button button-outline">Wè Detay</a>
+                              <a href="apply.html?id=1" class="button button-primary">Aplike Kounye a</a>
+                          </div>
+                      </div>
+                  </div>
+                  
+                  <div class="job-card" data-department="tech" data-type="full-time" data-location="remote">
+                      <div class="job-header">
+                          <h3>Devlopè Full-Stack</h3>
+                          <span class="job-type remote">A Distans</span>
+                      </div>
+                      <div class="job-details">
+                          <div class="job-meta">
+                              <span><i class="fas fa-map-marker-alt"></i> A Distans</span>
+                              <span><i class="fas fa-building"></i> Teknoloji ak Devlopman</span>
+                              <span><i class="fas fa-calendar-alt"></i> Pibliye: 10/05/2023</span>
+                          </div>
+                          <p class="job-description">Nou ap chèche yon devlopè full-stack ki gen eksperyans pou travay sou platfòm aprantisaj nou an. Kandida ideyal la dwe gen konpetans nan JavaScript, React, Node.js, ak baz done SQL/NoSQL.</p>
+                          <div class="job-actions">
+                              <a href="job-details.html?id=2" class="button button-outline">Wè Detay</a>
+                              <a href="apply.html?id=2" class="button button-primary">Aplike Kounye a</a>
+                          </div>
+                      </div>
+                  </div>
+                  
+                  <div class="job-card" data-department="marketing" data-type="part-time" data-location="port-au-prince">
+                      <div class="job-header">
+                          <h3>Espesyalis Medya Sosyal</h3>
+                          <span class="job-type part-time">Mi-Tan</span>
+                      </div>
+                      <div class="job-details">
+                          <div class="job-meta">
+                              <span><i class="fas fa-map-marker-alt"></i> Pòtoprens</span>
+                              <span><i class="fas fa-building"></i> Maketing ak Kominikasyon</span>
+                              <span><i class="fas fa-calendar-alt"></i> Pibliye: 05/05/2023</span>
+                          </div>
+                          <p class="job-description">Nou ap chèche yon espesyalis medya sosyal kreyatif pou jere prezans nou sou platfòm medya sosyal yo. Kandida ideyal la dwe gen eksperyans nan kreyasyon kontni, planifikasyon, ak analiz pèfòmans.</p>
+                          <div class="job-actions">
+                              <a href="job-details.html?id=3" class="button button-outline">Wè Detay</a>
+                              <a href="apply.html?id=3" class="button button-primary">Aplike Kounye a</a>
+                          </div>
+                      </div>
+                  </div>
+                  
+                  <div class="job-card" data-department="support" data-type="full-time" data-location="cap-haitien">
+                      <div class="job-header">
+                          <h3>Konseye Akademik</h3>
+                          <span class="job-type full-time">Plen Tan</span>
+                      </div>
+                      <div class="job-details">
+                          <div class="job-meta">
+                              <span><i class="fas fa-map-marker-alt"></i> Kap Ayisyen</span>
+                              <span><i class="fas fa-building"></i> Sipò Etidyan</span>
+                              <span><i class="fas fa-calendar-alt"></i> Pibliye: 01/05/2023</span>
+                          </div>
+                          <p class="job-description">Nou ap chèche yon konseye akademik pou gide etidyan nou yo nan chwa kou ak planifikasyon karyè. Kandida ideyal la dwe gen eksperyans nan konsèy akademik ak yon konpreyansyon solid sou divès domèn etid.</p>
+                          <div class="job-actions">
+                              <a href="job-details.html?id=4" class="button button-outline">Wè Detay</a>
+                              <a href="apply.html?id=4" class="button button-primary">Aplike Kounye a</a>
+                          </div>
+                      </div>
+                  </div>
+                  
+                  <div class="job-card" data-department="admin" data-type="contract" data-location="port-au-prince">
+                      <div class="job-header">
+                          <h3>Espesyalis Resous Imèn</h3>
+                          <span class="job-type contract">Kontra</span>
+                      </div>
+                      <div class="job-details">
+                          <div class="job-meta">
+                              <span><i class="fas fa-map-marker-alt"></i> Pòtoprens</span>
+                              <span><i class="fas fa-building"></i> Administrasyon ak Finans</span>
+                              <span><i class="fas fa-calendar-alt"></i> Pibliye: 28/04/2023</span>
+                          </div>
+                          <p class="job-description">Nou ap chèche yon espesyalis resous imèn pou ede nan rekritman, entegrasyon, ak jesyon anplwaye. Kandida ideyal la dwe gen eksperyans nan HR ak yon konpreyansyon solid sou lwa travay.</p>
+                          <div class="job-actions">
+                              <a href="job-details.html?id=5" class="button button-outline">Wè Detay</a>
+                              <a href="apply.html?id=5" class="button button-primary">Aplike Kounye a</a>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              
+              <div class="no-jobs-message" style="display: none;">
+                  <div class="message-icon">
+                      <i class="fas fa-search"></i>
+                  </div>
+                  <h3>Pa gen pozisyon ki koresponn ak kritè ou yo</h3>
+                  <p>Eseye ajiste filtè ou yo oswa gade tout pozisyon disponib yo.</p>
+                  <button id="reset-filters" class="button button-primary">Reyinisyalize Filtè yo</button>
+              </div>
+              
+              <div class="pagination">
+                  <button class="pagination-prev disabled"><i class="fas fa-chevron-left"></i></button>
+                  <div class="pagination-numbers">
+                      <span class="page-number active">1</span>
+                      <span class="page-number">2</span>
+                      <span class="page-number">3</span>
+                  </div>
+                  <button class="pagination-next"><i class="fas fa-chevron-right"></i></button>
+              </div>
+          </div>
+      </section>
+
+      <!-- Application Form Section -->
+      <section class="application-form gray-bg">
+          <div class="container">
+              <div class="section-header">
+                  <h2>Pa Wè Pozisyon Ou Ap Chèche a?</h2>
+                  <p>Soumèt yon aplikasyon jeneral epi nou ap kontakte ou lè yon pozisyon ki koresponn ak konpetans ou yo vin disponib</p>
+              </div>
+              
+              <div class="form-container">
+                  <form id="general-application-form" action="submit-application.php" method="POST" enctype="multipart/form-data">
+                      <div class="form-grid">
+                          <div class="form-group">
+                              <label for="full-name">Non Konplè *</label>
+                              <input type="text" id="full-name" name="full_name" required>
+                          </div>
+                          
+                          <div class="form-group">
+                              <label for="email">Imèl *</label>
+                              <input type="email" id="email" name="email" required>
+                          </div>
+                          
+                          <div class="form-group">
+                              <label for="phone">Telefòn *</label>
+                              <input type="tel" id="phone" name="phone" required>
+                          </div>
+                          
+                          <div class="form-group">
+                              <label for="department">Depatman Enterese *</label>
+                              <select id="department" name="department" required>
+                                  <option value="">Chwazi yon depatman</option>
+                                  <option value="teaching">Ansèyman ak Pedagoji</option>
+                                  <option value="tech">Teknoloji ak Devlopman</option>
+                                  <option value="marketing">Maketing ak Kominikasyon</option>
+                                  <option value="support">Sipò Etidyan</option>
+                                  <option value="admin">Administrasyon ak Finans</option>
+                                  <option value="project">Jesyon Pwojè</option>
+                              </select>
+                          </div>
+                          
+                          <div class="form-group full-width">
+                              <label for="experience">Eksperyans Pwofesyonèl *</label>
+                              <textarea id="experience" name="experience" rows="4" required></textarea>
+                          </div>
+                          
+                          <div class="form-group full-width">
+                              <label for="skills">Konpetans *</label>
+                              <textarea id="skills" name="skills" rows="4" required></textarea>
+                          </div>
+                          
+                          <div class="form-group full-width">
+                              <label for="motivation">Poukisa Ou Vle Travay nan FONDESC? *</label>
+                              <textarea id="motivation" name="motivation" rows="4" required></textarea>
+                          </div>
+                          
+                          <div class="form-group">
+                              <label for="resume">CV (PDF, DOC, DOCX) *</label>
+                              <input type="file" id="resume" name="resume" accept=".pdf,.doc,.docx" required>
+                          </div>
+                          
+                          <div class="form-group">
+                              <label for="cover-letter">Lèt Motivasyon (PDF, DOC, DOCX)</label>
+                              <input type="file" id="cover-letter" name="cover_letter" accept=".pdf,.doc,.docx">
+                          </div>
+                          
+                          <div class="form-group full-width">
+                              <div class="checkbox-group">
+                                  <input type="checkbox" id="terms" name="terms" required>
+                                  <label for="terms">Mwen dakò ak <a href="kondisyon-itilizasyon.html">Kondisyon Itilizasyon</a> ak <a href="politik-konfidansyalite.html">Politik Konfidansyalite</a> FONDESC *</label>
+                              </div>
+                          </div>
+                      </div>
+                      
+                      <div class="form-actions">
+                          <button type="submit" class="button button-primary">Soumèt Aplikasyon</button>
+                      </div>
+                  </form>
+              </div>
+          </div>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+          <div class="container">
+              <div class="section-header">
+                  <h2>Kesyon Moun Poze Souvan</h2>
+                  <p>Jwenn repons pou kesyon komen sou karyè nan FONDESC</p>
+              </div>
+              
+              <div class="faq-container">
+                  <div class="faq-item">
+                      <div class="faq-question">
+                          <h3>Ki kalifikasyon jeneral FONDESC chèche nan kandida yo?</h3>
+                          <span class="faq-toggle"><i class="fas fa-plus"></i></span>
+                      </div>
+                      <div class="faq-answer">
+                          <p>Nan FONDESC, nou chèche kandida ki gen konpetans teknik apwopriye pou pozisyon an, men tou ki montre angajman pou misyon nou, kapasite pou travay an ekip, ak yon apwòch inovatif pou rezoud pwoblèm. Nou valorize divèsite eksperyans ak pèspektiv.</p>
+                      </div>
+                  </div>
+                  
+                  <div class="faq-item">
+                      <div class="faq-question">
+                          <h3>Èske FONDESC ofri opòtinite travay a distans?</h3>
+                          <span class="faq-toggle"><i class="fas fa-plus"></i></span>
+                      </div>
+                      <div class="faq-answer">
+                          <p>Wi, FONDESC ofri opòtinite travay a distans pou plizyè pozisyon, espesyalman nan domèn teknoloji, devlopman kontni, ak sèten wòl ansèyman. Chak pozisyon endike klèman si li disponib a distans, ibrid, oswa sou plas.</p>
+                      </div>
+                  </div>
+                  
+                  <div class="faq-item">
+                      <div class="faq-question">
+                          <h3>Konbyen tan pwosesis aplikasyon an pran?</h3>
+                          <span class="faq-toggle"><i class="fas fa-plus"></i></span>
+                      </div>
+                      <div class="faq-answer">
+                          <p>Pwosesis aplikasyon nou an pran jeneralman 2-4 semèn, selon pozisyon an ak volim aplikasyon yo. Nou fè efò pou kenbe kandida yo enfòme sou estati aplikasyon yo nan chak etap.</p>
+                      </div>
+                  </div>
+                  
+                  <div class="faq-item">
+                      <div class="faq-question">
+                          <h3>Ki opòtinite devlopman pwofesyonèl FONDESC ofri?</h3>
+                          <span class="faq-toggle"><i class="fas fa-plus"></i></span>
+                      </div>
+                      <div class="faq-answer">
+                          <p>FONDESC ofri divès opòtinite devlopman pwofesyonèl, tankou fòmasyon entèn, atelye, konferans, pwogram mentora, ak ranbousman frè etid pou kou ki gen rapò ak travay. Nou ankouraje anplwaye nou yo kontinye aprann ak devlope konpetans yo.</p>
+                      </div>
+                  </div>
+                  
+                  <div class="faq-item">
+                      <div class="faq-question">
+                          <h3>Èske mwen ka aplike pou plizyè pozisyon an menm tan?</h3>
+                          <span class="faq-toggle"><i class="fas fa-plus"></i></span>
+                      </div>
+                      <div class="faq-answer">
+                          <p>Wi, ou ka aplike pou plizyè pozisyon si ou kwè ou kalifye pou yo. Sepandan, nou rekòmande pou ou konsantre sou pozisyon ki pi byen koresponn ak konpetans ak enterè ou yo pou ogmante chans ou pou siksè.</p>
+                      </div>
+                  </div>
+                  
+                  <div class="faq-item">
+                      <div class="faq-question">
+                          <h3>Ki avantaj FONDESC ofri anplwaye li yo?</h3>
+                          <span class="faq-toggle"><i class="fas fa-plus"></i></span>
+                      </div>
+                      <div class="faq-answer">
+                          <p>FONDESC ofri yon pakè avantaj konpetitif ki gen ladan asirans sante, orè fleksib, opòtinite travay a distans, rabè sou kou, opòtinite devlopman pwofesyonèl, ak yon kilti travay pozitif ak sipòtif. Avantaj espesifik yo ka varye selon pozisyon an ak estati anplwa a.</p>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </section>
+
+      <!-- CTA Section -->
+      <section class="cta">
+          <div class="container text-center">
+              <h2>Kòmanse Vwayaj Karyè Ou nan FONDESC</h2>
+              <p>Vin fè pati yon ekip pasyone k ap transfòme edikasyon a distans</p>
+              <div class="cta-buttons">
+                  <a href="#job-openings" class="button button-primary">Wè Pozisyon Ouvè yo</a>
+                  <a href="kontak.html" class="button button-outline light">Kontakte Ekip Rekritman an</a>
+              </div>
+          </div>
+      </section>
+  </main>
+{% endblock %}

@@ -1,0 +1,616 @@
+{% extends 'fondescapp/base.html' %}
+
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/faculty.css' %}">
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/faculty.js' %}"></script>
+{% endblock %}
+
+
+{% block content %}
+
+  <main>
+      <!-- Hero Section -->
+      <section class="page-hero">
+          <div class="container">
+              <div class="breadcrumbs">
+                  <a href="{% url 'home-page' %}">Akèy</a> &gt; 
+                  <a href="{% url 'about-page' %}">Sou Nou</a> &gt; 
+                  <span>Pwofesè yo</span>
+              </div>
+              <h1>Pwofesè ak Anseyan Nou yo</h1>
+              <p class="hero-description">Konnen ekip pwofesè ekspè ki dedye pou ede ou reyisi nan vwayaj akademik ou</p>
+          </div>
+      </section>
+
+      <!-- Introduction Section -->
+      <section class="faculty-intro">
+          <div class="container">
+              <div class="section-header">
+                  <h2>Ekspètiz ak Eksperyans</h2>
+                  <p>Pwofesè nou yo se lidè nan domèn yo, ki pote konesans pratik ak teorik pou ofri ou pi bon edikasyon posib</p>
+              </div>
+              
+              <div class="intro-content">
+                  <div class="intro-text">
+                      <p>Nan FONDESC, nou kwè ke kalite edikasyon an depann anpil de kalite pwofesè yo. Se poutèt sa nou chwazi pwofesyonèl ki gen eksperyans nan domèn yo epi ki gen pasyon pou anseye.</p>
+                      <p>Pwofesè nou yo gen eksperyans nan endistri a, diplòm avanse, ak yon angajman pou ede etidyan yo reyisi. Yo konbine konesans teorik ak eksperyans pratik pou prepare ou pou defi reyèl nan domèn ou.</p>
+                      <p>Yo disponib pou bay sipò pèsonalize, konsèy, ak gidans pandan tout vwayaj akademik ou. Avèk pwofesè nou yo, ou pa sèlman aprann kontni kou a, men ou devlope konpetans kritik pou karyè ou.</p>
+                  </div>
+                  <div class="intro-stats">
+                      <div class="stat-item">
+                          <div class="stat-value">50+</div>
+                          <div class="stat-label">Pwofesè ak Anseyan</div>
+                      </div>
+                      <div class="stat-item">
+                          <div class="stat-value">15+</div>
+                          <div class="stat-label">Ane Eksperyans Mwayèn</div>
+                      </div>
+                      <div class="stat-item">
+                          <div class="stat-value">90%</div>
+                          <div class="stat-label">Ak Diplòm Metriz oswa Doktora</div>
+                      </div>
+                      <div class="stat-item">
+                          <div class="stat-value">100%</div>
+                          <div class="stat-label">Angaje nan Siksè Etidyan</div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </section>
+
+      <!-- Faculty Leadership Section -->
+      <section class="faculty-leadership gray-bg">
+          <div class="container">
+              <div class="section-header">
+                  <h2>Lidèchip Akademik</h2>
+                  <p>Rankontre ekip lidèchip akademik nou an ki gide vizyon edikasyonèl FONDESC</p>
+              </div>
+              
+              <div class="leadership-grid">
+                  <div class="faculty-card">
+                      <div class="faculty-image">
+                          <img src="../images/faculty/director.jpg" alt="Dr. Jean Baptiste">
+                      </div>
+                      <div class="faculty-info">
+                          <h3>Dr. Jean Baptiste</h3>
+                          <div class="faculty-title">Direktè Akademik</div>
+                          <div class="faculty-credentials">
+                              <span class="credential">PhD Edikasyon</span>
+                              <span class="credential">20+ Ane Eksperyans</span>
+                          </div>
+                          <p class="faculty-bio">Dr. Baptiste gen plis pase 20 ane eksperyans nan edikasyon siperyè. Li te travay nan plizyè inivèsite entènasyonal epi li te pibliye plizyè rechèch sou edikasyon a distans. Li dirije vizyon akademik FONDESC depi kreyasyon li.</p>
+                          <div class="faculty-contact">
+                              <a href="mailto:jbaptiste@fondesc.edu.ht" class="faculty-email"><i class="fas fa-envelope"></i> Kontakte</a>
+                          </div>
+                      </div>
+                  </div>
+                  
+                  <div class="faculty-card">
+                      <div class="faculty-image">
+                          <img src="../images/faculty/coordinator.jpg" alt="Prof. Marie Duval">
+                      </div>
+                      <div class="faculty-info">
+                          <h3>Prof. Marie Duval</h3>
+                          <div class="faculty-title">Kowòdinatè Pedagojik</div>
+                          <div class="faculty-credentials">
+                              <span class="credential">MSc Sikoloji Edikasyonèl</span>
+                              <span class="credential">15+ Ane Eksperyans</span>
+                          </div>
+                          <p class="faculty-bio">Prof. Duval sipèvize devlopman kourikoulòm ak metodoloji pedagojik nan FONDESC. Li asire ke tout kou yo respekte pi wo estanda kalite epi yo adapte pou aprantisaj a distans efikas.</p>
+                          <div class="faculty-contact">
+                              <a href="mailto:mduval@fondesc.edu.ht" class="faculty-email"><i class="fas fa-envelope"></i> Kontakte</a>
+                          </div>
+                      </div>
+                  </div>
+                  
+                  <div class="faculty-card">
+                      <div class="faculty-image">
+                          <img src="../images/faculty/tech-director.jpg" alt="Ing. Pierre Louis">
+                      </div>
+                      <div class="faculty-info">
+                          <h3>Ing. Pierre Louis</h3>
+                          <div class="faculty-title">Direktè Teknoloji Edikasyonèl</div>
+                          <div class="faculty-credentials">
+                              <span class="credential">MSc Teknoloji Enfòmasyon</span>
+                              <span class="credential">12+ Ane Eksperyans</span>
+                          </div>
+                          <p class="faculty-bio">Ing. Louis dirije entegrasyon teknoloji nan pwosesis edikasyonèl la. Li asire ke platfòm aprantisaj nou an ofri pi bon eksperyans posib pou etidyan yo ak pwofesè yo.</p>
+                          <div class="faculty-contact">
+                              <a href="mailto:plouis@fondesc.edu.ht" class="faculty-email"><i class="fas fa-envelope"></i> Kontakte</a>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </section>
+
+      <!-- Faculty by Department Section -->
+      <section class="faculty-departments">
+          <div class="container">
+              <div class="section-header">
+                  <h2>Pwofesè pa Depatman</h2>
+                  <p>Dekouvri pwofesè espesyalize nan chak domèn etid</p>
+              </div>
+              
+              <!-- Department Tabs -->
+              <div class="department-tabs">
+                  <button class="tab-button active" data-tab="business">Biznis & Administrasyon</button>
+                  <button class="tab-button" data-tab="technology">Teknoloji & Enfòmatik</button>
+                  <button class="tab-button" data-tab="education">Edikasyon & Pedagoji</button>
+                  <button class="tab-button" data-tab="health">Sante & Byennèt</button>
+              </div>
+              
+              <!-- Department Content -->
+              <div class="department-content">
+                  <!-- Business Department -->
+                  <div class="department-pane active" id="business-pane">
+                      <div class="faculty-grid">
+                          <div class="faculty-card">
+                              <div class="faculty-image">
+                                  <img src="../images/faculty/business-1.jpg" alt="Prof. Robert Jean">
+                              </div>
+                              <div class="faculty-info">
+                                  <h3>Prof. Robert Jean</h3>
+                                  <div class="faculty-title">Pwofesè Jesyon Biznis</div>
+                                  <div class="faculty-credentials">
+                                      <span class="credential">MBA</span>
+                                      <span class="credential">Konsiltasyon Biznis</span>
+                                  </div>
+                                  <p class="faculty-bio">Prof. Jean gen 15 ane eksperyans nan jesyon biznis ak konsiltasyon. Li te travay ak plizyè konpayi entènasyonal epi li pote eksperyans reyèl nan sal klas la.</p>
+                              </div>
+                          </div>
+                          
+                          <div class="faculty-card">
+                              <div class="faculty-image">
+                                  <img src="../images/faculty/business-2.jpg" alt="Dr. Claudine Michel">
+                              </div>
+                              <div class="faculty-info">
+                                  <h3>Dr. Claudine Michel</h3>
+                                  <div class="faculty-title">Pwofesè Maketing</div>
+                                  <div class="faculty-credentials">
+                                      <span class="credential">PhD Maketing</span>
+                                      <span class="credential">Espesyalis Maketing Dijital</span>
+                                  </div>
+                                  <p class="faculty-bio">Dr. Michel espesyalize nan maketing dijital ak estrateji mak. Li te travay ak plizyè mak entènasyonal epi li pote konesans aktyèl sou tandans maketing yo.</p>
+                              </div>
+                          </div>
+                          
+                          <div class="faculty-card">
+                              <div class="faculty-image">
+                                  <img src="../images/faculty/business-3.jpg" alt="Prof. Henri Pascal">
+                              </div>
+                              <div class="faculty-info">
+                                  <h3>Prof. Henri Pascal</h3>
+                                  <div class="faculty-title">Pwofesè Finans</div>
+                                  <div class="faculty-credentials">
+                                      <span class="credential">MSc Finans</span>
+                                      <span class="credential">Analis Finansye Sètifye</span>
+                                  </div>
+                                  <p class="faculty-bio">Prof. Pascal gen eksperyans nan sektè bankè ak finans. Li anseye etidyan yo prensip jesyon finansye ak analiz envestisman.</p>
+                              </div>
+                          </div>
+                          
+                          <div class="faculty-card">
+                              <div class="faculty-image">
+                                  <img src="../images/faculty/business-4.jpg" alt="Prof. Jeanne Morency">
+                              </div>
+                              <div class="faculty-info">
+                                  <h3>Prof. Jeanne Morency</h3>
+                                  <div class="faculty-title">Pwofesè Antreprenarya</div>
+                                  <div class="faculty-credentials">
+                                      <span class="credential">MBA</span>
+                                      <span class="credential">Antreprenè</span>
+                                  </div>
+                                  <p class="faculty-bio">Prof. Morency se yon antreprenè ki te lanse plizyè biznis. Li pataje eksperyans pratik li ak etidyan yo sou kijan pou yo lanse ak devlope biznis yo.</p>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  
+                  <!-- Technology Department -->
+                  <div class="department-pane" id="technology-pane">
+                      <div class="faculty-grid">
+                          <div class="faculty-card">
+                              <div class="faculty-image">
+                                  <img src="../images/faculty/tech-1.jpg" alt="Ing. Marc Antoine">
+                              </div>
+                              <div class="faculty-info">
+                                  <h3>Ing. Marc Antoine</h3>
+                                  <div class="faculty-title">Pwofesè Devlopman Lojisyèl</div>
+                                  <div class="faculty-credentials">
+                                      <span class="credential">MSc Enfòmatik</span>
+                                      <span class="credential">Devlopè Senior</span>
+                                  </div>
+                                  <p class="faculty-bio">Ing. Antoine gen plis pase 10 ane eksperyans nan devlopman lojisyèl. Li te travay sou plizyè pwojè gwo anvègi epi li anseye etidyan yo teknik modèn devlopman.</p>
+                              </div>
+                          </div>
+                          
+                          <div class="faculty-card">
+                              <div class="faculty-image">
+                                  <img src="../images/faculty/tech-2.jpg" alt="Prof. Sophia Bernard">
+                              </div>
+                              <div class="faculty-info">
+                                  <h3>Prof. Sophia Bernard</h3>
+                                  <div class="faculty-title">Pwofesè Baz Done ak Sistèm Enfòmasyon</div>
+                                  <div class="faculty-credentials">
+                                      <span class="credential">MSc Sistèm Enfòmasyon</span>
+                                      <span class="credential">Espesyalis Baz Done</span>
+                                  </div>
+                                  <p class="faculty-bio">Prof. Bernard espesyalize nan konsepsyon ak jesyon baz done. Li anseye etidyan yo kijan pou yo konsevwa ak optimize sistèm enfòmasyon.</p>
+                              </div>
+                          </div>
+                          
+                          <div class="faculty-card">
+                              <div class="faculty-image">
+                                  <img src="../images/faculty/tech-3.jpg" alt="Ing. Paul Etienne">
+                              </div>
+                              <div class="faculty-info">
+                                  <h3>Ing. Paul Etienne</h3>
+                                  <div class="faculty-title">Pwofesè Rezo ak Sekirite</div>
+                                  <div class="faculty-credentials">
+                                      <span class="credential">MSc Sekirite Enfòmatik</span>
+                                      <span class="credential">Sètifikasyon CISSP</span>
+                                  </div>
+                                  <p class="faculty-bio">Ing. Etienne gen eksperyans nan sekirite enfòmatik ak jesyon rezo. Li anseye etidyan yo kijan pou yo pwoteje sistèm enfòmatik kont menas sibènetik.</p>
+                              </div>
+                          </div>
+                          
+                          <div class="faculty-card">
+                              <div class="faculty-image">
+                                  <img src="../images/faculty/tech-4.jpg" alt="Prof. Michelle Toussaint">
+                              </div>
+                              <div class="faculty-info">
+                                  <h3>Prof. Michelle Toussaint</h3>
+                                  <div class="faculty-title">Pwofesè Entèlijans Atifisyèl</div>
+                                  <div class="faculty-credentials">
+                                      <span class="credential">PhD Enfòmatik</span>
+                                      <span class="credential">Espesyalis IA</span>
+                                  </div>
+                                  <p class="faculty-bio">Prof. Toussaint espesyalize nan entèlijans atifisyèl ak aprantisaj machin. Li anseye etidyan yo kijan pou yo devlope solisyon inovatif ak teknoloji IA.</p>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  
+                  <!-- Education Department -->
+                  <div class="department-pane" id="education-pane">
+                      <div class="faculty-grid">
+                          <div class="faculty-card">
+                              <div class="faculty-image">
+                                  <img src="../images/faculty/edu-1.jpg" alt="Dr. Louise Mercier">
+                              </div>
+                              <div class="faculty-info">
+                                  <h3>Dr. Louise Mercier</h3>
+                                  <div class="faculty-title">Pwofesè Pedagoji</div>
+                                  <div class="faculty-credentials">
+                                      <span class="credential">PhD Syans Edikasyon</span>
+                                      <span class="credential">Espesyalis Kourikoulòm</span>
+                                  </div>
+                                  <p class="faculty-bio">Dr. Mercier espesyalize nan devlopman kourikoulòm ak metòd ansèyman. Li anseye etidyan yo kijan pou yo kreye anviwònman aprantisaj efikas.</p>
+                              </div>
+                          </div>
+                          
+                          <div class="faculty-card">
+                              <div class="faculty-image">
+                                  <img src="../images/faculty/edu-2.jpg" alt="Prof. Jacques Martin">
+                              </div>
+                              <div class="faculty-info">
+                                  <h3>Prof. Jacques Martin</h3>
+                                  <div class="faculty-title">Pwofesè Sikoloji Edikasyonèl</div>
+                                  <div class="faculty-credentials">
+                                      <span class="credential">MSc Sikoloji</span>
+                                      <span class="credential">Konseye Edikasyonèl</span>
+                                  </div>
+                                  <p class="faculty-bio">Prof. Martin espesyalize nan sikoloji edikasyonèl ak devlopman timoun. Li anseye etidyan yo kijan pou yo konprann ak adrese bezwen aprantisaj divès.</p>
+                              </div>
+                          </div>
+                          
+                          <div class="faculty-card">
+                              <div class="faculty-image">
+                                  <img src="../images/faculty/edu-3.jpg" alt="Prof. Anne Marie Joseph">
+                              </div>
+                              <div class="faculty-info">
+                                  <h3>Prof. Anne Marie Joseph</h3>
+                                  <div class="faculty-title">Pwofesè Jesyon Lekòl</div>
+                                  <div class="faculty-credentials">
+                                      <span class="credential">MSc Administrasyon Edikasyon</span>
+                                      <span class="credential">Ansyen Direktris Lekòl</span>
+                                  </div>
+                                  <p class="faculty-bio">Prof. Joseph gen eksperyans nan administrasyon lekòl. Li anseye etidyan yo prensip lidèchip ak jesyon nan kontèks edikasyonèl.</p>
+                              </div>
+                          </div>
+                          
+                          <div class="faculty-card">
+                              <div class="faculty-image">
+                                  <img src="../images/faculty/edu-4.jpg" alt="Dr. Philippe Noel">
+                              </div>
+                              <div class="faculty-info">
+                                  <h3>Dr. Philippe Noel</h3>
+                                  <div class="faculty-title">Pwofesè Edikasyon Enklizif</div>
+                                  <div class="faculty-credentials">
+                                      <span class="credential">PhD Edikasyon Espesyal</span>
+                                      <span class="credential">Espesyalis Enklizyon</span>
+                                  </div>
+                                  <p class="faculty-bio">Dr. Noel espesyalize nan edikasyon enklizif ak sipò pou elèv ki gen bezwen espesyal. Li anseye etidyan yo kijan pou yo kreye anviwònman aprantisaj ki aksesib pou tout elèv.</p>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  
+                  <!-- Health Department -->
+                  <div class="department-pane" id="health-pane">
+                      <div class="faculty-grid">
+                          <div class="faculty-card">
+                              <div class="faculty-image">
+                                  <img src="../images/faculty/health-1.jpg" alt="Dr. Marie Claire Dupont">
+                              </div>
+                              <div class="faculty-info">
+                                  <h3>Dr. Marie Claire Dupont</h3>
+                                  <div class="faculty-title">Pwofesè Syans Enfimyè</div>
+                                  <div class="faculty-credentials">
+                                      <span class="credential">PhD Syans Enfimyè</span>
+                                      <span class="credential">Enfimyè Sètifye</span>
+                                  </div>
+                                  <p class="faculty-bio">Dr. Dupont gen eksperyans klinik ak akademik nan domèn enfimyè. Li anseye etidyan yo prensip swen pasyan ak pratik medikal.</p>
+                              </div>
+                          </div>
+                          
+                          <div class="faculty-card">
+                              <div class="faculty-image">
+                                  <img src="../images/faculty/health-2.jpg" alt="Prof. Jean Marc Pierre">
+                              </div>
+                              <div class="faculty-info">
+                                  <h3>Prof. Jean Marc Pierre</h3>
+                                  <div class="faculty-title">Pwofesè Nitrisyon</div>
+                                  <div class="faculty-credentials">
+                                      <span class="credential">MSc Nitrisyon</span>
+                                      <span class="credential">Dyetetisyen Sètifye</span>
+                                  </div>
+                                  <p class="faculty-bio">Prof. Pierre espesyalize nan nitrisyon ak byennèt. Li anseye etidyan yo prensip nitrisyon ak kijan pou yo ankouraje abitid alimantè ki an sante.</p>
+                              </div>
+                          </div>
+                          
+                          <div class="faculty-card">
+                              <div class="faculty-image">
+                                  <img src="../images/faculty/health-3.jpg" alt="Dr. Stephanie Laguerre">
+                              </div>
+                              <div class="faculty-info">
+                                  <h3>Dr. Stephanie Laguerre</h3>
+                                  <div class="faculty-title">Pwofesè Sante Piblik</div>
+                                  <div class="faculty-credentials">
+                                      <span class="credential">PhD Sante Piblik</span>
+                                      <span class="credential">Espesyalis Epidemyoloji</span>
+                                  </div>
+                                  <p class="faculty-bio">Dr. Laguerre espesyalize nan sante piblik ak epidemyoloji. Li anseye etidyan yo k  Laguerre espesyalize nan sante piblik ak epidemyoloji. Li anseye etidyan yo kijan pou yo devlope ak enplemante pwogram sante piblik efikas.</p>
+                              </div>
+                          </div>
+                          
+                          <div class="faculty-card">
+                              <div class="faculty-image">
+                                  <img src="../images/faculty/health-4.jpg" alt="Prof. Michel Romain">
+                              </div>
+                              <div class="faculty-info">
+                                  <h3>Prof. Michel Romain</h3>
+                                  <div class="faculty-title">Pwofesè Jesyon Sèvis Sante</div>
+                                  <div class="faculty-credentials">
+                                      <span class="credential">MBA Jesyon Sante</span>
+                                      <span class="credential">Administratè Lopital</span>
+                                  </div>
+                                  <p class="faculty-bio">Prof. Romain gen eksperyans nan administrasyon sèvis sante. Li anseye etidyan yo prensip jesyon ak lidèchip nan kontèks swen sante.</p>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </section>
+
+      <!-- Teaching Approach Section -->
+      <section class="teaching-approach gray-bg">
+          <div class="container">
+              <div class="section-header">
+                  <h2>Apwòch Pedagojik Nou</h2>
+                  <p>Dekouvri metodoloji ansèyman inovatif ki fè FONDESC diferan</p>
+              </div>
+              
+              <div class="approach-grid">
+                  <div class="approach-card">
+                      <div class="approach-icon">
+                          <i class="fas fa-users"></i>
+                      </div>
+                      <h3>Aprantisaj Santre sou Etidyan</h3>
+                      <p>Pwofesè nou yo mete etidyan yo nan sant eksperyans aprantisaj la. Yo adapte ansèyman yo pou satisfè bezwen ak objektif chak etidyan.</p>
+                  </div>
+                  
+                  <div class="approach-card">
+                      <div class="approach-icon">
+                          <i class="fas fa-hands-helping"></i>
+                      </div>
+                      <h3>Sipò Pèsonalize</h3>
+                      <p>Pwofesè nou yo ofri sipò pèsonalize atravè sesyon konsiltasyon, fidbak detaye, ak gidans akademik pou ede etidyan yo reyisi.</p>
+                  </div>
+                  
+                  <div class="approach-card">
+                      <div class="approach-icon">
+                          <i class="fas fa-laptop"></i>
+                      </div>
+                      <h3>Teknoloji Entegre</h3>
+                      <p>Nou entegre teknoloji modèn nan ansèyman nou pou kreye yon eksperyans aprantisaj angajan ak entèraktif, menm a distans.</p>
+                  </div>
+                  
+                  <div class="approach-card">
+                      <div class="approach-icon">
+                          <i class="fas fa-briefcase"></i>
+                      </div>
+                      <h3>Aprantisaj Pratik</h3>
+                      <p>Pwofesè nou yo mete aksan sou aplikasyon pratik konesans atravè etid ka, pwojè, ak egzèsis ki baze sou sitiyasyon reyèl.</p>
+                  </div>
+                  
+                  <div class="approach-card">
+                      <div class="approach-icon">
+                          <i class="fas fa-comments"></i>
+                      </div>
+                      <h3>Kominikasyon Ouvè</h3>
+                      <p>Nou ankouraje kominikasyon ouvè ant pwofesè ak etidyan pou kreye yon anviwònman aprantisaj kolaboratif ak sipòtif.</p>
+                  </div>
+                  
+                  <div class="approach-card">
+                      <div class="approach-icon">
+                          <i class="fas fa-chart-line"></i>
+                      </div>
+                      <h3>Evalyasyon Kontinyèl</h3>
+                      <p>Pwofesè nou yo itilize divès metòd evalyasyon pou mezire pwogrè etidyan yo epi ajiste ansèyman yo pou maksimize aprantisaj.</p>
+                  </div>
+              </div>
+          </div>
+      </section>
+
+      <!-- Faculty Development Section -->
+      <section class="faculty-development">
+          <div class="container">
+              <div class="section-header">
+                  <h2>Devlopman Pwofesyonèl Kontinyèl</h2>
+                  <p>Pwofesè nou yo toujou ap aprann ak amelyore konpetans yo pou ofri pi bon edikasyon</p>
+              </div>
+              
+              <div class="development-content">
+                  <div class="development-image">
+                      <img src="../images/faculty/development.jpg" alt="Devlopman Pwofesyonèl">
+                  </div>
+                  <div class="development-text">
+                      <p>Nan FONDESC, nou kwè nan aprantisaj kontinyèl, non sèlman pou etidyan nou yo men tou pou pwofesè nou yo. Nou envesti nan devlopman pwofesyonèl pwofesè nou yo pou asire ke yo rete ajou ak dènye tandans, teknoloji, ak metòd pedagojik.</p>
+                      <h3>Pwogram Devlopman Pwofesyonèl Nou yo:</h3>
+                      <ul class="development-list">
+                          <li><i class="fas fa-check"></i> Fòmasyon regilye sou teknoloji edikasyonèl ak platfòm aprantisaj a distans</li>
+                          <li><i class="fas fa-check"></i> Atelye sou metòd pedagojik inovatif ak estrateji angajman etidyan</li>
+                          <li><i class="fas fa-check"></i> Opòtinite rechèch ak piblikasyon nan domèn espesyalite yo</li>
+                          <li><i class="fas fa-check"></i> Patisipasyon nan konferans ak seminè nasyonal ak entènasyonal</li>
+                          <li><i class="fas fa-check"></i> Kolaborasyon ak lòt enstitisyon edikasyonèl ak endistri yo</li>
+                          <li><i class="fas fa-check"></i> Pwogram mentora ak echanj konesans ant pwofesè yo</li>
+                      </ul>
+                      <p>Angajman nou pou devlopman pwofesyonèl pwofesè yo asire ke etidyan nou yo resevwa edikasyon ki pi ajou ak pi efikas posib, ki prepare yo pou defi aktyèl ak fiti nan domèn yo.</p>
+                  </div>
+              </div>
+          </div>
+      </section>
+
+      <!-- Testimonials Section -->
+      <section class="faculty-testimonials gray-bg">
+          <div class="container">
+              <div class="section-header">
+                  <h2>Sa Etidyan yo Di sou Pwofesè Nou yo</h2>
+                  <p>Tande eksperyans etidyan nou yo ak pwofesè eksepsyonèl nou yo</p>
+              </div>
+              
+              <div class="testimonials-slider">
+                  <div class="testimonial-slide active">
+                      <div class="testimonial-content">
+                          <div class="testimonial-quote">
+                              <i class="fas fa-quote-left"></i>
+                              <p>"Prof. Jean te yon pwofesè eksepsyonèl ki te vrèman pran tan pou asire ke mwen te konprann konsèp yo. Malgre distans la, li te toujou disponib pou reponn kesyon mwen yo epi bay gidans. Apwòch li te fè kou Jesyon Biznis la vin vivant ak pratik."</p>
+                          </div>
+                          <div class="testimonial-author">
+                              <div class="author-image">
+                                  <img src="../images/testimonials/student1.jpg" alt="Marie Joseph">
+                              </div>
+                              <div class="author-info">
+                                  <h4>Marie Joseph</h4>
+                                  <p>Etidyan Administrasyon Biznis</p>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  
+                  <div class="testimonial-slide">
+                      <div class="testimonial-content">
+                          <div class="testimonial-quote">
+                              <i class="fas fa-quote-left"></i>
+                              <p>"Ing. Antoine pa sèlman anseye nou kòd, men li montre nou kijan pou nou panse tankou vrè devlopè. Fidbak detaye li ak egzanp pratik yo te ede m devlope konpetans ki te pèmèt mwen jwenn yon travay nan yon konpayi teknoloji prestijye."</p>
+                          </div>
+                          <div class="testimonial-author">
+                              <div class="author-image">
+                                  <img src="../images/testimonials/student2.jpg" alt="Jean Pierre">
+                              </div>
+                              <div class="author-info">
+                                  <h4>Jean Pierre</h4>
+                                  <p>Etidyan Devlopman Lojisyèl</p>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  
+                  <div class="testimonial-slide">
+                      <div class="testimonial-content">
+                          <div class="testimonial-quote">
+                              <i class="fas fa-quote-left"></i>
+                              <p>"Dr. Mercier te enspire m pou m vin yon pi bon edikatè. Pasyon li pou pedagoji ak angajman li pou siksè etidyan yo te kontajye. Metòd ansèyman li yo te angajan epi li te toujou pote egzanp reyèl nan diskisyon nou yo."</p>
+                          </div>
+                          <div class="testimonial-author">
+                              <div class="author-image">
+                                  <img src="../images/testimonials/student3.jpg" alt="Anne Louis">
+                              </div>
+                              <div class="author-info">
+                                  <h4>Anne Louis</h4>
+                                  <p>Etidyan Pedagoji</p>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  
+                  <div class="testimonial-controls">
+                      <button class="testimonial-prev"><i class="fas fa-chevron-left"></i></button>
+                      <div class="testimonial-dots">
+                          <span class="dot active"></span>
+                          <span class="dot"></span>
+                          <span class="dot"></span>
+                      </div>
+                      <button class="testimonial-next"><i class="fas fa-chevron-right"></i></button>
+                  </div>
+              </div>
+          </div>
+      </section>
+
+      <!-- Join Our Team Section -->
+      <section class="join-team">
+          <div class="container">
+              <div class="join-content">
+                  <div class="join-text">
+                      <h2>Vin Fè Pati Ekip Pwofesè Nou an</h2>
+                      <p>Nou toujou ap chèche pwofesyonèl pasyone ki vle pataje konesans yo ak fòme pwochen jenerasyon lidè yo. Si ou gen ekspètiz nan domèn ou epi ou gen pasyon pou ansèyman, nou ta renmen tande ou.</p>
+                      <h3>Avantaj Travay ak FONDESC:</h3>
+                      <ul class="benefits-list">
+                          <li><i class="fas fa-check"></i> Fleksibilite orè ak opòtinite ansèyman a distans</li>
+                          <li><i class="fas fa-check"></i> Devlopman pwofesyonèl kontinyèl</li>
+                          <li><i class="fas fa-check"></i> Kolaborasyon ak pwofesyonèl ki gen menm lide</li>
+                          <li><i class="fas fa-check"></i> Opòtinite rechèch ak piblikasyon</li>
+                          <li><i class="fas fa-check"></i> Konpansasyon konpetitif</li>
+                          <li><i class="fas fa-check"></i> Enpak pozitif sou lavi etidyan yo</li>
+                      </ul>
+                      <a href="{% url 'work-with-us-page' %}" class="button button-primary">Eksplore Opòtinite Karyè</a>
+                  </div>
+                  <div class="join-image">
+                      <img src="../images/faculty/join-team.jpg" alt="Vin Fè Pati Ekip Nou an">
+                  </div>
+              </div>
+          </div>
+      </section>
+
+      <!-- CTA Section -->
+      <section class="cta">
+          <div class="container text-center">
+              <h2>Aprann ak Pi Bon Pwofesè yo</h2>
+              <p>Enskri jodi a epi kòmanse vwayaj akademik ou ak pwofesè ekspè nou yo</p>
+              <div class="cta-buttons">
+                  <a href="../enskri.html" class="button button-primary">Enskri</a>
+                  <a href="../kontak.html" class="button button-outline light">Pale ak yon konseye</a>
+              </div>
+          </div>
+      </section>
+  </main>
+
+{% endblock %}

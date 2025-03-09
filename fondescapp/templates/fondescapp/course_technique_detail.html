@@ -1,0 +1,1235 @@
+{% extends 'fondescapp/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/course_technique_detail.css' %}">
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'js/course_detail.js' %}"></script>
+    <!-- <script src="{% static 'js/course_technique_detail.js' %}"></script> -->
+{% endblock %}
+
+{% block content %}
+
+
+<main>
+    <!-- Hero Section -->
+    <section class="course-hero">
+        <div class="container">
+            <div class="breadcrumbs">
+                <a href="../index.html">Akèy</a> &gt; 
+                <a href="../kou.html">Kou yo</a> &gt; 
+                <a href="../kou/teknik.html">Teknik</a> &gt; 
+                <span>Teknik nan Enfòmatik</span>
+            </div>
+            
+            <div class="course-hero-content">
+                <div class="course-hero-text">
+                    <span class="course-badge">Teknik</span>
+                    <h1>Teknik nan Enfòmatik</h1>
+                    <p class="course-description">
+                        Devlope konpetans teknik nan domèn enfòmatik pou w ka travay nan sektè teknoloji a. Aprann pwogramasyon, antretyen òdinatè, rezo, ak sekirite enfòmatik.
+                    </p>
+                    
+                    <div class="course-highlights">
+                        <div class="highlight-item">
+                            <i class="fas fa-clock"></i>
+                            <div class="highlight-text">
+                                <span>Dire</span>
+                                <strong>1.5 ane</strong>
+                            </div>
+                        </div>
+                        <div class="highlight-item">
+                            <i class="fas fa-book"></i>
+                            <div class="highlight-text">
+                                <span>Modil</span>
+                                <strong>6 modil</strong>
+                            </div>
+                        </div>
+                        <div class="highlight-item">
+                            <i class="fas fa-graduation-cap"></i>
+                            <div class="highlight-text">
+                                <span>Nivo</span>
+                                <strong>Teknik</strong>
+                            </div>
+                        </div>
+                        <div class="highlight-item">
+                            <i class="fas fa-laptop-code"></i>
+                            <div class="highlight-text">
+                                <span>Fòma</span>
+                                <strong>A distans</strong>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="course-actions">
+                        <a href="#enrollment" class="button button-primary">Enskri Kounye a</a>
+                        <a href="#curriculum" class="button button-outline">Wè Pwogram Etid la</a>
+                    </div>
+                </div>
+                
+                <div class="course-hero-image">
+                    <img src="../images/course-informatics.jpg" alt="Teknik nan Enfòmatik" onerror="this.src='../images/placeholder.jpg'">
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Course Navigation -->
+    <section class="course-navigation">
+        <div class="container">
+            <nav class="course-nav">
+                <a href="#overview" class="course-nav-item active">Apèsi</a>
+                <a href="#curriculum" class="course-nav-item">Pwogram Etid</a>
+                <a href="#admission" class="course-nav-item">Admisyon</a>
+                <a href="#faculty" class="course-nav-item">Pwofesè yo</a>
+                <a href="#testimonials" class="course-nav-item">Temwayaj</a>
+                <a href="#career" class="course-nav-item">Karyè</a>
+                <a href="#investment" class="course-nav-item">Envestisman</a>
+                <a href="#enrollment" class="course-nav-item">Enskripsyon</a>
+                <a href="#faq" class="course-nav-item">FAQ</a>
+            </nav>
+        </div>
+    </section>
+    
+    <!-- Overview Section -->
+    <section id="overview" class="course-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Apèsi Kou a</h2>
+                <p>Dekouvri sa ou pral aprann nan kou Teknik nan Enfòmatik la</p>
+            </div>
+            
+            <div class="overview-content">
+                <div class="overview-text">
+                    <p>
+                        Kou Teknik nan Enfòmatik la prepare w pou travay nan domèn teknoloji enfòmasyon ki an plèn ekspansyon. Ou pral aprann konpetans pratik ak konesans teyorik ki nesesè pou w ka travay kòm teknisyen enfòmatik, administratè rezo, devlopè, oswa espesyalis sipò teknik.
+                    </p>
+                    
+                    <p>
+                        Pwogram nan konsantre sou aspè pratik teknoloji enfòmasyon, ki gen ladan antretyen materyèl, enstalasyon lojisyèl, konfigirasyon rezo, pwogramasyon debaz, ak sekirite enfòmatik. Ou pral gen aksè a laboratwa vityèl kote ou ka pratike konpetans ou yo nan yon anviwònman reyèl.
+                    </p>
+                    
+                    <h3>Objektif Aprantisaj</h3>
+                    <ul class="objectives-list">
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>Konprann prensip fondamantal enfòmatik ak teknoloji enfòmasyon</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>Aprann dyagnostike ak rezoud pwoblèm materyèl ak lojisyèl</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>Devlope konpetans nan enstalasyon, konfigirasyon ak antretyen sistèm enfòmatik</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>Aprann baz pwogramasyon ak devlopman aplikasyon</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>Konprann prensip rezo enfòmatik ak sekirite done</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>Devlope konpetans pou bay sipò teknik ak sèvis kliyantèl</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="overview-features">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-laptop"></i>
+                        </div>
+                        <h3>Laboratwa Vityèl</h3>
+                        <p>Pratike konpetans ou yo nan anviwònman vityèl ki simile kondisyon reyèl travay</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-project-diagram"></i>
+                        </div>
+                        <h3>Pwojè Pratik</h3>
+                        <p>Travay sou pwojè reyèl ki pral ede w bati yon pòtfolyo pwofesyonèl</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-certificate"></i>
+                        </div>
+                        <h3>Sètifikasyon Endistri</h3>
+                        <p>Prepare pou egzamen sètifikasyon rekonèt nan endistri a</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3>Staj Pwofesyonèl</h3>
+                        <p>Opòtinite pou fè staj nan konpayi patnè nou yo</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Curriculum Section -->
+    <section id="curriculum" class="course-section gray-bg">
+        <div class="container">
+            <div class="section-header">
+                <h2>Pwogram Etid</h2>
+                <p>Dekouvri sa ou pral aprann nan chak modil kou a</p>
+            </div>
+            
+            <div class="curriculum-content">
+                <div>
+                    <div class="curriculum-details">
+                        <div class="detail-item">
+                            <i class="fas fa-clock"></i>
+                            <div class="detail-text">
+                                <span>Dire Total</span>
+                                <strong>1.5 ane (18 mwa)</strong>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-calendar-alt"></i>
+                            <div class="detail-text">
+                                <span>Orè</span>
+                                <strong>Fleksib</strong>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-graduation-cap"></i>
+                            <div class="detail-text">
+                                <span>Kredi</span>
+                                <strong>60 kredi</strong>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <p class="curriculum-description">
+                        Pwogram etid la divize an 6 modil, chak modil dire 3 mwa. Ou pral aprann depi nan baz enfòmatik rive nan teknik avanse. Chak modil gen yon evalyasyon final ak pwojè pratik.
+                    </p>
+                </div>
+                
+                <div class="module-accordion">
+                    <div class="module-item">
+                        <div class="module-header">
+                            <h3>Modil 1: Entwodiksyon nan Enfòmatik</h3>
+                            <div class="module-meta">
+                                <span>3 mwa</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </div>
+                        <div class="module-content">
+                            <p>Modil sa a prezante konsèp fondamantal enfòmatik ak teknoloji enfòmasyon. Ou pral aprann konpozan debaz yon òdinatè, sistèm operasyon, ak lojisyèl biwo.</p>
+                            
+                            <ul class="module-topics">
+                                <li><i class="fas fa-circle"></i> Entwodiksyon nan materyèl enfòmatik</li>
+                                <li><i class="fas fa-circle"></i> Sistèm operasyon (Windows, Linux, macOS)</li>
+                                <li><i class="fas fa-circle"></i> Lojisyèl biwo (Word, Excel, PowerPoint)</li>
+                                <li><i class="fas fa-circle"></i> Entènèt ak navigasyon web</li>
+                                <li><i class="fas fa-circle"></i> Sekirite enfòmatik debaz</li>
+                            </ul>
+                            
+                            <div class="module-assessment">
+                                <h4>Evalyasyon:</h4>
+                                <p>Egzamen ekri, egzamen pratik, ak pwojè pou kreye yon dokiman konplè ki itilize lojisyèl biwo.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="module-item">
+                        <div class="module-header">
+                            <h3>Modil 2: Antretyen Materyèl Enfòmatik</h3>
+                            <div class="module-meta">
+                                <span>3 mwa</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </div>
+                        <div class="module-content">
+                            <p>Modil sa a konsantre sou antretyen ak reparasyon materyèl enfòmatik. Ou pral aprann kijan pou dyagnostike ak rezoud pwoblèm materyèl, ranplase konpozan, ak fè antretyen prevantif.</p>
+                            
+                            <ul class="module-topics">
+                                <li><i class="fas fa-circle"></i> Konpozan entèn òdinatè (CPU, RAM, disk di, etc.)</li>
+                                <li><i class="fas fa-circle"></i> Dyagnostik materyèl ak depanaj</li>
+                                <li><i class="fas fa-circle"></i> Enstalasyon ak konfigirasyon materyèl</li>
+                                <li><i class="fas fa-circle"></i> Antretyen prevantif</li>
+                                <li><i class="fas fa-circle"></i> Reparasyon òdinatè ak periferal</li>
+                            </ul>
+                            
+                            <div class="module-assessment">
+                                <h4>Evalyasyon:</h4>
+                                <p>Egzamen pratik kote ou pral dyagnostike ak rezoud pwoblèm materyèl, ak yon pwojè pou monte yon òdinatè depi nan konpozan debaz.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="module-item">
+                        <div class="module-header">
+                            <h3>Modil 3: Sistèm Operasyon ak Lojisyèl</h3>
+                            <div class="module-meta">
+                                <span>3 mwa</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </div>
+                        <div class="module-content">
+                            <p>Modil sa a kouvri enstalasyon, konfigirasyon, ak antretyen sistèm operasyon ak lojisyèl. Ou pral aprann kijan pou jere sistèm operasyon, enstalasyon lojisyèl, ak rezoud pwoblèm lojisyèl.</p>
+                            
+                            <ul class="module-topics">
+                                <li><i class="fas fa-circle"></i> Enstalasyon ak konfigirasyon Windows</li>
+                                <li><i class="fas fa-circle"></i> Enstalasyon ak konfigirasyon Linux</li>
+                                <li><i class="fas fa-circle"></i> Jesyon itilizatè ak sekirite</li>
+                                <li><i class="fas fa-circle"></i> Enstalasyon ak depanaj lojisyèl</li>
+                                <li><i class="fas fa-circle"></i> Mizajou ak patch sekirite</li>
+                            </ul>
+                            
+                            <div class="module-assessment">
+                                <h4>Evalyasyon:</h4>
+                                <p>Egzamen pratik pou enstalasyon ak konfigirasyon sistèm operasyon, ak yon pwojè pou konfigire yon anviwònman travay sekirize.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="module-item">
+                        <div class="module-header">
+                            <h3>Modil 4: Rezo Enfòmatik</h3>
+                            <div class="module-meta">
+                                <span>3 mwa</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </div>
+                        <div class="module-content">
+                            <p>Modil sa a prezante prensip fondamantal rezo enfòmatik. Ou pral aprann kijan pou konfigire, jere, ak sekirize rezo lokal ak koneksyon entènèt.</p>
+                            
+                            <ul class="module-topics">
+                                <li><i class="fas fa-circle"></i> Prensip fondamantal rezo (TCP/IP, modèl OSI)</li>
+                                <li><i class="fas fa-circle"></i> Konfigirasyon rezo lokal (LAN)</li>
+                                <li><i class="fas fa-circle"></i> Konfigirasyon routeur ak switch</li>
+                                <li><i class="fas fa-circle"></i> Wi-Fi ak rezo san fil</li>
+                                <li><i class="fas fa-circle"></i> Depanaj rezo</li>
+                            </ul>
+                            
+                            <div class="module-assessment">
+                                <h4>Evalyasyon:</h4>
+                                <p>Egzamen pratik pou konfigire yon rezo lokal, ak yon pwojè pou mete an plas yon rezo pou yon ti biznis.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="module-item">
+                        <div class="module-header">
+                            <h3>Modil 5: Pwogramasyon Debaz</h3>
+                            <div class="module-meta">
+                                <span>3 mwa</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </div>
+                        <div class="module-content">
+                            <p>Modil sa a entrodui konsèp fondamantal pwogramasyon. Ou pral aprann baz pwogramasyon ak devlopman aplikasyon senp.</p>
+                            
+                            <ul class="module-topics">
+                                <li><i class="fas fa-circle"></i> Entwodiksyon nan algorit</li>
+                                <li><i class="fas fa-circle"></i> Pwogramasyon an Python</li>
+                                <li><i class="fas fa-circle"></i> Devlopman aplikasyon debaz</li>
+                                <li><i class="fas fa-circle"></i> Baz done debaz</li>
+                                <li><i class="fas fa-circle"></i> Entwodiksyon nan devlopman web</li>
+                            </ul>
+                            
+                            <div class="module-assessment">
+                                <h4>Evalyasyon:</h4>
+                                <p>Egzamen pratik pou ekri kòd, ak yon pwojè pou devlope yon aplikasyon senp ki rezoud yon pwoblèm reyèl.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="module-item">
+                        <div class="module-header">
+                            <h3>Modil 6: Sekirite Enfòmatik ak Pwojè Final</h3>
+                            <div class="module-meta">
+                                <span>3 mwa</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </div>
+                        <div class="module-content">
+                            <p>Modil final la konsantre sou sekirite enfòmatik ak yon pwojè entegratif. Ou pral aprann prensip sekirite enfòmatik epi aplike tout sa ou te aprann nan yon pwojè final.</p>
+                            
+                            <ul class="module-topics">
+                                <li><i class="fas fa-circle"></i> Prensip sekirite enfòmatik</li>
+                                <li><i class="fas fa-circle"></i> Pwoteksyon kont malware ak virus</li>
+                                <li><i class="fas fa-circle"></i> Sekirite rezo</li>
+                                <li><i class="fas fa-circle"></i> Kriptografi ak otantifikasyon</li>
+                                <li><i class="fas fa-circle"></i> Pwojè final entegratif</li>
+                            </ul>
+                            
+                            <div class="module-assessment">
+                                <h4>Evalyasyon:</h4>
+                                <p>Egzamen final ki kouvri tout aspè kou a, ak yon pwojè final kote ou pral mete an plas yon solisyon enfòmatik konplè pou yon biznis.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Admission Section -->
+    <section id="admission" class="course-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Kondisyon Admisyon</h2>
+                <p>Enfòmasyon sou kondisyon ak pwosesis admisyon</p>
+            </div>
+            
+            <div class="admission-content">
+                <div>
+                    <h3>Kondisyon Debaz</h3>
+                    <ul class="requirements-list">
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>Diplòm lekòl segondè oswa ekivalan (Bakaloreya)</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>Konesans debaz nan enfòmatik (pa obligatwa men rekòmande)</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>Aksè a yon òdinatè ak koneksyon entènèt</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>Kapasite pou dedye omwen 15-20 èdtan pa semèn pou etid</span>
+                        </li>
+                    </ul>
+                    
+                    <h3>Dokiman Obligatwa</h3>
+                    <ul class="requirements-list">
+                        <li>
+                            <i class="fas fa-file-alt"></i>
+                            <span>Fòmilè aplikasyon ranpli</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-file-alt"></i>
+                            <span>Kopi diplòm lekòl segondè oswa ekivalan</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-file-alt"></i>
+                            <span>Kopi pyès idantite (Kat Nasyonal oswa Paspò)</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-file-alt"></i>
+                            <span>De (2) foto paspò resan</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-file-alt"></i>
+                            <span>Frè aplikasyon (non-ranbousab)</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3>Pwosesis Admisyon</h3>
+                    <div class="process-steps">
+                        <div class="process-step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <h4>Aplikasyon Anliy</h4>
+                                <p>Ranpli fòmilè aplikasyon an sou sit entènèt nou an epi peye frè aplikasyon an.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="process-step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <h4>Soumèt Dokiman</h4>
+                                <p>Telechaje tout dokiman obligatwa yo nan pòtay aplikasyon an oswa voye yo pa imèl.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="process-step">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <h4>Evalyasyon</h4>
+                                <p>Ekip admisyon an pral revize aplikasyon ou a ak dokiman yo.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="process-step">
+                            <div class="step-number">4</div>
+                            <div class="step-content">
+                                <h4>Entèvyou (si nesesè)</h4>
+                                <p>Kèk kandida ka envite pou yon entèvyou vityèl pou diskite sou objektif yo.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="process-step">
+                            <div class="step-number">5</div>
+                            <div class="step-content">
+                                <h4>Desizyon Admisyon</h4>
+                                <p>Ou pral resevwa yon repons nan yon delè de 2 semèn apre aplikasyon konplè a.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="admission-note">
+                        <i class="fas fa-info-circle"></i>
+                        <p>
+                            <strong>Nòt Enpòtan:</strong> Admisyon yo fèt sou baz kontinyèl. Nou ankouraje w aplike bonè paske plas yo limite. Si ou pa satisfè tout kondisyon yo, ou ka toujou aplike epi nou pral evalye aplikasyon ou sou yon baz endividyèl.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Faculty Section -->
+    <section id="faculty" class="course-section gray-bg">
+        <div class="container">
+            <div class="section-header">
+                <h2>Pwofesè yo</h2>
+                <p>Konnen ekip pwofesè ki pral gide ou nan vwayaj aprantisaj ou</p>
+            </div>
+            
+            <div class="faculty-grid">
+                <div class="faculty-card">
+                    <div class="faculty-image">
+                        <img src="../images/professor-1.jpg" alt="Prof. Jean Robert" onerror="this.src='../images/placeholder-person.jpg'">
+                    </div>
+                    <div class="faculty-info">
+                        <h3>Prof. Jean Robert</h3>
+                        <div class="faculty-title">Koòdonatè Pwogram nan</div>
+                        <p class="faculty-bio">
+                            Prof. Robert gen plis pase 15 ane eksperyans nan domèn enfòmatik. Li te travay kòm enjenyè sistèm nan plizyè konpayi entènasyonal anvan li te vin anseye. Li espesyalize nan sistèm operasyon ak sekirite enfòmatik.
+                        </p>
+                        <div class="faculty-credentials">
+                            <span class="credential">MSc Enfòmatik</span>
+                            <span class="credential">Sètifye CISCO</span>
+                            <span class="credential">Sètifye Microsoft</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="faculty-card">
+                    <div class="faculty-image">
+                        <img src="../images/professor-2.jpg" alt="Prof. Marie Claire" onerror="this.src='../images/placeholder-person.jpg'">
+                    </div>
+                    <div class="faculty-info">
+                        <h3>Prof. Marie Claire</h3>
+                        <div class="faculty-title">Pwofesè Pwogramasyon</div>
+                        <p class="faculty-bio">
+                            Prof. Claire se yon devlopè lojisyèl ki gen anpil eksperyans ki te travay nan plizyè startup teknoloji. Li espesyalize nan devlopman aplikasyon ak pwogramasyon Python. Li pasyone pou ede elèv yo devlope konpetans pratik.
+                        </p>
+                        <div class="faculty-credentials">
+                            <span class="credential">BSc Enfòmatik</span>
+                            <span class="credential">Sètifye Python</span>
+                            <span class="credential">Devlopè Full-Stack</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="faculty-card">
+                    <div class="faculty-image">
+                        <img src="../images/professor-3.jpg" alt="Prof. Pierre Louis" onerror="this.src='../images/placeholder-person.jpg'">
+                    </div>
+                    <div class="faculty-info">
+                        <h3>Prof. Pierre Louis</h3>
+                        <div class="faculty-title">Pwofesè Rezo Enfòmatik</div>
+                        <p class="faculty-bio">
+                            Prof. Louis gen plis pase 10 ane eksperyans kòm administratè rezo. Li te travay pou plizyè konpayi telekominikasyon epi li espesyalize nan konfigirasyon ak sekirite rezo. Li renmen pataje eksperyans pratik li ak elèv yo.
+                        </p>
+                        <div class="faculty-credentials">
+                            <span class="credential">MSc Telekominikasyon</span>
+                            <span class="credential">Sètifye CCNA</span>
+                            <span class="credential">Sètifye CompTIA Network+</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="faculty-card">
+                    <div class="faculty-image">
+                        <img src="../images/professor-4.jpg" alt="Prof. Anne Joseph" onerror="this.src='../images/placeholder-person.jpg'">
+                    </div>
+                    <div class="faculty-info">
+                        <h3>Prof. Anne Joseph</h3>
+                        <div class="faculty-title">Pwofesè Materyèl Enfòmatik</div>
+                        <p class="faculty-bio">
+                            Prof. Joseph te travay kòm teknisyen enfòmatik pandan plizyè ane anvan li te vin anseye. Li espesyalize nan dyagnostik ak reparasyon materyèl enfòmatik. Li renmen montre elèv yo kijan pou rezoud pwoblèm pratik.
+                        </p>
+                        <div class="faculty-credentials">
+                            <span class="credential">BSc Enfòmatik</span>
+                            <span class="credential">Sètifye CompTIA A+</span>
+                            <span class="credential">Teknisyen Apple Sètifye</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="course-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Temwayaj Elèv yo</h2>
+                <p>Tande sa ansyen elèv nou yo di sou eksperyans yo</p>
+            </div>
+            
+            <div class="testimonials-slider">
+                <div class="testimonial-slide active">
+                    <div class="testimonial-content">
+                        <div class="testimonial-quote">
+                            <i class="fas fa-quote-left"></i>
+                            <p>
+                                Kou Teknik nan Enfòmatik la te chanje lavi m. Anvan m te kòmanse kou a, mwen te gen konesans limite sou enfòmatik. Kounye a, mwen travay kòm teknisyen enfòmatik nan yon konpayi respekte. Pwofesè yo te ekselan epi materyèl kou a te trè pratik. Mwen rekòmande pwogram sa a pou nenpòt moun ki vle antre nan domèn enfòmatik.
+                            </p>
+                        </div>
+                        <div class="testimonial-author">
+                            <div class="author-image">
+                                <img src="../images/student-1.jpg" alt="Marc Antoine" onerror="this.src='../images/placeholder-person.jpg'">
+                            </div>
+                            <div class="author-info">
+                                <h4>Marc Antoine</h4>
+                                <p>Gradye 2022, Teknisyen Enfòmatik nan Tech Solutions</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-slide">
+                    <div class="testimonial-content">
+                        <div class="testimonial-quote">
+                            <i class="fas fa-quote-left"></i>
+                            <p>
+                                Mwen te toujou enterese nan enfòmatik men mwen pa t gen opòtinite pou etidye nan yon inivèsite tradisyonèl. FONDESC te ban m chans pou m aprann nan pwòp ritm mwen. Laboratwa vityèl yo te ban m eksperyans pratik mwen te bezwen. Kounye a mwen jere pwòp biznis sipò enfòmatik mwen epi mwen fè plis lajan pase anvan.
+                            </p>
+                        </div>
+                        <div class="testimonial-author">
+                            <div class="author-image">
+                                <img src="../images/student-2.jpg" alt="Jeanne Paul" onerror="this.src='../images/placeholder-person.jpg'">
+                            </div>
+                            <div class="author-info">
+                                <h4>Jeanne Paul</h4>
+                                <p>Gradye 2021, Pwopriyetè JP Tech Support</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-slide">
+                    <div class="testimonial-content">
+                        <div class="testimonial-quote">
+                            <i class="fas fa-quote-left"></i>
+                            <p>
+                                Fleksibilite pwogram nan te pèmèt mwen etidye pandan m t ap travay a plen tan. Pwofesè yo te toujou disponib pou reponn kesyon m yo, menm lè se te lè swa. Pwojè pratik yo te ede m bati yon pòtfolyo solid ki te ede m jwenn travay mwen kounye a. Envestisman nan kou sa a te peye pou tèt li plizyè fwa.
+                            </p>
+                        </div>
+                        <div class="testimonial-author">
+                            <div class="author-image">
+                                <img src="../images/student-3.jpg" alt="Robert Jean" onerror="this.src='../images/placeholder-person.jpg'">
+                            </div>
+                            <div class="author-info">
+                                <h4>Robert Jean</h4>
+                                <p>Gradye 2023, Administratè Rezo nan Global Bank</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-controls">
+                    <button class="testimonial-prev"><i class="fas fa-chevron-left"></i></button>
+                    <div class="testimonial-dots">
+                        <span class="dot active"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                    </div>
+                    <button class="testimonial-next"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Career Section -->
+    <section id="career" class="course-section gray-bg">
+        <div class="container">
+            <div class="section-header">
+                <h2>Opòtinite Karyè</h2>
+                <p>Dekouvri karyè potansyèl apre ou fini kou a</p>
+            </div>
+            
+            <div class="career-content">
+                <div class="career-overview">
+                    <p>
+                        Gradye pwogram Teknik nan Enfòmatik yo gen anpil opòtinite karyè nan domèn teknoloji enfòmasyon ki an plèn ekspansyon. Konpetans ou aprann nan pwogram sa a pral prepare w pou divès pozisyon nan sektè prive ak piblik.
+                    </p>
+                    
+                    <div class="career-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">92%</div>
+                            <div class="stat-label">To Plasman Travay</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">45%</div>
+                            <div class="stat-label">Ogmantasyon Salè Mwayen</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">6+</div>
+                            <div class="stat-label">Sektè Endistri</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3>Pozisyon Travay Potansyèl</h3>
+                    <div class="job-cards">
+                        <div class="job-card">
+                            <div class="job-icon">
+                                <i class="fas fa-desktop"></i>
+                            </div>
+                            <h4>Teknisyen Enfòmatik</h4>
+                            <p>
+                                Dyagnostike ak rezoud pwoblèm materyèl ak lojisyèl, enstalasyon ak konfigirasyon òdinatè, ak bay sipò teknik.
+                            </p>
+                            <div class="salary-range">
+                                <i class="fas fa-money-bill-wave"></i>
+                                <span>25,000 - 40,000 HTG pa mwa</span>
+                            </div>
+                        </div>
+                        
+                        <div class="job-card">
+                            <div class="job-icon">
+                                <i class="fas fa-network-wired"></i>
+                            </div>
+                            <h4>Teknisyen Rezo</h4>
+                            <p>
+                                Enstalasyon, konfigirasyon ak antretyen rezo enfòmatik, depanaj pwoblèm koneksyon, ak sekirite rezo.
+                            </p>
+                            <div class="salary-range">
+                                <i class="fas fa-money-bill-wave"></i>
+                                <span>30,000 - 50,000 HTG pa mwa</span>
+                            </div>
+                        </div>
+                        
+                        <div class="job-card">
+                            <div class="job-icon">
+                                <i class="fas fa-headset"></i>
+                            </div>
+                            <h4>Espesyalis Sipò Teknik</h4>
+                            <p>
+                                Bay sipò teknik pou itilizatè final, rezoud pwoblèm lojisyèl ak materyèl, ak dokimante solisyon.
+                            </p>
+                            <div class="salary-range">
+                                <i class="fas fa-money-bill-wave"></i>
+                                <span>20,000 - 35,000 HTG pa mwa</span>
+                            </div>
+                        </div>
+                        
+                        <div class="job-card">
+                            <div class="job-icon">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <h4>Teknisyen Sekirite Enfòmatik</h4>
+                            <p>
+                                Ede nan mete an plas mezi sekirite, siveye sistèm pou menas, ak reponn a ensidan sekirite.
+                            </p>
+                            <div class="salary-range">
+                                <i class="fas fa-money-bill-wave"></i>
+                                <span>35,000 - 60,000 HTG pa mwa</span>
+                            </div>
+                        </div>
+                        
+                        <div class="job-card">
+                            <div class="job-icon">
+                                <i class="fas fa-database"></i>
+                            </div>
+                            <h4>Teknisyen Baz Done</h4>
+                            <p>
+                                Ede nan enstalasyon, konfigirasyon ak antretyen sistèm baz done, ak fè backup ak rekiperasyon done.
+                            </p>
+                            <div class="salary-range">
+                                <i class="fas fa-money-bill-wave"></i>
+                                <span>30,000 - 45,000 HTG pa mwa</span>
+                            </div>
+                        </div>
+                        
+                        <div class="job-card">
+                            <div class="job-icon">
+                                <i class="fas fa-code"></i>
+                            </div>
+                            <h4>Devlopè Jinyò</h4>
+                            <p>
+                                Ede nan devlopman aplikasyon senp, tès lojisyèl, ak koreksyon erè nan kòd.
+                            </p>
+                            <div class="salary-range">
+                                <i class="fas fa-money-bill-wave"></i>
+                                <span>25,000 - 45,000 HTG pa mwa</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h3>Opòtinite Avansman Karyè</h3>
+                    <p>
+                        Avèk eksperyans ak fòmasyon kontinyèl, gradye yo ka avanse nan pozisyon pi wo tankou:
+                    </p>
+                    <ul class="advancement-list">
+                        <li><i class="fas fa-chevron-right"></i> Administratè Sistèm</li>
+                        <li><i class="fas fa-chevron-right"></i> Administratè Rezo</li>
+                        <li><i class="fas fa-chevron-right"></i> Devlopè Lojisyèl</li>
+                        <li><i class="fas fa-chevron-right"></i> Espesyalis Sekirite Enfòmatik</li>
+                        <li><i class="fas fa-chevron-right"></i> Jesyonè Pwojè IT</li>
+                        <li><i class="fas fa-chevron-right"></i> Konsiltant Enfòmatik</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Investment Section -->
+    <section id="investment" class="course-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Envestisman</h2>
+                <p>Enfòmasyon sou frè ak opsyon finansman</p>
+            </div>
+            
+            <div class="investment-content">
+                <div>
+                    <div class="tuition-card">
+                        <div class="tuition-header">
+                            <h4>Frè Etid Total</h4>
+                            <div class="tuition-price">60,000 HTG</div>
+                        </div>
+                        <div class="tuition-details">
+                            <p>Frè etid la kouvri tout materyèl kou, aksè a platfòm aprantisaj la, ak sipò pwofesè pandan tout dire pwogram nan (18 mwa).</p>
+                            
+                            <h4>Sa ki Enkli:</h4>
+                            <ul class="tuition-includes">
+                                <li><i class="fas fa-check"></i> Aksè a tout materyèl kou dijital</li>
+                                <li><i class="fas fa-check"></i> Aksè a laboratwa vityèl</li>
+                                <li><i class="fas fa-check"></i> Evalyasyon ak feedback</li>
+                                <li><i class="fas fa-check"></i> Sipò pwofesè anliy</li>
+                                <li><i class="fas fa-check"></i> Sètifika achèvman</li>
+                                <li><i class="fas fa-check"></i> Asistans plasman travay</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="additional-fees">
+                        <h4>Frè Adisyonèl</h4>
+                        <ul class="fees-list">
+                            <li>
+                                <span class="fee-name">Frè Aplikasyon (non-ranbousab)</span>
+                                <span class="fee-amount">1,000 HTG</span>
+                            </li>
+                            <li>
+                                <span class="fee-name">Frè Enskripsyon (yon sèl fwa)</span>
+                                <span class="fee-amount">2,500 HTG</span>
+                            </li>
+                            <li>
+                                <span class="fee-name">Frè Egzamen Final</span>
+                                <span class="fee-amount">1,500 HTG</span>
+                            </li>
+                            <li>
+                                <span class="fee-name">Frè Sètifikasyon Endistri (opsyonèl)</span>
+                                <span class="fee-amount">Varye</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3>Plan Peman</h3>
+                    <div class="payment-plans">
+                        <div class="payment-plan">
+                            <div class="plan-header">
+                                <h4>Peman Konplè</h4>
+                                <span class="plan-discount">Ekonomize 10%</span>
+                            </div>
+                            <div class="plan-price">54,000 HTG</div>
+                            <div class="plan-details">
+                                <p>Peye tout frè etid la davans epi resevwa yon rabè 10%. Opsyon sa a ofri pi gwo ekonomi.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="payment-plan">
+                            <div class="plan-header">
+                                <h4>Peman pa Semès</h4>
+                                <span class="plan-discount">Ekonomize 5%</span>
+                            </div>
+                            <div class="plan-price">19,000 HTG x 3</div>
+                            <div class="plan-details">
+                                <p>Peye frè etid la nan twa peman egal, youn chak 6 mwa. Opsyon sa a ofri yon balans ant fleksibilite ak ekonomi.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="payment-plan">
+                            <div class="plan-header">
+                                <h4>Peman Mansyèl</h4>
+                            </div>
+                            <div class="plan-price">3,500 HTG x 18</div>
+                            <div class="plan-details">
+                                <p>Peye frè etid la nan 18 peman mansyèl egal. Opsyon sa a ofri pi gwo fleksibilite pou bidjè ou.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="payment-plan">
+                            <div class="plan-header">
+                                <h4>Plan Etid-Travay</h4>
+                            </div>
+                            <div class="plan-price">Kontakte nou</div>
+                            <div class="plan-details">
+                                <p>Pwogram espesyal ki konbine etid ak travay nan konpayi patnè nou yo. Kontakte nou pou plis detay.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="financing-options">
+                        <h3>Opsyon Finansman</h3>
+                        <ul class="financing-list">
+                            <li>
+                                <i class="fas fa-university"></i>
+                                <div class="financing-details">
+                                    <h4>Prè Etidyan</h4>
+                                    <p>Nou gen patenarya ak plizyè bank lokal ki ofri prè etidyan a to enterè favorab. Kontakte depatman admisyon an pou plis enfòmasyon.</p>
+                                </div>
+                            </li>
+                            <li>
+                                <i class="fas fa-handshake"></i>
+                                <div class="financing-details">
+                                    <h4>Bous Detid</h4>
+                                    <p>Nou ofri yon kantite limite bous detid baze sou merit ak bezwen. Aplikasyon pou bous detid yo ouvri twa fwa pa ane.</p>
+                                </div>
+                            </li>
+                            <li>
+                                <i class="fas fa-briefcase"></i>
+                                <div class="financing-details">
+                                    <h4>Ranbousman Anplwayè</h4>
+                                    <p>Anpil anplwayè ranbouse frè etid pou anplwaye yo. Mande depatman resous imèn ou si konpayi ou ofri pwogram sa a.</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="roi-section">
+                <h3>Retou sou Envestisman (ROI)</h3>
+                <p>
+                    Envestisman nan edikasyon ou se youn nan pi bon desizyon ou ka pran pou avni ou. Gradye pwogram Teknik nan Enfòmatik yo wè yon retou siyifikatif sou envestisman yo.
+                </p>
+                
+                <div class="roi-stats">
+                    <div class="roi-stat">
+                        <div class="roi-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="roi-value">45%</div>
+                        <div class="roi-label">Ogmantasyon Salè Mwayen Apre Gradyasyon</div>
+                    </div>
+                    
+                    <div class="roi-stat">
+                        <div class="roi-icon">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <div class="roi-value">14 mwa</div>
+                        <div class="roi-label">Tan Mwayen pou Rekipere Envestisman</div>
+                    </div>
+                    
+                    <div class="roi-stat">
+                        <div class="roi-icon">
+                            <i class="fas fa-briefcase"></i>
+                        </div>
+                        <div class="roi-value">92%</div>
+                        <div class="roi-label">Gradye ki Jwenn Travay nan 6 Mwa</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Enrollment Section -->
+    <section id="enrollment" class="course-section cta-bg">
+        <div class="container">
+            <div class="section-header light">
+                <h2>Enskri Kounye a</h2>
+                <p>Kòmanse vwayaj ou nan domèn enfòmatik jodi a</p>
+            </div>
+            
+            <div class="enrollment-content">
+                <div class="enrollment-info">
+                    <h3>Pwochen Dat Kòmansman</h3>
+                    <div class="start-dates">
+                        <div class="date-card">
+                            <div class="date-month">Jan</div>
+                            <div class="date-day">15</div>
+                            <div class="date-status">Enskri Kounye a</div>
+                        </div>
+                        <div class="date-card">
+                            <div class="date-month">Avr</div>
+                            <div class="date-day">10</div>
+                            <div class="date-status">Byento</div>
+                        </div>
+                        <div class="date-card">
+                            <div class="date-month">Jiyè</div>
+                            <div class="date-day">5</div>
+                            <div class="date-status">Byento</div>
+                        </div>
+                    </div>
+                    
+                    <h3>Etap Enskri</h3>
+                    <ul class="steps-list">
+                        <li>
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <h4>Ranpli Fòmilè Aplikasyon</h4>
+                                <p>Ranpli fòmilè aplikasyon an sou sit entènèt nou an oswa nan fòmilè adwat la.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <h4>Peye Frè Aplikasyon</h4>
+                                <p>Peye frè aplikasyon non-ranbousab 1,000 HTG a pou kòmanse pwosesis la.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <h4>Soumèt Dokiman</h4>
+                                <p>Telechaje tout dokiman obligatwa yo nan pòtay aplikasyon an.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="step-number">4</div>
+                            <div class="step-content">
+                                <h4>Resevwa Akseptasyon</h4>
+                                <p>Ou pral resevwa yon repons nan yon delè de 2 semèn apre aplikasyon konplè a.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="step-number">5</div>
+                            <div class="step-content">
+                                <h4>Peye Frè Enskripsyon</h4>
+                                <p>Konfime plas ou nan pwogram nan lè ou peye frè enskripsyon an.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="enrollment-form">
+                    <h3>Kòmanse Aplikasyon Ou</h3>
+                    <form class="application-form" action="../process-application.php" method="POST">
+                        <div class="form-group">
+                            <label for="full-name">Non Konplè *</label>
+                            <input type="text" id="full-name" name="full_name" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Imèl *</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="phone">Telefòn *</label>
+                            <input type="tel" id="phone" name="phone" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="education">Nivo Edikasyon *</label>
+                            <select id="education" name="education" required>
+                                <option value="">Chwazi...</option>
+                                <option value="high_school">Lekòl Segondè / Bakaloreya</option>
+                                <option value="associate">Diplòm Asosye</option>
+                                <option value="bachelor">Lisans</option>
+                                <option value="master">Metriz</option>
+                                <option value="other">Lòt</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="start-date">Dat Kòmansman Prefere *</label>
+                            <select id="start-date" name="start_date" required>
+                                <option value="">Chwazi...</option>
+                                <option value="jan">15 Janvye</option>
+                                <option value="apr">10 Avril</option>
+                                <option value="jul">5 Jiyè</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message">Poukisa ou enterese nan kou sa a? (Opsyonèl)</label>
+                            <textarea id="message" name="message" rows="3"></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="terms" required>
+                                <span>Mwen dakò ak <a href="../terms.html" target="_blank">Tèm ak Kondisyon</a> yo epi mwen konprann politik konfidansyalite a.</span>
+                            </label>
+                        </div>
+                        
+                        <button type="submit" class="button button-primary">Soumèt Aplikasyon</button>
+                        
+                        <p class="form-note">* Endike chan obligatwa yo</p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- FAQ Section -->
+    <section id="faq" class="course-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Kesyon Moun Poze Souvan</h2>
+                <p>Jwenn repons pou kesyon komen sou kou Teknik nan Enfòmatik la</p>
+            </div>
+            
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Èske mwen bezwen konesans enfòmatik anvan pou m pran kou sa a?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Non, kou a fèt pou debutè. Nou kòmanse ak konsèp debaz epi pwogrese gradyèlman. Sepandan, si ou gen kèk konesans debaz nan enfòmatik, sa ka ede ou pwogrese pi vit.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Ki kalite òdinatè mwen bezwen pou kou a?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Ou bezwen yon òdinatè debaz ak aksè entènèt. Nou rekòmande yon òdinatè ki gen omwen 4GB RAM, 128GB espas disk, ak yon sistèm operasyon modèn (Windows 10/11, macOS, oswa Linux). Pifò aktivite pratik yo pral fèt nan laboratwa vityèl nou an, kidonk ou pa bezwen yon òdinatè pwisan.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Konbyen tan mwen bezwen dedye a etid chak semèn?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Nou rekòmande omwen 15-20 èdtan pa semèn pou etid, ki gen ladan lekti, egzèsis pratik, ak pwojè. Orè a fleksib, kidonk ou ka etidye nan moman ki pi bon pou ou, men konsistans enpòtan pou siksè.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Èske sètifika a rekonèt pa anplwayè yo?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Wi, sètifika FONDESC yo rekonèt pa anpil anplwayè lokal ak entènasyonal. Anplis, pwogram nan prepare w pou sètifikasyon endistri tankou CompTIA A+, Network+, ak lòt, ki gen rekonesans mondyal.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Èske gen sipò pou plasman travay apre gradyasyon?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Wi, nou ofri asistans plasman travay pou tout gradye nou yo. Sa gen ladan atelye preparasyon CV, preparasyon entèvyou, ak koneksyon ak rezo anplwayè patnè nou yo. 92% gradye nou yo jwenn travay nan domèn nan nan 6 mwa apre gradyasyon.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Èske mwen ka transfere kredi yo nan yon lòt enstitisyon si mwen vle kontinye edikasyon mwen?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Wi, kredi yo ka transfere nan plizyè enstitisyon patnè nou yo. Sepandan, politik transfè kredi varye selon enstitisyon, kidonk nou rekòmande verifye ak enstitisyon espesifik kote ou vle transfere.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Related Courses Section -->
+    <section class="course-section gray-bg">
+        <div class="container">
+            <div class="section-header">
+                <h2>Kou Ki Gen Rapò</h2>
+                <p>Eksplore lòt kou teknik ki ka enterese ou</p>
+            </div>
+            
+            <div class="related-courses">
+                <div class="course-card">
+                    <div class="course-image">
+                        <img src="../images/course-network.jpg" alt="Teknik nan Rezo" onerror="this.src='../images/placeholder.jpg'">
+                    </div>
+                    <div class="course-content">
+                        <h3>Teknik nan Rezo</h3>
+                        <div class="course-meta">
+                            <i class="fas fa-clock"></i>
+                            <span>1.5 ane</span>
+                        </div>
+                        <p class="course-description">
+                            Aprann konfigire, jere, ak sekirize rezo enfòmatik. Prepare pou karyè kòm teknisyen rezo oswa administratè rezo.
+                        </p>
+                        <a href="rezo.html" class="button button-primary">Plis Enfòmasyon</a>
+                    </div>
+                </div>
+                
+                <div class="course-card">
+                    <div class="course-image">
+                        <img src="../images/course-web-dev.jpg" alt="Teknik nan Devlopman Web" onerror="this.src='../images/placeholder.jpg'">
+                    </div>
+                    <div class="course-content">
+                        <h3>Teknik nan Devlopman Web</h3>
+                        <div class="course-meta">
+                            <i class="fas fa-clock"></i>
+                            <span>1.5 ane</span>
+                        </div>
+                        <p class="course-description">
+                            Aprann kreye sit entènèt ak aplikasyon web modèn. Devlope konpetans nan HTML, CSS, JavaScript, ak plis ankò.
+                        </p>
+                        <a href="devlopman-web.html" class="button button-primary">Plis Enfòmasyon</a>
+                    </div>
+                </div>
+                
+                <div class="course-card">
+                    <div class="course-image">
+                        <img src="../images/course-cybersecurity.jpg" alt="Teknik nan Sekirite Enfòmatik" onerror="this.src='../images/placeholder.jpg'">
+                    </div>
+                    <div class="course-content">
+                        <h3>Teknik nan Sekirite Enfòmatik</h3>
+                        <div class="course-meta">
+                            <i class="fas fa-clock"></i>
+                            <span>1.5 ane</span>
+                        </div>
+                        <p class="course-description">
+                            Aprann pwoteje sistèm enfòmatik kont menas. Devlope konpetans nan evalyasyon vilnerabilite ak repons a ensidan.
+                        </p>
+                        <a href="sekirite.html" class="button button-primary">Plis Enfòmasyon</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Final CTA Section -->
+    <section class="course-section cta-bg">
+        <div class="container">
+            <div class="final-cta">
+                <h2>Prepare pou Avni Ou nan Teknoloji</h2>
+                <p>Kou Teknik nan Enfòmatik la ofri ou konpetans pratik ki gen anpil demann nan mache travay la. Enskri jodi a epi kòmanse vwayaj ou nan yon karyè ki gen siksè nan teknoloji.</p>
+                <div class="cta-buttons">
+                    <a href="#enrollment" class="button button-primary">Enskri Kounye a</a>
+                    <a href="../kontak.html" class="button button-outline light">Pale ak yon Konseye</a>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+
+{% endblock %}

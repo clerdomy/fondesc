@@ -1,0 +1,144 @@
+.auth-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--background-light);
+    padding: var(--spacing-md);
+  }
+  
+  .auth-card {
+    background-color: var(--background-white);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+    width: 100%;
+    max-width: 480px;
+    overflow: hidden;
+  }
+  
+  .auth-header {
+    text-align: center;
+    padding: var(--spacing-lg) var(--spacing-lg) var(--spacing-md);
+  }
+  
+  .auth-header h1 {
+    margin-bottom: var(--spacing-xs);
+    color: var(--secondary);
+  }
+  
+  .auth-header p {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    margin-bottom: 0;
+  }
+  
+  .auth-tabs {
+    display: flex;
+    border-bottom: 1px solid var(--border-color);
+  }
+  
+  .auth-tab {
+    flex: 1;
+    text-align: center;
+    padding: var(--spacing-md);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--text-muted);
+    transition: all 0.3s ease;
+  }
+  
+  .auth-tab.active {
+    color: var(--secondary);
+    border-bottom: 2px solid var(--secondary);
+  }
+  
+  .auth-content {
+    padding: var(--spacing-lg);
+  }
+  
+  .auth-form {
+    display: none;
+  }
+  
+  .auth-form.active {
+    display: block;
+  }
+  
+  .auth-form h2 {
+    font-size: 1.5rem;
+    margin-bottom: var(--spacing-xs);
+    text-align: left;
+  }
+  
+  .auth-description {
+    color: var(--text-muted);
+    margin-bottom: var(--spacing-lg);
+  }
+  
+  .form-group {
+    margin-bottom: var(--spacing-md);
+  }
+  
+  label {
+    display: block;
+    margin-bottom: var(--spacing-xs);
+    font-weight: 500;
+  }
+  
+  input[type="text"],
+  input[type="email"],
+  input[type="password"] {
+    width: 100%;
+    padding: var(--spacing-md);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+  }
+  
+  input[type="text"]:focus,
+  input[type="email"]:focus,
+  input[type="password"]:focus {
+    outline: none;
+    border-color: var(--primary);
+  }
+  
+  .password-label-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-xs);
+  }
+  
+  .forgot-password {
+    font-size: 0.875rem;
+    color: var(--secondary);
+  }
+  
+  .forgot-password:hover {
+    text-decoration: underline;
+  }
+  
+  .password-input-group {
+    position: relative;
+  }
+  
+  .toggle-password {
+    position: absolute;
+    right: var(--spacing-md);
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+  }
+  
+  /* Add some spacing for auth button */
+  .auth-form .button {
+    margin-top: var(--spacing-md);
+  }
+  
+  

@@ -1,0 +1,227 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="ht">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FONDESC - Fòmasyon Nasyonal a Distans</title>
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    {% block extra_css %}
+    {% endblock %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <!-- Header with navigation -->
+    <header>
+        <!-- Top Bar -->
+        <div class="top-bar">
+            <div class="container">
+                <div class="contact-info">
+                    <span class="hide-mobile">Sant Apèl: </span>
+                    <a href="tel:08001234567">0800 123 4567</a>
+                </div>
+                <div class="top-links">
+                    <a href="#">Travay Avèk Nou</a>
+                    <a href="#">Pòtay Pwofesè</a>
+                    <a href="#">Biwo Plent</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main Header -->
+        <div class="main-header container">
+            <div class="logo">
+                <a href="{% url 'home-page' %}">
+                    <span class="logo-text">FONDESC&nbsp;<div class="logo-dot">&nbsp;</div>&nbsp; <i class="logo-icon fas fa-graduation-cap"></i></span>
+                    <span class="logo-subtitle">Fòmasyon Nasyonal a Distans</span>
+                </a>
+            </div>
+            
+            <nav class="desktop-nav">
+                <ul>
+                    <li><a href="{% url 'home-page' %}">Akèy</a></li>
+                    <li class="dropdown">
+                        <a href="{% url 'courses-page' %}">
+                            Kou yo
+                        {% comment %} <i class="fas fa-chevron-down"></i> {% endcomment %}
+                        </a>
+                        {% comment %}
+                        <div class="dropdown-content">
+                            <div class="dropdown-grid">
+                                <a href="kou/lisans.html">
+                                    <h4>Lisans</h4>
+                                    <p>Kou lisans ak bakaloreya</p>
+                                </a>
+                                <a href="kou/metriz.html">
+                                    <h4>Metriz</h4>
+                                    <p>Espesyalizasyon ak MBA</p>
+                                </a>
+                                <a href="kou/teknik.html">
+                                    <h4>Teknik</h4>
+                                    <p>Kou teknik pwofesyonèl</p>
+                                </a>
+                                <a href="kou/lib.html">
+                                    <h4>Kou Lib</h4>
+                                    <p>Kou kout dire</p>
+                                </a>
+                            </div>
+                        </div>
+                        {% endcomment %}
+                    </li>
+                    <li class="dropdown">
+                        <a href="#">Sou Nou <i class="fas fa-chevron-down"></i></a>
+                        <div class="dropdown-content">
+                            <a href="{% url 'about-page' %}">
+                                <h4>Kimoun Nou Ye</h4>
+                                <p>Konnen istwa ak misyon FONDESC</p>
+                            </a>
+                            <a href="sou-nou/metodoloji.html">
+                                <h4>Metodoloji</h4>
+                                <p>Kijan edikasyon a distans nou an fonksyone</p>
+                            </a>
+                            <a href="{% url 'teacher-page' %}">
+                                <h4>Pwofesè yo</h4>
+                                <p>Konnen pwofesè ak anseyan nou yo</p>
+                            </a>
+                        </div>
+                    </li>
+                    <li><a href="kontak.html">Kontak</a></li>
+                </ul>
+            </nav>
+            
+            <div class="header-actions">
+                <button id="search-toggle" class="icon-button"><i class="fas fa-search"></i></button>
+                <a href="{% url 'login-page' %}" class="button button-outline">Konekte</a>
+                <a href="{% url 'register-page' %}" class="button button-primary">Enskri</a>
+                <button id="mobile-menu-toggle" class="icon-button mobile-only"><i class="fas fa-bars"></i></button>
+            </div>
+        </div>
+        
+        <!-- Search Bar (hidden by default) -->
+        <div id="search-bar" class="search-bar">
+            <div class="container">
+                <form action="search.php" method="GET">
+                    <input type="text" name="query" placeholder="Kisa w ap chèche?">
+                    <button type="submit"><i class="fas fa-search"></i></button>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu (hidden by default) -->
+        <div id="mobile-menu" class="mobile-menu">
+            <nav>
+                <ul>
+                    <li><a href="index.html">Akèy</a></li>
+                    <li class="mobile-dropdown">
+                        <div class="mobile-dropdown-header">
+                            <span>Kou yo</span>
+                            {% comment %}
+                            <i class="fas fa-chevron-down"></i>
+                            {% endcomment %}
+                        </div>
+                        {% comment %}
+                        <div class="mobile-dropdown-content">
+                            <a href="kou/lisans.html">Lisans</a>
+                            <a href="kou/metriz.html">Metriz</a>
+                            <a href="kou/teknik.html">Teknik</a>
+                            <a href="kou/lib.html">Kou Lib</a>
+                        </div>
+                        {% endcomment %}
+                    </li>
+                    <li class="mobile-dropdown">
+                        <div class="mobile-dropdown-header">
+                            <span>Sou Nou</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="mobile-dropdown-content">
+                            <a href="{% url 'about-page' %}">Kimoun Nou Ye</a>
+                            <a href="sou-nou/metodoloji.html">Metodoloji</a>
+                            <a href="{% url 'teacher-page' %}">Pwofesè yo</a>
+                        </div>
+                    </li>
+                    <li><a href="kontak.html">Kontak</a></li>
+                    <li><a href="konekte.html" class="mobile-button">Konekte</a></li>
+                    <li><a href="{% url 'register-page' %}" class="mobile-button primary">Enskri</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+
+        {% block content %}
+        {% endblock %}
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-about">
+                    <h3 class="footer-logo">
+                        FONDESC
+                        <div class="footer-logo-dot"></div>
+                    </h3>
+                    <p>Fòmasyon Nasyonal a Distans - Edikasyon kalite aksesib pou tout moun.</p>
+                    <div class="footer-social">
+                        <a href="https://facebook.com"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://instagram.com"><i class="fab fa-instagram"></i></a>
+                        <a href="https://twitter.com"><i class="fab fa-twitter"></i></a>
+                        <a href="https://youtube.com"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h3>Lyen Rapid</h3>
+                    <ul>
+                        <li><a href="index.html">Akèy</a></li>
+                        <li><a href="kou.html">Kou yo</a></li>
+                        <li><a href="sou-nou/kimoun-nou-ye.html">Kimoun Nou Ye</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="kontak.html">Kontak</a></li>
+                    </ul>
+                </div>
+                <div class="footer-courses">
+                    <h3>Kou yo</h3>
+                    <ul>
+                        <li><a href="kou/lisans.html">Lisans</a></li>
+                        <li><a href="kou/metriz.html">Metriz</a></li>
+                        <li><a href="kou/teknik.html">Kou Teknik</a></li>
+                        <li><a href="kou/lib.html">Kou Lib</a></li>
+                        <li><a href="kou/ekstansyon.html">Ekstansyon</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h3>Kontak</h3>
+                    <ul>
+                        <li>
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>
+                                Av. Edikasyon, 1000<br>
+                                Sant, Pòtoprens<br>
+                                Kòd Postal: 01000
+                            </span>
+                        </li>
+                        <li>
+                            <i class="fas fa-phone"></i>
+                            <a href="tel:08001234567">0800 123 4567</a>
+                        </li>
+                        <li>
+                            <i class="fas fa-envelope"></i>
+                            <a href="mailto:kontak@fondesc.edu.ht">kontak@fondesc.edu.ht</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; <span id="current-year"></span> FONDESC - Fòmasyon Nasyonal a Distans. Tout dwa rezève.</p>
+                <div class="footer-bottom-links">
+                    <a href="politik-konfidansyalite.html">Politik Konfidansyalite</a>
+                    <a href="kondisyon-itilizasyon.html">Kondisyon Itilizasyon</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{% static 'js/main.js' %}"></script>
+    {% block extra_js %}
+    {% endblock %}
+</body>
+</html>
