@@ -1,15 +1,17 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import FileExtensionValidator
+from  django.utils import timezone
+from django.core.exceptions import ValidationError
+from django.utils.translation import gettext_lazy as _
+
+
+import string 
+import random
 
 class StudentProfile(models.Model):
     # Relacionamento com o usuário padrão do Django
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    
-    # Campos de informações pessoais
-    first_name = models.CharField(max_length=100, verbose_name="Non")
-    last_name = models.CharField(max_length=100, verbose_name="Siyati")
-    email = models.EmailField(unique=True, verbose_name="Imèl")
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
     phone = models.CharField(max_length=20, verbose_name="Telefòn")
     birth_date = models.DateField(verbose_name="Dat Nesans")
     GENDER_CHOICES = [
@@ -21,10 +23,47 @@ class StudentProfile(models.Model):
     address = models.CharField(max_length=255, verbose_name="Adrès")
     city = models.CharField(max_length=100, verbose_name="Vil")
     postal_code = models.CharField(max_length=20, blank=True, null=True, verbose_name="Kòd Postal")
+    is_candidate = models.BooleanField(default=True, verbose_name="Kandidan")
     
-    def __str__(self):
-        return f"{self.first_name} {self.last_name}"
+    EDUCATION_LEVEL  = (
+        ('Elementary-i', 'Elemantè I (1ª a 5è)'),
+       ('elementary-ii', 'Elemantè II (6è a 9è)'),
+       ('high-school', 'Segondè'),
+       ('technical', 'Teknik'),
+       ('undergraduate', 'Lisans'),
+       ('graduate', 'Metriz'),
+       ('doctorate', 'Doktè'),
 
+    )
+    education_level = models.CharField(max_length=100, choices=EDUCATION_LEVEL, blank=True, null=True, verbose_name="Nivèl Enseman")
+
+    def clean(self):
+        if not self.is_candidate and not self.user.is_active:
+            # se nao é candidato, o usuário deve estar ativo
+            raise ValidationError("user must be active" )
+        
+        elif self.is_candidate and self.user.is_active:
+            self.user.is_active = False
+            self.user.save()
+
+    def create_user(self, email:str, first_name:str, last_name:str):
+        # Cria um novo usuário com base nos dados do perfil do estudante
+        password = ''.join(
+            random.choices(
+                string.ascii_letters + 
+                string.digits, k=12
+            )
+        )
+        self.user = User.objects.create_user(
+            username=email,
+            email=email,
+            password=password,
+            first_name=first_name,
+            last_name=last_name
+        )
+        self.user.is_active = False
+        self.user.save()
+        
 class Document(models.Model):
     # Campos para documentos
     student = models.ForeignKey(StudentProfile, on_delete=models.CASCADE, related_name="documents")
@@ -54,7 +93,7 @@ class Document(models.Model):
     def __str__(self):
         return f"Documents for {self.student}"
 
-class Payment(models.Model):
+class MethodPayment(models.Model):
     # Campos para pagamento
     student = models.ForeignKey(StudentProfile, on_delete=models.CASCADE, related_name="payments")
     
@@ -89,7 +128,26 @@ class Payment(models.Model):
     mobile_code = models.CharField(max_length=50, blank=True, null=True, verbose_name="Kòd Konfimasyon")
     
     terms_accepted = models.BooleanField(default=False, verbose_name="Tèm Aksepte")
+
+    def clean(self):
+        # deve ter no mínimo uma opção de pagamento selecionada
+        if not self.payment_option:
+            raise ValidationError("You must select a payment option.")
+
+        # se o pagamento é por cartão de crédito, todos os campos de cartão devem ser preenchidos
+        if self.payment_option == 'card' and not all([self.card_number, self.card_name, self.card_expiry, self.card_cvv]):
+            raise ValidationError("All card details must be provided if using a credit card.")
+        
+        # se o pagamento é por transferência bancária, o comprovante de transferência deve ser fornecido
+        if self.payment_option == 'bank' and not self.bank_receipt:
+            raise ValidationError("A bank receipt must be provided if using bank transfer.")
+        
+        # se o pagamento é por pagamento mobile, o código de confirmação deve ser fornecido
+        if self.payment_option == 'mobile' and not self.mobile_code:
+            raise ValidationError("A mobile confirmation code must be provided if using mobile payment.")
     
+    
+
     def __str__(self):
         return f"Payment for {self.student}"
 
@@ -228,6 +286,99 @@ class PaymentOption(models.Model):
     
     def __str__(self):
         return self.description
+
+
+class ContactMessage(models.Model):
+    """Model for contact form messages"""
+    first_name = models.CharField(_("First Name"), max_length=100)
+    last_name = models.CharField(_("Last Name"), max_length=100)
+    email = models.EmailField(_("Email"))
+    phone = models.CharField(_("Phone"), max_length=20, blank=True, null=True)
+    subject = models.CharField(_("Subject"), max_length=100, choices=[
+        ('general', _('General Information')),
+        ('admissions', _('Admissions')),
+        ('courses', _('Course Information')),
+        ('technical', _('Technical Support')),
+        ('partnership', _('Partnership')),
+        ('other', _('Other')),
+    ])
+    message = models.TextField(_("Message"))
+    privacy_agree = models.BooleanField(_("Privacy Agreement"), default=False)
+    
+    # Metadata
+    created_at = models.DateTimeField(_("Created At"), auto_now_add=True)
+    is_read = models.BooleanField(_("Is Read"), default=False)
+    is_replied = models.BooleanField(_("Is Replied"), default=False)
+    
+    class Meta:
+        verbose_name = _("Contact Message")
+        verbose_name_plural = _("Contact Messages")
+        ordering = ['-created_at']
+    
+    def __str__(self):
+        return f"{self.subject} - {self.first_name} {self.last_name}"
+
+class ScholarshipInterest(models.Model):
+    """Model for scholarship interest form submissions"""
+    first_name = models.CharField(_("First Name"), max_length=100)
+    last_name = models.CharField(_("Last Name"), max_length=100)
+    email = models.EmailField(_("Email"))
+    phone = models.CharField(_("Phone"), max_length=20, blank=True, null=True)
+    scholarship_type = models.CharField(_("Scholarship Type"), max_length=50, choices=[
+        ('merit', _('Merit Scholarship')),
+        ('need', _('Need-Based Scholarship')),
+        ('community', _('Community Service Scholarship')),
+        ('special', _('Special Category Scholarship')),
+        ('all', _('All Scholarships')),
+    ])
+    education_level = models.CharField(_("Education Level"), max_length=50, choices=[
+        ('high_school', _('High School')),
+        ('associate', _('Associate Degree')),
+        ('bachelor', _('Bachelor\'s Degree')),
+        ('master', _('Master\'s Degree')),
+        ('other', _('Other')),
+    ])
+    program_interest = models.CharField(_("Program Interest"), max_length=50, choices=[
+        ('administration', _('Administration')),
+        ('accounting', _('Accounting')),
+        ('pedagogy', _('Pedagogy')),
+        ('technology', _('Technology')),
+        ('marketing', _('Marketing')),
+        ('hr', _('Human Resources')),
+        ('other', _('Other')),
+    ])
+    comments = models.TextField(_("Comments"), blank=True, null=True)
+    privacy_agree = models.BooleanField(_("Privacy Agreement"), default=False)
+    
+    # Metadata
+    created_at = models.DateTimeField(_("Created At"), auto_now_add=True)
+    is_contacted = models.BooleanField(_("Is Contacted"), default=False)
+    
+    class Meta:
+        verbose_name = _("Scholarship Interest")
+        verbose_name_plural = _("Scholarship Interests")
+        ordering = ['-created_at']
+    
+    def __str__(self):
+        return f"{self.first_name} {self.last_name} - {self.scholarship_type}"
+
+
+class Subscriber(models.Model):
+    """Model for newsletter subscribers"""
+    email = models.EmailField(_("Email"))
+    privacy_agree = models.BooleanField(_("Privacy Agreement"), default=False)
+
+    # Metadata
+    created_at = models.DateTimeField(_("Created At"), auto_now_add=True)
+
+    class Meta:
+        verbose_name = _("Subscriber")
+        verbose_name_plural = _("Subscribers")
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return self.email
+
 
 class FinancialAid(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name="financial_aids")

@@ -87,7 +87,7 @@
                             </a>
                         </div>
                     </li>
-                    <li><a href="kontak.html">Kontak</a></li>
+                    <li><a href="{% url 'contact-page' %}">Kontak</a></li>
                 </ul>
             </nav>
             
@@ -113,7 +113,7 @@
         <div id="mobile-menu" class="mobile-menu">
             <nav>
                 <ul>
-                    <li><a href="index.html">Akèy</a></li>
+                    <li><a href="{% url 'home-page' %}">Akèy</a></li>
                     <li class="mobile-dropdown">
                         <div class="mobile-dropdown-header">
                             <span>Kou yo</span>
@@ -141,8 +141,12 @@
                             <a href="{% url 'teacher-page' %}">Pwofesè yo</a>
                         </div>
                     </li>
-                    <li><a href="kontak.html">Kontak</a></li>
-                    <li><a href="konekte.html" class="mobile-button">Konekte</a></li>
+                    <li><a href="{% url 'contact-page' %}">Kontak</a></li>
+                    {% if user.is_authenticated %}
+                    <li><a href="{% url 'logout-page' %}" class="mobile-button">De konekte</a></li>
+                    {% else %}
+                    <li><a href="{% url 'login-page' %}" class="mobile-button">Konekte</a></li>
+                    {% endif %}
                     <li><a href="{% url 'register-page' %}" class="mobile-button primary">Enskri</a></li>
                 </ul>
             </nav>
@@ -171,11 +175,11 @@
                 <div class="footer-links">
                     <h3>Lyen Rapid</h3>
                     <ul>
-                        <li><a href="index.html">Akèy</a></li>
+                        <li><a href="{% url 'home-page' %}">Akèy</a></li>
                         <li><a href="kou.html">Kou yo</a></li>
-                        <li><a href="sou-nou/kimoun-nou-ye.html">Kimoun Nou Ye</a></li>
+                        <li><a href="{% url 'about-page' %}">Kimoun Nou Ye</a></li>
                         <li><a href="blog.html">Blog</a></li>
-                        <li><a href="kontak.html">Kontak</a></li>
+                        <li><a href="{% url 'contact-page'%}">Kontak</a></li>
                     </ul>
                 </div>
                 <div class="footer-courses">
@@ -213,8 +217,8 @@
             <div class="footer-bottom">
                 <p>&copy; <span id="current-year"></span> FONDESC - Fòmasyon Nasyonal a Distans. Tout dwa rezève.</p>
                 <div class="footer-bottom-links">
-                    <a href="politik-konfidansyalite.html">Politik Konfidansyalite</a>
-                    <a href="kondisyon-itilizasyon.html">Kondisyon Itilizasyon</a>
+                    <a href="{% url 'terms_of_use' %}">Politik Konfidansyalite</a>
+                    <a href="{% url 'privacy_policy' %}">Kondisyon Itilizasyon</a>
                 </div>
             </div>
         </div>

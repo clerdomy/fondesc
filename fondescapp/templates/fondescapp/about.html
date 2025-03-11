@@ -14,8 +14,8 @@
             <div class="container">
                 <h1>Kimoun Nou Ye</h1>
                 <div class="breadcrumbs">
-                    <a href="../index.html">Akèy</a> / 
-                    <a href="#">Sou Nou</a> / 
+                    <a href="{% url 'home-page' %}">Akèy</a> / 
+                    <a href="{% url 'about-page' %}">Sou Nou</a> / 
                     <span>Kimoun Nou Ye</span>
                 </div>
             </div>
@@ -169,8 +169,8 @@
                 <h2>Vin fè pati kominote FONDESC la</h2>
                 <p>Kòmanse vwayaj edikasyon ou jodi a epi dekouvri poukisa plizyè milye etidyan chwazi FONDESC</p>
                 <div class="cta-buttons">
-                    <a href="../enskri.html" class="button button-primary">Enskri Kounye a</a>
-                    <a href="../kontak.html" class="button button-outline light">Kontakte Nou</a>
+                    <a href="{% url 'register-page' %}" class="button button-primary">Enskri Kounye a</a>
+                    <a href="{% url 'contact-page' %}" class="button button-outline light">Kontakte Nou</a>
                 </div>
             </div>
         </section>
