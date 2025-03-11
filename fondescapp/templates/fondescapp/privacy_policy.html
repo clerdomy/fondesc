@@ -1,0 +1,632 @@
+{% extends 'fondescapp/base.html' %}
+
+{% load static %}
+
+{% block extra_css %}
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<style>
+    
+    .fondesc-gradient {
+        background: linear-gradient(to right, var(--secondary), rgba(0, 59, 113, 0.9));
+    }
+    
+    .fondesc-button {
+        background-color: var(--primary);
+        color: var(--secondary);
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+    
+    .fondesc-button:hover {
+        background-color: rgba(255, 204, 41, 0.9);
+    }
+    
+    .privacy-section {
+        margin-bottom: 2rem;
+    }
+    
+    .privacy-section h3 {
+        color: var(--secondary);
+        margin-bottom: 1rem;
+        font-weight: 600;
+    }
+    
+    .privacy-section p {
+        margin-bottom: 1rem;
+    }
+    
+    .privacy-section ul {
+        margin-bottom: 1rem;
+    }
+    
+    .privacy-section ul li {
+        margin-bottom: 0.5rem;
+    }
+    
+    .table-of-contents {
+        background-color: #f8fafc;
+        border-radius: 0.5rem;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+        border-left: 4px solid var(--primary);
+    }
+    
+    .table-of-contents ul {
+        list-style-type: none;
+        padding-left: 0;
+    }
+    
+    .table-of-contents ul li {
+        margin-bottom: 0.75rem;
+    }
+    
+    .table-of-contents ul li a {
+        color: var(--secondary);
+        text-decoration: none;
+        transition: all 0.2s ease;
+    }
+    
+    .table-of-contents ul li a:hover {
+        color: var(--primary);
+        text-decoration: underline;
+    }
+    
+    .last-updated {
+        font-style: italic;
+        color: var(--text-light);
+        margin-bottom: 2rem;
+    }
+    
+    .back-to-top {
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        background-color: var(--primary);
+        color: var(--secondary);
+        width: 3rem;
+        height: 3rem;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        pointer-events: none;
+    }
+    
+    .back-to-top.visible {
+        opacity: 1;
+        pointer-events: auto;
+    }
+    
+    .back-to-top:hover {
+        background-color: rgba(255, 204, 41, 0.9);
+    }
+    
+    .highlight-box {
+        background-color: rgba(255, 204, 41, 0.1);
+        border-left: 4px solid var(--primary);
+        padding: 1.5rem;
+        margin: 1.5rem 0;
+        border-radius: 0.5rem;
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Back to top button functionality
+        const backToTopButton = document.getElementById('back-to-top');
+        
+        window.addEventListener('scroll', function() {
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.add('visible');
+            } else {
+                backToTopButton.classList.remove('visible');
+            }
+        });
+        
+        backToTopButton.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        // Smooth scrolling for table of contents links
+        document.querySelectorAll('.table-of-contents a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                window.scrollTo({
+                    top: targetElement.offsetTop - 100,
+                    behavior: 'smooth'
+                });
+            });
+        });
+    });
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="min-h-screen flex flex-col bg-white">
+    <!-- Header with page title -->
+    <header class="bg-gray-50 py-12 border-b border-gray-100">
+        <div class="container mx-auto px-4">
+            <div class="max-w-5xl mx-auto text-center">
+                <h1 class="text-4xl font-bold text-gray-900 mb-4">Politik Konfidansyalite</h1>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    Pwoteksyon enfòmasyon pèsonèl ou se yon priyorite pou FONDESC. Tanpri li politik konfidansyalite sa a ak anpil atansyon.
+                </p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main content -->
+    <main class="flex-grow py-16">
+        <div class="container mx-auto px-4">
+            <div class="max-w-5xl mx-auto">
+                <!-- Last Updated -->
+                <p class="last-updated">Dènye mizajou: 15 Jen 2023</p>
+                
+                <!-- Table of Contents -->
+                <div class="table-of-contents">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">Tab Kontni</h2>
+                    <ul>
+                        <li><a href="#introduction">1. Entwodiksyon ak Vizyon Jeneral</a></li>
+                        <li><a href="#information-collected">2. Enfòmasyon Nou Kolekte</a></li>
+                        <li><a href="#information-use">3. Kijan Nou Itilize Enfòmasyon Ou</a></li>
+                        <li><a href="#information-sharing">4. Pataj Enfòmasyon</a></li>
+                        <li><a href="#data-security">5. Sekirite Done</a></li>
+                        <li><a href="#user-rights">6. Dwa Itilizatè yo</a></li>
+                        <li><a href="#cookies">7. Cookies ak Teknoloji Similè</a></li>
+                        <li><a href="#data-transfers">8. Transfè Entènasyonal Done</a></li>
+                        <li><a href="#children-privacy">9. Konfidansyalite Timoun</a></li>
+                        <li><a href="#policy-changes">10. Chanjman nan Politik Konfidansyalite a</a></li>
+                        <li><a href="#contact-info">11. Enfòmasyon Kontak</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Introduction Section -->
+                <section id="introduction" class="privacy-section">
+                    <h3 class="text-2xl font-semibold">1. Entwodiksyon ak Vizyon Jeneral</h3>
+                    <p>
+                        FONDESC (Fòmasyon Nasyonal a Distans) angaje pou pwoteje konfidansyalite ou. Politik konfidansyalite sa a eksplike kijan nou kolekte, itilize, pataje, ak pwoteje enfòmasyon pèsonèl ou lè ou itilize platfòm nou an, sit entènèt nou an, ak sèvis nou yo (kolektivman, "Sèvis yo").
+                    </p>
+                    <p>
+                        Lè ou itilize Sèvis nou yo, ou dakò ak pratik ki dekri nan politik konfidansyalite sa a. Si ou pa dakò ak politik sa a, tanpri pa itilize Sèvis nou yo.
+                    </p>
+                    <p>
+                        Politik konfidansyalite sa a aplike a tout itilizatè Sèvis nou yo, ki gen ladan etidyan, pwofesè, ak vizitè sit entènèt nou an. Li kouvri enfòmasyon nou kolekte sou platfòm aprantisaj nou an, sit entènèt nou an, ak lòt kanal kominikasyon.
+                    </p>
+                    <div class="highlight-box">
+                        <p class="font-medium">
+                            Nou valorize konfidansyalite ou epi nou angaje pou nou transparan sou kijan nou itilize enfòmasyon ou. Politik sa a fèt pou ede ou konprann:
+                        </p>
+                        <ul class="list-disc pl-5 mt-2">
+                            <li>Ki enfòmasyon nou kolekte</li>
+                            <li>Poukisa nou kolekte li</li>
+                            <li>Kijan nou itilize li</li>
+                            <li>Kijan nou pwoteje li</li>
+                            <li>Dwa ou genyen konsènan enfòmasyon ou</li>
+                        </ul>
+                    </div>
+                </section>
+                
+                <!-- Information Collected Section -->
+                <section id="information-collected" class="privacy-section">
+                    <h3 class="text-2xl font-semibold">2. Enfòmasyon Nou Kolekte</h3>
+                    <p>
+                        Nou kolekte plizyè tip enfòmasyon pou bay Sèvis nou yo epi amelyore eksperyans ou. Enfòmasyon sa yo ka gen ladan:
+                    </p>
+                    
+                    <h4 class="text-xl font-medium text-gray-800 mt-6 mb-3">2.1 Enfòmasyon Ou Bay Nou</h4>
+                    <ul class="list-disc pl-5 space-y-2">
+                        <li>
+                            <strong>Enfòmasyon Enskripsyon:</strong> Lè ou kreye yon kont, nou kolekte enfòmasyon tankou non ou, adrès imèl, nimewo telefòn, dat nesans, ak sèks.
+                        </li>
+                        <li>
+                            <strong>Enfòmasyon Pwofil:</strong> Ou ka chwazi bay enfòmasyon adisyonèl tankou foto pwofil, byografi, enterè akademik, ak eksperyans pwofesyonèl.
+                        </li>
+                        <li>
+                            <strong>Enfòmasyon Akademik:</strong> Nou kolekte enfòmasyon sou edikasyon ou anvan, diplòm, ak sètifika.
+                        </li>
+                        <li>
+                            <strong>Enfòmasyon Peman:</strong> Lè ou achte yon kou oswa pwogram, nou kolekte enfòmasyon peman tankou detay kat kredi oswa enfòmasyon kont bankè. Nou pa estoke enfòmasyon kat kredi konplè sou sèvè nou yo.
+                        </li>
+                        <li>
+                            <strong>Kontni Itilizatè:</strong> Nou kolekte kontni ou kreye, telechaje, oswa resevwa lè ou itilize Sèvis nou yo, tankou devwa, pwojè, mesaj fowòm, ak kòmantè.
+                        </li>
+                        <li>
+                            <strong>Kominikasyon:</strong> Nou kolekte enfòmasyon ou bay lè ou kontakte sipò kliyan nou an, ranpli sondaj, oswa kominike ak pwofesè yo oswa lòt itilizatè yo.
+                        </li>
+                    </ul>
+                    
+                    <h4 class="text-xl font-medium text-gray-800 mt-6 mb-3">2.2 Enfòmasyon Nou Kolekte Otomatikman</h4>
+                    <ul class="list-disc pl-5 space-y-2">
+                        <li>
+                            <strong>Enfòmasyon Itilizasyon:</strong> Nou kolekte enfòmasyon sou kijan ou itilize Sèvis nou yo, tankou paj ou vizite, lè ou aksede a Sèvis yo, ak aktivite ou sou platfòm nan.
+                        </li>
+                        <li>
+                            <strong>Enfòmasyon Aparèy:</strong> Nou kolekte enfòmasyon sou aparèy ou itilize pou aksede a Sèvis nou yo, tankou modèl materyèl, sistèm operasyon, idantifyan inik aparèy, adrès IP, ak enfòmasyon rezo mobil.
+                        </li>
+                        <li>
+                            <strong>Enfòmasyon Lokalizasyon:</strong> Nou ka kolekte enfòmasyon sou lokalizasyon ou atravè adrès IP ou oswa, si ou bay pèmisyon, atravè GPS aparèy ou.
+                        </li>
+                        <li>
+                            <strong>Cookies ak Teknoloji Similè:</strong> Nou itilize cookies ak teknoloji similè pou kolekte enfòmasyon sou kijan ou itilize Sèvis nou yo. Gade seksyon "Cookies ak Teknoloji Similè" anba a pou plis detay.
+                        </li>
+                        <li>
+                            <strong>Done Analitik:</strong> Nou itilize zouti analitik twazyèm pati pou kolekte enfòmasyon sou kijan ou itilize Sèvis nou yo, tankou paj ou vizite, lyen ou klike, ak rechèch ou fè.
+                        </li>
+                    </ul>
+                    
+                    <h4 class="text-xl font-medium text-gray-800 mt-6 mb-3">2.3 Enfòmasyon Nou Resevwa Nan Men Twazyèm Pati</h4>
+                    <ul class="list-disc pl-5 space-y-2">
+                        <li>
+                            <strong>Patnè:</strong> Nou ka resevwa enfòmasyon sou ou nan men patnè biznis nou yo, tankou enstitisyon edikasyon, anplwayè, oswa òganizasyon ki ka enskri ou nan kou nou yo.
+                        </li>
+                        <li>
+                            <strong>Rezo Sosyal:</strong> Si ou chwazi konekte kont FONDESC ou ak kont rezo sosyal ou, nou ka resevwa enfòmasyon nan men sèvis rezo sosyal sa a, an akò ak politik konfidansyalite yo.
+                        </li>
+                        <li>
+                            <strong>Sèvis Peman:</strong> Lè ou fè yon peman, nou ka resevwa enfòmasyon nan men pwosesè peman nou yo pou verifye peman an.
+                        </li>
+                    </ul>
+                </section>
+                
+                <!-- Information Use Section -->
+                <section id="information-use" class="privacy-section">
+                    <h3 class="text-2xl font-semibold">3. Kijan Nou Itilize Enfòmasyon Ou</h3>
+                    <p>
+                        Nou itilize enfòmasyon nou kolekte pou plizyè objektif, ki gen ladan:
+                    </p>
+                    
+                    <h4 class="text-xl font-medium text-gray-800 mt-6 mb-3">3.1 Bay ak Amelyore Sèvis Nou yo</h4>
+                    <ul class="list-disc pl-5 space-y-2">
+                        <li>Bay aksè a platfòm aprantisaj nou an ak kontni kou yo</li>
+                        <li>Pèsonalize eksperyans aprantisaj ou baze sou preferans ou ak pèfòmans</li>
+                        <li>Swiv pwogrè ou nan kou yo ak pwogram yo</li>
+                        <li>Bay sipò teknik ak asistans kliyan</li>
+                        <li>Amelyore ak devlope nouvo karakteristik ak fonksyonalite</li>
+                        <li>Analize tandans itilizasyon ak evalye efikasite Sèvis nou yo</li>
+                        <li>Detekte, anpeche, ak adrese pwoblèm teknik ak sekirite</li>
+                    </ul>
+                    
+                    <h4 class="text-xl font-medium text-gray-800 mt-6 mb-3">3.2 Kominikasyon</h4>
+                    <ul class="list-disc pl-5 space-y-2">
+                        <li>Voye notifikasyon administratif, tankou mizajou sou kondisyon sèvis nou yo oswa politik konfidansyalite</li>
+                        <li>Voye kominikasyon sou kou yo, tankou rapèl devwa ak anons kou</li>
+                        <li>Voye enfòmasyon sou nouvo kou, pwogram, ak opòtinite ki ka enterese ou</li>
+                        <li>Reponn kesyon ou ak demann sipò</li>
+                        <li>Mande fidbak sou Sèvis nou yo</li>
+                    </ul>
+                    
+                    <h4 class="text-xl font-medium text-gray-800 mt-6 mb-3">3.3 Rechèch ak Devlopman</h4>
+                    <ul class="list-disc pl-5 space-y-2">
+                        <li>Mennen rechèch pou amelyore metòd pedagojik ak rezilta aprantisaj</li>
+                        <li>Devlope nouvo kou ak pwogram baze sou enterè ak bezwen itilizatè yo</li>
+                        <li>Kreye modèl prediksyon pou idantifye etidyan ki ka bezwen sipò adisyonèl</li>
+                    </ul>
+                    
+                    <h4 class="text-xl font-medium text-gray-800 mt-6 mb-3">3.4 Konfòmite Legal ak Pwoteksyon</h4>
+                    <ul class="list-disc pl-5 space-y-2">
+                        <li>Konfòme ak obligasyon legal nou yo</li>
+                        <li>Fè respekte kondisyon sèvis nou yo ak lòt politik</li>
+                        <li>Pwoteje dwa, pwopriyete, ak sekirite FONDESC, itilizatè nou yo, ak lòt moun</li>
+                        <li>Detekte, anpeche, ak adrese aktivite fwod, abi, ak ilegal</li>
+                    </ul>
+                    
+                    <div class="highlight-box">
+                        <p class="font-medium">
+                            Baz Legal pou Tretman (pou itilizatè nan Inyon Ewopeyen ak lòt jiridiksyon ki mande yon baz legal):
+                        </p>
+                        <ul class="list-disc pl-5 mt-2">
+                            <li><strong>Egzekisyon Kontra:</strong> Tretman nesesè pou egzekite kontra nou genyen avèk ou (bay sèvis edikatif)</li>
+                            <li><strong>Enterè Lejitim:</strong> Tretman nesesè pou enterè lejitim nou oswa enterè lejitim yon twazyèm pati</li>
+                            <li><strong>Konsantman:</strong> Ou te bay konsantman ou pou tretman enfòmasyon ou pou objektif espesifik</li>
+                            <li><strong>Obligasyon Legal:</strong> Tretman nesesè pou konfòme ak obligasyon legal nou yo</li>
+                        </ul>
+                    </div>
+                </section>
+                
+                <!-- Information Sharing Section -->
+                <section id="information-sharing" class="privacy-section">
+                    <h3 class="text-2xl font-semibold">4. Pataj Enfòmasyon</h3>
+                    <p>
+                        Nou valorize konfidansyalite ou epi nou pa vann enfòmasyon pèsonèl ou bay twazyèm pati. Sepandan, nou ka pataje enfòmasyon ou nan sikonstans swivan yo:
+                    </p>
+                    
+                    <h4 class="text-xl font-medium text-gray-800 mt-6 mb-3">4.1 Ak Konsantman Ou</h4>
+                    <p>
+                        Nou ka pataje enfòmasyon pèsonèl ou lè ou bay nou konsantman eksplisit pou fè sa. Pa egzanp, si ou chwazi pataje sètifika ou oswa reyalizasyon sou rezo sosyal.
+                    </p>
+                    
+                    <h4 class="text-xl font-medium text-gray-800 mt-6 mb-3">4.2 Founisè Sèvis</h4>
+                    <p>
+                        Nou ka pataje enfòmasyon ou ak founisè sèvis twazyèm pati ki ede nou bay ak amelyore Sèvis nou yo. Founisè sa yo gen aksè limite a enfòmasyon ou epi yo oblije pwoteje li an akò ak politik konfidansyalite sa a. Egzanp founisè sèvis gen ladan:
+                    </p>
+                    <ul class="list-disc pl-5 space-y-2">
+                        <li>Pwosesè peman pou fasilite tranzaksyon finansye</li>
+                        <li>Founisè sèvis cloud pou estoke done</li>
+                        <li>Founisè analitik pou analize itilizasyon platfòm nan</li>
+                        <li>Founisè sipò kliyan pou ede ak demann sipò</li>
+                        <li>Founisè kominikasyon pou fasilite imèl ak notifikasyon</li>
+                    </ul>
+                    
+                    <h4 class="text-xl font-medium text-gray-800 mt-6 mb-3">4.3 Patnè Edikasyonèl</h4>
+                    <p>
+                        Si ou enskri nan yon kou oswa pwogram atravè yon patnè edikasyonèl (tankou yon inivèsite oswa yon anplwayè), nou ka pataje enfòmasyon sou pwogrè ou, prezans, ak reyalizasyon ak patnè sa a.
+                    </p>
+                    
+                    <h4 class="text-xl font-medium text-gray-800 mt-6 mb-3">4.4 Pwofesè ak Fasilitatè</h4>
+                    <p>
+                        Pwofesè ak fasilitatè kou yo gen aksè a enfòmasyon sou pèfòmans ou, patisipasyon, ak kontni ou soumèt nan kou yo anseye.
+                    </p>
+                    
+                    <h4 class="text-xl font-medium text-gray-800 mt-6 mb-3">4.5 Konfòmite Legal ak Pwoteksyon</h4>
+                    <p>
+                        Nou ka pataje enfòmasyon ou si nou kwè ke li nesesè pou:
+                    </p>
+                    <ul class="list-disc pl-5 space-y-2">
+                        <li>Konfòme ak lwa aplikab, règleman, pwosesis legal, oswa demann gouvènman</li>
+                        <li>Fè respekte kondisyon sèvis nou yo ak lòt akò</li>
+                        <li>Pwoteje dwa, pwopriyete, oswa sekirite FONDESC, itilizatè nou yo, oswa piblik la</li>
+                        <li>Detekte, anpeche, oswa adrese fwod, abi, oswa pwoblèm sekirite</li>
+                    </ul>
+                    
+                    <h4 class="text-xl font-medium text-gray-800 mt-6 mb-3">4.6 Transfè Biznis</h4>
+                    <p>
+                        Si FONDESC angaje nan yon fizyon, akizisyon, oswa vant tout oswa yon pati nan aktif li yo, enfòmasyon pèsonèl ou ka transfere kòm pati nan tranzaksyon sa a. Nou pral notifye ou anvan enfòmasyon pèsonèl ou transfere epi vin sijè a yon politik konfidansyalite diferan.
+                    </p>
+                    
+                    <h4 class="text-xl font-medium text-gray-800 mt-6 mb-3">4.7 Done Agregé ak Anonimize</h4>
+                    <p>
+                        Nou ka pataje done agregé oswa anonimize (enfòmasyon ki pa idantifye ou pèsonèlman) ak twazyèm pati pou rechèch, analiz, ak lòt objektif.
+                    </p>
+                </section>
+                
+                <!-- Data Security Section -->
+                <section id="data-security" class="privacy-section">
+                    <h3 class="text-2xl font-semibold">5. Sekirite Done</h3>
+                    <p>
+                        Pwoteksyon enfòmasyon pèsonèl ou se yon priyorite pou FONDESC. Nou aplike mezi sekirite teknik, administratif, ak fizik apwopriye pou pwoteje enfòmasyon pèsonèl ou kont aksè ki pa otorize, divilgasyon, altèrasyon, ak destriksyon.
+                    </p>
+                    
+                    <h4 class="text-xl font-medium text-gray-800 mt-6 mb-3">5.1 Mezi Sekirite Nou Aplike</h4>
+                    <ul class="list-disc pl-5 space-y-2">
+                        <li>Kriptaj done an tranzit ak an repo</li>
+                        <li>Otantifikasyon solid ak kontwòl aksè</li>
+                        <li>Siveyans sekirite regilye ak tès penetrasyon</li>
+                        <li>Fòmasyon anplwaye sou pratik sekirite done</li>
+                        <li>Evalyasyon risk regilye ak odit sekirite</li>
+                        <li>Plan repons a ensidan ak pwosedi notifikasyon</li>
+                    </ul>
+                    
+                    <h4 class="text-xl font-medium text-gray-800 mt-6 mb-3">5.2 Limit Sekirite</h4>
+                    <p>
+                        Malgre efò nou yo, okenn metòd transmisyon sou entènèt oswa metòd stokaj elektwonik pa 100% sekirize. Pandan ke nou fè efò pou pwoteje enfòmasyon pèsonèl ou, nou pa ka garanti sekirite absoli li. Ou responsab tou pou ede pwoteje enfòmasyon ou lè ou kenbe modpas ou konfidansyèl epi notifye nou de nenpòt itilizasyon ki pa otorize kont ou oswa lòt vyolasyon sekirite.
+                    </p>
+                    
+                    <h4 class="text-xl font-medium text-gray-800 mt-6 mb-3">5.3 Notifikasyon Vyolasyon</h4>
+                    <p>
+                        Nan ka yon vyolasyon sekirite ki enplike enfòmasyon pèsonèl ou, nou pral notifye ou ak otorite apwopriye yo, jan sa mande pa lwa aplikab, nan yon delè rezonab.
+                    </p>
+                    
+                    <h4 class="text-xl font-medium text-gray-800 mt-6 mb-3">5.4 Retansyon Done</h4>
+                    <p>
+                        Nou konsève enfòmasyon pèsonèl ou pou peryòd tan ki nesesè pou satisfè objektif yo dekri nan politik konfidansyalite sa a, sof si yon peryòd retansyon pi long mande oswa pèmèt pa lwa. Faktè nou konsidere nan detèmine peryòd retansyon gen ladan:
+                    </p>
+                    <ul class="list-disc pl-5 space-y-2">
+                        <li>Dire relasyon nou avèk ou</li>
+                        <li>Si nou gen yon obligasyon legal pou konsève done</li>
+                        <li>Obligasyon legal, kontraktyèl, oswa similè ki aplikab</li>
+                        <li>Si done a nesesè pou rezoud diskisyon oswa reklamasyon</li>
+                    </ul>
+                    <p>
+                        Lè enfòmasyon pèsonèl ou pa nesesè ankò pou objektif yo kolekte li, nou pral swa efase li oswa anonimize li, sof si nou gen yon obligasyon legal pou konsève li.
+                    </p>
+                </section>
+                
+                <!-- User Rights Section -->
+                <section id="user-rights" class="privacy-section">
+                    <h3 class="text-2xl font-semibold">6. Dwa Itilizatè yo</h3>
+                    <p>
+                        Selon jiridiksyon ou, ou ka gen sèten dwa konsènan enfòmasyon pèsonèl ou. Dwa sa yo ka gen ladan:
+                    </p>
+                    
+                    <h4 class="text-xl font-medium text-gray-800 mt-6 mb-3">6.1 Dwa Aksè ak Enfòmasyon</h4>
+                    <p>
+                        Ou gen dwa pou mande aksè a enfòmasyon pèsonèl nou genyen sou ou epi resevwa enfòmasyon sou kijan nou itilize ak pataje li.
+                    </p>
+                    
+                    <h4 class="text-xl font-medium text-gray-800 mt-6 mb-3">6.2 Dwa Koreksyon</h4>
+                    <p>
+                        Ou gen dwa pou mande koreksyon enfòmasyon pèsonèl ou si li pa egzat oswa enkonplè.
+                    </p>
+                    
+                    <h4 class="text-xl font-medium text-gray-800 mt-6 mb-3">6.3 Dwa Efasman</h4>
+                    <p>
+                        Ou gen dwa pou mande efasman enfòmasyon pèsonèl ou nan sèten sikonstans, tankou lè done a pa nesesè ankò pou objektif orijinal li te kolekte.
+                    </p>
+                    
+                    <h4 class="text-xl font-medium text-gray-800 mt-6 mb-3">6.4 Dwa Restriksyon Tretman</h4>
+                    <p>
+                        Ou gen dwa pou mande restriksyon tretman enfòmasyon pèsonèl ou nan sèten sikonstans, tankou lè ou konteste egzaktitid done a.
+                    </p>
+                    
+                    <h4 class="text-xl font-medium text-gray-800 mt-6 mb-3">6.5 Dwa Pòtabilite Done</h4>
+                    <p>
+                        Ou gen dwa pou resevwa enfòmasyon pèsonèl ou nan yon fòma striktire, itilize souvan, ak ki ka li pa machin, epi pou transmèt done sa a bay yon lòt kontwolè done.
+                    </p>
+                    
+                    <h4 class="text-xl font-medium text-gray-800 mt-6 mb-3">6.6 Dwa Objeksyon</h4>
+                    <p>
+                        Ou gen dwa pou objekte a tretman enfòmasyon pèsonèl ou nan sèten sikonstans, tankou pou maketing dirèk.
+                    </p>
+                    
+                    <h4 class="text-xl font-medium text-gray-800 mt-6 mb-3">6.7 Dwa Retire Konsantman</h4>
+                    <p>
+                        Si nou trete enfòmasyon pèsonèl ou baze sou konsantman ou, ou gen dwa pou retire konsantman sa a nenpòt kilè.
+                    </p>
+                    
+                    <h4 class="text-xl font-medium text-gray-800 mt-6 mb-3">6.8 Kijan Egzèse Dwa Ou yo</h4>
+                    <p>
+                        Pou egzèse nenpòt nan dwa sa yo, tanpri kontakte nou nan adrès ki bay nan seksyon "Enfòmasyon Kontak" anba a. Nou pral reponn demann ou nan yon delè rezonab, jeneralman nan 30 jou. Nou ka mande enfòmasyon adisyonèl pou verifye idantite ou anvan nou trete demann ou.
+                    </p>
+                    
+                    <div class="highlight-box">
+                        <p class="font-medium">
+                            Tanpri note ke sèten dwa ka gen limit, epi nou ka bezwen konsève sèten enfòmasyon pou:
+                        </p>
+                        <ul class="list-disc pl-5 mt-2">
+                            <li>Konfòme ak obligasyon legal nou yo</li>
+                            <li>Pwoteje kont aktivite fwod oswa abi</li>
+                            <li>Envestige ak adrese vyolasyon kondisyon sèvis nou yo</li>
+                            <li>Pwoteje dwa, pwopriyete, oswa sekirite FONDESC, itilizatè nou yo, oswa lòt moun</li>
+                        </ul>
+                    </div>
+                </section>
+                
+                <!-- Cookies Section -->
+                <section id="cookies" class="privacy-section">
+                    <h3 class="text-2xl font-semibold">7. Cookies ak Teknoloji Similè</h3>
+                    <p>
+                        FONDESC itilize cookies ak teknoloji similè pou kolekte enfòmasyon sou kijan ou itilize Sèvis nou yo. Cookies se ti fichye tèks ki estoke sou navigatè ou oswa aparèy ou lè ou vizite yon sit entènèt.
+                    </p>
+                    
+                    <h4 class="text-xl font-medium text-gray-800 mt-6 mb-3">7.1 Tip Cookies Nou Itilize</h4>
+                    <ul class="list-disc pl-5 space-y-2">
+                        <li>
+                            <strong>Cookies Esansyèl:</strong> Cookies sa yo nesesè pou Sèvis nou yo fonksyone epi yo pa ka dezaktive nan sistèm nou yo. Yo jeneralman mete sèlman an repons a aksyon ou fè ki ekivalan a yon demann sèvis, tankou fikse preferans konfidansyalite ou, konekte, oswa ranpli fòm.
+                        </li>
+                        <li>
+                            <strong>Cookies Pèfòmans:</strong> Cookies sa yo pèmèt nou konte vizit ak sous trafik pou nou ka mezire ak amelyore pèfòmans sit nou an. Yo ede nou konnen ki paj ki pi popilè ak ki pa popilè epi wè kijan vizitè yo deplase nan sit la.
+                        </li>
+                        <li>
+                            <strong>Cookies Fonksyonalite:</strong> Cookies sa yo pèmèt sit la bay fonksyonalite ak pèsonalizasyon amelyore. Yo ka mete pa nou oswa pa founisè twazyèm pati nou te ajoute nan paj nou yo.
+                        </li>
+                        <li>
+                            <strong>Cookies Siblaj:</strong> Cookies sa yo ka mete atravè sit nou an pa patnè piblisite nou yo. Yo ka itilize pa konpayi sa yo pou bati yon pwofil enterè ou epi montre ou piblisite ki enpòtan sou lòt sit.
+                        </li>
+                    </ul>
+                    
+                    <h4 class="text-xl font-medium text-gray-800 mt-6 mb-3">7.2 Lòt Teknoloji Swivi</h4>
+                    <p>
+                        Anplis cookies, nou ka itilize lòt teknoloji similè pou swivi itilizasyon Sèvis nou yo:
+                    </p>
+                    <ul class="list-disc pl-5 space-y-2">
+                        <li>
+                            <strong>Pixel Tags (oswa Beacon):</strong> Ti grafik envizib ki ka itilize pou swiv mouvman itilizatè sou sit entènèt oswa pou konnen si yon imèl te ouvri.
+                        </li>
+                        <li>
+                            <strong>Stokaj Lokal:</strong> Teknoloji tankou HTML5 ak objè pataje lokal ("LSO") pou estoke enfòmasyon sou preferans ou oswa aktivite ou.
+                        </li>
+                        <li>
+                            <strong>Idantifyan Aparèy:</strong> Idantifyan inik asosye ak aparèy ou pou swivi itilizasyon ou nan diferan sit entènèt ak aplikasyon.
+                        </li>
+                    </ul>
+                    
+                    <h4 class="text-xl font-medium text-gray-800 mt-6 mb-3">7.3 Kontwole Cookies</h4>
+                    <p>
+                        Pifò navigatè entènèt konfigire pou aksepte cookies pa defo. Sepandan, ou ka modifye paramèt navigatè ou pou bloke cookies oswa alète ou lè cookies ap voye. Tanpri note ke si ou chwazi bloke cookies, sa ka afekte fonksyonalite Sèvis nou yo.
+                    </p>
+                    <p>
+                        Pou plis enfòmasyon sou kijan ou ka kontwole cookies, tanpri konsilte paramèt navigatè ou oswa vizite <a href="https://www.allaboutcookies.org/" class="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">www.allaboutcookies.org</a>.
+                    </p>
+                </section>
+                
+                <!-- Data Transfers Section -->
+                <section id="data-transfers" class="privacy-section">
+                    <h3 class="text-2xl font-semibold">8. Transfè Entènasyonal Done</h3>
+                    <p>
+                        FONDESC opere globalman, epi nou ka transfere enfòmasyon pèsonèl ou atravè fwontyè entènasyonal. Enfòmasyon pèsonèl ou ka estoke ak trete nan nenpòt peyi kote nou gen operasyon oswa kote founisè sèvis nou yo sitiye.
+                    </p>
+                    <p>
+                        Lè nou transfere enfòmasyon pèsonèl ou soti nan Inyon Ewopeyen, Wayòm Ini, oswa lòt rejyon ak lwa pwoteksyon done, nou asire ke transfè a fèt an akò ak lwa aplikab sou pwoteksyon done epi ke mezi apwopriye an plas pou pwoteje enfòmasyon pèsonèl ou.
+                    </p>
+                    <p>
+                        Mezi sa yo ka gen ladan:
+                    </p>
+                    <ul class="list-disc pl-5 space-y-2">
+                        <li>Transfere done a peyi ki gen lwa pwoteksyon done adekwa</li>
+                        <li>Itilize kloz kontraktyèl espesifik apwouve pa otorite pwoteksyon done ki apwopriye</li>
+                        <li>Konfòme ak kad travay sètifikasyon ki pwoteje transfè entènasyonal done</li>
+                        <li>Obteni konsantman eksplisit ou pou transfè a</li>
+                        <li>Transfere done kote li nesesè pou egzekite yon kontra avèk ou oswa pou aplikasyon mezi pre-kontraktyèl pran sou demann ou</li>
+                    </ul>
+                    <p>
+                        Lè ou itilize Sèvis nou yo, ou rekonèt ke enfòmasyon pèsonèl ou ka transfere nan peyi ki ka pa gen menm nivo pwoteksyon done ke peyi kote ou rezide.
+                    </p>
+                </section>
+                
+                <!-- Children's Privacy Section -->
+                <section id="children-privacy" class="privacy-section">
+                    <h3 class="text-2xl font-semibold">9. Konfidansyalite Timoun</h3>
+                    <p>
+                        Sèvis FONDESC yo pa fèt pou timoun ki poko gen 16 an. Nou pa kolekte enfòmasyon pèsonèl nan men timoun ki poko gen 16 an avèk konesans. Si ou gen mwens pase 16 an, tanpri pa itilize Sèvis nou yo oswa bay enfòmasyon pèsonèl ou.
+                    </p>
+                    <p>
+                        Si ou se yon paran oswa gadyen epi ou kwè ke pitit ou te bay nou enfòmasyon pèsonèl, tanpri kontakte nou nan adrès ki bay nan seksyon "Enfòmasyon Kontak" anba a. Si nou aprann ke nou te kolekte enfòmasyon pèsonèl nan men yon timoun ki poko gen 16 an san verifikasyon konsantman paran, nou pral pran mezi pou retire enfòmasyon sa a nan sèvè nou yo.
+                    </p>
+                    <p>
+                        Nan sèten ka, nou ka ofri pwogram edikatif espesyalman pou minè ki gen plis pase 13 an. Nan ka sa yo, nou pral obteni konsantman paran verifye anvan nou kolekte nenpòt enfòmasyon pèsonèl nan men minè yo, epi nou pral trete enfòmasyon sa a an akò ak lwa aplikab sou pwoteksyon done ak konfidansyalite timoun.
+                    </p>
+                </section>
+                
+                <!-- Policy Changes Section -->
+                <section id="policy-changes" class="privacy-section">
+                    <h3 class="text-2xl font-semibold">10. Chanjman nan Politik Konfidansyalite a</h3>
+                    <p>
+                        Nou ka mete ajou politik konfidansyalite sa a peryodikman pou reflete chanjman nan pratik konfidansyalite nou yo, chanjman nan lwa aplikab, oswa pou lòt rezon. Lè nou fè chanjman enpòtan, nou pral notifye ou lè nou poste yon avi sou sit entènèt nou an, voye ou yon imèl, oswa pa lòt mwayen apwopriye.
+                    </p>
+                    <p>
+                        Nou ankouraje ou revize politik konfidansyalite sa a peryodikman pou rete enfòme sou kijan nou pwoteje enfòmasyon pèsonèl ou. Dat "Dènye mizajou" nan tèt politik konfidansyalite sa a endike kilè li te revize dènye fwa.
+                    </p>
+                    <p>
+                        Itilizasyon kontinyèl ou nan Sèvis nou yo apre nenpòt chanjman nan politik konfidansyalite sa a konstitye akseptasyon ou nan politik revize a. Si ou pa dakò ak chanjman yo, ou dwe sispann itilize Sèvis nou yo.
+                    </p>
+                </section>
+                
+                <!-- Contact Information Section -->
+                <section id="contact-info" class="privacy-section">
+                    <h3 class="text-2xl font-semibold">11. Enfòmasyon Kontak</h3>
+                    <p>
+                        Si ou gen nenpòt kesyon, enkyetid, oswa demann konsènan politik konfidansyalite sa a oswa pratik konfidansyalite nou yo, tanpri kontakte nou nan:
+                    </p>
+                    <div class="bg-gray-50 p-6 rounded-lg mt-4">
+                        <p class="mb-2"><strong>FONDESC - Fòmasyon Nasyonal a Distans</strong></p>
+                        <p class="mb-2">Adrès: Av. Edikasyon, 1000, Sant, Pòtoprens, Ayiti</p>
+                        <p class="mb-2">Imèl: konfidansyalite@fondesc.edu.ht</p>
+                        <p class="mb-2">Telefòn: 0800 123 4567</p>
+                    </div>
+                    <p class="mt-4">
+                        Nou pral reponn demann ou nan yon delè rezonab, jeneralman nan 30 jou. Si repons nou pa satisfezan, ou ka gen dwa pou depoze yon plent nan otorite pwoteksyon done lokal ou.
+                    </p>
+                </section>
+                
+                <!-- Acceptance Section -->
+                <div class="bg-blue-50 p-6 rounded-lg mt-8 border-l-4 border-primary">
+                    <p class="text-gray-800 font-medium">
+                        Lè ou itilize Sèvis FONDESC yo, ou rekonèt ke ou te li epi konprann politik konfidansyalite sa a. Si ou pa dakò ak politik sa a, tanpri pa itilize Sèvis nou yo.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Back to top button -->
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+        </svg>
+    </button>
+</div>
+{% endblock %}
+

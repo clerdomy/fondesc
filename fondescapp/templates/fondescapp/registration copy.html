@@ -1,0 +1,426 @@
+{% extends 'fondescapp/base.html' %}
+
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/registration.css' %}">
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/registration.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+  <main>
+      <!-- Page Header -->
+      <section class="page-header">
+          <div class="container">
+              <h1>Enskri nan FONDESC</h1>
+              <div class="breadcrumbs">
+                  <a href="{% url 'home-page' %}">Akèy</a> &gt; Enskri
+              </div>
+          </div>
+      </section>
+
+      <!-- Registration Section -->
+      <section class="registration-section">
+          <div class="container">
+              <div class="registration-intro">
+                  <h2>Kòmanse vwayaj akademik ou</h2>
+                  <p>Ranpli fòmilè anba a pou enskri nan FONDESC epi kòmanse etidye nan pwogram ou chwazi a.</p>
+              </div>
+
+              <div class="registration-container">
+                  <div class="registration-steps">
+                      <div class="step active">
+                          <div class="step-number">1</div>
+                          <div class="step-label">Enfòmasyon Pèsonèl</div>
+                      </div>
+                      {% comment %}
+                      <div class="step">
+                          <div class="step-number">2</div>
+                          <div class="step-label">Chwazi Kou</div>
+                      </div>
+                      {% endcomment %}
+                      <div class="step">
+                          <div class="step-number">3</div>
+                          <div class="step-label">Dokiman</div>
+                      </div>
+                      {% comment %}
+                      <div class="step">
+                          <div class="step-number">4</div>
+                          <div class="step-label">Peman</div>
+                      </div>
+                      {% endcomment %}
+                  </div>
+
+                  <form id="registration-form" action="process-registration.php" method="POST" enctype="multipart/form-data">
+                      <!-- Step 1: Personal Information -->
+                      <div class="form-step active" id="step-1">
+                          <h3>Enfòmasyon Pèsonèl</h3>
+                          
+                          <div class="form-grid">
+                              <div class="form-group">
+                                  <label for="first-name">Non <span class="required">*</span></label>
+                                  <input type="text" id="first-name" name="first_name" required>
+                              </div>
+                              
+                              <div class="form-group">
+                                  <label for="last-name">Siyati <span class="required">*</span></label>
+                                  <input type="text" id="last-name" name="last_name" required>
+                              </div>
+                              
+                              <div class="form-group">
+                                  <label for="email">Imèl <span class="required">*</span></label>
+                                  <input type="email" id="email" name="email" required>
+                              </div>
+                              
+                              <div class="form-group">
+                                  <label for="phone">Telefòn <span class="required">*</span></label>
+                                  <input type="tel" id="phone" name="phone" required>
+                              </div>
+                              
+                              <div class="form-group">
+                                  <label for="birth-date">Dat Nesans <span class="required">*</span></label>
+                                  <input type="date" id="birth-date" name="birth_date" required>
+                              </div>
+                              
+                              <div class="form-group">
+                                  <label for="gender">Sèks</label>
+                                  <select id="gender" name="gender">
+                                      <option value="">Chwazi...</option>
+                                      <option value="male">Gason</option>
+                                      <option value="female">Fi</option>
+                                      <option value="other">Lòt</option>
+                                  </select>
+                              </div>
+                              
+                              <div class="form-group full-width">
+                                  <label for="address">Adrès <span class="required">*</span></label>
+                                  <input type="text" id="address" name="address" required>
+                              </div>
+                              
+                              <div class="form-group">
+                                  <label for="city">Vil <span class="required">*</span></label>
+                                  <input type="text" id="city" name="city" required>
+                              </div>
+                              
+                              <div class="form-group">
+                                  <label for="postal-code">Kòd Postal</label>
+                                  <input type="text" id="postal-code" name="postal_code">
+                              </div>
+                          </div>
+                          
+                          <div class="form-buttons">
+                              <button type="button" class="button button-primary next-step">Kontinye</button>
+                          </div>
+                      </div>
+                      
+                      {% comment %}
+                      <!-- Step 2: Course Selection -->
+                      <div class="form-step" id="step-2">
+                          <h3>Chwazi Kou</h3>
+                          
+                          <div class="form-group">
+                              <label for="education-level">Nivo Edikasyon <span class="required">*</span></label>
+                              <select id="education-level" name="education_level" required>
+                                  <option value="">Chwazi...</option>
+                                  <option value="high-school">Segondè</option>
+                                  <option value="technical">Teknik</option>
+                                  <option value="undergraduate">Lisans</option>
+                                  <option value="graduate">Metriz</option>
+                              </select>
+                          </div>
+                          
+                          <div class="form-group">
+                              <label for="course-type">Tip Kou <span class="required">*</span></label>
+                              <select id="course-type" name="course_type" required>
+                                  <option value="">Chwazi...</option>
+                                  <option value="undergraduate">Lisans</option>
+                                  <option value="graduate">Metriz</option>
+                                  <option value="technical">Teknik</option>
+                                  <option value="free">Kou Lib</option>
+                              </select>
+                          </div>
+                          
+                          <div class="form-group">
+                              <label for="course">Kou <span class="required">*</span></label>
+                              <select id="course" name="course" required>
+                                  <option value="">Chwazi...</option>
+                                  <!-- Options will be populated via JavaScript based on course type -->
+                              </select>
+                          </div>
+                          
+                          <div class="form-group">
+                              <label for="start-date">Dat Kòmansman <span class="required">*</span></label>
+                              <select id="start-date" name="start_date" required>
+                                  <option value="">Chwazi...</option>
+                                  <option value="immediate">Imedyatman</option>
+                                  <option value="next-month">Pwochen Mwa</option>
+                                  <option value="next-semester">Pwochen Semès</option>
+                              </select>
+                          </div>
+                          
+                          <div class="form-buttons">
+                              <button type="button" class="button button-outline prev-step">Retounen</button>
+                              <button type="button" class="button button-primary next-step">Kontinye</button>
+                          </div>
+                      </div>
+                      {% endcomment %}
+                      
+                      <!-- Step 3: Documents -->
+                      <div class="form-step" id="step-3">
+                          <h3>Dokiman</h3>
+                          <p class="form-info">Tanpri telechaje dokiman ki nesesè yo. Fòma aksepte: PDF, JPG, PNG (max 5MB chak).</p>
+                          
+                          <div class="form-group">
+                              <label for="id-document">Dokiman Idantite <span class="required">*</span></label>
+                              <input type="file" id="id-document" name="id_document" accept=".pdf,.jpg,.jpeg,.png" required>
+                              <small>Kat Idantite Nasyonal oswa Paspò</small>
+                          </div>
+                          
+                          <div class="form-group">
+                              <label for="diploma">Diplòm <span class="required">*</span></label>
+                              <input type="file" id="diploma" name="diploma" accept=".pdf,.jpg,.jpeg,.png" required>
+                              <small>Dènye diplòm ou te resevwa</small>
+                          </div>
+                          
+                          <div class="form-group">
+                              <label for="transcript">Relve Nòt</label>
+                              <input type="file" id="transcript" name="transcript" accept=".pdf,.jpg,.jpeg,.png">
+                              <small>Relve nòt pou dènye etid ou te fè</small>
+                          </div>
+                          
+                          <div class="form-group">
+                              <label for="photo">Foto <span class="required">*</span></label>
+                              <input type="file" id="photo" name="photo" accept=".jpg,.jpeg,.png" required>
+                              <small>Foto resan (fòma paspò)</small>
+                          </div>
+                          
+                          <div class="form-buttons">
+                              <button type="button" class="button button-outline prev-step">Retounen</button>
+                              <button type="button" class="button button-primary next-step">Kontinye</button>
+                          </div>
+                      </div>
+                      
+                        {% comment %}
+                      <!-- Step 4: Payment -->
+                      <div class="form-step" id="step-4">
+                          <h3>Peman</h3>
+                          <p class="form-info">Tanpri chwazi metòd peman ou prefere a.</p>
+                          
+                          <div class="payment-options">
+                              <div class="payment-option">
+                                  <input type="radio" id="payment-full" name="payment_option" value="full" checked>
+                                  <label for="payment-full">Peman Konplè</label>
+                                  <div class="payment-description">
+                                      <p>Peye frè enskripsyon an konplè. Resevwa 5% rabè.</p>
+                                  </div>
+                              </div>
+                              
+                              <div class="payment-option">
+                                  <input type="radio" id="payment-installment" name="payment_option" value="installment">
+                                  <label for="payment-installment">Peman an Vèsman</label>
+                                  <div class="payment-description">
+                                      <p>Peye frè enskripsyon an nan 3 vèsman.</p>
+                                  </div>
+                              </div>
+                          </div>
+                          
+                          <div class="payment-methods">
+                              <h4>Metòd Peman</h4>
+                              
+                              <div class="payment-method-options">
+                                  <div class="payment-method">
+                                      <input type="radio" id="method-card" name="payment_method" value="card" checked>
+                                      <label for="method-card">Kat Kredi/Debi</label>
+                                  </div>
+                                  
+                                  <div class="payment-method">
+                                      <input type="radio" id="method-bank" name="payment_method" value="bank">
+                                      <label for="method-bank">Transfè Bank</label>
+                                  </div>
+                                  
+                                  <div class="payment-method">
+                                      <input type="radio" id="method-mobile" name="payment_method" value="mobile">
+                                      <label for="method-mobile">Peman Mobil (MonCash)</label>
+                                  </div>
+                              </div>
+                              
+                              <!-- Credit Card Form (shown by default) -->
+                              <div class="payment-form" id="card-form">
+                                  <div class="form-grid">
+                                      <div class="form-group full-width">
+                                          <label for="card-number">Nimewo Kat <span class="required">*</span></label>
+                                          <input type="text" id="card-number" name="card_number" placeholder="0000 0000 0000 0000">
+                                      </div>
+                                      
+                                      <div class="form-group">
+                                          <label for="card-name">Non sou Kat <span class="required">*</span></label>
+                                          <input type="text" id="card-name" name="card_name">
+                                      </div>
+                                      
+                                      <div class="form-group">
+                                          <label for="card-expiry">Dat Ekspirasyon <span class="required">*</span></label>
+                                          <input type="text" id="card-expiry" name="card_expiry" placeholder="MM/YY">
+                                      </div>
+                                      
+                                      <div class="form-group">
+                                          <label for="card-cvv">CVV <span class="required">*</span></label>
+                                          <input type="text" id="card-cvv" name="card_cvv" placeholder="123">
+                                      </div>
+                                  </div>
+                              </div>
+                              
+                              <!-- Bank Transfer Form (hidden by default) -->
+                              <div class="payment-form hidden" id="bank-form">
+                                  <div class="bank-info">
+                                      <p>Tanpri fè transfè a nan kont bank sa a:</p>
+                                      <p><strong>Bank:</strong> Bank Nasyonal Ayiti</p>
+                                      <p><strong>Non Kont:</strong> FONDESC Edikasyon</p>
+                                      <p><strong>Nimewo Kont:</strong> 123456789</p>
+                                      <p><strong>Kòd Swift:</strong> BNHAHTPP</p>
+                                      <p>Apre ou fin fè transfè a, tanpri telechaje resi a anba a.</p>
+                                  </div>
+                                  
+                                  <div class="form-group">
+                                      <label for="bank-receipt">Resi Transfè <span class="required">*</span></label>
+                                      <input type="file" id="bank-receipt" name="bank_receipt" accept=".pdf,.jpg,.jpeg,.png">
+                                  </div>
+                              </div>
+                              
+                              <!-- Mobile Payment Form (hidden by default) -->
+                              <div class="payment-form hidden" id="mobile-form">
+                                  <div class="mobile-info">
+                                      <p>Tanpri fè peman an nan nimewo MonCash sa a:</p>
+                                      <p><strong>Nimewo:</strong> 509 3456 7890</p>
+                                      <p><strong>Non:</strong> FONDESC</p>
+                                      <p>Apre ou fin fè peman an, tanpri antre kòd konfimasyon an anba a.</p>
+                                  </div>
+                                  
+                                  <div class="form-group">
+                                      <label for="mobile-code">Kòd Konfimasyon <span class="required">*</span></label>
+                                      <input type="text" id="mobile-code" name="mobile_code">
+                                  </div>
+                              </div>
+                          </div>
+                          
+                          <div class="terms-agreement">
+                              <div class="form-group checkbox">
+                                  <input type="checkbox" id="terms" name="terms" required>
+                                  <label for="terms">Mwen aksepte <a href="kondisyon-itilizasyon.html" target="_blank">Kondisyon Itilizasyon</a> ak <a href="politik-konfidansyalite.html" target="_blank">Politik Konfidansyalite</a> FONDESC.</label>
+                              </div>
+                          </div>
+                          
+                          <div class="form-buttons">
+                              <button type="button" class="button button-outline prev-step">Retounen</button>
+                              <button type="submit" class="button button-primary">Soumèt Enskripsyon</button>
+                          </div>
+                      </div>
+                        {% endcomment %}
+                  </form>
+              </div>
+          </div>
+      </section>
+
+      <!-- Why Choose Us Section -->
+      <section class="why-choose-section">
+          <div class="container">
+              <h2>Poukisa Chwazi FONDESC?</h2>
+              
+              <div class="features-grid">
+                  <div class="feature-card">
+                      <div class="feature-icon">
+                          <i class="fas fa-graduation-cap"></i>
+                      </div>
+                      <h3>Edikasyon Kalite</h3>
+                      <p>Pwogram nou yo devlope pa ekspè nan domèn yo epi yo rekonèt pa Ministè Edikasyon.</p>
+                  </div>
+                  
+                  <div class="feature-card">
+                      <div class="feature-icon">
+                          <i class="fas fa-clock"></i>
+                      </div>
+                      <h3>Fleksibilite</h3>
+                      <p>Etidye nan pwòp ritm ou, nenpòt kilè ak kote ou vle, san konpwomi sou kalite.</p>
+                  </div>
+                  
+                  <div class="feature-card">
+                      <div class="feature-icon">
+                          <i class="fas fa-users"></i>
+                      </div>
+                      <h3>Sipò Pèsonalize</h3>
+                      <p>Pwofesè ak konseye akademik disponib pou ede ou nan chak etap vwayaj ou.</p>
+                  </div>
+                  
+                  <div class="feature-card">
+                      <div class="feature-icon">
+                          <i class="fas fa-money-bill-wave"></i>
+                      </div>
+                      <h3>Pri Abòdab</h3>
+                      <p>Opsyon peman fleksib ak bous disponib pou rann edikasyon aksesib pou tout moun.</p>
+                  </div>
+              </div>
+          </div>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+          <div class="container">
+              <h2>Kesyon Moun Poze Souvan</h2>
+              
+              <div class="faq-container">
+                  <div class="faq-item">
+                      <div class="faq-question">
+                          <h3>Ki dokiman mwen bezwen pou enskri?</h3>
+                          <i class="fas fa-chevron-down"></i>
+                      </div>
+                      <div class="faq-answer">
+                          <p>Ou bezwen yon dokiman idantite (Kat Idantite Nasyonal oswa Paspò), dènye diplòm ou, relve nòt, ak yon foto resan nan fòma paspò.</p>
+                      </div>
+                  </div>
+                  
+                  <div class="faq-item">
+                      <div class="faq-question">
+                          <h3>Konbyen tan pwosesis enskripsyon an pran?</h3>
+                          <i class="fas fa-chevron-down"></i>
+                      </div>
+                      <div class="faq-answer">
+                          <p>Pwosesis enskripsyon an pran anviwon 3-5 jou ouvrab apre ou fin soumèt tout dokiman nesesè yo ak peman an.</p>
+                      </div>
+                  </div>
+                  
+                  <div class="faq-item">
+                      <div class="faq-question">
+                          <h3>Èske mwen ka anile enskripsyon mwen?</h3>
+                          <i class="fas fa-chevron-down"></i>
+                      </div>
+                      <div class="faq-answer">
+                          <p>Wi, ou ka anile enskripsyon ou nan lespas 15 jou apre ou fin enskri. Tanpri li politik ranbousman nou an pou plis detay.</p>
+                      </div>
+                  </div>
+                  
+                  <div class="faq-item">
+                      <div class="faq-question">
+                          <h3>Èske gen frè adisyonèl?</h3>
+                          <i class="fas fa-chevron-down"></i>
+                      </div>
+                      <div class="faq-answer">
+                          <p>Frè enskripsyon an kouvri tout materyèl kou yo ak aksè nan platfòm nan. Kèk kou ka gen frè adisyonèl pou materyèl espesyal oswa egzamen sètifikasyon.</p>
+                      </div>
+                  </div>
+                  
+                  <div class="faq-item">
+                      <div class="faq-question">
+                          <h3>Kilè kou yo kòmanse?</h3>
+                          <i class="fas fa-chevron-down"></i>
+                      </div>
+                      <div class="faq-answer">
+                          <p>Nou gen plizyè dat kòmansman pandan ane a. Ou ka chwazi pou kòmanse imedyatman, nan pwochen mwa a, oswa nan pwochen semès la.</p>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </section>
+  </main>
+{% endblock %}

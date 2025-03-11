@@ -1,0 +1,767 @@
+{% extends 'fondescapp/base.html' %}
+
+{% load static %}
+
+{% block extra_css %}
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<style>
+    .site-under-development
+    .fondesc-gradient {
+        background: linear-gradient(to right, var(--secondary), rgba(0, 59, 113, 0.9));
+    }
+    
+    .fondesc-button {
+        background-color: var(--primary);
+        color: var(--secondary);
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+    
+    .fondesc-button:hover {
+        background-color: rgba(255, 204, 41, 0.9);
+    }
+    
+    .scholarship-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .scholarship-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+    
+    .timeline-item {
+        position: relative;
+        padding-left: 2rem;
+    }
+    
+    .timeline-item::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background-color: var(--primary);
+    }
+    
+    .timeline-item::after {
+        content: '';
+        position: absolute;
+        left: -0.375rem;
+        top: 0.5rem;
+        width: 0.75rem;
+        height: 0.75rem;
+        border-radius: 50%;
+        background-color: var(--primary);
+    }
+    
+    .timeline-item:last-child::before {
+        bottom: auto;
+        height: 0.5rem;
+    }
+    
+    .accordion-item {
+        border-bottom: 1px solid var(--border-color);
+    }
+    
+    .accordion-item:last-child {
+        border-bottom: none;
+    }
+    
+    .accordion-button {
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    .accordion-button:hover {
+        color: var(--secondary);
+    }
+    
+    .accordion-content {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+    }
+    
+    .accordion-item.active .accordion-content {
+        max-height: 1000px;
+    }
+    
+    .accordion-item.active .accordion-icon-plus {
+        display: none;
+    }
+    
+    .accordion-item:not(.active) .accordion-icon-minus {
+        display: none;
+    }
+    
+    .input-field {
+        border: 1px solid var(--border-color);
+        border-radius: 0.375rem;
+        padding: 0.75rem 1rem;
+        width: 100%;
+        transition: all 0.3s ease;
+    }
+    
+    .input-field:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(255, 204, 41, 0.25);
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Accordion functionality
+        const accordionItems = document.querySelectorAll('.accordion-item');
+        
+        accordionItems.forEach(item => {
+            const button = item.querySelector('.accordion-button');
+            
+            button.addEventListener('click', () => {
+                // Close all other accordions
+                accordionItems.forEach(otherItem => {
+                    if (otherItem !== item && otherItem.classList.contains('active')) {
+                        otherItem.classList.remove('active');
+                    }
+                });
+                
+                // Toggle current accordion
+                item.classList.toggle('active');
+            });
+        });
+        
+        // Form validation
+        const scholarshipForm = document.getElementById('scholarship-interest-form');
+        
+        if (scholarshipForm) {
+            scholarshipForm.addEventListener('submit', function(e) {
+                let isValid = true;
+                const requiredFields = scholarshipForm.querySelectorAll('[required]');
+                
+                requiredFields.forEach(field => {
+                    if (!field.value.trim()) {
+                        isValid = false;
+                        field.classList.add('border-red-500');
+                        
+                        // Add error message if it doesn't exist
+                        let errorMsg = field.nextElementSibling;
+                        if (!errorMsg || !errorMsg.classList.contains('error-message')) {
+                            errorMsg = document.createElement('p');
+                            errorMsg.classList.add('text-red-500', 'text-sm', 'mt-1', 'error-message');
+                            errorMsg.textContent = 'Chan sa a obligatwa';
+                            field.parentNode.insertBefore(errorMsg, field.nextSibling);
+                        }
+                    } else {
+                        field.classList.remove('border-red-500');
+                        
+                        // Remove error message if it exists
+                        const errorMsg = field.nextElementSibling;
+                        if (errorMsg && errorMsg.classList.contains('error-message')) {
+                            errorMsg.remove();
+                        }
+                    }
+                });
+                
+                // Email validation
+                const emailField = scholarshipForm.querySelector('#email');
+                if (emailField && emailField.value.trim()) {
+                    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    if (!emailPattern.test(emailField.value.trim())) {
+                        isValid = false;
+                        emailField.classList.add('border-red-500');
+                        
+                        // Add error message if it doesn't exist
+                        let errorMsg = emailField.nextElementSibling;
+                        if (!errorMsg || !errorMsg.classList.contains('error-message')) {
+                            errorMsg = document.createElement('p');
+                            errorMsg.classList.add('text-red-500', 'text-sm', 'mt-1', 'error-message');
+                            errorMsg.textContent = 'Tanpri antre yon adrès imèl valid';
+                            emailField.parentNode.insertBefore(errorMsg, emailField.nextSibling);
+                        } else {
+                            errorMsg.textContent = 'Tanpri antre yon adrès imèl valid';
+                        }
+                    }
+                }
+                
+                if (!isValid) {
+                    e.preventDefault();
+                }
+            });
+            
+            // Clear error styling on input
+            scholarshipForm.querySelectorAll('input, textarea, select').forEach(field => {
+                field.addEventListener('input', function() {
+                    this.classList.remove('border-red-500');
+                    
+                    // Remove error message if it exists
+                    const errorMsg = this.nextElementSibling;
+                    if (errorMsg && errorMsg.classList.contains('error-message')) {
+                        errorMsg.remove();
+                    }
+                });
+            });
+        }
+    });
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="min-h-screen flex flex-col bg-white">
+    <!-- Header with page title -->
+    <header class="bg-gray-50 py-12 border-b border-gray-100">
+        <div class="container mx-auto px-4">
+            <div class="max-w-5xl mx-auto text-center">
+                <h1 class="text-4xl font-bold text-gray-900 mb-4">Bous Detid FONDESC</h1>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    Nou kwè nan aksè a edikasyon kalite pou tout moun. Dekouvri opòtinite bous detid nou yo pou rann edikasyon ou pi abòdab.
+                </p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main content -->
+    <main class="flex-grow py-16">
+        <div class="container mx-auto px-4">
+            <div class="max-w-5xl mx-auto">
+                <!-- Introduction Section -->
+                <section class="mb-16">
+                    <div class="bg-white p-8 rounded-lg shadow-md">
+                        <h2 class="text-2xl font-semibold text-gray-800 mb-6">Angajman nou pou Aksesibilite</h2>
+                        <p class="text-gray-600 mb-6">
+                            Nan FONDESC, nou kwè ke edikasyon se yon dwa, pa yon privilèj. Nou angaje pou rann edikasyon kalite aksesib pou tout etidyan, kèlkeswa sitiyasyon finansye yo. Atravè pwogram bous detid nou yo, nou vize elimine baryè finansye ki ka anpeche etidyan talante pouswiv rèv akademik yo.
+                        </p>
+                        <p class="text-gray-600 mb-6">
+                            Chak ane, nou envesti plis pase 10 milyon HTG nan bous detid pou etidyan ki merite yo. Bous sa yo kouvri yon pati oswa tout frè etid yo, selon kalifikasyon etidyan an ak bezwen finansye.
+                        </p>
+                        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                            <a href="#scholarship-types" class="fondesc-button px-6 py-3 rounded-md text-center">
+                                Dekouvri Bous Detid yo
+                            </a>
+                            <a href="#application-process" class="bg-white border-2 border-secondary text-secondary font-semibold px-6 py-3 rounded-md hover:bg-gray-50 transition-colors text-center">
+                                Pwosesis Aplikasyon
+                            </a>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Scholarship Types Section -->
+                <section id="scholarship-types" class="mb-16">
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-8 text-center">Tip Bous Detid</h2>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <!-- Merit Scholarship -->
+                        <div class="scholarship-card bg-white p-6 rounded-lg shadow-md">
+                            <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                                </svg>
+                            </div>
+                            <h3 class="text-xl font-semibold text-gray-800 mb-2">Bous Merit</h3>
+                            <p class="text-gray-600 mb-4">
+                                Bous merit yo rekonpanse ekselans akademik. Yo baze sou pèfòmans akademik etidyan an, reyalizasyon, ak potansyèl lidèchip.
+                            </p>
+                            <div class="mb-4">
+                                <h4 class="font-medium text-gray-800 mb-2">Kalifikasyon:</h4>
+                                <ul class="list-disc pl-5 space-y-1 text-gray-600">
+                                    <li>Mwayèn jeneral 3.5/4.0 oswa pi wo</li>
+                                    <li>Lèt rekòmandasyon</li>
+                                    <li>Prèv aktivite ekstrakourikilè ak lidèchip</li>
+                                </ul>
+                            </div>
+                            <div class="mb-4">
+                                <h4 class="font-medium text-gray-800 mb-2">Montan Bous la:</h4>
+                                <ul class="list-disc pl-5 space-y-1 text-gray-600">
+                                    <li>Bous Konplè: 100% frè etid (mwayèn 3.8+)</li>
+                                    <li>Bous Pasyèl: 50% frè etid (mwayèn 3.5-3.7)</li>
+                                    <li>Bous Pasyèl: 25% frè etid (mwayèn 3.0-3.4)</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <!-- Need-Based Scholarship -->
+                        <div class="scholarship-card bg-white p-6 rounded-lg shadow-md">
+                            <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </div>
+                            <h3 class="text-xl font-semibold text-gray-800 mb-2">Bous Bezwen Finansye</h3>
+                            <p class="text-gray-600 mb-4">
+                                Bous bezwen finansye yo baze sou sitiyasyon finansye etidyan an ak fanmi li. Yo fèt pou ede etidyan ki gen difikilte finansye.
+                            </p>
+                            <div class="mb-4">
+                                <h4 class="font-medium text-gray-800 mb-2">Kalifikasyon:</h4>
+                                <ul class="list-disc pl-5 space-y-1 text-gray-600">
+                                    <li>Prèv bezwen finansye (dokiman revni, depans)</li>
+                                    <li>Mwayèn jeneral 2.5/4.0 oswa pi wo</li>
+                                    <li>Lèt eksplikasyon sitiyasyon finansye</li>
+                                </ul>
+                            </div>
+                            <div class="mb-4">
+                                <h4 class="font-medium text-gray-800 mb-2">Montan Bous la:</h4>
+                                <ul class="list-disc pl-5 space-y-1 text-gray-600">
+                                    <li>Jiska 75% frè etid, selon bezwen finansye</li>
+                                    <li>Posibilite pou renouvle chak ane</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <!-- Community Service Scholarship -->
+                        <div class="scholarship-card bg-white p-6 rounded-lg shadow-md">
+                            <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+                                </svg>
+                            </div>
+                            <h3 class="text-xl font-semibold text-gray-800 mb-2">Bous Sèvis Kominotè</h3>
+                            <p class="text-gray-600 mb-4">
+                                Bous sèvis kominotè yo rekonpanse etidyan ki te demontre yon angajman pou sèvi kominote yo atravè volontarya ak aktivite sèvis.
+                            </p>
+                            <div class="mb-4">
+                                <h4 class="font-medium text-gray-800 mb-2">Kalifikasyon:</h4>
+                                <ul class="list-disc pl-5 space-y-1 text-gray-600">
+                                    <li>Minimòm 100 èdtan sèvis kominotè nan dènye 12 mwa yo</li>
+                                    <li>Lèt verifikasyon sèvis</li>
+                                    <li>Redaksyon sou enpak sèvis kominotè</li>
+                                    <li>Mwayèn jeneral 2.8/4.0 oswa pi wo</li>
+                                </ul>
+                            </div>
+                            <div class="mb-4">
+                                <h4 class="font-medium text-gray-800 mb-2">Montan Bous la:</h4>
+                                <ul class="list-disc pl-5 space-y-1 text-gray-600">
+                                    <li>Jiska 50% frè etid</li>
+                                    <li>Renouvlab chak ane ak 50 èdtan sèvis adisyonèl</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <!-- Special Category Scholarship -->
+                        <div class="scholarship-card bg-white p-6 rounded-lg shadow-md">
+                            <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                                </svg>
+                            </div>
+                            <h3 class="text-xl font-semibold text-gray-800 mb-2">Bous Kategori Espesyal</h3>
+                            <p class="text-gray-600 mb-4">
+                                Bous kategori espesyal yo disponib pou gwoup espesifik, tankou pwofesè, anplwaye leta, veteran, ak moun ki gen andikap.
+                            </p>
+                            <div class="mb-4">
+                                <h4 class="font-medium text-gray-800 mb-2">Kalifikasyon:</h4>
+                                <ul class="list-disc pl-5 space-y-1 text-gray-600">
+                                    <li>Prèv apatènans a kategori espesifik</li>
+                                    <li>Mwayèn jeneral 2.5/4.0 oswa pi wo</li>
+                                    <li>Lèt motivasyon</li>
+                                </ul>
+                            </div>
+                            <div class="mb-4">
+                                <h4 class="font-medium text-gray-800 mb-2">Montan Bous la:</h4>
+                                <ul class="list-disc pl-5 space-y-1 text-gray-600">
+                                    <li>Pwofesè: 30% frè etid</li>
+                                    <li>Anplwaye Leta: 20% frè etid</li>
+                                    <li>Veteran: 25% frè etid</li>
+                                    <li>Moun ki gen andikap: 40% frè etid</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Application Process Section -->
+                <section id="application-process" class="mb-16">
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-8 text-center">Pwosesis Aplikasyon</h2>
+                    
+                    <div class="bg-white p-8 rounded-lg shadow-md">
+                        <div class="mb-8">
+                            <h3 class="text-xl font-semibold text-gray-800 mb-4">Kalandriye Aplikasyon</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                <div class="bg-blue-50 p-4 rounded-lg">
+                                    <h4 class="font-medium text-blue-900 mb-2">Sesyon Prentan</h4>
+                                    <p class="text-gray-600">Aplikasyon Ouvri: 1 Novanm</p>
+                                    <p class="text-gray-600">Dat Limit: 15 Desanm</p>
+                                    <p class="text-gray-600">Notifikasyon: 15 Janvye</p>
+                                </div>
+                                <div class="bg-blue-50 p-4 rounded-lg">
+                                    <h4 class="font-medium text-blue-900 mb-2">Sesyon Ete</h4>
+                                    <p class="text-gray-600">Aplikasyon Ouvri: 1 Mas</p>
+                                    <p class="text-gray-600">Dat Limit: 15 Avril</p>
+                                    <p class="text-gray-600">Notifikasyon: 15 Me</p>
+                                </div>
+                                <div class="bg-blue-50 p-4 rounded-lg">
+                                    <h4 class="font-medium text-blue-900 mb-2">Sesyon Otòn</h4>
+                                    <p class="text-gray-600">Aplikasyon Ouvri: 1 Jiyè</p>
+                                    <p class="text-gray-600">Dat Limit: 15 Out</p>
+                                    <p class="text-gray-600">Notifikasyon: 15 Septanm</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-8">
+                            <h3 class="text-xl font-semibold text-gray-800 mb-4">Etap Aplikasyon</h3>
+                            <div class="space-y-6">
+                                <div class="timeline-item pl-8">
+                                    <h4 class="font-medium text-gray-800 mb-2">1. Kreye yon Kont</h4>
+                                    <p class="text-gray-600">
+                                        Kreye yon kont sou pòtay etidyan FONDESC la. Si ou deja gen yon kont, konekte epi navige nan seksyon "Bous Detid".
+                                    </p>
+                                </div>
+                                <div class="timeline-item pl-8">
+                                    <h4 class="font-medium text-gray-800 mb-2">2. Ranpli Fòmilè Aplikasyon</h4>
+                                    <p class="text-gray-600">
+                                        Ranpli fòmilè aplikasyon an konplètman, ki gen ladan enfòmasyon pèsonèl, akademik, ak finansye. Asire w ke tout enfòmasyon yo egzat.
+                                    </p>
+                                </div>
+                                <div class="timeline-item pl-8">
+                                    <h4 class="font-medium text-gray-800 mb-2">3. Soumèt Dokiman Obligatwa</h4>
+                                    <p class="text-gray-600">
+                                        Telechaje dokiman obligatwa yo, ki ka gen ladan relve nòt, lèt rekòmandasyon, prèv revni, ak redaksyon pèsonèl.
+                                    </p>
+                                </div>
+                                <div class="timeline-item pl-8">
+                                    <h4 class="font-medium text-gray-800 mb-2">4. Entèvyou (Si Aplikab)</h4>
+                                    <p class="text-gray-600">
+                                        Sèten bous detid ka mande yon entèvyou. Si ou seleksyone pou yon entèvyou, ou pral resevwa yon notifikasyon pa imèl.
+                                    </p>
+                                </div>
+                                <div class="timeline-item pl-8">
+                                    <h4 class="font-medium text-gray-800 mb-2">5. Notifikasyon Desizyon</h4>
+                                    <p class="text-gray-600">
+                                        Ou pral resevwa yon notifikasyon desizyon pa imèl. Si ou aksepte, ou pral bezwen konfime akseptasyon ou nan delè a.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h3 class="text-xl font-semibold text-gray-800 mb-4">Dokiman Obligatwa</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <h4 class="font-medium text-gray-800 mb-2">Pou Tout Bous Detid:</h4>
+                                    <ul class="list-disc pl-5 space-y-1 text-gray-600">
+                                        <li>Fòmilè aplikasyon konplete</li>
+                                        <li>Relve nòt ofisyèl</li>
+                                        <li>Kopi pyès idantite</li>
+                                        <li>Redaksyon pèsonèl (500-750 mo)</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium text-gray-800 mb-2">Dokiman Adisyonèl:</h4>
+                                    <ul class="list-disc pl-5 space-y-1 text-gray-600">
+                                        <li>Bous Bezwen Finansye: Prèv revni, depans</li>
+                                        <li>Bous Merit: Lèt rekòmandasyon, prèv reyalizasyon</li>
+                                        <li>Bous Sèvis Kominotè: Verifikasyon sèvis, redaksyon sou sèvis</li>
+                                        <li>Bous Kategori Espesyal: Prèv apatènans a kategori a</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Testimonials Section -->
+                <section class="mb-16">
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-8 text-center">Temwayaj Bousye</h2>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <!-- Testimonial 1 -->
+                        <div class="bg-white p-6 rounded-lg shadow-md">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-secondary font-bold mr-4">
+                                    MJ
+                                </div>
+                                <div>
+                                    <h3 class="font-semibold text-gray-800">Marie Jean</h3>
+                                    <p class="text-sm text-gray-600">Bousye Merit, Administrasyon</p>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 italic">
+                                "Bous detid FONDESC la te chanje lavi m. Kòm premye moun nan fanmi m k ap ale nan inivèsite, mwen te enkyete anpil sou finansman. Bous merit la te kouvri 75% frè etid mwen yo, sa ki te pèmèt mwen konsantre sou etid mwen olye de enkyete m sou lajan. Mwen rekonesan anpil pou opòtinite sa a."
+                            </p>
+                        </div>
+                        
+                        <!-- Testimonial 2 -->
+                        <div class="bg-white p-6 rounded-lg shadow-md">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-secondary font-bold mr-4">
+                                    JP
+                                </div>
+                                <div>
+                                    <h3 class="font-semibold text-gray-800">Jean Pierre</h3>
+                                    <p class="text-sm text-gray-600">Bousye Bezwen Finansye, Teknoloji</p>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 italic">
+                                "Mwen te panse ke rèv mwen pou etidye teknoloji te enposib akòz sitiyasyon finansye fanmi mwen. Bous bezwen finansye FONDESC la te ban m yon chans pou pouswiv pasyon mwen. Kounye a mwen prèske fini pwogram mwen epi mwen deja gen yon òf travay!"
+                            </p>
+                        </div>
+                        
+                        <!-- Testimonial 3 -->
+                        <div class="bg-white p-6 rounded-lg shadow-md">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-secondary font-bold mr-4">
+                                    AL
+                                </div>
+                                <div>
+                                    <h3 class="font-semibold text-gray-800">Anne Louis</h3>
+                                    <p class="text-sm text-gray-600">Bousye Sèvis Kominotè, Pedagoji</p>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 italic">
+                                "Bous sèvis kominotè a te pèfè pou mwen paske mwen te toujou pasyone de volontarya. Li te rekonpanse angajman mwen nan kominote a epi te ban m opòtinite pou kontinye sèvi pandan m ap etidye. Eksperyans mwen nan FONDESC te ranfòse kwayans mwen nan pouvwa edikasyon pou transfòme lavi."
+                            </p>
+                        </div>
+                        
+                        <!-- Testimonial 4 -->
+                        <div class="bg-white p-6 rounded-lg shadow-md">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-secondary font-bold mr-4">
+                                    RD
+                                </div>
+                                <div>
+                                    <h3 class="font-semibold text-gray-800">Robert Duval</h3>
+                                    <p class="text-sm text-gray-600">Bousye Kategori Espesyal, Kontabilite</p>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 italic">
+                                "Kòm yon veteran, mwen te enkyete sou retounen lekòl nan laj mwen. Bous kategori espesyal FONDESC la te non sèlman ede m finansyèman, men te montre m ke eksperyans mwen te valorize. Pwofesè yo ak pèsonèl la te sipòtif anpil, epi fleksibilite edikasyon a distans la te pèfè pou sitiyasyon mwen."
+                            </p>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- FAQ Section -->
+                <section class="mb-16">
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-8 text-center">Kesyon Moun Poze Souvan</h2>
+                    
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                        <!-- FAQ Item 1 -->
+                        <div class="accordion-item">
+                            <div class="accordion-button flex justify-between items-center p-6">
+                                <h3 class="text-lg font-medium text-gray-900">Èske mwen ka aplike pou plizyè bous detid?</h3>
+                                <div class="flex items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="accordion-icon-plus h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                    </svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="accordion-icon-minus h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 12H6" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="accordion-content px-6 pb-6">
+                                <p class="text-gray-600">
+                                    Wi, ou ka aplike pou plizyè bous detid, men ou pral resevwa sèlman sa ki pi avantaje pou ou. Nou ankouraje etidyan yo aplike pou tout bous detid yo kalifye pou yo. Sepandan, ou dwe ranpli yon aplikasyon separe pou chak bous detid.
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <!-- FAQ Item 2 -->
+                        <div class="accordion-item">
+                            <div class="accordion-button flex justify-between items-center p-6">
+                                <h3 class="text-lg font-medium text-gray-900">Èske bous detid yo renouvlab?</h3>
+                                <div class="flex items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="accordion-icon-plus h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                    </svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="accordion-icon-minus h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 12H6" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="accordion-content px-6 pb-6">
+                                <p class="text-gray-600">
+                                    Wi, pifò bous detid FONDESC yo renouvlab chak ane, depi ou satisfè kondisyon renouvèlman yo. Kondisyon sa yo varye selon bous detid la, men yo jeneralman gen ladan:
+                                </p>
+                                <ul class="list-disc pl-5 space-y-1 text-gray-600 mt-2">
+                                    <li>Kenbe yon mwayèn minimòm (jeneralman 2.5-3.0, selon bous detid la)</li>
+                                    <li>Enskri a plen tan (minimòm 12 kredi pa semès)</li>
+                                    <li>Soumèt aplikasyon renouvèlman an anvan dat limit la</li>
+                                    <li>Kontinye satisfè kritè espesifik bous detid la (sèvis kominotè, bezwen finansye, elatriye)</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <!-- FAQ Item 3 -->
+                        <div class="accordion-item">
+                            <div class="accordion-button flex justify-between items-center p-6">
+                                <h3 class="text-lg font-medium text-gray-900">Kisa bous detid yo kouvri?</h3>
+                                <div class="flex items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="accordion-icon-plus h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                    </svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="accordion-icon-minus h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 12H6" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="accordion-content px-6 pb-6">
+                                <p class="text-gray-600">
+                                    Bous detid FONDESC yo kouvri prensipalman frè etid. Selon bous detid la ak montan li, li ka kouvri:
+                                </p>
+                                <ul class="list-disc pl-5 space-y-1 text-gray-600 mt-2">
+                                    <li>Frè etid (pasyèl oswa konplè)</li>
+                                    <li>Frè enskripsyon</li>
+                                    <li>Materyèl kou (liv, aksè a resous dijital)</li>
+                                </ul>
+                                <p class="text-gray-600 mt-2">
+                                    Bous detid yo pa kouvri depans pèsonèl tankou ekipman òdinatè, koneksyon entènèt, oswa lòt depans ki pa akademik.
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <!-- FAQ Item 4 -->
+                        <div class="accordion-item">
+                            <div class="accordion-button flex justify-between items-center p-6">
+                                <h3 class="text-lg font-medium text-gray-900">Kijan mwen ka ogmante chans mwen pou resevwa yon bous detid?</h3>
+                                <div class="flex items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="accordion-icon-plus h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                    </svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="accordion-icon-minus h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 12H6" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="accordion-content px-6 pb-6">
+                                <p class="text-gray-600 mb-2">
+                                    Pou ogmante chans ou pou resevwa yon bous detid FONDESC, konsidere konsèy sa yo:
+                                </p>
+                                <ul class="list-disc pl-5 space-y-1 text-gray-600">
+                                    <li>Aplike bonè - pa tann jiska dat limit la</li>
+                                    <li>Asire ke aplikasyon ou konplè ak tout dokiman obligatwa yo</li>
+                                    <li>Pote atansyon a detay nan redaksyon pèsonèl ou - fè li pèsonèl epi konvenkan</li>
+                                    <li>Mande lèt rekòmandasyon nan moun ki konnen ou byen epi ki ka pale pozitivman sou kapasite ou</li>
+                                    <li>Prepare w pou entèvyou a (si aplikab) - fè rechèch sou FONDESC epi prepare kesyon</li>
+                                    <li>Mete aksan sou reyalizasyon, lidèchip, ak sèvis kominotè ou</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Interest Form Section -->
+                <section class="mb-16">
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-8 text-center">Enterese nan Bous Detid Nou yo?</h2>
+                    
+                    <div class="bg-white p-8 rounded-lg shadow-md">
+                        <p class="text-gray-600 mb-6 text-center">
+                            Ranpli fòmilè sa a pou resevwa plis enfòmasyon sou bous detid FONDESC yo ak notifikasyon lè pwochen peryòd aplikasyon an ouvri.
+                        </p>
+                        
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="mb-6 p-4 rounded-md {% if message.tags == 'success' %}bg-green-100 text-green-700{% else %}bg-red-100 text-red-700{% endif %}">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                        
+                        <form id="scholarship-interest-form" action="{% url 'scholarship_interest' %}" method="post" class="space-y-6">
+                            {% csrf_token %}
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label for="first_name" class="block text-sm font-medium text-gray-700 mb-1">Non</label>
+                                    <input type="text" id="first_name" name="first_name" class="input-field" required>
+                                </div>
+                                <div>
+                                    <label for="last_name" class="block text-sm font-medium text-gray-700 mb-1">Siyati</label>
+                                    <input type="text" id="last_name" name="last_name" class="input-field" required>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Imèl</label>
+                                <input type="email" id="email" name="email" class="input-field" required>
+                            </div>
+                            
+                            <div>
+                                <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">Telefòn (Opsyonèl)</label>
+                                <input type="tel" id="phone" name="phone" class="input-field">
+                            </div>
+                            
+                            <div>
+                                <label for="scholarship_type" class="block text-sm font-medium text-gray-700 mb-1">Tip Bous Detid ki Enterese Ou</label>
+                                <select id="scholarship_type" name="scholarship_type" class="input-field" required>
+                                    <option value="">Chwazi yon opsyon...</option>
+                                    <option value="merit">Bous Merit</option>
+                                    <option value="need">Bous Bezwen Finansye</option>
+                                    <option value="community">Bous Sèvis Kominotè</option>
+                                    <option value="special">Bous Kategori Espesyal</option>
+                                    <option value="all">Tout Bous Detid</option>
+                                </select>
+                            </div>
+                            
+                            <div>
+                                <label for="education_level" class="block text-sm font-medium text-gray-700 mb-1">Nivo Edikasyon Aktyèl</label>
+                                <select id="education_level" name="education_level" class="input-field" required>
+                                    <option value="">Chwazi yon opsyon...</option>
+                                    <option value="high_school">Lekòl Segondè</option>
+                                    <option value="associate">Diplòm Asosye</option>
+                                    <option value="bachelor">Lisans</option>
+                                    <option value="master">Metriz</option>
+                                    <option value="other">Lòt</option>
+                                </select>
+                            </div>
+                            
+                            <div>
+                                <label for="program_interest" class="block text-sm font-medium text-gray-700 mb-1">Pwogram ki Enterese Ou</label>
+                                <select id="program_interest" name="program_interest" class="input-field" required>
+                                    <option value="">Chwazi yon opsyon...</option>
+                                    <option value="administration">Administrasyon</option>
+                                    <option value="accounting">Kontabilite</option>
+                                    <option value="pedagogy">Pedagoji</option>
+                                    <option value="technology">Teknoloji</option>
+                                    <option value="marketing">Maketing</option>
+                                    <option value="hr">Jesyon Resous Imèn</option>
+                                    <option value="other">Lòt</option>
+                                </select>
+                            </div>
+                            
+                            <div>
+                                <label for="comments" class="block text-sm font-medium text-gray-700 mb-1">Kòmantè Adisyonèl (Opsyonèl)</label>
+                                <textarea id="comments" name="comments" rows="3" class="input-field"></textarea>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <input type="checkbox" id="privacy_agree" name="privacy_agree" class="mt-1 mr-2" required>
+                                <label for="privacy_agree" class="text-sm text-gray-700">
+                                    Mwen dakò ak <a href="#" class="text-blue-900 underline">politik konfidansyalite</a> FONDESC la epi mwen dakò resevwa kominikasyon sou bous detid yo.
+                                </label>
+                            </div>
+                            
+                            <div>
+                                <button type="submit" class="fondesc-button px-6 py-3 rounded-md w-full">
+                                    Soumèt Demann Enfòmasyon
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </section>
+                
+                <!-- Contact Section -->
+                <section class="mt-16 bg-blue-50 rounded-lg p-8">
+                    <div class="text-center">
+                        <h2 class="text-2xl font-semibold text-gray-800 mb-4">Ou Gen Kesyon?</h2>
+                        <p class="text-gray-600 mb-8 max-w-2xl mx-auto">
+                            Si ou gen kesyon espesifik sou bous detid nou yo oswa pwosesis aplikasyon an, tanpri kontakte biwo bous detid nou an.
+                        </p>
+                        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                            <a href="mailto:bousdetid@fondesc.edu.ht" class="fondesc-button px-6 py-3 rounded-md inline-block">
+                                bousdetid@fondesc.edu.ht
+                            </a>
+                            <a href="tel:+50912345678" class="bg-white border-2 border-secondary text-secondary font-semibold px-6 py-3 rounded-md hover:bg-gray-50 transition-colors inline-block">
+                                0800 123 4567
+                            </a>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+</div>
+{% endblock %}

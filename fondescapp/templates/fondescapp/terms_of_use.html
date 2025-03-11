@@ -1,0 +1,490 @@
+{% extends 'fondescapp/base.html' %}
+
+{% load static %}
+
+{% block extra_css %}
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<style>
+    
+    .fondesc-gradient {
+        background: linear-gradient(to right, var(--secondary), rgba(0, 59, 113, 0.9));
+    }
+    
+    .fondesc-button {
+        background-color: var(--primary);
+        color: var(--secondary);
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+    
+    .fondesc-button:hover {
+        background-color: rgba(255, 204, 41, 0.9);
+    }
+    
+    .terms-section {
+        margin-bottom: 2rem;
+    }
+    
+    .terms-section h3 {
+        color: var(--secondary);
+        margin-bottom: 1rem;
+        font-weight: 600;
+    }
+    
+    .terms-section p {
+        margin-bottom: 1rem;
+    }
+    
+    .terms-section ul {
+        margin-bottom: 1rem;
+    }
+    
+    .terms-section ul li {
+        margin-bottom: 0.5rem;
+    }
+    
+    .table-of-contents {
+        background-color: #f8fafc;
+        border-radius: 0.5rem;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+        border-left: 4px solid var(--primary);
+    }
+    
+    .table-of-contents ul {
+        list-style-type: none;
+        padding-left: 0;
+    }
+    
+    .table-of-contents ul li {
+        margin-bottom: 0.75rem;
+    }
+    
+    .table-of-contents ul li a {
+        color: var(--secondary);
+        text-decoration: none;
+        transition: all 0.2s ease;
+    }
+    
+    .table-of-contents ul li a:hover {
+        color: var(--primary);
+        text-decoration: underline;
+    }
+    
+    .last-updated {
+        font-style: italic;
+        color: var(--text-light);
+        margin-bottom: 2rem;
+    }
+    
+    .back-to-top {
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        background-color: var(--primary);
+        color: var(--secondary);
+        width: 3rem;
+        height: 3rem;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        pointer-events: none;
+    }
+    
+    .back-to-top.visible {
+        opacity: 1;
+        pointer-events: auto;
+    }
+    
+    .back-to-top:hover {
+        background-color: rgba(255, 204, 41, 0.9);
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Back to top button functionality
+        const backToTopButton = document.getElementById('back-to-top');
+        
+        window.addEventListener('scroll', function() {
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.add('visible');
+            } else {
+                backToTopButton.classList.remove('visible');
+            }
+        });
+        
+        backToTopButton.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        // Smooth scrolling for table of contents links
+        document.querySelectorAll('.table-of-contents a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                window.scrollTo({
+                    top: targetElement.offsetTop - 100,
+                    behavior: 'smooth'
+                });
+            });
+        });
+    });
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="min-h-screen flex flex-col bg-white">
+    <!-- Header with page title -->
+    <header class="bg-gray-50 py-12 border-b border-gray-100">
+        <div class="container mx-auto px-4">
+            <div class="max-w-5xl mx-auto text-center">
+                <h1 class="text-4xl font-bold text-gray-900 mb-4">Kondisyon Itilizasyon</h1>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    Tanpri li kondisyon itilizasyon sa yo ak anpil atansyon anvan ou itilize sèvis FONDESC yo.
+                </p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main content -->
+    <main class="flex-grow py-16">
+        <div class="container mx-auto px-4">
+            <div class="max-w-5xl mx-auto">
+                <!-- Last Updated -->
+                <p class="last-updated">Dènye mizajou: 15 Jen 2023</p>
+                
+                <!-- Table of Contents -->
+                <div class="table-of-contents">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">Tab Kontni</h2>
+                    <ul>
+                        <li><a href="#introduction">1. Entwodiksyon ak Akseptasyon Kondisyon yo</a></li>
+                        <li><a href="#definitions">2. Definisyon</a></li>
+                        <li><a href="#account">3. Kont Itilizatè ak Enskripsyon</a></li>
+                        <li><a href="#platform-use">4. Itilizasyon Platfòm nan</a></li>
+                        <li><a href="#user-responsibilities">5. Responsabilite Itilizatè yo</a></li>
+                        <li><a href="#fondesc-rights">6. Dwa ak Responsabilite FONDESC</a></li>
+                        <li><a href="#intellectual-property">7. Pwopriyete Entelektyèl</a></li>
+                        <li><a href="#privacy">8. Konfidansyalite ak Pwoteksyon Done</a></li>
+                        <li><a href="#payments">9. Peman ak Ranbousman</a></li>
+                        <li><a href="#cancellation">10. Anilasyon ak Sispansyon Kont</a></li>
+                        <li><a href="#disclaimers">11. Limit Responsabilite</a></li>
+                        <li><a href="#modifications">12. Modifikasyon Kondisyon yo</a></li>
+                        <li><a href="#applicable-law">13. Lwa Aplikab ak Jiridiksyon</a></li>
+                        <li><a href="#contact">14. Kontakte Nou</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Introduction Section -->
+                <section id="introduction" class="terms-section">
+                    <h3 class="text-2xl font-semibold">1. Entwodiksyon ak Akseptasyon Kondisyon yo</h3>
+                    <p>
+                        Byenveni nan FONDESC (Fòmasyon Nasyonal a Distans). Lè ou itilize platfòm nou an ak sèvis nou yo, ou aksepte kondisyon itilizasyon sa yo nan totalite yo. Si ou pa dakò ak nenpòt pati nan kondisyon sa yo, tanpri pa itilize platfòm nou an oswa sèvis nou yo.
+                    </p>
+                    <p>
+                        Kondisyon itilizasyon sa yo konstitye yon akò legal ant ou menm ("Itilizatè" oswa "ou") ak FONDESC ("nou", "nou menm", "pa nou"). Yo gouvène aksè ou ak itilizasyon sit entènèt FONDESC la, platfòm aprantisaj anliy la, ak tout sèvis ki asosye yo (kolektivman, "Sèvis yo").
+                    </p>
+                    <p>
+                        Lè ou enskri, aksede, oswa itilize Sèvis nou yo, ou deklare ke ou gen laj legal pou fòme yon akò obligatwa epi ou aksepte respekte kondisyon sa yo. Si ou enskri nan non yon antite legal, ou deklare ke ou gen otorite pou angaje antite sa a nan kondisyon sa yo.
+                    </p>
+                </section>
+                
+                <!-- Definitions Section -->
+                <section id="definitions" class="terms-section">
+                    <h3 class="text-2xl font-semibold">2. Definisyon</h3>
+                    <p>Nan kondisyon itilizasyon sa yo, tèm sa yo gen siyifikasyon swivan yo:</p>
+                    <ul class="list-disc pl-5 space-y-2">
+                        <li><strong>"FONDESC"</strong> refere a Fòmasyon Nasyonal a Distans, yon enstitisyon edikasyon ki ofri kou ak pwogram a distans.</li>
+                        <li><strong>"Platfòm"</strong> refere a sit entènèt FONDESC la ak sistèm jesyon aprantisaj la ki pèmèt aksè a kou yo ak materyèl edikatif yo.</li>
+                        <li><strong>"Sèvis"</strong> refere a tout sèvis edikatif, materyèl, ak resous FONDESC ofri, ki gen ladan men pa limite a kou anliy, materyèl kou, evalyasyon, ak sètifikasyon.</li>
+                        <li><strong>"Itilizatè"</strong> refere a nenpòt moun ki enskri, aksede, oswa itilize Sèvis FONDESC yo, ki gen ladan etidyan, pwofesè, ak administratè.</li>
+                        <li><strong>"Kont"</strong> refere a kont pèsonèl yon Itilizatè sou Platfòm nan, ki pèmèt aksè a Sèvis yo.</li>
+                        <li><strong>"Kontni"</strong> refere a tout materyèl ki disponib sou Platfòm nan, ki gen ladan tèks, imaj, videyo, odyo, ak lòt materyèl edikatif.</li>
+                        <li><strong>"Done Pèsonèl"</strong> refere a nenpòt enfòmasyon ki ka idantifye yon moun, dirèkteman oswa endirèkteman.</li>
+                    </ul>
+                </section>
+                
+                <!-- Account Section -->
+                <section id="account" class="terms-section">
+                    <h3 class="text-2xl font-semibold">3. Kont Itilizatè ak Enskripsyon</h3>
+                    <p>
+                        Pou aksede a sèten aspè nan Sèvis nou yo, ou dwe kreye yon kont. Lè ou kreye yon kont, ou dakò pou bay enfòmasyon ki egzat, konplè, ak ajou. Ou responsab pou kenbe konfidansyalite enfòmasyon kont ou, ki gen ladan modpas ou, epi pou tout aktivite ki fèt anba kont ou.
+                    </p>
+                    <p>
+                        Ou dakò pou notifye FONDESC imedyatman de nenpòt itilizasyon ki pa otorize kont ou oswa nenpòt lòt vyolasyon sekirite. FONDESC pa ka epi pa pral responsab pou nenpòt pèt oswa domaj ki soti nan echèk ou pou respekte egzijans sekirite sa yo.
+                    </p>
+                    <p>
+                        Pou enskri nan kou ak pwogram yo, ou dwe satisfè kondisyon admisyon espesifik yo, ki ka gen ladan egzijans akademik ak teknik. FONDESC rezève dwa pou refize aksè a nenpòt moun ki pa satisfè kondisyon sa yo oswa pou nenpòt lòt rezon legal.
+                    </p>
+                    <p>
+                        Ou pa dwe transfere oswa vann kont ou bay yon lòt moun. FONDESC rezève dwa pou sispann oswa mete fen a kont ou si nou sispèk nenpòt aktivite fwod, abi, oswa vyolasyon kondisyon sa yo.
+                    </p>
+                </section>
+                
+                <!-- Platform Use Section -->
+                <section id="platform-use" class="terms-section">
+                    <h3 class="text-2xl font-semibold">4. Itilizasyon Platfòm nan</h3>
+                    <p>
+                        Platfòm FONDESC la fèt pou itilizasyon edikatif. Ou dakò pou itilize Platfòm nan sèlman pou objektif legal epi nan yon fason ki pa vyole dwa nenpòt twazyèm pati oswa limite oswa anpeche itilizasyon ak jwisans Platfòm nan pa nenpòt lòt itilizatè.
+                    </p>
+                    <p>
+                        Aktivite entèdi yo gen ladan, men pa limite a:
+                    </p>
+                    <ul class="list-disc pl-5 space-y-2">
+                        <li>Itilize Platfòm nan pou nenpòt aktivite ilegal oswa fwod;</li>
+                        <li>Kopye, modifye, distribye, vann, oswa lwe nenpòt pati nan Sèvis nou yo oswa lojisyèl ki enkli ladan yo;</li>
+                        <li>Fè retwoenjenyeri oswa eseye ekstrè kòd sous nenpòt lojisyèl ki fè pati Sèvis yo;</li>
+                        <li>Kontourne, dezaktive, oswa otreman entèfere ak karakteristik sekirite Platfòm nan;</li>
+                        <li>Teste vilnerabilite Platfòm nan oswa vyole mezi sekirite oswa otantifikasyon;</li>
+                        <li>Itilize nenpòt robo, spider, oswa lòt aparèy otomatik pou aksede a Platfòm nan pou nenpòt objektif;</li>
+                        <li>Entèfere oswa deranje entegrite oswa pèfòmans Platfòm nan;</li>
+                        <li>Kreye kont pa mwayen otomatik oswa anba fo pretèks;</li>
+                        <li>Kolekte oswa rekòlte nenpòt enfòmasyon pèsonèl idantifyab sou lòt itilizatè.</li>
+                    </ul>
+                    <p>
+                        FONDESC rezève dwa pou envestige ak pran aksyon legal kont nenpòt itilizasyon ilegal oswa ki vyole kondisyon sa yo, ki ka gen ladan, men pa limite a, mete fen a kont ou.
+                    </p>
+                </section>
+                
+                <!-- User Responsibilities Section -->
+                <section id="user-responsibilities" class="terms-section">
+                    <h3 class="text-2xl font-semibold">5. Responsabilite Itilizatè yo</h3>
+                    <p>
+                        Kòm yon itilizatè Platfòm FONDESC la, ou gen sèten responsabilite:
+                    </p>
+                    <ul class="list-disc pl-5 space-y-2">
+                        <li>
+                            <strong>Entegrite Akademik:</strong> Ou dakò pou kenbe pi wo nivo entegrite akademik nan tout travay ou soumèt. Sa gen ladan evite plajya, triche, ak lòt fòm malonètete akademik. Vyolasyon entegrite akademik ka lakòz aksyon disiplinè, ki gen ladan echèk nan kou a oswa ekspilsyon nan pwogram nan.
+                        </li>
+                        <li>
+                            <strong>Konduit Apwopriye:</strong> Ou dakò pou angaje nan konduit apwopriye ak respektye lè w ap entèaji ak lòt itilizatè, pwofesè, ak pèsonèl FONDESC. Arasman, entimidasyon, oswa konpòtman abizif pa pral tolere.
+                        </li>
+                        <li>
+                            <strong>Kontni Itilizatè:</strong> Nenpòt kontni ou soumèt, poste, oswa pataje sou Platfòm nan (tankou mesaj fowòm, devwa, oswa pwojè) dwe apwopriye, legal, epi pa dwe vyole dwa nenpòt twazyèm pati. Ou kenbe pwopriyete kontni ou kreye, men ou bay FONDESC yon lisans pou itilize, modifye, afiche, ak distribye kontni sa a nan kad Sèvis yo.
+                        </li>
+                        <li>
+                            <strong>Konfidansyalite:</strong> Ou dakò pou respekte konfidansyalite lòt itilizatè yo ak pa pataje enfòmasyon pèsonèl oswa kontni yo san konsantman yo.
+                        </li>
+                        <li>
+                            <strong>Sekirite Kont:</strong> Ou responsab pou kenbe sekirite kont ou, ki gen ladan kenbe modpas ou konfidansyèl ak notifye FONDESC de nenpòt aksè ki pa otorize.
+                        </li>
+                        <li>
+                            <strong>Konfòmite ak Règleman:</strong> Ou dakò pou respekte tout règleman ak pwosedi FONDESC, ki gen ladan men pa limite a règleman sou prezans, soumisyon devwa, ak konduit etidyan.
+                        </li>
+                        <li>
+                            <strong>Ekipman ak Koneksyon:</strong> Ou responsab pou asire ke ou gen ekipman ak koneksyon entènèt ki nesesè pou aksede ak itilize Platfòm nan. FONDESC pa responsab pou pwoblèm teknik ki soti nan ekipman ou oswa koneksyon entènèt ou.
+                        </li>
+                    </ul>
+                </section>
+                
+                <!-- FONDESC Rights Section -->
+                <section id="fondesc-rights" class="terms-section">
+                    <h3 class="text-2xl font-semibold">6. Dwa ak Responsabilite FONDESC</h3>
+                    <p>
+                        FONDESC gen sèten dwa ak responsabilite an relasyon ak Platfòm nan ak Sèvis yo:
+                    </p>
+                    <ul class="list-disc pl-5 space-y-2">
+                        <li>
+                            <strong>Livrezon Sèvis:</strong> FONDESC pral fè efò rezonab pou bay Sèvis yo jan yo dekri, men nou pa ka garanti ke Sèvis yo pral toujou disponib, san entèripsyon, oswa san erè. Nou rezève dwa pou modifye, sispann, oswa abandone nenpòt aspè nan Sèvis nou yo nenpòt kilè.
+                        </li>
+                        <li>
+                            <strong>Sipò Teknik:</strong> FONDESC pral bay sipò teknik rezonab pou ede itilizatè yo rezoud pwoblèm ak Platfòm nan. Sepandan, nou pa responsab pou pwoblèm ki soti nan ekipman itilizatè a, koneksyon entènèt, oswa lòt faktè ki deyò kontwòl nou.
+                        </li>
+                        <li>
+                            <strong>Modifikasyon Kontni:</strong> FONDESC rezève dwa pou modifye, mete ajou, oswa retire nenpòt kontni sou Platfòm nan nenpòt kilè, san notifikasyon preyalab.
+                        </li>
+                        <li>
+                            <strong>Aksyon Disiplinè:</strong> FONDESC rezève dwa pou pran aksyon disiplinè kont itilizatè ki vyole kondisyon sa yo oswa nenpòt lòt règleman FONDESC, ki ka gen ladan sispansyon oswa tèminasyon aksè a Sèvis yo.
+                        </li>
+                        <li>
+                            <strong>Siveyans:</strong> FONDESC ka siveye aktivite sou Platfòm nan pou asire konfòmite ak kondisyon sa yo ak pou pwoteje sekirite ak entegrite Platfòm nan. Sepandan, nou pa gen obligasyon pou siveye tout kontni itilizatè yo.
+                        </li>
+                        <li>
+                            <strong>Konfidansyalite:</strong> FONDESC pral pwoteje enfòmasyon pèsonèl itilizatè yo an akò ak Politik Konfidansyalite nou an.
+                        </li>
+                    </ul>
+                </section>
+                
+                <!-- Intellectual Property Section -->
+                <section id="intellectual-property" class="terms-section">
+                    <h3 class="text-2xl font-semibold">7. Pwopriyete Entelektyèl</h3>
+                    <p>
+                        Tout kontni sou Platfòm FONDESC la, ki gen ladan men pa limite a tèks, grafik, logo, imaj, videyo, odyo, lojisyèl, ak lòt materyèl, pwoteje pa lwa sou dwa otè, mak komèsyal, ak lòt lwa sou pwopriyete entelektyèl. Kontni sa a se pwopriyete FONDESC oswa founisè kontni twazyèm pati li yo.
+                    </p>
+                    <p>
+                        FONDESC bay ou yon lisans limite, non-eksklizif, ki pa ka transfere pou aksede ak itilize Platfòm nan ak Kontni a pou objektif pèsonèl, non-komèsyal, edikatif. Ou pa ka repwodui, distribye, modifye, afiche piblikman, prepare travay derive, oswa eksplwate otreman nenpòt pati nan Kontni a san konsantman ekri eksplisite FONDESC, eksepte jan sa pèmèt pa lwa.
+                    </p>
+                    <p>
+                        Ou kenbe pwopriyete nenpòt kontni ou kreye ak soumèt sou Platfòm nan (tankou devwa, pwojè, ak kontribisyon fowòm). Sepandan, lè ou soumèt kontni sa a, ou bay FONDESC yon lisans mondyal, non-eksklizif, ki pa ka revoke, gratis pou itilize, repwodui, modifye, adapte, pibliye, tradui, distribye, afiche piblikman, ak enkòpore kontni sa a nan nenpòt medya oswa teknoloji kounye a konnen oswa devlope pita, pou objektif bay Sèvis yo.
+                    </p>
+                    <p>
+                        Si ou kwè ke nenpòt kontni sou Platfòm nan vyole dwa pwopriyete entelektyèl ou, tanpri kontakte nou nan adrès ki bay nan seksyon "Kontakte Nou" anba a.
+                    </p>
+                </section>
+                
+                <!-- Privacy Section -->
+                <section id="privacy" class="terms-section">
+                    <h3 class="text-2xl font-semibold">8. Konfidansyalite ak Pwoteksyon Done</h3>
+                    <p>
+                        FONDESC valorize konfidansyalite ou epi angaje pou pwoteje done pèsonèl ou. Itilizasyon nou ak pwoteksyon done pèsonèl ou gouvène pa Politik Konfidansyalite nou an, ki enkòpore pa referans nan Kondisyon Itilizasyon sa yo.
+                    </p>
+                    <p>
+                        Lè ou itilize Platfòm nou an, ou konsanti pou koleksyon, itilizasyon, ak divilgasyon done pèsonèl ou jan sa dekri nan Politik Konfidansyalite nou an. Nou ankouraje ou pou revize Politik Konfidansyalite nou an ak anpil atansyon.
+                    </p>
+                    <p>
+                        An rezime, nou kolekte done pèsonèl pou objektif swivan yo:
+                    </p>
+                    <ul class="list-disc pl-5 space-y-2">
+                        <li>Bay ak amelyore Sèvis nou yo;</li>
+                        <li>Administre kont ou ak bay sipò kliyan;</li>
+                        <li>Pèsonalize eksperyans aprantisaj ou;</li>
+                        <li>Kominike avèk ou konsènan Sèvis nou yo;</li>
+                        <li>Konfòme ak obligasyon legal nou yo.</li>
+                    </ul>
+                    <p>
+                        Nou pran mezi sekirite rezonab pou pwoteje done pèsonèl ou kont aksè ki pa otorize, divilgasyon, altèrasyon, ak destriksyon. Sepandan, okenn metòd transmisyon sou entènèt oswa stokaj elektwonik pa 100% sekirize, epi nou pa ka garanti sekirite absoli.
+                    </p>
+                    <p>
+                        Pou yon deskripsyon konplè sou pratik konfidansyalite nou yo, tanpri konsilte <a href="{% url 'privacy_policy' %}" class="text-blue-600 hover:underline">Politik Konfidansyalite</a> nou an.
+                    </p>
+                </section>
+                
+                <!-- Payments Section -->
+                <section id="payments" class="terms-section">
+                    <h3 class="text-2xl font-semibold">9. Peman ak Ranbousman</h3>
+                    <p>
+                        Sèten Sèvis FONDESC yo mande pou peman frè. Lè ou enskri nan yon kou oswa pwogram ki mande pou peman, ou dakò pou peye tout frè ki asosye ak Sèvis sa yo.
+                    </p>
+                    <p>
+                        Tout frè yo afiche an HTG (Gourdes Ayisyen) epi yo gen ladan tout taks aplikab, sof si yo endike otreman. Frè yo ka peye pa kat kredi, transfè bankè, oswa lòt metòd peman FONDESC aksepte.
+                    </p>
+                    <p>
+                        Politik ranbousman nou an se jan sa a:
+                    </p>
+                    <ul class="list-disc pl-5 space-y-2">
+                        <li>
+                            <strong>Anilasyon anvan kòmansman kou a:</strong> Si ou anile enskripsyon ou omwen 14 jou anvan dat kòmansman kou a, ou ka kalifye pou yon ranbousman konplè, mwens frè administratif yo.
+                        </li>
+                        <li>
+                            <strong>Anilasyon apre kòmansman kou a:</strong> Si ou anile enskripsyon ou apre kou a kòmanse, ou ka kalifye pou yon ranbousman pasyèl baze sou kantite tan ki rete nan kou a, mwens frè administratif yo.
+                        </li>
+                        <li>
+                            <strong>Pa gen ranbousman:</strong> Pa gen ranbousman ki disponib pou materyèl kou yo, frè enskripsyon yo, oswa lòt frè ki pa frè kou yo.
+                        </li>
+                    </ul>
+                    <p>
+                        Tout demann ranbousman dwe fèt alekri epi soumèt bay depatman finans FONDESC la. FONDESC rezève dwa pou refize ranbousman si nou sispèk fwod oswa abi.
+                    </p>
+                    <p>
+                        Si ou pa peye frè ki dwe yo, FONDESC rezève dwa pou sispann oswa mete fen a aksè ou a Sèvis yo epi pran aksyon legal pou rekipere frè ki dwe yo.
+                    </p>
+                </section>
+                
+                <!-- Cancellation Section -->
+                <section id="cancellation" class="terms-section">
+                    <h3 class="text-2xl font-semibold">10. Anilasyon ak Sispansyon Kont</h3>
+                    <p>
+                        Ou ka anile kont ou nenpòt kilè lè ou kontakte sèvis kliyan FONDESC la. Lè ou anile kont ou, ou p ap gen aksè ankò a Sèvis yo, men ou ka toujou gen obligasyon pou peye nenpòt frè ki dwe.
+                    </p>
+                    <p>
+                        FONDESC rezève dwa pou sispann oswa mete fen a kont ou ak aksè ou a Sèvis yo nenpòt kilè, pou nenpòt rezon, san notifikasyon preyalab, ki gen ladan, men pa limite a:
+                    </p>
+                    <ul class="list-disc pl-5 space-y-2">
+                        <li>Vyolasyon Kondisyon Itilizasyon sa yo;</li>
+                        <li>Malonètete akademik oswa plajya;</li>
+                        <li>Konpòtman abizif oswa deranjan anvè lòt itilizatè, pwofesè, oswa pèsonèl;</li>
+                        <li>Pa peye frè ki dwe yo;</li>
+                        <li>Bay enfòmasyon ki fo, pa egzat, oswa enkonplè;</li>
+                        <li>Angaje nan aktivite ilegal oswa fwod;</li>
+                        <li>Itilize Sèvis yo nan yon fason ki ka lakòz domaj legal pou FONDESC oswa nenpòt twazyèm pati.</li>
+                    </ul>
+                    <p>
+                        Si kont ou sispann oswa mete fen, ou pa dwe eseye kreye yon nouvo kont san pèmisyon eksplisite FONDESC.
+                    </p>
+                </section>
+                
+                <!-- Disclaimers Section -->
+                <section id="disclaimers" class="terms-section">
+                    <h3 class="text-2xl font-semibold">11. Limit Responsabilite</h3>
+                    <p>
+                        Nan limit maksimòm pèmèt pa lwa aplikab, FONDESC ak afilye li yo, direktè, anplwaye, ajan, ak founisè yo pa responsab pou nenpòt domaj endirèk, aksidantèl, espesyal, konsekansyèl, oswa punitif, ki gen ladan pèt pwofi, done, oswa lòt domaj immatériel, ki soti nan oswa an koneksyon ak aksè ou oswa itilizasyon Sèvis yo oswa enkapasite pou aksede oswa itilize yo.
+                    </p>
+                    <p>
+                        Sèvis yo bay "jan yo ye" ak "jan yo disponib" san okenn garanti, eksprime oswa enplisit. FONDESC pa bay garanti ke Sèvis yo pral satisfè egzijans ou, pral disponib san entèripsyon, rapid, sekirize, oswa san erè, oswa ke enfòmasyon ou jwenn sou Sèvis yo pral egzat oswa fyab.
+                    </p>
+                    <p>
+                        FONDESC pa responsab pou nenpòt kontni soumèt pa itilizatè yo oswa konduit nenpòt itilizatè, menm si nou siveye oswa modere kontni sa a. Nou pa andose oswa garanti verasite, presizyon, oswa fyabilite nenpòt kontni soumèt pa itilizatè yo.
+                    </p>
+                    <p>
+                        Nan kèk jiridiksyon, sèten garanti enplisit oswa limit sou responsabilite pa pèmèt, kidonk kèk nan limit ki anwo yo ka pa aplike pou ou. Nan ka sa yo, responsabilite FONDESC pral limite nan limit maksimòm pèmèt pa lwa aplikab.
+                    </p>
+                </section>
+                
+                <!-- Modifications Section -->
+                <section id="modifications" class="terms-section">
+                    <h3 class="text-2xl font-semibold">12. Modifikasyon Kondisyon yo</h3>
+                    <p>
+                        FONDESC rezève dwa pou modifye Kondisyon Itilizasyon sa yo nenpòt kilè, selon pwòp diskresyon nou. Nenpòt chanjman pral efektif imedyatman lè nou poste Kondisyon Itilizasyon revize yo sou Platfòm nan. Nou pral fè efò rezonab pou notifye ou sou chanjman enpòtan yo, men ou responsab pou revize Kondisyon Itilizasyon yo peryodikman pou w rete enfòme sou nenpòt chanjman.
+                    </p>
+                    <p>
+                        Itilizasyon kontinyèl ou nan Sèvis yo apre piblikasyon nenpòt chanjman nan Kondisyon Itilizasyon yo konstitye akseptasyon ou nan chanjman sa yo. Si ou pa dakò ak nenpòt chanjman, ou dwe sispann itilize Sèvis yo.
+                    </p>
+                </section>
+                
+                <!-- Applicable Law Section -->
+                <section id="applicable-law" class="terms-section">
+                    <h3 class="text-2xl font-semibold">13. Lwa Aplikab ak Jiridiksyon</h3>
+                    <p>
+                        Kondisyon Itilizasyon sa yo gouvène pa epi entèprete an akò ak lwa Repiblik Ayiti, san konsiderasyon prensip konfli lwa yo.
+                    </p>
+                    <p>
+                        Nenpòt diskisyon, reklamasyon, oswa kòz aksyon ki soti nan oswa an koneksyon ak Kondisyon Itilizasyon sa yo oswa Sèvis yo pral rezoud eksklizvman pa tribinal konpetan nan Pòtoprens, Ayiti, epi ou konsanti a jiridiksyon pèsonèl ak lokal tribinal sa yo.
+                    </p>
+                </section>
+                
+                <!-- Contact Section -->
+                <section id="contact" class="terms-section">
+                    <h3 class="text-2xl font-semibold">14. Kontakte Nou</h3>
+                    <p>
+                        Si ou gen nenpòt kesyon oswa enkyetid konsènan Kondisyon Itilizasyon sa yo oswa Sèvis nou yo, tanpri kontakte nou nan:
+                    </p>
+                    <div class="bg-gray-50 p-6 rounded-lg mt-4">
+                        <p class="mb-2"><strong>FONDESC - Fòmasyon Nasyonal a Distans</strong></p>
+                        <p class="mb-2">Adrès: Av. Edikasyon, 1000, Sant, Pòtoprens, Ayiti</p>
+                        <p class="mb-2">Imèl: legal@fondesc.edu.ht</p>
+                        <p class="mb-2">Telefòn: 0800 123 4567</p>
+                    </div>
+                </section>
+                
+                <!-- Acceptance Section -->
+                <div class="bg-blue-50 p-6 rounded-lg mt-8 border-l-4 border-primary">
+                    <p class="text-gray-800 font-medium">
+                        Lè ou itilize Platfòm FONDESC la ak Sèvis nou yo, ou rekonèt ke ou te li, konprann, epi dakò pou respekte Kondisyon Itilizasyon sa yo. Si ou pa dakò ak nenpòt pati nan kondisyon sa yo, tanpri pa itilize Platfòm nou an oswa Sèvis nou yo.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Back to top button -->
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+        </svg>
+    </button>
+</div>
+{% endblock %}
+

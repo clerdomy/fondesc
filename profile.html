@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="ht">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pwofil Mwen - FONDESC</title>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #FFC107;
+            --primary-hover: #FFB300;
+            --secondary: #1E40AF;
+            --secondary-hover: #1E3A8A;
+            --background: #FFFFFF;
+            --foreground: #1F2937;
+            --muted: #6B7280;
+            --muted-foreground: #9CA3AF;
+            --border: #E5E7EB;
+            --input: #D1D5DB;
+            --ring: #1E40AF;
+            --radius: 0.5rem;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            color: var(--foreground);
+            background-color: #F9FAFB;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: white;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .top-bar {
+            background-color: var(--secondary);
+            color: white;
+            padding: 0.5rem 0;
+        }
+
+        .top-bar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .top-bar a {
+            color: white;
+            text-decoration: none;
+            font-size: 0.875rem;
+        }
+
+        .top-bar a:hover {
+            text-decoration: underline;
+        }
+
+        .top-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .main-header {
+            padding: 1rem 0;
+        }
+
+        .main-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 5rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--secondary);
+        }
+
+        .logo-dot {
+            width: 0.75rem;
+            height: 0.75rem;
+            background-color: var(--primary);
+            border-radius: 50%;
+            margin-left: 0.25rem;
+        }
+
+        .logo-tagline {
+            font-size: 0.75rem;
+            color: var(--muted);
+            display: block;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--foreground);
+            font-weight: 500;
+            padding: 0.5rem 0;
+            position: relative;
+        }
+
+        nav a:hover {
+            color: var(--secondary);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--secondary);
+            transition: width 0.3s;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius);
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            transition: all 0.3s;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: var(--secondary);
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--secondary);
+            border: 1px solid var(--secondary);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--secondary);
+            color: white;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--foreground);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Main Content Styles */
+        .profile-container {
+            padding: 2rem 0;
+        }
+
+        .profile-header {
+            background-color: white;
+            border-radius: var(--radius);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background-color: var(--secondary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            font-weight: bold;
+            position: relative;
+        }
+
+        .profile-avatar-edit {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background-color: var(--primary);
+            color: var(--secondary);
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: 2px solid white;
+        }
+
+        .profile-info {
+            flex: 1;
+        }
+
+        .profile-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-id {
+            font-size: 0.875rem;
+            color: var(--muted);
+            margin-bottom: 1rem;
+        }
+
+        .profile-stats {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .stat-icon {
+            color: var(--secondary);
+        }
+
+        .stat-value {
+            font-weight: bold;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--muted);
+        }
+
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 1.5rem;
+        }
+
+        .tab {
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            font-weight: 500;
+        }
+
+        .tab.active {
+            color: var(--secondary);
+            border-bottom-color: var(--secondary);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: var(--radius);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: var(--secondary);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            font-family: inherit;
+            font-size: 1rem;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--ring);
+            box-shadow: 0 0 0 2px rgba(30, 64, 175, 0.2);
+        }
+
+        .form-select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            font-family: inherit;
+            font-size: 1rem;
+            background-color: white;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .activity-item {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-icon {
+            width: 2.5rem;
+            height: 2.5rem;
+            background-color: rgba(30, 64, 175, 0.1);
+            color: var(--secondary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-title {
+            font-weight: 500;
+        }
+
+        .activity-time {
+            font-size: 0.875rem;
+            color: var(--muted);
+        }
+
+        /* Footer Styles */
+        footer {
+            background-color: var(--secondary);
+            color: white;
+            padding: 3rem 0 1rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-col h3 {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-col a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-col a:hover {
+            color: white;
+            text-decoration: underline;
+        }
+
+        .footer-contact {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .footer-social a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.5rem;
+            height: 2.5rem;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transition: background-color 0.3s;
+        }
+
+        .footer-social a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 1.5rem;
+            text-align: center;
+            font-size: 0.875rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 1024px) {
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav ul, .auth-buttons {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .profile-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .profile-avatar {
+                margin: 0 auto;
+            }
+
+            .profile-stats {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tabs {
+                overflow-x: auto;
+                white-space: nowrap;
+                padding-bottom: 0.5rem;
+            }
+
+            .tab {
+                padding: 0.75rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="top-bar">
+            <div class="container">
+                <div>
+                    <span class="hide-mobile">Sant Apèl: </span>
+                    <a href="tel:+50912345678">0800 123 4567</a>
+                </div>
+                <div class="top-links">
+                    <a href="#">Travay Avèk Nou</a>
+                    <a href="#">Pòtay Pwofesè</a>
+                    <a href="#">Biwo Plent</a>
+                </div>
+            </div>
+        </div>
+        <div class="main-header">
+            <div class="container">
+                <a href="/" class="logo">
+                    <div>
+                        <div style="display: flex; align-items: center;">
+                            <span class="logo-text">FONDESC</span>
+                            <div class="logo-dot"></div>
+                        </div>
+                        <span class="logo-tagline">Fòmasyon Nasyonal a Distans</span>
+                    </div>
+                </a>
+                <nav>
+                    <ul>
+                        <li><a href="/">Akèy</a></li>
+                        <li><a href="/kou.html">Kou yo</a></li>
+                        <li><a href="/sou-nou.html">Sou Nou</a></li>
+                        <li><a href="/kontak.html">Kontak</a></li>
+                    </ul>
+                </nav>
+                <div class="auth-buttons">
+                    <a href="/konekte.html" class="btn btn-outline">Konekte</a>
+                    <a href="/enskri.html" class="btn btn-primary">Enskri</a>
+                </div>
+                <button class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <div class="container profile-container">
+            <div class="profile-header">
+                <div class="profile-avatar">
+                    JP
+                    <div class="profile-avatar-edit">
+                        <i class="fas fa-camera"></i>
+                    </div>
+                </div>
+                <div class="profile-info">
+                    <h1 class="profile-name">Jean Pierre</h1>
+                    <div class="profile-id">ID Etidyan: FOND-2023-1234</div>
+                    <div class="profile-stats">
+                        <div class="stat-item">
+                            <i class="fas fa-book stat-icon"></i>
+                            <div>
+                                <div class="stat-value">3</div>
+                                <div class="stat-label">Kou Enskri</div>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-certificate stat-icon"></i>
+                            <div>
+                                <div class="stat-value">1</div>
+                                <div class="stat-label">Sètifika</div>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-clock stat-icon"></i>
+                            <div>
+                                <div class="stat-value">65%</div>
+                                <div class="stat-label">Pwogrè</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tabs">
+                <div class="tab active" data-tab="personal">Enfòmasyon Pèsonèl</div>
+                <div class="tab" data-tab="academic">Enfòmasyon Akademik</div>
+                <div class="tab" data-tab="contact">Enfòmasyon Kontak</div>
+                <div class="tab" data-tab="security">Sekirite</div>
+                <div class="tab" data-tab="activity">Aktivite Resan</div>
+            </div>
+
+            <div class="tab-content active" id="personal">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Enfòmasyon Pèsonèl</h2>
+                        <button class="btn btn-outline">Modifye</button>
+                    </div>
+                    <form>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label" for="first-name">Non</label>
+                                <input type="text" id="first-name" class="form-input" value="Jean" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="last-name">Siyati</label>
+                                <input type="text" id="last-name" class="form-input" value="Pierre" disabled>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label" for="birth-date">Dat Nesans</label>
+                                <input type="date" id="birth-date" class="form-input" value="1995-06-15" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="gender">Sèks</label>
+                                <select id="gender" class="form-select" disabled>
+                                    <option value="male" selected>Gason</option>
+                                    <option value="female">Fi</option>
+                                    <option value="other">Lòt</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label" for="id-number">Nimewo Idantifikasyon</label>
+                                <input type="text" id="id-number" class="form-input" value="123-456-789" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="nationality">Nasyonalite</label>
+                                <input type="text" id="nationality" class="form-input" value="Ayisyen" disabled>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="marital-status">Eta Sivil</label>
+                            <select id="marital-status" class="form-select" disabled>
+                                <option value="single" selected>Selibatè</option>
+                                <option value="married">Marye</option>
+                                <option value="divorced">Divòse</option>
+                                <option value="widowed">Vèf/Vèv</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="tab-content" id="academic">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Enfòmasyon Akademik</h2>
+                        <button class="btn btn-outline">Modifye</button>
+                    </div>
+                    <form>
+                        <div class="form-group">
+                            <label class="form-label" for="education-level">Nivo Edikasyon</label>
+                            <select id="education-level" class="form-select" disabled>
+                                <option value="secondary">Segondè (Bakaloreya)</option>
+                                <option value="technical">Teknik</option>
+                                <option value="undergraduate" selected>Lisans</option>
+                                <option value="graduate">Metriz</option>
+                                <option value="doctorate">Doktora</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="last-school">Dènye Lekòl/Inivèsite</label>
+                            <input type="text" id="last-school" class="form-input" value="Inivèsite Leta Ayiti" disabled>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label" for="graduation-year">Ane Gradyasyon</label>
+                                <input type="number" id="graduation-year" class="form-input" value="2018" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="diploma-number">Nimewo Diplòm</label>
+                                <input type="text" id="diploma-number" class="form-input" value="UEH-2018-5678" disabled>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="current-program">Pwogram Aktyèl</label>
+                            <input type="text" id="current-program" class="form-input" value="Administrasyon" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="enrollment-date">Dat Enskripsyon</label>
+                            <input type="date" id="enrollment-date" class="form-input" value="2023-01-15" disabled>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="tab-content" id="contact">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Enfòmasyon Kontak</h2>
+                        <button class="btn btn-outline">Modifye</button>
+                    </div>
+                    <form>
+                        <div class="form-group">
+                            <label class="form-label" for="email">Imèl</label>
+                            <input type="email" id="email" class="form-input" value="jeanpierre@example.com" disabled>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label" for="phone">Telefòn</label>
+                                <input type="tel" id="phone" class="form-input" value="+509 3456 7890" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="alt-phone">Telefòn Altènatif</label>
+                                <input type="tel" id="alt-phone" class="form-input" value="+509 4567 8901" disabled>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="address">Adrès</label>
+                            <input type="text" id="address" class="form-input" value="123 Rue Capois" disabled>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label" for="city">Vil</label>
+                                <input type="text" id="city" class="form-input" value="Pòtoprens" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="department">Depatman</label>
+                                <select id="department" class="form-select" disabled>
+                                    <option value="ouest" selected>Lwès</option>
+                                    <option value="sud">Sid</option>
+                                    <option value="nord">Nò</option>
+                                    <option value="artibonite">Latibonit</option>
+                                    <option value="centre">Sant</option>
+                                    <option value="nippes">Nip</option>
+                                    <option value="nord-est">Nòdès</option>
+                                    <option value="nord-ouest">Nòdwès</option>
+                                    <option value="sud-est">Sidès</option>
+                                    <option value="grand-anse">Grandans</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="postal-code">Kòd Postal</label>
+                            <input type="text" id="postal-code" class="form-input" value="HT6110" disabled>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="tab-content" id="security">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Chanje Modpas</h2>
+                    </div>
+                    <form>
+                        <div class="form-group">
+                            <label class="form-label" for="current-password">Modpas Aktyèl</label>
+                            <input type="password" id="current-password" class="form-input">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="new-password">Nouvo Modpas</label>
+                            <input type="password" id="new-password" class="form-input">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="confirm-password">Konfime Nouvo Modpas</label>
+                            <input type="password" id="confirm-password" class="form-input">
+                        </div>
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-outline">Anile</button>
+                            <button type="submit" class="btn btn-primary">Chanje Modpas</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Paramèt Sekirite</h2>
+                    </div>
+                    <div style="margin-bottom: 1.5rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                            <div>
+                                <h3 style="font-weight: 500;">Otantifikasyon De-Faktè</h3>
+                                <p style="color: var(--muted); font-size: 0.875rem;">Ajoute yon kouch sekirite anplis pou kont ou</p>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                            <div>
+                                <h3 style="font-weight: 500;">Notifikasyon Koneksyon</h3>
+                                <p style="color: var(--muted); font-size: 0.875rem;">Resevwa notifikasyon lè gen yon nouvo koneksyon</p>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" checked>
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <h3 style="font-weight: 500;">Sesyon Aktif</h3>
+                                <p style="color: var(--muted); font-size: 0.875rem;">Jere sesyon konekte yo sou aparèy diferan</p>
+                            </div>
+                            <button class="btn btn-outline" style="font-size: 0.875rem;">Jere Sesyon</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="activity">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Aktivite Resan</h2>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon">
+                            <i class="fas fa-sign-in-alt"></i>
+                        </div>
+                        <div class="activity-content">
+                            <div class="activity-title">Koneksyon Reyisi</div>
+                            <div class="activity-time">Jodi a, 10:45 AM</div>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <div class="activity-content">
+                            <div class="activity-title">Devwa Soumèt: Jesyon Finansye</div>
+                            <div class="activity-time">Yè, 3:20 PM</div>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <div class="activity-content">
+                            <div class="activity-title">Kou Konplete: Entwodiksyon nan Maketing Dijital</div>
+                            <div class="activity-time">05/06/2023, 7:15 PM</div>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon">
+                            <i class="fas fa-user-edit"></i>
+                        </div>
+                        <div class="activity-content">
+                            <div class="activity-title">Enfòmasyon Pwofil Modifye</div>
+                            <div class="activity-time">01/06/2023, 11:30 AM</div>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon">
+                            <i class="fas fa-certificate"></i>
+                        </div>
+                        <div class="activity-content">
+                            <div class="activity-title">Sètifika Resevwa: Baz Administrasyon</div>
+                            <div class="activity-time">15/05/2023, 2:00 PM</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3>FONDESC</h3>
+                    <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 1rem;">
+                        Fòmasyon Nasyonal a Distans se yon enstitisyon edikasyon ki dedye a bay aksè a edikasyon kalite siperyè pou tout Ayisyen.
+                    </p>
+                    <div class="footer-social">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h3>Lyen Rapid</h3>
+                    <ul>
+                        <li><a href="/">Akèy</a></li>
+                        <li><a href="/kou.html">Kou yo</a></li>
+                        <li><a href="/sou-nou.html">Sou Nou</a></li>
+                        <li><a href="/kontak.html">Kontak</a></li>
+                        <li><a href="/faq.html">Kesyon Mande Souvan</a></li>
+                        <li><a href="/bous.html">Bous Detid</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Resous</h3>
+                    <ul>
+                        <li><a href="/kalendriye.html">Kalendriye Akademik</a></li>
+                        <li><a href="/bibliyotèk.html">Bibliyotèk Dijital</a></li>
+                        <li><a href="/blog.html">Blog</a></li>
+                        <li><a href="/evènman.html">Evènman</a></li>
+                        <li><a href="/kondisyon-itilizasyon.html">Kondisyon Itilizasyon</a></li>
+                        <li><a href="/politik-konfidansyalite.html">Politik Konfidansyalite</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Kontak</h3>
+                    <div class="footer-contact">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>123 Rue Capois, Pòtoprens, Ayiti</span>
+                    </div>
+                    <div class="footer-contact">
+                        <i class="fas fa-phone"></i>
+                        <span>+509 2940 0000</span>
+                    </div>
+                    <div class="footer-contact">
+                        <i class="fas fa-envelope"></i>
+                        <span>info@fondesc.edu.ht</span>
+                    </div>
+                    <div class="footer-contact">
+                        <i class="fas fa-clock"></i>
+                        <span>Lendi - Vandredi: 8:00 AM - 5:00 PM</span>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 FONDESC - Fòmasyon Nasyonal a Distans. Tout dwa rezève.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Tab switching functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabs = document.querySelectorAll('.tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const tabId = tab.getAttribute('data-tab');
+                    
+                    // Remove active class from all tabs and contents
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    
+                    // Add active class to clicked tab and corresponding content
+                    tab.classList.add('active');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+
+            // Mobile menu toggle
+            const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+            if (mobileMenuBtn) {
+                mobileMenuBtn.addEventListener('click', () => {
+                    // Mobile menu functionality would go here
+                    alert('Menu mobile em desenvolvimento');
+                });
+            }
+
+            // Edit buttons functionality
+            const editButtons = document.querySelectorAll('.btn-outline');
+            editButtons.forEach(button => {
+                if (button.textContent.trim() === 'Modifye') {
+                    button.addEventListener('click', function() {
+                        const form = this.closest('.card').querySelector('form');
+                        const inputs = form.querySelectorAll('input, select');
+                        
+                        if (this.textContent === 'Modifye') {
+                            // Enable inputs
+                            inputs.forEach(input => input.disabled = false);
+                            this.textContent = 'Sovgade';
+                            
+                            // Add cancel button
+                            const cancelBtn = document.createElement('button');
+                            cancelBtn.className = 'btn btn-outline';
+                            cancelBtn.style.marginRight = '0.5rem';
+                            cancelBtn.textContent = 'Anile';
+                            cancelBtn.type = 'button';
+                            cancelBtn.addEventListener('click', () => {
+                                // Reset form and disable inputs
+                                form.reset();
+                                inputs.forEach(input => input.disabled = true);
+                                this.textContent = 'Modifye';
+                                cancelBtn.remove();
+                            });
+                            
+                            this.parentNode.insertBefore(cancelBtn, this);
+                        } else {
+                            // Save functionality would go here
+                            alert('Enfòmasyon yo sovgade!');
+                            
+                            // Disable inputs
+                            inputs.forEach(input => input.disabled = true);
+                            this.textContent = 'Modifye';
+                            
+                            // Remove cancel button
+                            const cancelBtn = this.previousElementSibling;
+                            if (cancelBtn && cancelBtn.textContent === 'Anile') {
+                                cancelBtn.remove();
+                            }
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

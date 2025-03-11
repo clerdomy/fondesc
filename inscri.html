@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="ht">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enskri - FONDESC</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #FFCC29;
+            --secondary: #003B71;
+            --text-dark: #333333;
+            --text-light: #666666;
+            --background-light: #F5F5F5;
+            --border-color: #E5E5E5;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            color: var(--text-dark);
+            background-color: var(--background-light);
+        }
+        
+        .fondesc-gradient {
+            background: linear-gradient(to right, var(--secondary), rgba(0, 59, 113, 0.9));
+        }
+        
+        .fondesc-button {
+            background-color: var(--primary);
+            color: var(--secondary);
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .fondesc-button:hover {
+            background-color: rgba(255, 204, 41, 0.9);
+        }
+        
+        .fondesc-button-outline {
+            border: 2px solid var(--primary);
+            color: var(--secondary);
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .fondesc-button-outline:hover {
+            background-color: rgba(255, 204, 41, 0.1);
+        }
+        
+        .form-input {
+            border: 1px solid var(--border-color);
+            border-radius: 0.375rem;
+            padding: 0.5rem 0.75rem;
+            width: 100%;
+            transition: border-color 0.15s ease-in-out;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(255, 204, 41, 0.25);
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+        
+        .form-select {
+            border: 1px solid var(--border-color);
+            border-radius: 0.375rem;
+            padding: 0.5rem 0.75rem;
+            width: 100%;
+            background-color: white;
+            transition: border-color 0.15s ease-in-out;
+        }
+        
+        .form-select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(255, 204, 41, 0.25);
+        }
+        
+        .step-indicator {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+        
+        .step-indicator::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: var(--border-color);
+            transform: translateY(-50%);
+            z-index: 1;
+        }
+        
+        .step {
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            background-color: white;
+            border: 2px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .step.active {
+            background-color: var(--primary);
+            border-color: var(--primary);
+            color: var(--secondary);
+        }
+        
+        .step.completed {
+            background-color: var(--secondary);
+            border-color: var(--secondary);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-50">
+        <!-- Top Bar -->
+        <div class="fondesc-gradient text-white py-2">
+            <div class="container mx-auto px-4 flex justify-between items-center">
+                <div class="text-sm">
+                    <span class="hidden md:inline">Sant Apèl: </span>
+                    <a href="tel:+50912345678" class="hover:underline">
+                        0800 123 4567
+                    </a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="#" class="text-sm hover:underline">
+                        Travay Avèk Nou
+                    </a>
+                    <a href="#" class="text-sm hover:underline">
+                        Pòtay Pwofesè
+                    </a>
+                    <a href="#" class="text-sm hover:underline">
+                        Biwo Plent
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Header -->
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <a href="index.html" class="flex items-center">
+                    <div class="relative h-12 w-40">
+                        <div class="flex items-center">
+                            <span class="text-2xl font-bold text-blue-900">FONDESC</span>
+                            <div class="w-3 h-3 bg-yellow-400 rounded-full ml-1"></div>
+                        </div>
+                        <span class="text-xs text-gray-600 block">Fòmasyon Nasyonal a Distans</span>
+                    </div>
+                </a>
+
+                <!-- Navigation - Simplified for this page -->
+                <div class="hidden md:flex space-x-6">
+                    <a href="index.html" class="text-gray-700 hover:text-blue-900">Akèy</a>
+                    <a href="kou.html" class="text-gray-700 hover:text-blue-900">Kou yo</a>
+                    <a href="kontak.html" class="text-gray-700 hover:text-blue-900">Kontak</a>
+                </div>
+
+                <!-- Login/Register Buttons -->
+                <div class="flex items-center gap-2">
+                    <a href="konekte.html" class="hidden md:inline-block px-4 py-2 border-2 border-yellow-400 text-blue-900 font-bold rounded hover:bg-yellow-50 transition-colors">
+                        Konekte
+                    </a>
+                    <a href="inskri.html" class="px-4 py-2 bg-yellow-400 text-blue-900 font-bold rounded hover:bg-yellow-500 transition-colors">
+                        Enskri
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="py-12">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto bg-white rounded-lg shadow-md p-8">
+                <h1 class="text-3xl font-bold text-center text-blue-900 mb-8">Enskri nan FONDESC</h1>
+                <p class="text-gray-600 text-center mb-8">Ranpli fòmilè sa a pou kòmanse vwayaj akademik ou avèk nou</p>
+                
+                <!-- Step Indicator -->
+                <div class="step-indicator">
+                    <div class="step active">1</div>
+                    <div class="step">2</div>
+                    <div class="step">3</div>
+                    <div class="step">4</div>
+                </div>
+                
+                <!-- Registration Form -->
+                <form id="registration-form">
+                    <!-- Step 1: Personal Information -->
+                    <div id="step-1" class="space-y-6">
+                        <h2 class="text-xl font-semibold text-blue-900 mb-4">Enfòmasyon Pèsonèl</h2>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="first-name" class="form-label">Non</label>
+                                <input type="text" id="first-name" name="first-name" class="form-input" required>
+                            </div>
+                            <div>
+                                <label for="last-name" class="form-label">Siyati</label>
+                                <input type="text" id="last-name" name="last-name" class="form-input" required>
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="birth-date" class="form-label">Dat Nesans</label>
+                                <input type="date" id="birth-date" name="birth-date" class="form-input" required>
+                            </div>
+                            <div>
+                                <label for="gender" class="form-label">Sèks</label>
+                                <select id="gender" name="gender" class="form-select" required>
+                                    <option value="">Chwazi...</option>
+                                    <option value="male">Gason</option>
+                                    <option value="female">Fi</option>
+                                    <option value="other">Lòt</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label for="id-number" class="form-label">Nimewo Idantifikasyon Nasyonal</label>
+                            <input type="text" id="id-number" name="id-number" class="form-input" required>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="nationality" class="form-label">Nasyonalite</label>
+                                <input type="text" id="nationality" name="nationality" class="form-input" value="Ayisyen" required>
+                            </div>
+                            <div>
+                                <label for="marital-status" class="form-label">Eta Sivil</label>
+                                <select id="marital-status" name="marital-status" class="form-select" required>
+                                    <option value="">Chwazi...</option>
+                                    <option value="single">Selibatè</option>
+                                    <option value="married">Marye</option>
+                                    <option value="divorced">Divòse</option>
+                                    <option value="widowed">Vèf/Vèv</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="flex justify-end">
+                            <button type="button" id="next-step-1" class="fondesc-button px-6 py-2 rounded">Kontinye</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 2: Contact Information -->
+                    <div id="step-2" class="space-y-6 hidden">
+                        <h2 class="text-xl font-semibold text-blue-900 mb-4">Enfòmasyon Kontak</h2>
+                        
+                        <div>
+                            <label for="email" class="form-label">Imèl</label>
+                            <input type="email" id="email" name="email" class="form-input" required>
+                        </div>
+                        
+                        <div>
+                            <label for="confirm-email" class="form-label">Konfime Imèl</label>
+                            <input type="email" id="confirm-email" name="confirm-email" class="form-input" required>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="phone" class="form-label">Telefòn</label>
+                                <input type="tel" id="phone" name="phone" class="form-input" required>
+                            </div>
+                            <div>
+                                <label for="alt-phone" class="form-label">Lòt Telefòn (Opsyonèl)</label>
+                                <input type="tel" id="alt-phone" name="alt-phone" class="form-input">
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label for="address" class="form-label">Adrès</label>
+                            <input type="text" id="address" name="address" class="form-input" required>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div>
+                                <label for="city" class="form-label">Vil</label>
+                                <input type="text" id="city" name="city" class="form-input" required>
+                            </div>
+                            <div>
+                                <label for="department" class="form-label">Depatman</label>
+                                <select id="department" name="department" class="form-select" required>
+                                    <option value="">Chwazi...</option>
+                                    <option value="ouest">Lwès</option>
+                                    <option value="sud">Sid</option>
+                                    <option value="nord">Nò</option>
+                                    <option value="artibonite">Latibonit</option>
+                                    <option value="centre">Sant</option>
+                                    <option value="nippes">Nip</option>
+                                    <option value="nord-est">Nòdès</option>
+                                    <option value="nord-ouest">Nòdwès</option>
+                                    <option value="sud-est">Sidès</option>
+                                    <option value="grand-anse">Grandans</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="postal-code" class="form-label">Kòd Postal</label>
+                                <input type="text" id="postal-code" name="postal-code" class="form-input">
+                            </div>
+                        </div>
+                        
+                        <div class="flex justify-between">
+                            <button type="button" id="prev-step-2" class="fondesc-button-outline px-6 py-2 rounded">Retounen</button>
+                            <button type="button" id="next-step-2" class="fondesc-button px-6 py-2 rounded">Kontinye</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 3: Educational Information -->
+                    <div id="step-3" class="space-y-6 hidden">
+                        <h2 class="text-xl font-semibold text-blue-900 mb-4">Enfòmasyon Edikasyonèl</h2>
+                        
+                        <div>
+                            <label for="education-level" class="form-label">Nivo Edikasyon</label>
+                            <select id="education-level" name="education-level" class="form-select" required>
+                                <option value="">Chwazi...</option>
+                                <option value="secondary">Segondè (Bakaloreya)</option>
+                                <option value="technical">Teknik</option>
+                                <option value="undergraduate">Lisans</option>
+                                <option value="graduate">Metriz</option>
+                                <option value="doctorate">Doktora</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label for="last-school" class="form-label">Dènye Lekòl/Inivèsite</label>
+                            <input type="text" id="last-school" name="last-school" class="form-input" required>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="graduation-year" class="form-label">Ane Gradyasyon</label>
+                                <input type="number" id="graduation-year" name="graduation-year" min="1950" max="2023" class="form-input" required>
+                            </div>
+                            <div>
+                                <label for="diploma-number" class="form-label">Nimewo Diplòm (si disponib)</label>
+                                <input type="text" id="diploma-number" name="diploma-number" class="form-input">
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label for="course-interest" class="form-label">Kou ki enterese ou</label>
+                            <select id="course-interest" name="course-interest" class="form-select" required>
+                                <option value="">Chwazi...</option>
+                                <option value="administration">Administrasyon</option>
+                                <option value="systems-analysis">Analiz ak Devlopman Sistèm</option>
+                                <option value="pedagogy">Pedagoji</option>
+                                <option value="accounting">Kontabilite</option>
+                                <option value="marketing">Maketing</option>
+                                <option value="human-resources">Jesyon Resous Imèn</option>
+                                <option value="nursing">Enfimyè</option>
+                                <option value="other">Lòt</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label for="other-course" class="form-label">Si ou chwazi "Lòt", presize:</label>
+                            <input type="text" id="other-course" name="other-course" class="form-input">
+                        </div>
+                        
+                        <div class="flex justify-between">
+                            <button type="button" id="prev-step-3" class="fondesc-button-outline px-6 py-2 rounded">Retounen</button>
+                            <button type="button" id="next-step-3" class="fondesc-button px-6 py-2 rounded">Kontinye</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 4: Terms and Submission -->
+                    <div id="step-4" class="space-y-6 hidden">
+                        <h2 class="text-xl font-semibold text-blue-900 mb-4">Tèm ak Kondisyon</h2>
+                        
+                        <div class="bg-gray-50 p-4 rounded-lg max-h-60 overflow-y-auto mb-4">
+                            <h3 class="font-semibold mb-2">Tèm ak Kondisyon FONDESC</h3>
+                            <p class="text-sm text-gray-600 mb-2">
+                                Byenveni nan FONDESC - Fòmasyon Nasyonal a Distans. Anvan ou kontinye ak enskripsyon an, tanpri li epi aksepte tèm ak kondisyon nou yo.
+                            </p>
+                            <ol class="text-sm text-gray-600 list-decimal pl-5 space-y-2">
+                                <li>Mwen sètifye ke tout enfòmasyon mwen bay yo kòrèk epi konplè.</li>
+                                <li>Mwen konprann ke FONDESC gen dwa pou verifye tout enfòmasyon mwen bay yo.</li>
+                                <li>Mwen dakò pou m respekte règleman ak pwosedi FONDESC yo.</li>
+                                <li>Mwen konprann ke frè enskripsyon an pa ranbousab.</li>
+                                <li>Mwen konprann ke mwen dwe peye frè etid yo nan dat limit yo.</li>
+                                <li>Mwen konprann ke mwen responsab pou m gen aksè a entènèt ak ekipman nesesè pou swiv kou anliy yo.</li>
+                                <li>Mwen dakò pou m respekte dwa otè materyèl kou yo epi pa pataje yo ak lòt moun.</li>
+                                <li>Mwen konprann ke FONDESC ka itilize enfòmasyon mwen bay yo pou kontakte m konsènan pwogram akademik yo.</li>
+                                <li>Mwen konprann ke FONDESC ka modifye tèm ak kondisyon sa yo nenpòt kilè.</li>
+                                <li>Mwen konprann ke si mwen pa respekte tèm ak kondisyon sa yo, FONDESC ka anile enskripsyon mwen.</li>
+                            </ol>
+                        </div>
+                        
+                        <div class="flex items-start mb-6">
+                            <input type="checkbox" id="terms-agree" name="terms-agree" class="mt-1 mr-2" required>
+                            <label for="terms-agree" class="text-gray-700">
+                                Mwen li epi mwen aksepte <a href="#" class="text-blue-900 underline">tèm ak kondisyon</a> FONDESC yo.
+                            </label>
+                        </div>
+                        
+                        <div class="flex items-start mb-6">
+                            <input type="checkbox" id="marketing-agree" name="marketing-agree" class="mt-1 mr-2">
+                            <label for="marketing-agree" class="text-gray-700">
+                                Mwen dakò resevwa enfòmasyon sou nouvo kou ak pwomosyon FONDESC yo.
+                            </label>
+                        </div>
+                        
+                        <div class="flex justify-between">
+                            <button type="button" id="prev-step-4" class="fondesc-button-outline px-6 py-2 rounded">Retounen</button>
+                            <button type="submit" class="fondesc-button px-6 py-2 rounded">Soumèt Enskripsyon</button>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- Success Message (Hidden by default) -->
+                <div id="success-message" class="hidden text-center py-10">
+                    <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                    </div>
+                    <h2 class="text-2xl font-bold text-blue-900 mb-4">Enskripsyon Reyisi!</h2>
+                    <p class="text-gray-600 mb-8">
+                        Mèsi pou enskripsyon ou! Nou pral kontakte ou byento pou pwochen etap yo.
+                    </p>
+                    <a href="index.html" class="fondesc-button px-6 py-2 rounded inline-block">Retounen nan Akèy</a>
+                </div>
+
+                <!-- Error Message (Hidden by default) -->
+                <div id="error-message" class="hidden text-center py-10">
+                    <div class="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                        </svg>
+                    </div>
+                    <h2 class="text-2xl font-bold text-blue-900 mb-4">Gen yon Erè!</h2>
+                    <p class="text-gray-600 mb-8">
+                        Te gen yon pwoblèm ak enskripsyon ou. Tanpri eseye ankò pita oswa kontakte nou pou asistans.
+                    </p>
+                    <button id="try-again" class="fondesc-button px-6 py-2 rounded">Eseye Ankò</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="fondesc-gradient text-white mt-12">
+        <div class="container mx-auto px-4 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- About -->
+                <div>
+                    <h3 class="text-xl font-bold mb-4 flex items-center">
+                        FONDESC
+                        <div class="w-2 h-2 bg-yellow-400 rounded-full ml-1"></div>
+                    </h3>
+                    <p class="text-gray-300 mb-4">Fòmasyon Nasyonal a Distans - Edikasyon kalite aksesib pou tout moun.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-300 hover:text-yellow-400">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z" />
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-300 hover:text-yellow-400">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-300 hover:text-yellow-400">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z" />
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-300 hover:text-yellow-400">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Lyen Rapid</h3>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="text-gray-300 hover:text-yellow-400">Akèy</a></li>
+                        <li><a href="kou.html" class="text-gray-300 hover:text-yellow-400">Kou yo</a></li>
+                        <li><a href="sou-nou.html" class="text-gray-300 hover:text-yellow-400">Sou Nou</a></li>
+                        <li><a href="blog.html" class="text-gray-300 hover:text-yellow-400">Blog</a></li>
+                        <li><a href="kontak.html" class="text-gray-300 hover:text-yellow-400">Kontak</a></li>
+                    </ul>
+                </div>
+
+                <!-- Courses -->
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Kou yo</h3>
+                    <ul class="space-y-2">
+                        <li><a href="kou/lisans.html" class="text-gray-300 hover:text-yellow-400">Lisans</a></li>
+                        <li><a href="kou/metriz.html" class="text-gray-300 hover:text-yellow-400">Metriz</a></li>
+                        <li><a href="kou/teknik.html" class="text-gray-300 hover:text-yellow-400">Kou Teknik</a></li>
+                        <li><a href="kou/lib.html" class="text-gray-300 hover:text-yellow-400">Kou Lib</a></li>
+                        <li><a href="kou/ekstansyon.html" class="text-gray-300 hover:text-yellow-400">Ekstansyon</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact -->
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Kontak</h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-400 mr-2 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
+                            </svg>
+                            <span class="text-gray-300">
+                                Av. Edikasyon, 1000
+                                <br />
+                                Sant, Pòtoprens
+                                <br />
+                                Kòd Postal: 01000
+                            </span>
+                        </li>
+                        <li class="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-400 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+                            </svg>
+                            <a href="tel:+50912345678" class="text-gray-300 hover:text-yellow-400">
+                                0800 123 4567
+                            </a>
+                        </li>
+                        <li class="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-400 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+                                <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+                            </svg>
+                            <a href="mailto:kontak@fondesc.edu.ht" class="text-gray-300 hover:text-yellow-400">
+                                kontak@fondesc.edu.ht
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-700 mt-12 pt-8 text-center text-gray-300">
+                <p>&copy; 2023 FONDESC - Fòmasyon Nasyonal a Distans. Tout dwa rezève.</p>
+                <div class="mt-4 flex justify-center space-x-4">
+                    <a href="politik-konfidansyalite.html" class="hover:text-yellow-400">
+                        Politik Konfidansyalite
+                    </a>
+                    <a href="kondisyon-itilizasyon.html" class="hover:text-yellow-400">
+                        Kondisyon Itilizasyon
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript for form steps and submission -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get all step elements
+            const steps = [
+                document.getElementById('step-1'),
+                document.getElementById('step-2'),
+                document.getElementById('step-3'),
+                document.getElementById('step-4')
+            ];
+            
+            // Get all step indicators
+            const stepIndicators = document.querySelectorAll('.step');
+            
+            // Get form and message elements
+            const form = document.getElementById('registration-form');
+            const successMessage = document.getElementById('success-message');
+            const errorMessage = document.getElementById('error-message');
+            
+            // Next buttons
+            document.getElementById('next-step-1').addEventListener('click', function() {
+                steps[0].classList.add('hidden');
+                steps[1].classList.remove('hidden');
+                stepIndicators[0].classList.add('completed');
+                stepIndicators[1].classList.add('active');
+            });
+            
+            document.getElementById('next-step-2').addEventListener('click', function() {
+                steps[1].classList.add('hidden');
+                steps[2].classList.remove('hidden');
+                stepIndicators[1].classList.add('completed');
+                stepIndicators[2].classList.add('active');
+            });
+            
+            document.getElementById('next-step-3').addEventListener('click', function() {
+                steps[2].classList.add('hidden');
+                steps[3].classList.remove('hidden');
+                stepIndicators[2].classList.add('completed');
+                stepIndicators[3].classList.add('active');
+            });
+            
+            // Previous buttons
+            document.getElementById('prev-step-2').addEventListener('click', function() {
+                steps[1].classList.add('hidden');
+                steps[0].classList.remove('hidden');
+                stepIndicators[1].classList.remove('active');
+            });
+            
+            document.getElementById('prev-step-3').addEventListener('click', function() {
+                steps[2].classList.add('hidden');
+                steps[1].classList.remove('hidden');
+                stepIndicators[2].classList.remove('active');
+            });
+            
+            document.getElementById('prev-step-4').addEventListener('click', function() {
+                steps[3].classList.add('hidden');
+                steps[2].classList.remove('hidden');
+                stepIndicators[3].classList.remove('active');
+            });
+            
+            // Try again button
+            document.getElementById('try-again').addEventListener('click', function() {
+                errorMessage.classList.add('hidden');
+                form.classList.remove('hidden');
+            });
+            
+            // Form submission
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Collect all form data
+                const formData = new FormData(form);
+                
+                // Show loading state (optional)
+                // You could add a loading spinner here
+                
+                // Send data to server
+                fetch('/registrations', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Hide form and show success message
+                    form.classList.add('hidden');
+                    successMessage.classList.remove('hidden');
+                    
+                    // Optional: Scroll to top of success message
+                    successMessage.scrollIntoView({ behavior: 'smooth' });
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    
+                    // Hide form and show error message
+                    form.classList.add('hidden');
+                    errorMessage.classList.remove('hidden');
+                    
+                    // Optional: Scroll to top of error message
+                    errorMessage.scrollIntoView({ behavior: 'smooth' });
+                });
+            });
+        });
+    </script>
+</body>
+</html>

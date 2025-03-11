@@ -1,0 +1,959 @@
+{% extends 'fondescapp/base.html' %}
+
+{% load static %}
+
+{% block extra_css %}
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<style>
+    :root {
+        --primary: #FFCC29;
+        --secondary: #003B71;
+        --text-dark: #1A202C;
+        --text-light: #4A5568;
+        --background-light: #F7FAFC;
+        --border-color: #E2E8F0;
+    }
+    
+    body {
+        font-family: 'Inter', sans-serif;
+        color: var(--text-dark);
+        background-color: var(--background-light);
+    }
+    
+    .fondesc-gradient {
+        background: linear-gradient(to right, var(--secondary), rgba(0, 59, 113, 0.9));
+    }
+    
+    .fondesc-button {
+        background-color: var(--primary);
+        color: var(--secondary);
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+    
+    .fondesc-button:hover {
+        background-color: rgba(255, 204, 41, 0.9);
+    }
+    
+    .methodology-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .methodology-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+    
+    .feature-icon {
+        width: 64px;
+        height: 64px;
+        background-color: rgba(255, 204, 41, 0.2);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1rem;
+    }
+    
+    .feature-icon svg {
+        width: 32px;
+        height: 32px;
+        color: var(--secondary);
+    }
+    
+    .accordion-item {
+        border-bottom: 1px solid var(--border-color);
+    }
+    
+    .accordion-item:last-child {
+        border-bottom: none;
+    }
+    
+    .accordion-button {
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    .accordion-button:hover {
+        color: var(--secondary);
+    }
+    
+    .accordion-content {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+    }
+    
+    .accordion-item.active .accordion-content {
+        max-height: 1000px;
+    }
+    
+    .accordion-item.active .accordion-icon-plus {
+        display: none;
+    }
+    
+    .accordion-item:not(.active) .accordion-icon-minus {
+        display: none;
+    }
+    
+    .step-card {
+        position: relative;
+    }
+    
+    .step-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 2px;
+        height: 100%;
+        background-color: var(--primary);
+        z-index: -1;
+    }
+    
+    .step-card:last-child::before {
+        height: 0;
+    }
+    
+    .step-number {
+        width: 40px;
+        height: 40px;
+        background-color: var(--primary);
+        color: var(--secondary);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        margin: 0 auto 1rem;
+    }
+    
+    .video-container {
+        position: relative;
+        padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+        height: 0;
+        overflow: hidden;
+    }
+    
+    .video-container iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+    
+    .testimonial-card {
+        background-color: white;
+        border-radius: 0.5rem;
+        padding: 1.5rem;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+    
+    .testimonial-avatar {
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        background-color: var(--primary);
+        color: var(--secondary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 1.25rem;
+        margin-right: 1rem;
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Accordion functionality
+        const accordionItems = document.querySelectorAll('.accordion-item');
+        
+        accordionItems.forEach(item => {
+            const button = item.querySelector('.accordion-button');
+            
+            button.addEventListener('click', () => {
+                // Close all other accordions
+                accordionItems.forEach(otherItem => {
+                    if (otherItem !== item && otherItem.classList.contains('active')) {
+                        otherItem.classList.remove('active');
+                    }
+                });
+                
+                // Toggle current accordion
+                item.classList.toggle('active');
+            });
+        });
+        
+        // Platform tour tabs
+        const tabButtons = document.querySelectorAll('.tab-button');
+        const tabContents = document.querySelectorAll('.tab-content');
+        
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const tabId = button.getAttribute('data-tab');
+                
+                // Update active tab button
+                tabButtons.forEach(btn => {
+                    if (btn === button) {
+                        btn.classList.add('bg-secondary', 'text-white');
+                        btn.classList.remove('bg-gray-100', 'text-gray-700');
+                    } else {
+                        btn.classList.remove('bg-secondary', 'text-white');
+                        btn.classList.add('bg-gray-100', 'text-gray-700');
+                    }
+                });
+                
+                // Show selected tab content
+                tabContents.forEach(content => {
+                    if (content.getAttribute('data-tab') === tabId) {
+                        content.classList.remove('hidden');
+                    } else {
+                        content.classList.add('hidden');
+                    }
+                });
+            });
+        });
+        
+        // Initialize first tab as active
+        if (tabButtons.length > 0) {
+            tabButtons[0].click();
+        }
+    });
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="min-h-screen flex flex-col bg-white">
+    <!-- Header with page title -->
+    <header class="bg-gray-50 py-12 border-b border-gray-100">
+        <div class="container mx-auto px-4">
+            <div class="max-w-5xl mx-auto text-center">
+                <h1 class="text-4xl font-bold text-gray-900 mb-4">Metodoloji Aprantisaj FONDESC</h1>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    Dekouvri apwòch pedagojik inovatif nou an ki konbine fleksibilite edikasyon a distans ak kalite ansèyman siperyè.
+                </p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main content -->
+    <main class="flex-grow py-16">
+        <div class="container mx-auto px-4">
+            <div class="max-w-5xl mx-auto">
+                <!-- Introduction Section -->
+                <section class="mb-16">
+                    <div class="bg-white p-8 rounded-lg shadow-md">
+                        <h2 class="text-2xl font-semibold text-gray-800 mb-6">Apwòch Pedagojik Nou</h2>
+                        <p class="text-gray-600 mb-6">
+                            Nan FONDESC, nou kwè nan pouvwa edikasyon pou transfòme lavi. Metodoloji nou baze sou prensip aprantisaj aktif, kote etidyan yo pa sèlman resevwa enfòmasyon, men yo angaje aktivman nan pwosesis aprantisaj la. Nou konbine pi bon pratik nan edikasyon tradisyonèl ak inovasyon teknolojik pou kreye yon eksperyans aprantisaj ki rich, entèraktif, ak efikas.
+                        </p>
+                        <p class="text-gray-600 mb-6">
+                            Modèl pedagojik nou an konsantre sou twa pilye prensipal:
+                        </p>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-6">
+                            <div class="flex flex-col items-center text-center">
+                                <div class="feature-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                                    </svg>
+                                </div>
+                                <h3 class="text-lg font-semibold text-gray-800 mb-2">Kontni Kalite</h3>
+                                <p class="text-gray-600">Materyèl kou devlope pa ekspè nan domèn yo, aktyalize regilyèman pou reflete dènye konesans ak tandans.</p>
+                            </div>
+                            <div class="flex flex-col items-center text-center">
+                                <div class="feature-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                                    </svg>
+                                </div>
+                                <h3 class="text-lg font-semibold text-gray-800 mb-2">Aprantisaj Kolaboratif</h3>
+                                <p class="text-gray-600">Opòtinite pou etidyan yo travay ansanm, pataje konesans, epi aprann youn nan men lòt atravè fowòm diskisyon ak pwojè an gwoup.</p>
+                            </div>
+                            <div class="flex flex-col items-center text-center">
+                                <div class="feature-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                                    </svg>
+                                </div>
+                                <h3 class="text-lg font-semibold text-gray-800 mb-2">Sipò Pèsonalize</h3>
+                                <p class="text-gray-600">Akonpayman endividyèl pa pwofesè ak titè ki angaje pou asire siksè chak etidyan nan vwayaj akademik yo.</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-600">
+                            Metodoloji nou an rekonèt ke chak etidyan aprann diferamman. Se poutèt sa nou ofri yon varyete resous aprantisaj - videyo, lekti, egzèsis pratik, diskisyon an gwoup, ak plis ankò - pou akomode diferan stil aprantisaj epi maksimize konpreyansyon ak retansyon.
+                        </p>
+                    </div>
+                </section>
+                
+                <!-- Learning Platform Section -->
+                <section class="mb-16">
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-8 text-center">Platfòm Aprantisaj FONDESC</h2>
+                    
+                    <div class="bg-white p-8 rounded-lg shadow-md mb-8">
+                        <div class="flex flex-col md:flex-row gap-8 items-center">
+                            <div class="md:w-1/2">
+                                <h3 class="text-xl font-semibold text-gray-800 mb-4">Yon Anviwònman Aprantisaj Konplè</h3>
+                                <p class="text-gray-600 mb-4">
+                                    Platfòm aprantisaj FONDESC la se yon anviwònman dijital konplè ki fèt pou fasilite aprantisaj a distans. Li konbine teknoloji modèn ak prensip pedagojik solid pou kreye yon eksperyans aprantisaj ki angajan, entèraktif, ak efikas.
+                                </p>
+                                <p class="text-gray-600">
+                                    Platfòm nou an aksesib 24/7 sou nenpòt aparèy ki konekte a entènèt - òdinatè, tablèt, oswa telefòn entèlijan - sa ki pèmèt ou etidye nenpòt kilè, nenpòt kote, selon pwòp orè ou.
+                                </p>
+                            </div>
+                            <div class="md:w-1/2">
+                                <img src="/placeholder.svg?height=300&width=500" alt="Platfòm Aprantisaj FONDESC" class="rounded-lg shadow-md">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+                        <div class="methodology-card bg-white p-6 rounded-lg shadow-md">
+                            <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                                </svg>
+                            </div>
+                            <h3 class="text-lg font-semibold text-gray-800 mb-2">Videyo Kou</h3>
+                            <p class="text-gray-600">
+                                Videyo kou ki byen pwodui, ki prezante konsèp kle yo nan yon fason klè ak angajan. Videyo yo ka gade a vitès diferan epi gen soutit pou aksesibilite.
+                            </p>
+                        </div>
+                        
+                        <div class="methodology-card bg-white p-6 rounded-lg shadow-md">
+                            <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                </svg>
+                            </div>
+                            <h3 class="text-lg font-semibold text-gray-800 mb-2">Materyèl Lekti</h3>
+                            <p class="text-gray-600">
+                                Liv elektwonik, atik, ak nòt kou ki bay enfòmasyon detaye sou sijè yo. Materyèl yo ka telechaje pou lekti hors-ligne.
+                            </p>
+                        </div>
+                        
+                        <div class="methodology-card bg-white p-6 rounded-lg shadow-md">
+                            <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                </svg>
+                            </div>
+                            <h3 class="text-lg font-semibold text-gray-800 mb-2">Egzèsis Entèraktif</h3>
+                            <p class="text-gray-600">
+                                Egzèsis pratik, kiz, ak aktivite ki pèmèt etidyan yo aplike konesans yo epi resevwa fidbak imedya sou pèfòmans yo.
+                            </p>
+                        </div>
+                        
+                        <div class="methodology-card bg-white p-6 rounded-lg shadow-md">
+                            <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z" />
+                                </svg>
+                            </div>
+                            <h3 class="text-lg font-semibold text-gray-800 mb-2">Fowòm Diskisyon</h3>
+                            <p class="text-gray-600">
+                                Espas vityèl kote etidyan yo ka diskite sijè kou yo, poze kesyon, epi pataje lide ak kamarad klas yo ak pwofesè yo.
+                            </p>
+                        </div>
+                        
+                        <div class="methodology-card bg-white p-6 rounded-lg shadow-md">
+                            <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                </svg>
+                            </div>
+                            <h3 class="text-lg font-semibold text-gray-800 mb-2">Kalandriye ak Orè</h3>
+                            <p class="text-gray-600">
+                                Zouti òganizasyon ki ede etidyan yo swiv dat limit, sesyon an dirèk, ak lòt evènman enpòtan nan kou yo.
+                            </p>
+                        </div>
+                        
+                        <div class="methodology-card bg-white p-6 rounded-lg shadow-md">
+                            <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                                </svg>
+                            </div>
+                            <h3 class="text-lg font-semibold text-gray-800 mb-2">Swivi Pwogrè</h3>
+                            <p class="text-gray-600">
+                                Tablo debò pèsonalize ki montre pwogrè etidyan an, nòt, ak reyalizasyon, sa ki pèmèt yo swiv pèfòmans yo epi idantifye domèn pou amelyorasyon.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Platform Tour -->
+                    <div class="bg-white p-8 rounded-lg shadow-md">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-6 text-center">Vizit Gide Platfòm Nou an</h3>
+                        
+                        <div class="mb-6">
+                            <div class="flex flex-wrap gap-2 justify-center mb-6">
+                                <button class="tab-button px-4 py-2 rounded-md text-sm font-medium" data-tab="dashboard">Tablo Debò</button>
+                                <button class="tab-button px-4 py-2 rounded-md text-sm font-medium" data-tab="courses">Kou yo</button>
+                                <button class="tab-button px-4 py-2 rounded-md text-sm font-medium" data-tab="resources">Resous</button>
+                                <button class="tab-button px-4 py-2 rounded-md text-sm font-medium" data-tab="communication">Kominikasyon</button>
+                                <button class="tab-button px-4 py-2 rounded-md text-sm font-medium" data-tab="assessment">Evalyasyon</button>
+                            </div>
+                            
+                            <div class="tab-content" data-tab="dashboard">
+                                <div class="flex flex-col md:flex-row gap-8 items-center">
+                                    <div class="md:w-1/2">
+                                        <h4 class="text-lg font-semibold text-gray-800 mb-2">Tablo Debò Etidyan</h4>
+                                        <p class="text-gray-600 mb-4">
+                                            Tablo debò a se premye bagay ou wè lè ou konekte. Li bay yon apèsi konplè sou aktivite akademik ou:
+                                        </p>
+                                        <ul class="list-disc pl-5 space-y-2 text-gray-600">
+                                            <li>Kou aktyèl yo ak pwogrè ou nan chak kou</li>
+                                            <li>Aktivite ki gen pou fèt ak dat limit yo</li>
+                                            <li>Dènye nòt ak fidbak</li>
+                                            <li>Anons ak notifikasyon enpòtan</li>
+                                            <li>Kalandriye evènman ak sesyon an dirèk ki gen pou vini</li>
+                                        </ul>
+                                    </div>
+                                    <div class="md:w-1/2">
+                                        <img src="/placeholder.svg?height=300&width=500" alt="Tablo Debò Etidyan" class="rounded-lg shadow-md">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="tab-content hidden" data-tab="courses">
+                                <div class="flex flex-col md:flex-row gap-8 items-center">
+                                    <div class="md:w-1/2">
+                                        <h4 class="text-lg font-semibold text-gray-800 mb-2">Paj Kou yo</h4>
+                                        <p class="text-gray-600 mb-4">
+                                            Chak kou òganize nan modil ki byen striktire, ki rann li fasil pou navige epi swiv pwogrè ou:
+                                        </p>
+                                        <ul class="list-disc pl-5 space-y-2 text-gray-600">
+                                            <li>Kontni kou òganize pa semèn oswa pa sijè</li>
+                                            <li>Videyo leson, prezantasyon, ak materyèl lekti</li>
+                                            <li>Egzèsis pratik ak evalyasyon</li>
+                                            <li>Fowòm diskisyon espesifik pou kou a</li>
+                                            <li>Lyen pou sesyon an dirèk ak anrejistreman yo</li>
+                                        </ul>
+                                    </div>
+                                    <div class="md:w-1/2">
+                                        <img src="/placeholder.svg?height=300&width=500" alt="Paj Kou" class="rounded-lg shadow-md">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="tab-content hidden" data-tab="resources">
+                                <div class="flex flex-col md:flex-row gap-8 items-center">
+                                    <div class="md:w-1/2">
+                                        <h4 class="text-lg font-semibold text-gray-800 mb-2">Sant Resous</h4>
+                                        <p class="text-gray-600 mb-4">
+                                            Sant resous la bay aksè a yon bibliyotèk konplè materyèl siplemantè pou sipòte aprantisaj ou:
+                                        </p>
+                                        <ul class="list-disc pl-5 space-y-2 text-gray-600">
+                                            <li>Bibliyotèk dijital ak aksè a liv elektwonik ak jounal akademik</li>
+                                            <li>Baz done rechèch ak zouti akademik</li>
+                                            <li>Lojisyèl espesyalize pou domèn etid ou</li>
+                                            <li>Videyo tutorial ak gid etap pa etap</li>
+                                            <li>Modèl dokiman ak egzanp pwojè</li>
+                                        </ul>
+                                    </div>
+                                    <div class="md:w-1/2">
+                                        <img src="/placeholder.svg?height=300&width=500" alt="Sant Resous" class="rounded-lg shadow-md">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="tab-content hidden" data-tab="communication">
+                                <div class="flex flex-col md:flex-row gap-8 items-center">
+                                    <div class="md:w-1/2">
+                                        <h4 class="text-lg font-semibold text-gray-800 mb-2">Zouti Kominikasyon</h4>
+                                        <p class="text-gray-600 mb-4">
+                                            Platfòm nou an ofri plizyè fason pou rete konekte ak pwofesè yo ak kamarad klas yo:
+                                        </p>
+                                        <ul class="list-disc pl-5 space-y-2 text-gray-600">
+                                            <li>Mesajri dirèk pou kominikasyon prive ak pwofesè ak lòt etidyan</li>
+                                            <li>Fowòm diskisyon pou chak kou ak sijè</li>
+                                            <li>Sal klas vityèl pou sesyon an dirèk ak diskisyon an gwoup</li>
+                                            <li>Zouti kolaborasyon pou pwojè an gwoup</li>
+                                            <li>Notifikasyon ak alèt pou kenbe ou enfòme</li>
+                                        </ul>
+                                    </div>
+                                    <div class="md:w-1/2">
+                                        <img src="/placeholder.svg?height=300&width=500" alt="Zouti Kominikasyon" class="rounded-lg shadow-md">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="tab-content hidden" data-tab="assessment">
+                                <div class="flex flex-col md:flex-row gap-8 items-center">
+                                    <div class="md:w-1/2">
+                                        <h4 class="text-lg font-semibold text-gray-800 mb-2">Sistèm Evalyasyon</h4>
+                                        <p class="text-gray-600 mb-4">
+                                            Sistèm evalyasyon nou an fèt pou mezire konpreyansyon ou epi bay fidbak ki itil:
+                                        </p>
+                                        <ul class="list-disc pl-5 space-y-2 text-gray-600">
+                                            <li>Kiz ak tès otomatize ak rezilta imedya</li>
+                                            <li>Devwa ak pwojè ak fidbak detaye nan men pwofesè yo</li>
+                                            <li>Evalyasyon pa kamarad pou devlope konpetans kritik</li>
+                                            <li>Egzamen siveye pou evalyasyon final</li>
+                                            <li>Pòtfolyo dijital pou montre travay ou</li>
+                                        </ul>
+                                    </div>
+                                    <div class="md:w-1/2">
+                                        <img src="/placeholder.svg?height=300&width=500" alt="Sistèm Evalyasyon" class="rounded-lg shadow-md">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Teaching Methods Section -->
+                <section class="mb-16">
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-8 text-center">Metòd Ansèyman ak Evalyasyon</h2>
+                    
+                    <div class="bg-white p-8 rounded-lg shadow-md mb-8">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Apwòch Pedagojik Divèsifye</h3>
+                        <p class="text-gray-600 mb-6">
+                            Nan FONDESC, nou konprann ke chak etidyan aprann diferamman. Se poutèt sa nou itilize yon varyete metòd ansèyman pou asire ke tout etidyan yo ka angaje ak kontni an nan fason ki pi efikas pou yo.
+                        </p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div>
+                                <h4 class="font-medium text-gray-800 mb-2">Metòd Ansèyman</h4>
+                                <ul class="list-disc pl-5 space-y-2 text-gray-600">
+                                    <li><strong>Videyo Leson:</strong> Prezantasyon konsèp kle yo nan yon fason vizyèl ak oditif</li>
+                                    <li><strong>Lekti Gide:</strong> Materyèl lekti ak kesyon refleksyon pou apwofondi konpreyansyon</li>
+                                    <li><strong>Etid Ka:</strong> Analiz sitiyasyon reyèl pou aplike teyori nan pratik</li>
+                                    <li><strong>Aprantisaj Baze sou Pwoblèm:</strong> Rezoud pwoblèm konplèks ki mande aplikasyon konesans</li>
+                                    <li><strong>Diskisyon an Gwoup:</strong> Echanj lide ak pèspektiv sou sijè kou yo</li>
+                                    <li><strong>Demonstrasyon Pratik:</strong> Montre aplikasyon pratik konpetans yo</li>
+                                    <li><strong>Similasyon:</strong> Anviwònman vityèl pou pratike konpetans nan yon kontèks reyalis</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-800 mb-2">Metòd Evalyasyon</h4>
+                                <ul class="list-disc pl-5 space-y-2 text-gray-600">
+                                    <li><strong>Kiz ak Tès:</strong> Evalyasyon regilye pou mezire konpreyansyon ak retansyon</li>
+                                    <li><strong>Devwa Ekri:</strong> Redaksyon, rapò, ak analiz pou devlope konpetans kominikasyon ekri</li>
+                                    <li><strong>Pwojè:</strong> Travay konplèks ki mande aplikasyon konesans ak kreyativite</li>
+                                    <li><strong>Prezantasyon:</strong> Opòtinite pou devlope konpetans kominikasyon oral</li>
+                                    <li><strong>Pòtfolyo:</strong> Koleksyon travay ki montre pwogrè ak reyalizasyon</li>
+                                    <li><strong>Evalyasyon pa Kamarad:</strong> Fidbak nan men lòt etidyan pou ankouraje panse kritik</li>
+                                    <li><strong>Egzamen Final:</strong> Evalyasyon konplè nan fen kou a</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white p-8 rounded-lg shadow-md">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Egzanp Semèn Etid Tipik</h3>
+                        <p class="text-gray-600 mb-6">
+                            Pou ede ou konprann kijan aprantisaj la òganize, men yon apèsi sou yon semèn tipik nan yon kou FONDESC:
+                        </p>
+                        
+                        <div class="space-y-6">
+                            <div class="step-card pl-8">
+                                <div class="step-number">1</div>
+                                <h4 class="font-medium text-gray-800 mb-2">Lendi-Madi: Dekouvri Nouvo Kontni</h4>
+                                <ul class="list-disc pl-5 space-y-1 text-gray-600">
+                                    <li>Gade videyo leson entwodiksyon (30-45 minit)</li>
+                                    <li>Li materyèl debaz yo (1-2 èdtan)</li>
+                                    <li>Konplete kiz konpreyansyon inisyal</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="step-card pl-8">
+                                <div class="step-number">2</div>
+                                <h4 class="font-medium text-gray-800 mb-2">Mèkredi: Sesyon an Dirèk ak Diskisyon</h4>
+                                <ul class="list-disc pl-5 space-y-1 text-gray-600">
+                                    <li>Patisipe nan sesyon an dirèk ak pwofesè a (1 èdtan)</li>
+                                    <li>Poze kesyon ak klarifye konsèp difisil</li>
+                                    <li>Angaje nan diskisyon an gwoup sou sijè semèn nan</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="step-card pl-8">
+                                <div class="step-number">3</div>
+                                <h4 class="font-medium text-gray-800 mb-2">Jedi: Aplikasyon Pratik</h4>
+                                <ul class="list-disc pl-5 space-y-1 text-gray-600">
+                                    <li>Konplete egzèsis pratik ak aktivite (1-2 èdtan)</li>
+                                    <li>Travay sou pwojè an gwoup (si aplikab)</li>
+                                    <li>Patisipe nan fowòm diskisyon</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="step-card pl-8">
+                                <div class="step-number">4</div>
+                                <h4 class="font-medium text-gray-800 mb-2">Vandredi-Dimanch: Evalyasyon ak Refleksyon</h4>
+                                <ul class="list-disc pl-5 space-y-1 text-gray-600">
+                                    <li>Soumèt devwa semèn nan</li>
+                                    <li>Konplete evalyasyon pa kamarad (si aplikab)</li>
+                                    <li>Revize materyèl yo epi prepare pou semèn pwochen</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <p class="text-gray-600 mt-6">
+                            Orè sa a se jis yon egzanp - youn nan avantaj edikasyon a distans se fleksibilite pou ajiste orè a selon bezwen ou. Sepandan, nou rekòmande pou kenbe yon orè regilye pou maksimize siksè ou.
+                        </p>
+                    </div>
+                </section>
+                
+                <!-- Teacher-Student Interaction Section -->
+                <section class="mb-16">
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-8 text-center">Entèaksyon Pwofesè-Etidyan</h2>
+                    
+                    <div class="bg-white p-8 rounded-lg shadow-md mb-8">
+                        <div class="flex flex-col md:flex-row gap-8 items-center">
+                            <div class="md:w-1/2">
+                                <h3 class="text-xl font-semibold text-gray-800 mb-4">Sipò Pèsonalize</h3>
+                                <p class="text-gray-600 mb-4">
+                                    Malgre distans fizik la, nou mete anpil aksan sou kreyasyon yon relasyon solid ant pwofesè yo ak etidyan yo. Pwofesè nou yo pa sèlman ekspè nan domèn yo, men yo tou fòme espesyalman nan pedagoji a distans.
+                                </p>
+                                <p class="text-gray-600">
+                                    Chak kou gen yon pwofesè prensipal ak yon ekip titè ki disponib pou bay sipò akademik, gide etidyan yo nan aprantisaj yo, epi reponn kesyon yo. Nou kwè ke entèaksyon regilye ak fidbak pèsonalize yo esansyèl pou siksè etidyan.
+                                </p>
+                            </div>
+                            <div class="md:w-1/2">
+                                <img src="/placeholder.svg?height=300&width=500" alt="Entèaksyon Pwofesè-Etidyan" class="rounded-lg shadow-md">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                        <div class="methodology-card bg-white p-6 rounded-lg shadow-md">
+                            <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z" />
+                                </svg>
+                            </div>
+                            <h3 class="text-lg font-semibold text-gray-800 mb-2">Sesyon an Dirèk</h3>
+                            <p class="text-gray-600">
+                                Sesyon an dirèk regilye kote pwofesè yo prezante kontni, reponn kesyon, epi fasilite diskisyon. Sesyon sa yo anrejistre pou etidyan ki pa ka patisipe an dirèk.
+                            </p>
+                        </div>
+                        
+                        <div class="methodology-card bg-white p-6 rounded-lg shadow-md">
+                            <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
+                                </svg>
+                            </div>
+                            <h3 class="text-lg font-semibold text-gray-800 mb-2">Fidbak Detaye</h3>
+                            <p class="text-gray-600">
+                                Fidbak pèsonalize sou devwa ak pwojè, ki bay konsèy espesifik sou fason pou amelyore ak devlope konpetans yo.
+                            </p>
+                        </div>
+                        
+                        <div class="methodology-card bg-white p-6 rounded-lg shadow-md">
+                            <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                </svg>
+                            </div>
+                            <h3 class="text-lg font-semibold text-gray-800 mb-2">Èdtan Biwo Vityèl</h3>
+                            <p class="text-gray-600">
+                                Èdtan biwo regilye kote etidyan yo ka pran randevou pou diskite kesyon, enkyetid, oswa resevwa èd siplemantè.
+                            </p>
+                        </div>
+                        
+                        <div class="methodology-card bg-white p-6 rounded-lg shadow-md">
+                            <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                </svg>
+                            </div>
+                            <h3 class="text-lg font-semibold text-gray-800 mb-2">Kominikasyon Regilye</h3>
+                            <p class="text-gray-600">
+                                Kominikasyon regilye atravè imèl, mesajri, ak fowòm diskisyon, ak yon objektif pou reponn kesyon nan 24 èdtan.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white p-8 rounded-lg shadow-md">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-4 text-center">Kisa Etidyan Nou yo Di</h3>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div class="testimonial-card">
+                                <div class="flex items-center mb-4">
+                                    <div class="testimonial-avatar">MJ</div>
+                                    <div>
+                                        <h4 class="font-semibold text-gray-800">Marie Jean</h4>
+                                        <p class="text-sm text-gray-600">Etidyan Administrasyon</p>
+                                    </div>
+                                </div>
+                                <p class="text-gray-600 italic">
+                                    "Mwen te enkyete ke aprantisaj a distans ta ka izole, men eksperyans mwen nan FONDESC te konplètman opoze. Pwofesè yo toujou disponib epi yo bay fidbak detaye sou travay mwen. Sesyon an dirèk yo angajan epi yo ban m opòtinite pou konekte ak kamarad klas mwen yo."
+                                </p>
+                            </div>
+                            
+                            <div class="testimonial-card">
+                                <div class="flex items-center mb-4">
+                                    <div class="testimonial-avatar">JP</div>
+                                    <div>
+                                        <h4 class="font-semibold text-gray-800">Jean Pierre</h4>
+                                        <p class="text-sm text-gray-600">Etidyan Teknoloji</p>
+                                    </div>
+                                </div>
+                                <p class="text-gray-600 italic">
+                                    "Kalite entèaksyon ak pwofesè yo nan FONDESC depase atant mwen. Malgre distans fizik la, mwen santi m pi konekte ak pwofesè mwen yo pase nan anpil kou an pèsòn mwen te pran anvan. Yo vrèman pran tan pou konprann bezwen aprantisaj mwen yo epi adapte sipò yo an konsekans."
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Advantages Section -->
+                <section class="mb-16">
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-8 text-center">Avantaj Metodoloji Nou an</h2>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div class="methodology-card bg-white p-6 rounded-lg shadow-md">
+                            <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </div>
+                            <h3 class="text-lg font-semibold text-gray-800 mb-2">Fleksibilite</h3>
+                            <p class="text-gray-600">
+                                Etidye nan pwòp ritm ou, nenpòt kilè ak kote ki pi bon pou ou. Ekilibre etid ou ak lòt responsabilite pèsonèl ak pwofesyonèl.
+                            </p>
+                        </div>
+                        
+                        <div class="methodology-card bg-white p-6 rounded-lg shadow-md">
+                            <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </div>
+                            <h3 class="text-lg font-semibold text-gray-800 mb-2">Aksesibilite</h3>
+                            <p class="text-gray-600">
+                                Aksede a edikasyon kalite siperyè kèlkeswa lokalizasyon jeyografik ou. Elimine baryè distans ak deplasman.
+                            </p>
+                        </div>
+                        
+                        <div class="methodology-card bg-white p-6 rounded-lg shadow-md">
+                            <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                                </svg>
+                            </div>
+                            <h3 class="text-lg font-semibold text-gray-800 mb-2">Kalite</h3>
+                            <p class="text-gray-600">
+                                Kontni kou devlope pa ekspè nan domèn yo epi aktyalize regilyèman pou reflete dènye konesans ak tandans nan endistri a.
+                            </p>
+                        </div>
+                        
+                        <div class="methodology-card bg-white p-6 rounded-lg shadow-md">
+                            <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                                </svg>
+                            </div>
+                            <h3 class="text-lg font-semibold text-gray-800 mb-2">Kominote</h3>
+                            <p class="text-gray-600">
+                                Fè pati yon kominote aprantisaj divès ak dinamik. Konekte ak etidyan ki gen menm lide atravè mond lan.
+                            </p>
+                        </div>
+                        
+                        <div class="methodology-card bg-white p-6 rounded-lg shadow-md">
+                            <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                                </svg>
+                            </div>
+                            <h3 class="text-lg font-semibold text-gray-800 mb-2">Inovasyon</h3>
+                            <p class="text-gray-600">
+                                Benefisye de dènye teknoloji edikasyonèl ak metòd pedagojik inovatif ki amelyore eksperyans aprantisaj la.
+                            </p>
+                        </div>
+                        
+                        <div class="methodology-card bg-white p-6 rounded-lg shadow-md">
+                            <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                </div>
+                                <h3 class="text-lg font-semibold text-gray-800 mb-2">Ekonomi</h3>
+                                <p class="text-gray-600">
+                                    Ekonomize lajan sou transpò, lojman, ak materyèl fizik. Edikasyon a distans souvan pi abòdab ke opsyon tradisyonèl yo.
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    <!-- FAQ Section -->
+                    <section class="mb-16">
+                        <h2 class="text-2xl font-semibold text-gray-800 mb-8 text-center">Kesyon Moun Poze Souvan</h2>
+                        
+                        <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                            <!-- FAQ Item 1 -->
+                            <div class="accordion-item">
+                                <div class="accordion-button flex justify-between items-center p-6">
+                                    <h3 class="text-lg font-medium text-gray-900">Èske mwen bezwen konpetans teknik espesyal pou etidye a distans?</h3>
+                                    <div class="flex items-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="accordion-icon-plus h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                        </svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="accordion-icon-minus h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 12H6" />
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div class="accordion-content px-6 pb-6">
+                                    <p class="text-gray-600">
+                                        Non, ou pa bezwen konpetans teknik avanse. Platfòm nou an fèt pou li fasil pou itilize, menm pou moun ki pa alèz ak teknoloji. Ou bezwen sèlman konpetans òdinatè debaz tankou navigasyon sou entènèt, itilizasyon imèl, ak travay ak dokiman tèks. Nou ofri tou yon oryantasyon konplè nan kòmansman pwogram ou pou ede ou vin alèz ak platfòm nan, ak sipò teknik kontinyèl pandan tout etid ou.
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <!-- FAQ Item 2 -->
+                            <div class="accordion-item">
+                                <div class="accordion-button flex justify-between items-center p-6">
+                                    <h3 class="text-lg font-medium text-gray-900">Kijan mwen ka entèaji ak lòt etidyan yo?</h3>
+                                    <div class="flex items-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="accordion-icon-plus h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                        </svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="accordion-icon-minus h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 12H6" />
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div class="accordion-content px-6 pb-6">
+                                    <p class="text-gray-600">
+                                        Nou ofri plizyè fason pou etidyan yo entèaji youn ak lòt:
+                                    </p>
+                                    <ul class="list-disc pl-5 space-y-1 text-gray-600 mt-2">
+                                        <li>Fowòm diskisyon pou chak kou kote ou ka pataje lide ak poze kesyon</li>
+                                        <li>Pwojè kolaboratif an gwoup ki pèmèt ou travay ak lòt etidyan</li>
+                                        <li>Sesyon an dirèk ak sal diskisyon</li>
+                                        <li>Rezo sosyal etidyan pou koneksyon enfòmèl</li>
+                                        <li>Evènman vityèl ak aktivite kominotè</li>
+                                    </ul>
+                                    <p class="text-gray-600 mt-2">
+                                        Anpil etidyan nou yo rapòte ke yo fòme koneksyon solid ak kamarad klas yo malgre distans fizik la.
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <!-- FAQ Item 3 -->
+                            <div class="accordion-item">
+                                <div class="accordion-button flex justify-between items-center p-6">
+                                    <h3 class="text-lg font-medium text-gray-900">Konbyen tan mwen ta dwe dedye a etid mwen chak semèn?</h3>
+                                    <div class="flex items-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="accordion-icon-plus h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                        </svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="accordion-icon-minus h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 12H6" />
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div class="accordion-content px-6 pb-6">
+                                    <p class="text-gray-600">
+                                        Kantite tan rekòmande varye selon pwogram lan ak si w ap etidye a plen tan oswa a tan pasyèl:
+                                    </p>
+                                    <ul class="list-disc pl-5 space-y-1 text-gray-600 mt-2">
+                                        <li><strong>Etidyan a plen tan:</strong> Anviwon 20-25 èdtan pa semèn (pou yon chaj kou konplè)</li>
+                                        <li><strong>Etidyan a tan pasyèl:</strong> Anviwon 10-15 èdtan pa semèn (pou mwatye chaj kou)</li>
+                                    </ul>
+                                    <p class="text-gray-600 mt-2">
+                                        Sa gen ladan tan pou gade videyo leson yo, li materyèl yo, patisipe nan diskisyon, konplete devwa, ak etidye pou egzamen. Sonje ke fleksibilite a vle di ou ka distribye èdtan sa yo selon orè ou, men konsistans ak angajman regilye yo kle pou siksè.
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <!-- FAQ Item 4 -->
+                            <div class="accordion-item">
+                                <div class="accordion-button flex justify-between items-center p-6">
+                                    <h3 class="text-lg font-medium text-gray-900">Kijan egzamen yo administre nan yon anviwònman a distans?</h3>
+                                    <div class="flex items-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="accordion-icon-plus h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                        </svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="accordion-icon-minus h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 12H6" />
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div class="accordion-content px-6 pb-6">
+                                    <p class="text-gray-600">
+                                        Nou itilize plizyè metòd pou evalyasyon, ki gen ladan:
+                                    </p>
+                                    <ul class="list-disc pl-5 space-y-1 text-gray-600 mt-2">
+                                        <li><strong>Egzamen siveye a distans:</strong> Pou egzamen enpòtan, nou itilize teknoloji siveyans a distans ki verifye idantite ou epi asire entegrite akademik.</li>
+                                        <li><strong>Evalyasyon kontinyèl:</strong> Plizyè evalyasyon pi piti pandan kou a olye de yon sèl gwo egzamen final.</li>
+                                        <li><strong>Pwojè ak devwa:</strong> Evalyasyon baze sou pwojè ki montre aplikasyon pratik konesans ou.</li>
+                                        <li><strong>Pòtfolyo:</strong> Koleksyon travay ou pandan kou a ki montre pwogrè ak konpetans ou.</li>
+                                    </ul>
+                                    <p class="text-gray-600 mt-2">
+                                        Apwòch sa a bay yon evalyasyon pi konplè konpetans ou epi redui strès ki asosye ak egzamen tradisyonèl yo.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    <!-- CTA Section -->
+                    <section class="mt-16 bg-blue-50 rounded-lg p-8">
+                        <div class="text-center">
+                            <h2 class="text-2xl font-semibold text-gray-800 mb-4">Pare pou Kòmanse Vwayaj Aprantisaj Ou?</h2>
+                            <p class="text-gray-600 mb-8 max-w-2xl mx-auto">
+                                Dekouvri pouvwa edikasyon a distans ak FONDESC. Aplike jodi a epi fè premye pa a nan direksyon avni ou.
+                            </p>
+                            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                                <a href="{% url 'register-page' %}" class="fondesc-button px-6 py-3 rounded-md inline-block">
+                                    Enskri Kounye a
+                                </a>
+                                <a href="{% url 'courses-page' %}" class="bg-white border-2 border-secondary text-secondary font-semibold px-6 py-3 rounded-md hover:bg-gray-50 transition-colors inline-block">
+                                    Dekouvri Kou Nou yo
+                                </a>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="fondesc-gradient text-white py-8">
+            <div class="container mx-auto px-4">
+                <div class="max-w-5xl mx-auto">
+                    <div class="flex flex-col md:flex-row justify-between items-center">
+                        <div class="mb-6 md:mb-0">
+                            <div class="flex items-center">
+                                <span class="text-2xl font-bold">FONDESC</span>
+                                <div class="w-2 h-2 bg-yellow-400 rounded-full ml-1"></div>
+                            </div>
+                            <span class="text-sm text-gray-300">Fòmasyon Nasyonal a Distans</span>
+                        </div>
+                        
+                        <div class="flex space-x-6">
+                            <a href="#" class="text-gray-300 hover:text-yellow-400 transition-colors">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z" />
+                                </svg>
+                            </a>
+                            <a href="#" class="text-gray-300 hover:text-yellow-400 transition-colors">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                                </svg>
+                            </a>
+                            <a href="#" class="text-gray-300 hover:text-yellow-400 transition-colors">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z" />
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="border-t border-blue-800 mt-8 pt-8 text-center text-sm text-gray-300">
+                        <p>&copy; {% now "Y" %} FONDESC - Fòmasyon Nasyonal a Distans. Tout dwa rezève.</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+{% endblock %}
+
