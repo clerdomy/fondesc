@@ -39,35 +39,39 @@ The project follows a standard Django structure with some additional custom apps
    ```
    git clone git@github.com:clerdomy/fondesc.git
    cd fondesc
-   \`\`\`
+   ```
 
 2. Create a virtual environment and activate it:
-   ````
+   ```
    python -m venv venv
-   source venv/bin/activate  # On Windows use \`venv\\Scripts\\activate\`
+   source venv/bin/activate
+   # On Windows use \venv\\Scripts\\activate\
    ```
 
 3. Install the required packages:
    ```
    pip install -r requirements.txt
-   \`\`\`
+   ```
 
 4. Run database migrations:
    ```
    python manage.py migrate
-   \`\`\`
+   ```
 
 5. Create a superuser (admin):
    ```
    python manage.py createsuperuser
-   \`\`\`
+   ```
 
 6. Run the development server:
-   ```
-   python manage.py runserver
-   \`\`\`
+  ```
+  python manage.py runserver
+  ```
 
-7. Access the application at \`http://localhost:8000\`
+7. Access the application at:
+   ```
+   http://localhost:8000\
+   ```
 
 ## Contributing
 
