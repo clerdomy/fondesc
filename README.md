@@ -1,83 +1,102 @@
-# Em desenvolvimento
+# FONDESC - Fòmasyon Nasyonal a Distans
 
-# Fondesc
+**Status:** Em desenvolvimento 🚧
 
-Fondesc is a web application built with Django, possibly related to education or course management.
+## Sobre o Projeto
 
-## Project Overview
+FONDESC (Fòmasyon Nasyonal a Distans) é uma plataforma web baseada em Django voltada para a educação e gestão de cursos, com o objetivo de fornecer formação a distância para o Haiti. Este projeto nasceu da necessidade de oferecer uma alternativa acessível e eficiente para a educação online no país, permitindo que mais pessoas tenham acesso ao conhecimento, independentemente de sua localização ou condições financeiras.
 
-Fondesc appears to be a comprehensive web application with features related to courses, user authentication, and possibly faculty management. The project uses Django for the backend and includes static files for frontend styling and interactivity.
+## Funcionalidades
 
-## Features
+- 📚 **Gerenciamento de Cursos**: Cadastro, edição e exclusão de cursos.
+- 👩‍🏫 **Gestão de Professores**: Informações sobre docentes e suas disciplinas.
+- 👨‍🎓 **Autenticação de Usuários**: Sistema de login e registro seguro.
+- 📱 **Design Responsivo**: Interface adaptável para dispositivos móveis e desktops.
 
-- User authentication
-- Course management
-- Faculty information
-- Responsive design
+## Tecnologias Utilizadas
 
-## Technology Stack
+- **Backend:** Django
+- **Frontend:** HTML, CSS, JavaScript
+- **Banco de Dados:** SQLite (padrão, podendo ser substituído por PostgreSQL ou MySQL no futuro)
 
-- Backend: Django
-- Frontend: HTML, CSS, JavaScript
-- Database: SQLite (default Django database)
+## Estrutura do Projeto
 
-## Project Structure
+O projeto segue a estrutura padrão do Django com algumas aplicações customizadas:
 
-The project follows a standard Django structure with some additional custom apps:
+```
+fondesc/
+│── fondesc/          # Configurações principais do projeto
+│── fondescapp/       # Aplicativo principal
+│   ├── migrations/   # Migrações do banco de dados
+│   ├── static/       # Arquivos estáticos (CSS, JS, imagens)
+│   ├── templates/    # Templates HTML
+│── manage.py         # Ferramenta de linha de comando do Django
+```
 
-- \`fondesc/\`: Main project directory
-  - \`fondesc/\`: Django project settings
-  - \`fondescapp/\`: Main Django app
-    - \`migrations/\`: Database migrations
-    - \`static/\`: Static files (CSS, JS)
-    - \`templates/\`: HTML templates
-  - \`manage.py\`: Django's command-line utility for administrative tasks
+## Como Instalar e Rodar o Projeto
 
-## Setup and Installation
+### 1. Clonar o repositório
 
-1. Clone the repository:
-   ```
-   git clone git@github.com:clerdomy/fondesc.git
-   cd fondesc
-   ```
+```sh
+git clone git@github.com:clerdomy/fondesc.git
+cd fondesc
+```
 
-2. Create a virtual environment and activate it:
-   ```
-   python -m venv venv
-   source venv/bin/activate
-   # On Windows use \venv\\Scripts\\activate\
-   ```
+### 2. Criar e ativar um ambiente virtual
 
-3. Install the required packages:
-   ```
-   pip install -r requirements.txt
-   ```
+```sh
+python -m venv venv
+source venv/bin/activate  # No Windows: venv\Scripts\activate
+```
 
-4. Run database migrations:
-   ```
-   python manage.py migrate
-   ```
+### 3. Instalar as dependências
 
-5. Create a superuser (admin):
-   ```
-   python manage.py createsuperuser
-   ```
+```sh
+pip install -r requirements.txt
+```
 
-6. Run the development server:
-  ```
-  python manage.py runserver
-  ```
+### 4. Aplicar as migrações do banco de dados
 
-7. Access the application at:
-   ```
-   http://localhost:8000\
-   ```
+```sh
+python manage.py migrate
+```
 
-## Contributing
+### 5. Criar um superusuário (admin)
 
-Please read CONTRIBUTING.md for details on our code of conduct, and the process for submitting pull requests.
+```sh
+python manage.py createsuperuser
+```
 
-## License
+### 6. Rodar o servidor de desenvolvimento
 
-This project is licensed under the [MIT License](https://opensource.org/licenses/MIT).
+```sh
+python manage.py runserver
+```
+
+### 7. Acessar a aplicação
+
+Abra o navegador e acesse:
+
+```
+http://localhost:8000/
+```
+
+## Como Contribuir
+
+Se você deseja contribuir para o desenvolvimento do FONDESC, siga os seguintes passos:
+
+1. **Fork** este repositório.
+2. Crie uma **branch** para sua funcionalidade/ajuste.
+3. Faça um **commit** claro e objetivo.
+4. Envie um **Pull Request**.
+
+Consulte o arquivo `CONTRIBUTING.md` para mais detalhes sobre como contribuir.
+
+## Licença
+
+Este projeto é licenciado sob a [MIT License](https://opensource.org/licenses/MIT).
+
+---
+
+FONDESC - Facilitando o acesso à educação a distância no Haiti 🇭🇹
 
