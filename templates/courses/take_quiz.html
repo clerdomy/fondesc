@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Quiz: {{ quiz.title }} | PythonLearn{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <nav aria-label="breadcrumb" class="mb-4">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'course_learn' slug=course.slug %}">Back to Course</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Quiz</li>
+                </ol>
+            </nav>
+            
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <h2 class="mb-3">{{ quiz.title }}</h2>
+                    
+                    {% if quiz.description %}
+                    <p class="lead mb-4">{{ quiz.description }}</p>
+                    {% endif %}
+                    
+                    <div class="alert alert-info mb-4">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-info-circle fs-4 me-3"></i>
+                            <div>
+                                <p class="mb-1">This quiz contains {{ questions|length }} questions.</p>
+                                <p class="mb-0">You need to score at least {{ quiz.pass_percentage }}% to pass.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <form id="quiz-form" method="post">
+                        {% csrf_token %}
+                        
+                        {% for question in questions %}
+                        <div class="question-card mb-4">
+                            <h5 class="mb-3">{{ forloop.counter }}. {{ question.text }}</h5>
+                            
+                            <div class="answers">
+                                {% for answer in question.answers.all %}
+                                <div class="answer-option" data-question-id="{{ question.id }}">
+                                    <input type="radio" name="question_{{ question.id }}" id="answer_{{ answer.id }}" value="{{ answer.id }}" class="d-none">
+                                    <label for="answer_{{ answer.id }}" class="w-100 mb-0">
+                                        {{ answer.text }}
+                                    </label>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                        
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary btn-lg">Submit Quiz</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

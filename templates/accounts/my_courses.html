@@ -1,0 +1,247 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}My Courses | PythonLearn{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="mb-0">My Courses</h1>
+        <a href="{% url 'course_list' %}" class="btn btn-primary">
+            <i class="fas fa-plus me-2"></i>Find New Courses
+        </a>
+    </div>
+
+    <!-- Tabs for filtering courses -->
+    <ul class="nav nav-tabs mb-4" id="coursesTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="all-tab" data-bs-toggle="tab" data-bs-target="#all-courses" type="button" role="tab" aria-controls="all-courses" aria-selected="true">
+                All Courses
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="in-progress-tab" data-bs-toggle="tab" data-bs-target="#in-progress" type="button" role="tab" aria-controls="in-progress" aria-selected="false">
+                In Progress
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="completed-tab" data-bs-toggle="tab" data-bs-target="#completed" type="button" role="tab" aria-controls="completed" aria-selected="false">
+                Completed
+            </button>
+        </li>
+    </ul>
+
+    <div class="tab-content" id="coursesTabContent">
+        <!-- All Courses Tab -->
+        <div class="tab-pane fade show active" id="all-courses" role="tabpanel" aria-labelledby="all-tab">
+            {% if courses_with_progress %}
+            <div class="row g-4">
+                {% for course_data in courses_with_progress %}
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <img src="{{ course_data.enrollment.course.thumbnail.url }}" class="card-img-top" alt="{{ course_data.enrollment.course.title }}">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="badge bg-primary">{{ course_data.enrollment.course.get_level_display }}</span>
+                                {% if course_data.progress == 100 %}
+                                <span class="badge bg-success">Completed</span>
+                                {% else %}
+                                <span class="text-muted"><i class="far fa-clock me-1"></i>{{ course_data.enrollment.course.duration_in_weeks }} weeks</span>
+                                {% endif %}
+                            </div>
+                            <h5 class="card-title">{{ course_data.enrollment.course.title }}</h5>
+                            <p class="card-text text-muted">{{ course_data.enrollment.course.short_description|truncatechars:100 }}</p>
+                            
+                            <!-- Progress Bar -->
+                            <div class="progress mt-3 mb-2">
+                                <div class="progress-bar {% if course_data.progress == 100 %}bg-success{% endif %}" role="progressbar" style="width: {{ course_data.progress }}%;" aria-valuenow="{{ course_data.progress }}" aria-valuemin="0" aria-valuemax="100">{{ course_data.progress }}%</div>
+                            </div>
+                            
+                            {% if course_data.last_accessed %}
+                            <p class="text-muted small mb-0">Last accessed: {{ course_data.last_accessed|date:"M d, Y" }}</p>
+                            {% endif %}
+                        </div>
+                        <div class="card-footer bg-white border-0">
+                            <a href="{% url 'course_learn' slug=course_data.enrollment.course.slug %}" class="btn btn-primary w-100">
+                                {% if course_data.progress == 0 %}
+                                Start Course
+                                {% elif course_data.progress == 100 %}
+                                Review Course
+                                {% else %}
+                                Continue Learning
+                                {% endif %}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-5 text-center">
+                    <i class="fas fa-book fa-3x text-muted mb-3"></i>
+                    <h3>You haven't enrolled in any courses yet</h3>
+                    <p class="text-muted mb-4">Explore our course catalog to find the perfect course for you.</p>
+                    <a href="{% url 'course_list' %}" class="btn btn-primary btn-lg">Browse Courses</a>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        
+        <!-- In Progress Tab -->
+        <div class="tab-pane fade" id="in-progress" role="tabpanel" aria-labelledby="in-progress-tab">
+            {% if courses_with_progress %}
+            <div class="row g-4">
+                {% for course_data in courses_with_progress %}
+                {% if course_data.progress > 0 and course_data.progress < 100 %}
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <img src="{{ course_data.enrollment.course.thumbnail.url }}" class="card-img-top" alt="{{ course_data.enrollment.course.title }}">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="badge bg-primary">{{ course_data.enrollment.course.get_level_display }}</span>
+                                <span class="text-muted"><i class="far fa-clock me-1"></i>{{ course_data.enrollment.course.duration_in_weeks }} weeks</span>
+                            </div>
+                            <h5 class="card-title">{{ course_data.enrollment.course.title }}</h5>
+                            <p class="card-text text-muted">{{ course_data.enrollment.course.short_description|truncatechars:100 }}</p>
+                            
+                            <!-- Progress Bar -->
+                            <div class="progress mt-3 mb-2">
+                                <div class="progress-bar" role="progressbar" style="width: {{ course_data.progress }}%;" aria-valuenow="{{ course_data.progress }}" aria-valuemin="0" aria-valuemax="100">{{ course_data.progress }}%</div>
+                            </div>
+                            
+                            {% if course_data.last_accessed %}
+                            <p class="text-muted small mb-0">Last accessed: {{ course_data.last_accessed|date:"M d, Y" }}</p>
+                            {% endif %}
+                        </div>
+                        <div class="card-footer bg-white border-0">
+                            <a href="{% url 'course_learn' slug=course_data.enrollment.course.slug %}" class="btn btn-primary w-100">Continue Learning</a>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+            
+            {% if not in_progress_exists %}
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-5 text-center">
+                    <i class="fas fa-tasks fa-3x text-muted mb-3"></i>
+                    <h3>No courses in progress</h3>
+                    <p class="text-muted mb-4">You don't have any courses that you've started but not completed.</p>
+                    <div class="d-flex justify-content-center gap-3">
+                        <a href="{% url 'course_list' %}" class="btn btn-primary">Browse Courses</a>
+                        <a href="#all-courses" class="btn btn-outline-primary" data-bs-toggle="tab" data-bs-target="#all-courses">View All Courses</a>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% else %}
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-5 text-center">
+                    <i class="fas fa-tasks fa-3x text-muted mb-3"></i>
+                    <h3>No courses in progress</h3>
+                    <p class="text-muted mb-4">You don't have any courses that you've started but not completed.</p>
+                    <div class="d-flex justify-content-center gap-3">
+                        <a href="{% url 'course_list' %}" class="btn btn-primary">Browse Courses</a>
+                        <a href="#all-courses" class="btn btn-outline-primary" data-bs-toggle="tab" data-bs-target="#all-courses">View All Courses</a>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        
+        <!-- Completed Tab -->
+        <div class="tab-pane fade" id="completed" role="tabpanel" aria-labelledby="completed-tab">
+            {% if courses_with_progress %}
+            <div class="row g-4">
+                {% for course_data in courses_with_progress %}
+                {% if course_data.progress == 100 %}
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-img-overlay d-flex align-items-start justify-content-end">
+                            <span class="badge bg-success"><i class="fas fa-check-circle me-1"></i> Completed</span>
+                        </div>
+                        <img src="{{ course_data.enrollment.course.thumbnail.url }}" class="card-img-top" alt="{{ course_data.enrollment.course.title }}">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="badge bg-primary">{{ course_data.enrollment.course.get_level_display }}</span>
+                                <span class="text-muted"><i class="far fa-clock me-1"></i>{{ course_data.enrollment.course.duration_in_weeks }} weeks</span>
+                            </div>
+                            <h5 class="card-title">{{ course_data.enrollment.course.title }}</h5>
+                            <p class="card-text text-muted">{{ course_data.enrollment.course.short_description|truncatechars:100 }}</p>
+                            
+                            <!-- Progress Bar -->
+                            <div class="progress mt-3 mb-2">
+                                <div class="progress-bar bg-success" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">100%</div>
+                            </div>
+                            
+                            {% if course_data.last_accessed %}
+                            <p class="text-muted small mb-0">Completed on: {{ course_data.last_accessed|date:"M d, Y" }}</p>
+                            {% endif %}
+                        </div>
+                        <div class="card-footer bg-white border-0">
+                            <a href="{% url 'course_learn' slug=course_data.enrollment.course.slug %}" class="btn btn-outline-primary w-100">Review Course</a>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+            
+            {% if not completed_exists %}
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-5 text-center">
+                    <i class="fas fa-trophy fa-3x text-muted mb-3"></i>
+                    <h3>No completed courses yet</h3>
+                    <p class="text-muted mb-4">Keep learning to complete your courses and earn certificates!</p>
+                    <div class="d-flex justify-content-center gap-3">
+                        <a href="{% url 'course_list' %}" class="btn btn-primary">Browse Courses</a>
+                        <a href="#in-progress" class="btn btn-outline-primary" data-bs-toggle="tab" data-bs-target="#in-progress">View In Progress</a>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% else %}
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-5 text-center">
+                    <i class="fas fa-trophy fa-3x text-muted mb-3"></i>
+                    <h3>No completed courses yet</h3>
+                    <p class="text-muted mb-4">Keep learning to complete your courses and earn certificates!</p>
+                    <div class="d-flex justify-content-center gap-3">
+                        <a href="{% url 'course_list' %}" class="btn btn-primary">Browse Courses</a>
+                        <a href="#in-progress" class="btn btn-outline-primary" data-bs-toggle="tab" data-bs-target="#in-progress">View In Progress</a>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get the tab from URL hash or default to 'all'
+        const hash = window.location.hash || '#all-courses';
+        const tab = document.querySelector(`[data-bs-target="${hash}"]`);
+        
+        // Activate the tab if it exists
+        if (tab) {
+            const tabInstance = new bootstrap.Tab(tab);
+            tabInstance.show();
+        }
+        
+        // Update URL hash when tab changes
+        const tabs = document.querySelectorAll('[data-bs-toggle="tab"]');
+        tabs.forEach(tab => {
+            tab.addEventListener('shown.bs.tab', function(event) {
+                const target = event.target.getAttribute('data-bs-target');
+                window.location.hash = target;
+            });
+        });
+    });
+</script>
+{% endblock %}
+{% endblock %}
+

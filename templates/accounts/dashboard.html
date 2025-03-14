@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Dashboard | PythonLearn{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="mb-4">Dashboard</h1>
+    
+    <div class="row g-4">
+        <!-- Stats Cards -->
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm dashboard-card">
+                <div class="card-body text-center p-4">
+                    <div class="dashboard-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <h3 class="fs-2">{{ enrollments_count }}</h3>
+                    <p class="text-muted mb-0">Enrolled Courses</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm dashboard-card">
+                <div class="card-body text-center p-4">
+                    <div class="dashboard-icon">
+                        <i class="fas fa-certificate"></i>
+                    </div>
+                    <h3 class="fs-2">{{ completed_courses|length }}</h3>
+                    <p class="text-muted mb-0">Completed Courses</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm dashboard-card">
+                <div class="card-body text-center p-4">
+                    <div class="dashboard-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3 class="fs-2">{{ in_progress_courses|length }}</h3>
+                    <p class="text-muted mb-0">In Progress</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- In Progress Courses -->
+    <div class="mt-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>In Progress</h2>
+            <a href="{% url 'my_courses' %}" class="btn btn-outline-primary">View All Courses</a>
+        </div>
+        
+        {% if in_progress_courses %}
+        <div class="row g-4">
+            {% for item in in_progress_courses %}
+            <div class="col-md-6 col-lg-4">
+                <div class="card border-0 shadow-sm h-100">
+                    <img src="{{ item.course.thumbnail.url }}" class="card-img-top" alt="{{ item.course.title }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ item.course.title }}</h5>
+                        <div class="progress mt-3 mb-2">
+                            <div class="progress-bar" role="progressbar" style="width: {{ item.progress }}%;" aria-valuenow="{{ item.progress }}" aria-valuemin="0" aria-valuemax="100">{{ item.progress }}%</div>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-white border-0">
+                        <a href="{% url 'course_learn' slug=item.course.slug %}" class="btn btn-primary w-100">Continue Learning</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="card border-0 shadow-sm">
+            <div class="card-body p-4 text-center">
+                <p class="mb-3">You don't have any courses in progress.</p>
+                <a href="{% url 'course_list' %}" class="btn btn-primary">Browse Courses</a>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    
+    <!-- Completed Courses -->
+    <div class="mt-5">
+        <h2 class="mb-4">Completed Courses</h2>
+        
+        {% if completed_courses %}
+        <div class="row g-4">
+            {% for course in completed_courses %}
+            <div class="col-md-6 col-lg-4">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-img-overlay d-flex align-items-start justify-content-end">
+                        <span class="badge bg-success"><i class="fas fa-check-circle me-1"></i> Completed</span>
+                    </div>
+                    <img src="{{ course.thumbnail.url }}" class="card-img-top" alt="{{ course.title }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ course.title }}</h5>
+                        <p class="card-text text-muted">{{ course.short_description }}</p>
+                    </div>
+                    <div class="card-footer bg-white border-0">
+                        <a href="{% url 'course_learn' slug=course.slug %}" class="btn btn-outline-primary w-100">Review Course</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="card border-0 shadow-sm">
+            <div class="card-body p-4 text-center">
+                <p class="mb-0">You haven't completed any courses yet.</p>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

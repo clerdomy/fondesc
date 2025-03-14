@@ -1,0 +1,170 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ course.title }} | PythonLearn{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <!-- Course Details -->
+        <div class="col-lg-8">
+            <nav aria-label="breadcrumb" class="mb-4">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'course_list' %}">Courses</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">{{ course.title }}</li>
+                </ol>
+            </nav>
+            
+            <div class="mb-4">
+                <span class="badge bg-primary me-2">{{ course.get_level_display }}</span>
+                <span class="text-muted"><i class="far fa-clock me-1"></i>{{ course.duration_in_weeks }} weeks</span>
+            </div>
+            
+            <h1 class="mb-3">{{ course.title }}</h1>
+            
+            <p class="lead mb-4">{{ course.short_description }}</p>
+            
+            <div class="course-image mb-4">
+                <img src="{{ course.thumbnail.url }}" alt="{{ course.title }}" class="img-fluid rounded shadow">
+            </div>
+            
+            <div class="course-tabs mb-5">
+                <ul class="nav nav-tabs" id="courseTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="overview-tab" data-bs-toggle="tab" data-bs-target="#overview" type="button" role="tab" aria-controls="overview" aria-selected="true">Overview</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="curriculum-tab" data-bs-toggle="tab" data-bs-target="#curriculum" type="button" role="tab" aria-controls="curriculum" aria-selected="false">Curriculum</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="instructor-tab" data-bs-toggle="tab" data-bs-target="#instructor" type="button" role="tab" aria-controls="instructor" aria-selected="false">Instructor</button>
+                    </li>
+                </ul>
+                <div class="tab-content p-4 border border-top-0 rounded-bottom" id="courseTabContent">
+                    <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview-tab">
+                        <h4 class="mb-3">About This Course</h4>
+                        <div class="course-description mb-4">
+                            {{ course.description|linebreaks }}
+                        </div>
+                        
+                        <h4 class="mb-3">What You'll Learn</h4>
+                        <ul class="list-group list-group-flush mb-4">
+                            <li class="list-group-item"><i class="fas fa-check-circle text-success me-2"></i>Python fundamentals and syntax</li>
+                            <li class="list-group-item"><i class="fas fa-check-circle text-success me-2"></i>Object-oriented programming concepts</li>
+                            <li class="list-group-item"><i class="fas fa-check-circle text-success me-2"></i>Working with data structures and algorithms</li>
+                            <li class="list-group-item"><i class="fas fa-check-circle text-success me-2"></i>Building real-world Python applications</li>
+                        </ul>
+                    </div>
+                    <div class="tab-pane fade" id="curriculum" role="tabpanel" aria-labelledby="curriculum-tab">
+                        <h4 class="mb-3">Course Content</h4>
+                        <div class="accordion" id="moduleAccordion">
+                            {% for module in modules %}
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="heading{{ module.id }}">
+                                    <button class="accordion-button {% if not forloop.first %}collapsed{% endif %}" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ module.id }}" aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}" aria-controls="collapse{{ module.id }}">
+                                        {{ module.title }}
+                                    </button>
+                                </h2>
+                                <div id="collapse{{ module.id }}" class="accordion-collapse collapse {% if forloop.first %}show{% endif %}" aria-labelledby="heading{{ module.id }}" data-bs-parent="#moduleAccordion">
+                                    <div class="accordion-body">
+                                        {% if module.description %}
+                                        <p>{{ module.description }}</p>
+                                        {% endif %}
+                                        <ul class="list-group list-group-flush">
+                                            {% for lesson in module.lessons.all %}
+                                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                <span>
+                                                    <i class="fas fa-play-circle me-2 text-primary"></i>
+                                                    {{ lesson.title }}
+                                                </span>
+                                                <span class="text-muted">{{ lesson.duration_in_minutes }} min</span>
+                                            </li>
+                                            {% empty %}
+                                            <li class="list-group-item">No lessons available yet.</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            {% empty %}
+                            <p>No modules available yet.</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="instructor" role="tabpanel" aria-labelledby="instructor-tab">
+                        <div class="d-flex align-items-center mb-4">
+                            {% if course.instructor.profile_picture %}
+                            <img src="{{ course.instructor.profile_picture.url }}" alt="{{ course.instructor.get_full_name }}" class="rounded-circle me-3" width="80">
+                            {% else %}
+                            <div class="bg-primary text-white rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
+                                <span class="fs-3">{{ course.instructor.first_name|first }}{{ course.instructor.last_name|first }}</span>
+                            </div>
+                            {% endif %}
+                            <div>
+                                <h4 class="mb-1">{{ course.instructor.get_full_name }}</h4>
+                                <p class="text-muted mb-2">{{ course.instructor.expertise }}</p>
+                            </div>
+                        </div>
+                        
+                        <div class="instructor-bio mb-4">
+                            {% if course.instructor.bio %}
+                            {{ course.instructor.bio|linebreaks }}
+                            {% else %}
+                            <p>No instructor bio available.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Course Sidebar -->
+        <div class="col-lg-4">
+            <div class="card border-0 shadow-sm sticky-top" style="top: 2rem;">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        {% if course.discount_price %}
+                        <div>
+                            <span class="fs-3 fw-bold text-primary">${{ course.discount_price }}</span>
+                            <span class="text-muted text-decoration-line-through ms-2">${{ course.price }}</span>
+                        </div>
+                        {% else %}
+                        <span class="fs-3 fw-bold text-primary">${{ course.price }}</span>
+                        {% endif %}
+                    </div>
+                    
+                    {% if is_enrolled %}
+                    <a href="{% url 'course_learn' slug=course.slug %}" class="btn btn-primary btn-lg w-100 mb-3">Continue Learning</a>
+                    {% else %}
+                    <a href="{% url 'enroll_course' slug=course.slug %}" class="btn btn-primary btn-lg w-100 mb-3">Enroll Now</a>
+                    {% endif %}
+                    
+                    <div class="course-meta">
+                        <div class="d-flex justify-content-between py-2 border-bottom">
+                            <span><i class="fas fa-book me-2"></i>Lessons</span>
+                            <span class="fw-bold">{{ course.get_lessons_count }}</span>
+                        </div>
+                        <div class="d-flex justify-content-between py-2 border-bottom">
+                            <span><i class="fas fa-clock me-2"></i>Duration</span>
+                            <span class="fw-bold">{{ course.duration_in_weeks }} weeks</span>
+                        </div>
+                        <div class="d-flex justify-content-between py-2 border-bottom">
+                            <span><i class="fas fa-signal me-2"></i>Level</span>
+                            <span class="fw-bold">{{ course.get_level_display }}</span>
+                        </div>
+                        <div class="d-flex justify-content-between py-2 border-bottom">
+                            <span><i class="fas fa-language me-2"></i>Language</span>
+                            <span class="fw-bold">English</span>
+                        </div>
+                        <div class="d-flex justify-content-between py-2">
+                            <span><i class="fas fa-certificate me-2"></i>Certificate</span>
+                            <span class="fw-bold">Yes</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,174 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Learning: {{ course.title }} | PythonLearn{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-lg-3 d-none d-lg-block">
+            <div class="course-sidebar p-3 bg-light rounded">
+                <h5 class="mb-3">{{ course.title }}</h5>
+                
+                <!-- Progress Bar -->
+                <div class="progress mb-3" style="height: 10px;">
+                    <div class="progress-bar bg-primary course-progress-bar" role="progressbar" style="width: {{ progress.progress_percentage }}%;" aria-valuenow="{{ progress.progress_percentage }}" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <p class="text-center mb-4"><small class="progress-text">{{ progress.progress_percentage }}% complete</small></p>
+                
+                <!-- Module List -->
+                <div class="module-list">
+                    {% for module in modules %}
+                    <div class="module-item">
+                        <div class="module-header" data-bs-toggle="collapse" data-bs-target="#module-{{ module.id }}" aria-expanded="{% if current_lesson.module == module %}true{% else %}false{% endif %}">
+                            <i class="fas fa-chevron-right me-2"></i>
+                            <span>{{ module.title }}</span>
+                        </div>
+                        <div class="collapse {% if current_lesson.module == module %}show{% endif %}" id="module-{{ module.id }}">
+                            <ul class="lesson-list">
+                                {% for lesson in module.lessons.all %}
+                                <li class="lesson-item">
+                                    <a href="{% url 'course_learn' slug=course.slug %}?lesson={{ lesson.id }}" class="lesson-link {% if current_lesson == lesson %}active{% endif %}" data-lesson-id="{{ lesson.id }}">
+                                        <i class="fas {% if lesson.id in completed_lessons %}fa-check-circle lesson-completed{% else %}fa-circle{% endif %} lesson-icon"></i>
+                                        <span>{{ lesson.title }}</span>
+                                    </a>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="col-lg-9">
+            <!-- Mobile Course Navigation -->
+            <div class="d-lg-none mb-3">
+                <button class="btn btn-outline-primary w-100" type="button" data-bs-toggle="offcanvas" data-bs-target="#courseSidebarMobile">
+                    <i class="fas fa-list me-2"></i> Course Content
+                </button>
+                
+                <div class="offcanvas offcanvas-start" tabindex="-1" id="courseSidebarMobile">
+                    <div class="offcanvas-header">
+                        <h5 class="offcanvas-title">{{ course.title }}</h5>
+                        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    </div>
+                    <div class="offcanvas-body">
+                        <!-- Progress Bar -->
+                        <div class="progress mb-3" style="height: 10px;">
+                            <div class="progress-bar bg-primary" role="progressbar" style="width: {{ progress.progress_percentage }}%;" aria-valuenow="{{ progress.progress_percentage }}" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <p class="text-center mb-4"><small>{{ progress.progress_percentage }}% complete</small></p>
+                        
+                        <!-- Module List (Mobile) -->
+                        <div class="module-list">
+                            {% for module in modules %}
+                            <div class="module-item">
+                                <div class="module-header" data-bs-toggle="collapse" data-bs-target="#module-mobile-{{ module.id }}" aria-expanded="{% if current_lesson.module == module %}true{% else %}false{% endif %}">
+                                    <i class="fas fa-chevron-right me-2"></i>
+                                    <span>{{ module.title }}</span>
+                                </div>
+                                <div class="collapse {% if current_lesson.module == module %}show{% endif %}" id="module-mobile-{{ module.id }}">
+                                    <ul class="lesson-list">
+                                        {% for lesson in module.lessons.all %}
+                                        <li class="lesson-item">
+                                            <a href="{% url 'course_learn' slug=course.slug %}?lesson={{ lesson.id }}" class="lesson-link {% if current_lesson == lesson %}active{% endif %}" data-lesson-id="{{ lesson.id }}">
+                                                <i class="fas {% if lesson.id in completed_lessons %}fa-check-circle lesson-completed{% else %}fa-circle{% endif %} lesson-icon"></i>
+                                                <span>{{ lesson.title }}</span>
+                                            </a>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            {% if current_lesson %}
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <h2 class="mb-4">{{ current_lesson.title }}</h2>
+                    
+                    {% if current_lesson.video_url %}
+                    <div class="video-container mb-4">
+                        <iframe src="{{ current_lesson.video_url }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    {% endif %}
+                    
+                    <div class="lesson-content mb-4">
+                        {{ current_lesson.content|safe }}
+                    </div>
+                    
+                    {% if current_lesson.resources.exists %}
+                    <div class="resources-section mb-4">
+                        <h4 class="mb-3">Resources</h4>
+                        <div class="list-group">
+                            {% for resource in current_lesson.resources.all %}
+                            <a href="{{ resource.file.url }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                <div>
+                                    <i class="fas fa-file-download me-2"></i>
+                                    {{ resource.title }}
+                                </div>
+                                <span class="badge bg-primary rounded-pill">Download</span>
+                            </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+                    
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            {% if prev_lesson %}
+                            <a href="{% url 'course_learn' slug=course.slug %}?lesson={{ prev_lesson.id }}" class="btn btn-outline-primary">
+                                <i class="fas fa-arrow-left me-2"></i> Previous Lesson
+                            </a>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="d-flex">
+                            {% if current_lesson.quiz %}
+                            <a href="{% url 'take_quiz' quiz_id=current_lesson.quiz.id %}" class="btn btn-warning me-2">
+                                <i class="fas fa-question-circle me-2"></i> Take Quiz
+                            </a>
+                            {% endif %}
+                            
+                            <button class="btn btn-primary mark-complete-btn" data-lesson-id="{{ current_lesson.id }}" {% if current_lesson.id in completed_lessons %}disabled{% endif %}>
+                                {% if current_lesson.id in completed_lessons %}
+                                <i class="fas fa-check-circle"></i> Completed
+                                {% else %}
+                                <i class="fas fa-check"></i> Mark as Complete
+                                {% endif %}
+                            </button>
+                        </div>
+                        
+                        <div>
+                            {% if next_lesson %}
+                            <a href="{% url 'course_learn' slug=course.slug %}?lesson={{ next_lesson.id }}" class="btn btn-outline-primary">
+                                Next Lesson <i class="fas fa-arrow-right ms-2"></i>
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4 text-center">
+                    <h3 class="mb-3">Welcome to {{ course.title }}</h3>
+                    <p class="lead mb-4">Start your learning journey by selecting a lesson from the course content.</p>
+                    <button class="btn btn-primary btn-lg d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#courseSidebarMobile">
+                        <i class="fas fa-list me-2"></i> Browse Course Content
+                    </button>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
