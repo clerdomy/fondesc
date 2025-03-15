@@ -4,113 +4,303 @@
 {% block title %}Dashboard | PythonLearn{% endblock %}
 
 {% block content %}
-<div class="container py-5">
-    <h1 class="mb-4">Dashboard</h1>
-    
-    <div class="row g-4">
-        <!-- Stats Cards -->
-        <div class="col-md-4">
-            <div class="card border-0 shadow-sm dashboard-card">
-                <div class="card-body text-center p-4">
-                    <div class="dashboard-icon">
-                        <i class="fas fa-book"></i>
+<div class="container mx-auto py-12 px-4">
+    <div class="flex flex-col lg:flex-row gap-8">
+        <!-- Sidebar do perfil -->
+        <div class="w-full lg:w-1/4">
+            <div class="bg-white rounded-xl shadow-md overflow-hidden" data-aos="fade-right">
+                <div class="p-6 text-center">
+                    {% if user.profile_picture %}
+                    <img src="{{ user.profile_picture.url }}" alt="{{ user.username }}" class="rounded-full w-32 h-32 object-cover mx-auto mb-4 border-4 border-gray-100 shadow">
+                    {% else %}
+                    <div class="bg-primary text-white rounded-full w-32 h-32 flex items-center justify-center mx-auto mb-4 text-4xl font-bold border-4 border-gray-100 shadow">
+                        {{ user.first_name|first|upper }}{{ user.last_name|first|upper }}
                     </div>
-                    <h3 class="fs-2">{{ enrollments_count }}</h3>
-                    <p class="text-muted mb-0">Enrolled Courses</p>
+                    {% endif %}
+                    
+                    <h4 class="text-xl font-bold text-gray-800 mb-1">{{ user.get_full_name|default:user.username }}</h4>
+                    <p class="text-gray-600 mb-4">{{ user.email }}</p>
+                    
+                    <div class="grid grid-cols-1 gap-2">
+                        <a href="{% url 'profile' %}" class="py-2 px-4 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-lg transition-colors">
+                            <i class="fas fa-user-circle mr-2 text-primary"></i> Meu Perfil
+                        </a>
+                        <a href="{% url 'my_courses' %}" class="py-2 px-4 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-lg transition-colors">
+                            <i class="fas fa-graduation-cap mr-2 text-primary"></i> Meus Cursos
+                        </a>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card border-0 shadow-sm dashboard-card">
-                <div class="card-body text-center p-4">
-                    <div class="dashboard-icon">
-                        <i class="fas fa-certificate"></i>
-                    </div>
-                    <h3 class="fs-2">{{ completed_courses|length }}</h3>
-                    <p class="text-muted mb-0">Completed Courses</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card border-0 shadow-sm dashboard-card">
-                <div class="card-body text-center p-4">
-                    <div class="dashboard-icon">
-                        <i class="fas fa-clock"></i>
-                    </div>
-                    <h3 class="fs-2">{{ in_progress_courses|length }}</h3>
-                    <p class="text-muted mb-0">In Progress</p>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- In Progress Courses -->
-    <div class="mt-5">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2>In Progress</h2>
-            <a href="{% url 'my_courses' %}" class="btn btn-outline-primary">View All Courses</a>
-        </div>
-        
-        {% if in_progress_courses %}
-        <div class="row g-4">
-            {% for item in in_progress_courses %}
-            <div class="col-md-6 col-lg-4">
-                <div class="card border-0 shadow-sm h-100">
-                    <img src="{{ item.course.thumbnail.url }}" class="card-img-top" alt="{{ item.course.title }}">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ item.course.title }}</h5>
-                        <div class="progress mt-3 mb-2">
-                            <div class="progress-bar" role="progressbar" style="width: {{ item.progress }}%;" aria-valuenow="{{ item.progress }}" aria-valuemin="0" aria-valuemax="100">{{ item.progress }}%</div>
+            
+            <div class="mt-6 bg-white rounded-xl shadow-md overflow-hidden" data-aos="fade-right" data-aos-delay="100">
+                <div class="p-6">
+                    <h5 class="font-bold text-gray-800 mb-4 flex items-center">
+                        <i class="fas fa-chart-line text-primary mr-2"></i> Estatísticas
+                    </h5>
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-600">Cursos inscritos</span>
+                            <span class="font-bold text-gray-800">{{ enrollments_count }}</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-600">Cursos em progresso</span>
+                            <span class="font-bold text-gray-800">{{ in_progress_courses|length }}</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-600">Cursos concluídos</span>
+                            <span class="font-bold text-gray-800">{{ completed_courses|length }}</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-600">Certificados</span>
+                            <span class="font-bold text-gray-800">{{ certificates|length }}</span>
                         </div>
                     </div>
-                    <div class="card-footer bg-white border-0">
-                        <a href="{% url 'course_learn' slug=item.course.slug %}" class="btn btn-primary w-100">Continue Learning</a>
-                    </div>
                 </div>
             </div>
-            {% endfor %}
         </div>
-        {% else %}
-        <div class="card border-0 shadow-sm">
-            <div class="card-body p-4 text-center">
-                <p class="mb-3">You don't have any courses in progress.</p>
-                <a href="{% url 'course_list' %}" class="btn btn-primary">Browse Courses</a>
-            </div>
-        </div>
-        {% endif %}
-    </div>
-    
-    <!-- Completed Courses -->
-    <div class="mt-5">
-        <h2 class="mb-4">Completed Courses</h2>
         
-        {% if completed_courses %}
-        <div class="row g-4">
-            {% for course in completed_courses %}
-            <div class="col-md-6 col-lg-4">
-                <div class="card border-0 shadow-sm h-100">
-                    <div class="card-img-overlay d-flex align-items-start justify-content-end">
-                        <span class="badge bg-success"><i class="fas fa-check-circle me-1"></i> Completed</span>
+        <!-- Conteúdo principal -->
+        <div class="w-full lg:w-3/4">
+            <!-- Mensagem de boas-vindas -->
+            <div class="bg-white rounded-xl shadow-md overflow-hidden mb-8" data-aos="fade-up">
+                <div class="p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-2">Bem-vindo(a), {{ user.first_name|default:user.username }}!</h2>
+                    <p class="text-gray-600">Acompanhe seu progresso e continue aprendendo.</p>
+                </div>
+            </div>
+            
+            <!-- Cursos em progresso -->
+            <div class="mb-8" data-aos="fade-up" data-aos-delay="100">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-bold text-gray-800">Cursos em Progresso</h3>
+                    <a href="{% url 'my_courses' %}?tab=in-progress" class="text-primary hover:text-primary-dark transition-colors">
+                        Ver todos <i class="fas fa-arrow-right ml-1"></i>
+                    </a>
+                </div>
+                
+                {% if in_progress_courses %}
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {% for course_data in in_progress_courses %}
+                    <div class="bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg transform hover:-translate-y-1">
+                        <div class="relative">
+                            <img src="{{ course_data.course.thumbnail.url }}" class="w-full h-40 object-cover" alt="{{ course_data.course.title }}">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end">
+                                <div class="p-4 w-full">
+                                    <div class="flex justify-between items-center text-white mb-1">
+                                        <span class="font-medium">Progresso</span>
+                                        <span class="font-bold">{{ course_data.progress }}%</span>
+                                    </div>
+                                    <div class="w-full bg-gray-300 bg-opacity-40 rounded-full h-2">
+                                        <div class="h-2 rounded-full bg-primary" style="width: {{ course_data.progress }}%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h4 class="font-bold text-gray-800 mb-2 line-clamp-1">{{ course_data.course.title }}</h4>
+                            <a href="{% url 'course_learn' slug=course_data.course.slug %}" class="block w-full text-center py-2 px-4 bg-primary hover:bg-primary-dark text-white font-medium rounded-lg transition-colors mt-2">
+                                Continuar
+                            </a>
+                        </div>
                     </div>
-                    <img src="{{ course.thumbnail.url }}" class="card-img-top" alt="{{ course.title }}">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ course.title }}</h5>
-                        <p class="card-text text-muted">{{ course.short_description }}</p>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="bg-white rounded-xl shadow-md p-6 text-center">
+                    <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-book text-gray-400 text-2xl"></i>
                     </div>
-                    <div class="card-footer bg-white border-0">
-                        <a href="{% url 'course_learn' slug=course.slug %}" class="btn btn-outline-primary w-100">Review Course</a>
+                    <h4 class="font-bold text-gray-800 mb-2">Nenhum curso em progresso</h4>
+                    <p class="text-gray-600 mb-4">Comece a aprender hoje mesmo!</p>
+                    <a href="{% url 'course_list' %}" class="inline-block py-2 px-6 bg-primary hover:bg-primary-dark text-white font-medium rounded-lg transition-colors">
+                        Explorar Cursos
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+            
+            <!-- Cursos concluídos recentemente -->
+            <div class="mb-8" data-aos="fade-up" data-aos-delay="200">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-bold text-gray-800">Cursos Concluídos</h3>
+                    <a href="{% url 'my_courses' %}?tab=completed" class="text-primary hover:text-primary-dark transition-colors">
+                        Ver todos <i class="fas fa-arrow-right ml-1"></i>
+                    </a>
+                </div>
+                
+                {% if completed_courses %}
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {% for course in completed_courses|slice:":3" %}
+                    <div class="bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg transform hover:-translate-y-1">
+                        <div class="relative">
+                            <img src="{{ course.thumbnail.url }}" class="w-full h-40 object-cover" alt="{{ course.title }}">
+                            <div class="absolute top-3 right-3">
+                                <span class="px-3 py-1 bg-green-500 text-white text-xs font-semibold rounded-full shadow-md flex items-center">
+                                    <i class="fas fa-check-circle mr-1"></i> Concluído
+                                </span>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h4 class="font-bold text-gray-800 mb-2 line-clamp-1">{{ course.title }}</h4>
+                            <div class="flex space-x-2">
+                                <a href="{% url 'course_learn' slug=course.slug %}" class="flex-1 text-center py-2 px-3 bg-primary hover:bg-primary-dark text-white font-medium rounded-lg transition-colors text-sm">
+                                    Revisar
+                                </a>
+                                <a href="{% url 'course_certificate' course_slug=course.slug %}" class="flex-1 text-center py-2 px-3 bg-green-500 hover:bg-green-600 text-white font-medium rounded-lg transition-colors text-sm">
+                                    Certificado
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="bg-white rounded-xl shadow-md p-6 text-center">
+                    <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-trophy text-gray-400 text-2xl"></i>
+                    </div>
+                    <h4 class="font-bold text-gray-800 mb-2">Nenhum curso concluído</h4>
+                    <p class="text-gray-600 mb-4">Continue estudando para concluir seus cursos!</p>
+                    <a href="{% url 'my_courses' %}" class="inline-block py-2 px-6 bg-primary hover:bg-primary-dark text-white font-medium rounded-lg transition-colors">
+                        Meus Cursos
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+            
+            <!-- Recomendações de cursos -->
+            <div class="mb-8" data-aos="fade-up" data-aos-delay="300">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-bold text-gray-800">Recomendados para Você</h3>
+                    <a href="{% url 'course_list' %}" class="text-primary hover:text-primary-dark transition-colors">
+                        Ver todos <i class="fas fa-arrow-right ml-1"></i>
+                    </a>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Cursos recomendados (estáticos para demonstração) -->
+                    <div class="bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg transform hover:-translate-y-1">
+                        <div class="relative">
+                            <img src="https://via.placeholder.com/400x200?text=Python+Avancado" class="w-full h-40 object-cover" alt="Python Avançado">
+                            <div class="absolute top-3 left-3">
+                                <span class="px-3 py-1 bg-primary text-white text-xs font-semibold rounded-full shadow-md">
+                                    Avançado
+                                </span>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h4 class="font-bold text-gray-800 mb-2">Python Avançado: Recursos Poderosos</h4>
+                            <p class="text-gray-600 text-sm mb-3 line-clamp-2">Explore recursos avançados do Python como geradores, decoradores, metaclasses e mais.</p>
+                            <div class="flex justify-between items-center">
+                                <span class="font-bold text-primary">R$ 74,99</span>
+                                <a href="#" class="py-1 px-3 bg-secondary hover:bg-secondary-dark text-primary font-medium rounded-lg transition-colors text-sm">
+                                    Ver Detalhes
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg transform hover:-translate-y-1">
+                        <div class="relative">
+                            <img src="https://via.placeholder.com/400x200?text=Data+Science" class="w-full h-40 object-cover" alt="Data Science">
+                            <div class="absolute top-3 left-3">
+                                <span class="px-3 py-1 bg-primary text-white text-xs font-semibold rounded-full shadow-md">
+                                    Intermediário
+                                </span>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h4 class="font-bold text-gray-800 mb-2">Python para Ciência de Dados</h4>
+                            <p class="text-gray-600 text-sm mb-3 line-clamp-2">Domine as principais bibliotecas Python para análise e visualização de dados.</p>
+                            <div class="flex justify-between items-center">
+                                <span class="font-bold text-primary">R$ 69,99</span>
+                                <a href="#" class="py-1 px-3 bg-secondary hover:bg-secondary-dark text-primary font-medium rounded-lg transition-colors text-sm">
+                                    Ver Detalhes
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg transform hover:-translate-y-1">
+                        <div class="relative">
+                            <img src="https://via.placeholder.com/400x200?text=Machine+Learning" class="w-full h-40 object-cover" alt="Machine Learning">
+                            <div class="absolute top-3 left-3">
+                                <span class="px-3 py-1 bg-primary text-white text-xs font-semibold rounded-full shadow-md">
+                                    Avançado
+                                </span>
+                            </div>
+                            <div class="absolute top-3 right-3">
+                                <span class="px-3 py-1 bg-red-500 text-white text-xs font-semibold rounded-full shadow-md">
+                                    -20%
+                                </span>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h4 class="font-bold text-gray-800 mb-2">Machine Learning com Python</h4>
+                            <p class="text-gray-600 text-sm mb-3 line-clamp-2">Aprenda a criar modelos de machine learning para resolver problemas reais.</p>
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <span class="font-bold text-primary">R$ 63,99</span>
+                                    <span class="text-gray-500 line-through text-sm ml-2">R$ 79,99</span>
+                                </div>
+                                <a href="#" class="py-1 px-3 bg-secondary hover:bg-secondary-dark text-primary font-medium rounded-lg transition-colors text-sm">
+                                    Ver Detalhes
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            {% endfor %}
-        </div>
-        {% else %}
-        <div class="card border-0 shadow-sm">
-            <div class="card-body p-4 text-center">
-                <p class="mb-0">You haven't completed any courses yet.</p>
+            
+            <!-- Certificates Section -->
+            <div class="mt-5" data-aos="fade-up" data-aos-delay="400">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-bold text-gray-800">Meus Certificados</h2>
+                    {% if certificates %}
+                    <a href="{% url 'my_courses' %}?tab=completed" class="text-primary hover:text-primary-dark transition-colors">
+                        Ver todos <i class="fas fa-arrow-right ml-1"></i>
+                    </a>
+                    {% endif %}
+                </div>
+                
+                {% if certificates %}
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {% for certificate in certificates %}
+                    <div class="bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg transform hover:-translate-y-1">
+                        <div class="p-6">
+                            <div class="flex items-center mb-3">
+                                <i class="fas fa-certificate text-primary fa-2x me-3"></i>
+                                <h5 class="font-bold text-gray-800">{{ certificate.course.title }}</h5>
+                            </div>
+                            <p class="text-gray-600 text-sm mb-3">Certificado emitido em {{ certificate.created_at|date:"d/m/Y" }}</p>
+                            <p class="text-gray-500 text-xs mb-4">Nº {{ certificate.certificate_number }}</p>
+                            <div class="flex space-x-2">
+                                <a href="{{ certificate.file.url }}" class="flex-1 text-center py-2 px-3 bg-gray-100 hover:bg-gray-200 text-gray-800 font-medium rounded-lg transition-colors text-sm" target="_blank">
+                                    <i class="fas fa-eye mr-1"></i> Visualizar
+                                </a>
+                                <a href="{{ certificate.file.url }}" class="flex-1 text-center py-2 px-3 bg-primary hover:bg-primary-dark text-white font-medium rounded-lg transition-colors text-sm" download>
+                                    <i class="fas fa-download mr-1"></i> Baixar
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="bg-white rounded-xl shadow-md p-6 text-center">
+                    <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-certificate text-gray-400 text-2xl"></i>
+                    </div>
+                    <h4 class="font-bold text-gray-800 mb-2">Nenhum certificado ainda</h4>
+                    <p class="text-gray-600 mb-4">Complete um curso para obter seu primeiro certificado.</p>
+                    <a href="{% url 'course_list' %}" class="inline-block py-2 px-6 bg-primary hover:bg-primary-dark text-white font-medium rounded-lg transition-colors">
+                        Explorar Cursos
+                    </a>
+                </div>
+                {% endif %}
             </div>
         </div>
-        {% endif %}
     </div>
 </div>
 {% endblock %}
+

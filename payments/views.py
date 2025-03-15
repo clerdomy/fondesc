@@ -6,6 +6,8 @@ from django.contrib import messages
 from django.urls import reverse
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.utils import timezone
+from datetime import timedelta
 
 from .models import Payment, Invoice
 from courses.models import Enrollment, Course
@@ -13,60 +15,80 @@ from courses.models import Enrollment, Course
 # Configure Stripe
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
+
+
 @login_required
-def payment_process(request, enrollment_id):
-    """Process payment for course enrollment"""
-    enrollment = get_object_or_404(Enrollment, id=enrollment_id, user=request.user)
-    course = enrollment.course
+def payment_process_view(request, course_id):
+    """View para exibir a página de processamento de pagamento"""
+    course = get_object_or_404(Course, id=course_id)
     
-    # Check if already paid
-    if enrollment.is_paid:
-        messages.info(request, f"You have already paid for {course.title}")
+    # Verificar se o usuário já está inscrito
+    if Enrollment.objects.filter(user=request.user, course=course).exists():
+        messages.info(request, "Você já está inscrito neste curso.")
         return redirect('course_learn', slug=course.slug)
     
-    if request.method == 'POST':
-        # Create Stripe Checkout Session
-        try:
-            checkout_session = stripe.checkout.Session.create(
-                payment_method_types=['card'],
-                line_items=[
-                    {
-                        'price_data': {
-                            'currency': 'usd',
-                            'product_data': {
-                                'name': course.title,
-                                'description': course.short_description,
-                            },
-                            'unit_amount': int(course.price * 100),  # Convert to cents
-                        },
-                        'quantity': 1,
-                    }
-                ],
-                mode='payment',
-                success_url=request.build_absolute_uri(
-                    reverse('payment_success', args=[enrollment.id])
-                ),
-                cancel_url=request.build_absolute_uri(
-                    reverse('payment_cancel', args=[enrollment.id])
-                ),
-                client_reference_id=str(enrollment.id),
-                customer_email=request.user.email,
-            )
-            
-            # Redirect to Stripe Checkout
-            return redirect(checkout_session.url)
-        
-        except Exception as e:
-            messages.error(request, f"Payment error: {str(e)}")
-            return redirect('course_detail', slug=course.slug)
+    # Calcular valores para exibição
+    discount = 0
+    tax = 1  # 10% de imposto (exemplo)
+    total = course.price + tax - discount
+    
+    # Data para amanhã (para o campo de data no pagamento em dinheiro)
+    tomorrow_date = timezone.now() + timedelta(days=1)
     
     context = {
         'course': course,
-        'enrollment': enrollment,
-        'stripe_public_key': settings.STRIPE_PUBLIC_KEY,
+        'discount': discount,
+        'tax': tax,
+        'total': total,
+        'tomorrow_date': tomorrow_date,
     }
     
     return render(request, 'payments/payment_process.html', context)
+
+@login_required
+def process_payment(request):
+    """View para processar o pagamento submetido"""
+    if request.method != 'POST':
+        messages.error(request, "Método inválido.")
+        return redirect('course_list')
+    
+    # Obter o curso
+    course_id = request.POST.get('course_id')
+    if not course_id:
+        messages.error(request, "Curso não especificado.")
+        return redirect('course_list')
+    
+    course = get_object_or_404(Course, id=course_id)
+    
+    # Obter o método de pagamento
+    payment_method = request.POST.get('payment_method')
+    if not payment_method:
+        messages.error(request, "Por favor, selecione um método de pagamento.")
+        return redirect('payment_process', course_id=course_id)
+    
+    # Processar o pagamento (simulação)
+    # Em um ambiente real, você integraria com gateways de pagamento aqui
+    
+    # Criar a inscrição
+    enrollment, created = Enrollment.objects.get_or_create(
+        user=request.user,
+        course=course,
+        defaults={'is_paid': False}  # Inicialmente marcado como não pago
+    )
+    
+    # Atualizar status de pagamento com base no método
+    if payment_method in ['card', 'moncash', 'lajancash']:
+        # Métodos de pagamento instantâneos
+        enrollment.is_paid = True
+        enrollment.save()
+        messages.success(request, f"Pagamento processado com sucesso! Você agora está inscrito em {course.title}.")
+        return redirect('course_learn', slug=course.slug)
+    else:
+        # Métodos que requerem verificação manual
+        messages.success(request, "Sua solicitação de inscrição foi recebida. Você receberá acesso ao curso assim que o pagamento for confirmado.")
+        return redirect('dashboard')
+
+
 
 @login_required
 def payment_success(request, enrollment_id):

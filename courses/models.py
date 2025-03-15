@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.utils.text import slugify
+from django.utils import timesince
 from accounts.models import User
 
 class Category(models.Model):
@@ -155,3 +156,27 @@ class Enrollment(models.Model):
     
     def __str__(self):
         return f"{self.user.username} enrolled in {self.course.title}"
+
+class Certificate(models.Model):
+    """Certificates for completed courses"""
+    user = models.ForeignKey('accounts.User', on_delete=models.CASCADE, related_name='certificates')
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='certificates')
+    created_at = models.DateTimeField(auto_now_add=True)
+    certificate_number = models.CharField(max_length=50, unique=True)
+    file = models.FileField(upload_to='certificates/', blank=True, null=True)
+    
+    class Meta:
+        unique_together = ['user', 'course']
+        verbose_name = _('Certificate')
+        verbose_name_plural = _('Certificates')
+    
+    def __str__(self):
+        return f"Certificate for {self.user.username} - {self.course.title}"
+    
+    def save(self, *args, **kwargs):
+        if not self.certificate_number:
+            # Generate a unique certificate number
+            import uuid
+            year = timezone.now().year
+            self.certificate_number = f"CERT-{year}-{uuid.uuid4().hex[:8].upper()}"
+        super().save(*args, **kwargs)

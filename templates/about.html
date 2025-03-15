@@ -1,126 +1,481 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}About Us | PythonLearn{% endblock %}
+{% block title %}Sobre Nós | PythonLearn{% endblock %}
 
 {% block content %}
 <!-- Hero Section -->
-<section class="bg-primary text-white py-5">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-6">
-                <h1 class="display-4 fw-bold mb-3">About PythonLearn</h1>
-                <p class="lead mb-0">Learn about our mission to make Python programming accessible to everyone</p>
-            </div>
-            <div class="col-lg-6">
-                <img src="{% static 'images/about-hero.svg' %}" alt="About PythonLearn" class="img-fluid">
-            </div>
+<section class="relative bg-gradient-to-r from-primary to-primary-light text-white py-20 overflow-hidden">
+    <!-- Decorative elements -->
+    <div class="absolute top-0 right-0 w-96 h-96 bg-secondary opacity-10 rounded-full -mt-24 -mr-24"></div>
+    <div class="absolute bottom-0 left-0 w-64 h-64 bg-secondary opacity-10 rounded-full -mb-32 -ml-32"></div>
+    
+    <div class="container mx-auto px-4 relative z-10">
+        <div class="max-w-3xl mx-auto text-center">
+            <h1 class="text-4xl md:text-5xl font-bold mb-6" data-aos="fade-up">Sobre a PythonLearn</h1>
+            <p class="text-xl opacity-90 mb-8" data-aos="fade-up" data-aos-delay="100">
+                Transformando vidas através da educação tecnológica acessível e de qualidade
+            </p>
         </div>
     </div>
 </section>
 
 <!-- Our Story Section -->
-<section class="py-5">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 mx-auto text-center">
-                <h2 class="fw-bold mb-4">Our Story</h2>
-                <p class="lead text-muted mb-4">PythonLearn was founded in 2023 with a simple mission: to make Python programming education accessible, engaging, and effective for everyone.</p>
-                <p class="mb-4">We believe that learning to code should be an enjoyable journey, not a frustrating experience. That's why we've designed our platform to be user-friendly and our courses to be practical and hands-on.</p>
-                <p class="mb-4">Our team consists of experienced Python developers and educators who are passionate about sharing their knowledge and helping others succeed in their programming journey.</p>
+<section class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+        <div class="max-w-3xl mx-auto">
+            <div class="text-center mb-12" data-aos="fade-up">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Nossa História</h2>
+                <div class="w-20 h-1 bg-primary mx-auto"></div>
+            </div>
+            
+            <div class="prose prose-lg max-w-none text-gray-600" data-aos="fade-up" data-aos-delay="100">
+                <p>
+                    A PythonLearn nasceu em 2020 com uma missão clara: democratizar o acesso ao conhecimento em programação e tecnologia no Haiti. Fundada por um grupo de desenvolvedores e educadores apaixonados, nossa plataforma surgiu da percepção de que havia uma lacuna significativa no ensino de tecnologia acessível e de qualidade no país.
+                </p>
+                <p>
+                    Começamos com apenas três cursos de Python básico, ministrados para pequenos grupos de estudantes. O feedback positivo e os resultados transformadores nos motivaram a expandir nossa oferta e alcance. Hoje, orgulhamo-nos de ter ajudado mais de 5.000 estudantes a desenvolverem habilidades técnicas valiosas que abriram portas para novas oportunidades profissionais.
+                </p>
+                <p>
+                    Nossa abordagem pedagógica é baseada em três pilares fundamentais: conteúdo de qualidade, aplicação prática e suporte contínuo. Acreditamos que o aprendizado efetivo acontece quando os estudantes podem aplicar imediatamente o conhecimento adquirido em projetos reais, com o suporte necessário para superar obstáculos.
+                </p>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Our Values Section -->
-<section class="py-5 bg-light">
-    <div class="container">
-        <h2 class="text-center fw-bold mb-5">Our Values</h2>
-        <div class="row g-4">
-            <div class="col-md-4">
-                <div class="card h-100 border-0 shadow-sm">
-                    <div class="card-body text-center p-4">
-                        <div class="feature-icon bg-primary text-white rounded-circle mb-3">
-                            <i class="fas fa-book-reader"></i>
-                        </div>
-                        <h4>Accessible Learning</h4>
-                        <p class="text-muted">We believe everyone should have access to quality education, regardless of their background or circumstances.</p>
-                    </div>
+<!-- Mission and Vision Section -->
+<section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+            <!-- Mission -->
+            <div class="bg-white rounded-xl shadow-md p-8" data-aos="fade-right">
+                <div class="w-16 h-16 bg-primary bg-opacity-10 rounded-full flex items-center justify-center mb-6">
+                    <i class="fas fa-bullseye text-primary text-2xl"></i>
                 </div>
+                <h3 class="text-2xl font-bold text-gray-800 mb-4">Nossa Missão</h3>
+                <p class="text-gray-600">
+                    Capacitar indivíduos através de educação tecnológica de qualidade, acessível e relevante, promovendo o desenvolvimento de habilidades que impulsionem carreiras e contribuam para o crescimento tecnológico do Haiti.
+                </p>
             </div>
-            <div class="col-md-4">
-                <div class="card h-100 border-0 shadow-sm">
-                    <div class="card-body text-center p-4">
-                        <div class="feature-icon bg-primary text-white rounded-circle mb-3">
-                            <i class="fas fa-hands-helping"></i>
-                        </div>
-                        <h4>Supportive Community</h4>
-                        <p class="text-muted">Learning is better together. We foster a supportive community where students can help each other grow.</p>
-                    </div>
+            
+            <!-- Vision -->
+            <div class="bg-white rounded-xl shadow-md p-8" data-aos="fade-left">
+                <div class="w-16 h-16 bg-primary bg-opacity-10 rounded-full flex items-center justify-center mb-6">
+                    <i class="fas fa-eye text-primary text-2xl"></i>
                 </div>
+                <h3 class="text-2xl font-bold text-gray-800 mb-4">Nossa Visão</h3>
+                <p class="text-gray-600">
+                    Ser a principal plataforma de educação tecnológica no Haiti, reconhecida pela excelência no ensino, inovação pedagógica e pelo impacto positivo na formação de profissionais que transformam o cenário tecnológico do país.
+                </p>
             </div>
-            <div class="col-md-4">
-                <div class="card h-100 border-0 shadow-sm">
-                    <div class="card-body text-center p-4">
-                        <div class="feature-icon bg-primary text-white rounded-circle mb-3">
-                            <i class="fas fa-laptop-code"></i>
-                        </div>
-                        <h4>Practical Skills</h4>
-                        <p class="text-muted">We focus on teaching practical, real-world skills that you can apply immediately in your projects or career.</p>
-                    </div>
+        </div>
+    </div>
+</section>
+
+<!-- Values Section -->
+<section class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-12" data-aos="fade-up">
+            <h2 class="text-3xl font-bold text-gray-800 mb-4">Nossos Valores</h2>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                Princípios que guiam nossas ações e decisões todos os dias
+            </p>
+            <div class="w-20 h-1 bg-primary mx-auto mt-6"></div>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Value 1 -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 transition-all hover:shadow-md" data-aos="fade-up" data-aos-delay="100">
+                <div class="w-14 h-14 bg-blue-100 rounded-full flex items-center justify-center mb-4">
+                    <i class="fas fa-star text-blue-600 text-xl"></i>
                 </div>
+                <h3 class="text-xl font-bold text-gray-800 mb-2">Excelência</h3>
+                <p class="text-gray-600">
+                    Buscamos constantemente a excelência em nossos cursos, materiais didáticos e suporte aos alunos, garantindo uma experiência de aprendizado excepcional.
+                </p>
+            </div>
+            
+            <!-- Value 2 -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 transition-all hover:shadow-md" data-aos="fade-up" data-aos-delay="200">
+                <div class="w-14 h-14 bg-green-100 rounded-full flex items-center justify-center mb-4">
+                    <i class="fas fa-handshake text-green-600 text-xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 mb-2">Acessibilidade</h3>
+                <p class="text-gray-600">
+                    Comprometemo-nos a tornar a educação tecnológica acessível a todos, independentemente de sua localização, condição socioeconômica ou conhecimento prévio.
+                </p>
+            </div>
+            
+            <!-- Value 3 -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 transition-all hover:shadow-md" data-aos="fade-up" data-aos-delay="300">
+                <div class="w-14 h-14 bg-purple-100 rounded-full flex items-center justify-center mb-4">
+                    <i class="fas fa-lightbulb text-purple-600 text-xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 mb-2">Inovação</h3>
+                <p class="text-gray-600">
+                    Abraçamos a inovação em nossa metodologia de ensino, incorporando novas tecnologias e abordagens pedagógicas para melhorar continuamente a experiência de aprendizado.
+                </p>
+            </div>
+            
+            <!-- Value 4 -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 transition-all hover:shadow-md" data-aos="fade-up" data-aos-delay="400">
+                <div class="w-14 h-14 bg-red-100 rounded-full flex items-center justify-center mb-4">
+                    <i class="fas fa-heart text-red-600 text-xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 mb-2">Empatia</h3>
+                <p class="text-gray-600">
+                    Colocamos as necessidades e desafios dos nossos alunos no centro de tudo o que fazemos, oferecendo suporte personalizado e compreensivo em sua jornada de aprendizado.
+                </p>
+            </div>
+            
+            <!-- Value 5 -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 transition-all hover:shadow-md" data-aos="fade-up" data-aos-delay="500">
+                <div class="w-14 h-14 bg-yellow-100 rounded-full flex items-center justify-center mb-4">
+                    <i class="fas fa-users text-yellow-600 text-xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 mb-2">Comunidade</h3>
+                <p class="text-gray-600">
+                    Fomentamos um senso de comunidade entre nossos alunos e instrutores, criando um ambiente colaborativo onde todos podem aprender, compartilhar e crescer juntos.
+                </p>
+            </div>
+            
+            <!-- Value 6 -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 transition-all hover:shadow-md" data-aos="fade-up" data-aos-delay="600">
+                <div class="w-14 h-14 bg-orange-100 rounded-full flex items-center justify-center mb-4">
+                    <i class="fas fa-balance-scale text-orange-600 text-xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 mb-2">Integridade</h3>
+                <p class="text-gray-600">
+                    Agimos com honestidade, transparência e responsabilidade em todas as nossas interações, construindo relações de confiança com nossos alunos e parceiros.
+                </p>
             </div>
         </div>
     </div>
 </section>
 
 <!-- Team Section -->
-<section class="py-5">
-    <div class="container">
-        <h2 class="text-center fw-bold mb-5">Meet Our Team</h2>
-        <div class="row g-4">
-            <div class="col-md-4">
-                <div class="card border-0 shadow-sm">
-                    <img src="{% static 'images/team-1.jpg' %}" class="card-img-top" alt="Team Member">
-                    <div class="card-body text-center p-4">
-                        <h4>John Smith</h4>
-                        <p class="text-primary mb-3">Founder & Lead Instructor</p>
-                        <p class="text-muted">Python developer with 10+ years of experience and a passion for teaching.</p>
-                        <div class="social-icons mt-3">
-                            <a href="#" class="text-muted me-2"><i class="fab fa-linkedin"></i></a>
-                            <a href="#" class="text-muted me-2"><i class="fab fa-twitter"></i></a>
-                            <a href="#" class="text-muted"><i class="fab fa-github"></i></a>
+<section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-12" data-aos="fade-up">
+            <h2 class="text-3xl font-bold text-gray-800 mb-4">Nossa Equipe</h2>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                Conheça os profissionais apaixonados por educação e tecnologia que fazem a PythonLearn acontecer
+            </p>
+            <div class="w-20 h-1 bg-primary mx-auto mt-6"></div>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <!-- Team Member 1 -->
+            <div class="bg-white rounded-xl shadow-md overflow-hidden" data-aos="fade-up" data-aos-delay="100">
+                <div class="relative">
+                    <img src="https://via.placeholder.com/300x300?text=Jean+Baptiste" alt="Jean Baptiste" class="w-full h-64 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end">
+                        <div class="p-4 w-full">
+                            <div class="flex justify-center space-x-3 mb-2">
+                                <a href="#" class="w-8 h-8 rounded-full bg-white bg-opacity-20 flex items-center justify-center hover:bg-primary transition-colors">
+                                    <i class="fab fa-linkedin-in text-white"></i>
+                                </a>
+                                <a href="#" class="w-8 h-8 rounded-full bg-white bg-opacity-20 flex items-center justify-center hover:bg-primary transition-colors">
+                                    <i class="fab fa-twitter text-white"></i>
+                                </a>
+                                <a href="#" class="w-8 h-8 rounded-full bg-white bg-opacity-20 flex items-center justify-center hover:bg-primary transition-colors">
+                                    <i class="fas fa-envelope text-white"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-4 text-center">
+                    <h3 class="text-xl font-bold text-gray-800 mb-1">Jean Baptiste</h3>
+                    <p class="text-primary font-medium mb-2">Fundador & CEO</p>
+                    <p class="text-gray-600 text-sm">
+                        Desenvolvedor Python com mais de 10 anos de experiência e paixão por educação tecnológica.
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Team Member 2 -->
+            <div class="bg-white rounded-xl shadow-md overflow-hidden" data-aos="fade-up" data-aos-delay="200">
+                <div class="relative">
+                    <img src="https://via.placeholder.com/300x300?text=Marie+Joseph" alt="Marie Joseph" class="w-full h-64 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end">
+                        <div class="p-4 w-full">
+                            <div class="flex justify-center space-x-3 mb-2">
+                                <a href="#" class="w-8 h-8 rounded-full bg-white bg-opacity-20 flex items-center justify-center hover:bg-primary transition-colors">
+                                    <i class="fab fa-linkedin-in text-white"></i>
+                                </a>
+                                <a href="#" class="w-8 h-8 rounded-full bg-white bg-opacity-20 flex items-center justify-center hover:bg-primary transition-colors">
+                                    <i class="fab fa-twitter text-white"></i>
+                                </a>
+                                <a href="#" class="w-8 h-8 rounded-full bg-white bg-opacity-20 flex items-center justify-center hover:bg-primary transition-colors">
+                                    <i class="fas fa-envelope text-white"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-4 text-center">
+                    <h3 class="text-xl font-bold text-gray-800 mb-1">Marie Joseph</h3>
+                    <p class="text-primary font-medium mb-2">Diretora de Educação</p>
+                    <p class="text-gray-600 text-sm">
+                        Especialista em metodologias de ensino com mestrado em Educação Tecnológica.
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Team Member 3 -->
+            <div class="bg-white rounded-xl shadow-md overflow-hidden" data-aos="fade-up" data-aos-delay="300">
+                <div class="relative">
+                    <img src="https://via.placeholder.com/300x300?text=Pierre+Louis" alt="Pierre Louis" class="w-full h-64 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end">
+                        <div class="p-4 w-full">
+                            <div class="flex justify-center space-x-3 mb-2">
+                                <a href="#" class="w-8 h-8 rounded-full bg-white bg-opacity-20 flex items-center justify-center hover:bg-primary transition-colors">
+                                    <i class="fab fa-linkedin-in text-white"></i>
+                                </a>
+                                <a href="#" class="w-8 h-8 rounded-full bg-white bg-opacity-20 flex items-center justify-center hover:bg-primary transition-colors">
+                                    <i class="fab fa-twitter text-white"></i>
+                                </a>
+                                <a href="#" class="w-8 h-8 rounded-full bg-white bg-opacity-20 flex items-center justify-center hover:bg-primary transition-colors">
+                                    <i class="fas fa-envelope text-white"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-4 text-center">
+                    <h3 class="text-xl font-bold text-gray-800 mb-1">Pierre Louis</h3>
+                    <p class="text-primary font-medium mb-2">Instrutor Principal</p>
+                    <p class="text-gray-600 text-sm">
+                        Desenvolvedor full-stack e educador com experiência em projetos internacionais.
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Team Member 4 -->
+            <div class="bg-white rounded-xl shadow-md overflow-hidden" data-aos="fade-up" data-aos-delay="400">
+                <div class="relative">
+                    <img src="https://via.placeholder.com/300x300?text=Sophie+Michel" alt="Sophie Michel" class="w-full h-64 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end">
+                        <div class="p-4 w-full">
+                            <div class="flex justify-center space-x-3 mb-2">
+                                <a href="#" class="w-8 h-8 rounded-full bg-white bg-opacity-20 flex items-center justify-center hover:bg-primary transition-colors">
+                                    <i class="fab fa-linkedin-in text-white"></i>
+                                </a>
+                                <a href="#" class="w-8 h-8 rounded-full bg-white bg-opacity-20 flex items-center justify-center hover:bg-primary transition-colors">
+                                    <i class="fab fa-twitter text-white"></i>
+                                </a>
+                                <a href="#" class="w-8 h-8 rounded-full bg-white bg-opacity-20 flex items-center justify-center hover:bg-primary transition-colors">
+                                    <i class="fas fa-envelope text-white"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-4 text-center">
+                    <h3 class="text-xl font-bold text-gray-800 mb-1">Sophie Michel</h3>
+                    <p class="text-primary font-medium mb-2">Diretora de Operações</p>
+                    <p class="text-gray-600 text-sm">
+                        Especialista em gestão de projetos com foco em experiência do usuário e satisfação do cliente.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Why Choose Us Section -->
+<section class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-12" data-aos="fade-up">
+            <h2 class="text-3xl font-bold text-gray-800 mb-4">Por Que Escolher a PythonLearn?</h2>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                Descubra o que nos diferencia e por que somos a escolha ideal para sua jornada de aprendizado
+            </p>
+            <div class="w-20 h-1 bg-primary mx-auto mt-6"></div>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Feature 1 -->
+            <div class="flex" data-aos="fade-up" data-aos-delay="100">
+                <div class="flex-shrink-0 mr-4">
+                    <div class="w-14 h-14 bg-primary bg-opacity-10 rounded-full flex items-center justify-center">
+                        <i class="fas fa-graduation-cap text-primary text-xl"></i>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Instrutores Especializados</h3>
+                    <p class="text-gray-600">
+                        Nossa equipe é composta por profissionais com vasta experiência prática e habilidades pedagógicas excepcionais.
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Feature 2 -->
+            <div class="flex" data-aos="fade-up" data-aos-delay="200">
+                <div class="flex-shrink-0 mr-4">
+                    <div class="w-14 h-14 bg-primary bg-opacity-10 rounded-full flex items-center justify-center">
+                        <i class="fas fa-laptop-code text-primary text-xl"></i>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Projetos Práticos</h3>
+                    <p class="text-gray-600">
+                        Aplicamos o conhecimento em projetos reais, preparando você para os desafios do mercado de trabalho.
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Feature 3 -->
+            <div class="flex" data-aos="fade-up" data-aos-delay="300">
+                <div class="flex-shrink-0 mr-4">
+                    <div class="w-14 h-14 bg-primary bg-opacity-10 rounded-full flex items-center justify-center">
+                        <i class="fas fa-certificate text-primary text-xl"></i>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Certificados Reconhecidos</h3>
+                    <p class="text-gray-600">
+                        Nossos certificados são valorizados pelo mercado e atestam suas habilidades e conhecimentos.
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Feature 4 -->
+            <div class="flex" data-aos="fade-up" data-aos-delay="400">
+                <div class="flex-shrink-0 mr-4">
+                    <div class="w-14 h-14 bg-primary bg-opacity-10 rounded-full flex items-center justify-center">
+                        <i class="fas fa-comments text-primary text-xl"></i>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Suporte Personalizado</h3>
+                    <p class="text-gray-600">
+                        Oferecemos suporte contínuo para garantir que você supere obstáculos e alcance seus objetivos.
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Feature 5 -->
+            <div class="flex" data-aos="fade-up" data-aos-delay="500">
+                <div class="flex-shrink-0 mr-4">
+                    <div class="w-14 h-14 bg-primary bg-opacity-10 rounded-full flex items-center justify-center">
+                        <i class="fas fa-language text-primary text-xl"></i>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Conteúdo Bilíngue</h3>
+                    <p class="text-gray-600">
+                        Oferecemos cursos em francês e crioulo haitiano, tornando o aprendizado mais acessível e eficaz.
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Feature 6 -->
+            <div class="flex" data-aos="fade-up" data-aos-delay="600">
+                <div class="flex-shrink-0 mr-4">
+                    <div class="w-14 h-14 bg-primary bg-opacity-10 rounded-full flex items-center justify-center">
+                        <i class="fas fa-users text-primary text-xl"></i>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Comunidade Ativa</h3>
+                    <p class="text-gray-600">
+                        Faça parte de uma comunidade vibrante de estudantes e profissionais que compartilham conhecimento e oportunidades.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials Section -->
+<section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-12" data-aos="fade-up">
+            <h2 class="text-3xl font-bold text-gray-800 mb-4">O Que Nossos Alunos Dizem</h2>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                Histórias reais de alunos que transformaram suas carreiras com a PythonLearn
+            </p>
+            <div class="w-20 h-1 bg-primary mx-auto mt-6"></div>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Testimonial 1 -->
+            <div class="bg-white rounded-xl shadow-md p-6 relative" data-aos="fade-up" data-aos-delay="100">
+                <div class="absolute -top-5 left-8 text-5xl text-primary opacity-20">"</div>
+                <div class="relative z-10">
+                    <div class="flex text-yellow-400 mb-4">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="text-gray-600 mb-6">
+                        "A PythonLearn mudou completamente minha trajetória profissional. Em apenas 6 meses, passei de um conhecimento básico em programação para conseguir meu primeiro emprego como desenvolvedor Python. Os projetos práticos e o suporte dos instrutores foram fundamentais."
+                    </p>
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold mr-4">
+                            JD
+                        </div>
+                        <div>
+                            <h5 class="font-bold text-gray-800">Jean Dupont</h5>
+                            <p class="text-gray-500 text-sm">Desenvolvedor Python na TechHaiti</p>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="card border-0 shadow-sm">
-                    <img src="{% static 'images/team-2.jpg' %}" class="card-img-top" alt="Team Member">
-                    <div class="card-body text-center p-4">
-                        <h4>Sarah Johnson</h4>
-                        <p class="text-primary mb-3">Content Director</p>
-                        <p class="text-muted">Educational content specialist with a background in computer science education.</p>
-                        <div class="social-icons mt-3">
-                            <a href="#" class="text-muted me-2"><i class="fab fa-linkedin"></i></a>
-                            <a href="#" class="text-muted me-2"><i class="fab fa-twitter"></i></a>
-                            <a href="#" class="text-muted"><i class="fab fa-github"></i></a>
+            
+            <!-- Testimonial 2 -->
+            <div class="bg-white rounded-xl shadow-md p-6 relative" data-aos="fade-up" data-aos-delay="200">
+                <div class="absolute -top-5 left-8 text-5xl text-primary opacity-20">"</div>
+                <div class="relative z-10">
+                    <div class="flex text-yellow-400 mb-4">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="text-gray-600 mb-6">
+                        "Como alguém sem formação em TI, eu estava receosa em começar a aprender programação. A abordagem da PythonLearn tornou o processo muito mais acessível e menos intimidador. Hoje, uso Python diariamente para automatizar tarefas no meu trabalho."
+                    </p>
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center text-white font-bold mr-4">
+                            MP
+                        </div>
+                        <div>
+                            <h5 class="font-bold text-gray-800">Marie Pierre</h5>
+                            <p class="text-gray-500 text-sm">Analista de Dados</p>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="card border-0 shadow-sm">
-                    <img src="{% static 'images/team-3.jpg' %}" class="card-img-top" alt="Team Member">
-                    <div class="card-body text-center p-4">
-                        <h4>Michael Chen</h4>
-                        <p class="text-primary mb-3">Senior Python Instructor</p>
-                        <p class="text-muted">Data scientist and Python expert specializing in machine learning and AI.</p>
-                        <div class="social-icons mt-3">
-                            <a href="#" class="text-muted me-2"><i class="fab fa-linkedin"></i></a>
-                            <a href="#" class="text-muted me-2"><i class="fab fa-twitter"></i></a>
-                            <a href="#" class="text-muted"><i class="fab fa-github"></i></a>
+            
+            <!-- Testimonial 3 -->
+            <div class="bg-white rounded-xl shadow-md p-6 relative" data-aos="fade-up" data-aos-delay="300">
+                <div class="absolute -top-5 left-8 text-5xl text-primary opacity-20">"</div>
+                <div class="relative z-10">
+                    <div class="flex text-yellow-400 mb-4">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                    <p class="text-gray-600 mb-6">
+                        "Os cursos da PythonLearn têm um equilíbrio perfeito entre teoria e prática. Consegui aplicar o conhecimento imediatamente no desenvolvimento de um aplicativo para minha comunidade. O suporte em crioulo haitiano fez toda a diferença para mim."
+                    </p>
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center text-white font-bold mr-4">
+                            RL
+                        </div>
+                        <div>
+                            <h5 class="font-bold text-gray-800">Robert Louis</h5>
+                            <p class="text-gray-500 text-sm">Empreendedor Tech</p>
                         </div>
                     </div>
                 </div>
@@ -129,15 +484,152 @@
     </div>
 </section>
 
-<!-- Call to Action -->
-<section class="py-5 bg-primary text-white">
-    <div class="container text-center">
-        <h2 class="fw-bold mb-3">Ready to Start Your Python Journey?</h2>
-        <p class="lead mb-4">Join thousands of students who have transformed their careers with our courses</p>
-        <div class="d-flex justify-content-center gap-3">
-            <a href="{% url 'course_list' %}" class="btn btn-light btn-lg">Browse Courses</a>
-            <a href="{% url 'contact' %}" class="btn btn-outline-light btn-lg">Contact Us</a>
+<!-- FAQ Section -->
+<section class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-12" data-aos="fade-up">
+            <h2 class="text-3xl font-bold text-gray-800 mb-4">Perguntas Frequentes</h2>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                Respostas para as dúvidas mais comuns sobre nossa plataforma e cursos
+            </p>
+            <div class="w-20 h-1 bg-primary mx-auto mt-6"></div>
+        </div>
+        
+        <div class="max-w-3xl mx-auto" data-aos="fade-up" data-aos-delay="100">
+            <div class="space-y-4">
+                <!-- FAQ Item 1 -->
+                <div class="border border-gray-200 rounded-lg overflow-hidden">
+                    <div class="bg-gray-50 px-4 py-3 flex justify-between items-center cursor-pointer faq-header">
+                        <h3 class="font-semibold text-gray-800">Preciso ter conhecimento prévio em programação?</h3>
+                        <i class="fas fa-chevron-down text-gray-600 transition-transform"></i>
+                    </div>
+                    <div class="faq-content hidden px-4 py-3">
+                        <p class="text-gray-600">
+                            Não, nossos cursos são projetados para atender a todos os níveis de experiência. Temos cursos específicos para iniciantes que não exigem conhecimento prévio em programação. Nossa metodologia passo a passo garante que você aprenda desde os conceitos mais básicos até os mais avançados.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- FAQ Item 2 -->
+                <div class="border border-gray-200 rounded-lg overflow-hidden">
+                    <div class="bg-gray-50 px-4 py-3 flex justify-between items-center cursor-pointer faq-header">
+                        <h3 class="font-semibold text-gray-800">Quanto tempo tenho acesso aos cursos após a compra?</h3>
+                        <i class="fas fa-chevron-down text-gray-600 transition-transform"></i>
+                    </div>
+                    <div class="faq-content hidden px-4 py-3">
+                        <p class="text-gray-600">
+                            Após a compra, você terá acesso vitalício ao curso, incluindo todas as atualizações futuras sem custo adicional. Isso significa que você pode aprender no seu próprio ritmo e revisitar o conteúdo sempre que precisar.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- FAQ Item 3 -->
+                <div class="border border-gray-200 rounded-lg overflow-hidden">
+                    <div class="bg-gray-50 px-4 py-3 flex justify-between items-center cursor-pointer faq-header">
+                        <h3 class="font-semibold text-gray-800">Os certificados são reconhecidos pelo mercado?</h3>
+                        <i class="fas fa-chevron-down text-gray-600 transition-transform"></i>
+                    </div>
+                    <div class="faq-content hidden px-4 py-3">
+                        <p class="text-gray-600">
+                            Sim, nossos certificados são reconhecidos pelo mercado e podem ser adicionados ao seu currículo e perfil do LinkedIn. Eles atestam suas habilidades e conhecimentos adquiridos, e são valorizados por empregadores que buscam profissionais com competências técnicas comprovadas.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- FAQ Item 4 -->
+                <div class="border border-gray-200 rounded-lg overflow-hidden">
+                    <div class="bg-gray-50 px-4 py-3 flex justify-between items-center cursor-pointer faq-header">
+                        <h3 class="font-semibold text-gray-800">Posso acessar os cursos pelo celular?</h3>
+                        <i class="fas fa-chevron-down text-gray-600 transition-transform"></i>
+                    </div>
+                    <div class="faq-content hidden px-4 py-3">
+                        <p class="text-gray-600">
+                            Sim, nossa plataforma é totalmente responsiva e otimizada para dispositivos móveis. Você pode acessar os cursos de qualquer lugar, a qualquer momento, usando seu smartphone, tablet ou computador, desde que tenha conexão com a internet.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- FAQ Item 5 -->
+                <div class="border border-gray-200 rounded-lg overflow-hidden">
+                    <div class="bg-gray-50 px-4 py-3 flex justify-between items-center cursor-pointer faq-header">
+                        <h3 class="font-semibold text-gray-800">Existe suporte para dúvidas durante o curso?</h3>
+                        <i class="fas fa-chevron-down text-gray-600 transition-transform"></i>
+                    </div>
+                    <div class="faq-content hidden px-4 py-3">
+                        <p class="text-gray-600">
+                            Sim, oferecemos suporte completo através dos comentários nas aulas e de nossa comunidade exclusiva. Nossos instrutores e a equipe de suporte estão sempre disponíveis para ajudar com suas dúvidas e desafios durante o aprendizado.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- FAQ Item 6 -->
+                <div class="border border-gray-200 rounded-lg overflow-hidden">
+                    <div class="bg-gray-50 px-4 py-3 flex justify-between items-center cursor-pointer faq-header">
+                        <h3 class="font-semibold text-gray-800">Vocês oferecem opções de pagamento flexíveis?</h3>
+                        <i class="fas fa-chevron-down text-gray-600 transition-transform"></i>
+                    </div>
+                    <div class="faq-content hidden px-4 py-3">
+                        <p class="text-gray-600">
+                            Sim, oferecemos diversas opções de pagamento, incluindo cartão de crédito, transferência bancária, MonCash, Lajan Cash e até mesmo pagamento em dinheiro em nossos pontos de coleta. Também disponibilizamos planos de parcelamento para facilitar o acesso aos nossos cursos.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-16 bg-gradient-to-r from-primary to-primary-light text-white">
+    <div class="container mx-auto px-4">
+        <div class="max-w-3xl mx-auto text-center" data-aos="fade-up">
+            <h2 class="text-3xl font-bold mb-6">Pronto para Iniciar sua Jornada?</h2>
+            <p class="text-xl opacity-90 mb-8">
+                Junte-se a milhares de estudantes que estão transformando suas carreiras com a PythonLearn
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+                <a href="{% url 'course_list' %}" class="btn-gradient bg-gradient-to-r from-secondary to-yellow-400 text-primary font-semibold px-8 py-3 rounded-full shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1 text-center">
+                    Explorar Cursos
+                </a>
+                <a href="{% url 'contact' %}" class="bg-white bg-opacity-20 hover:bg-opacity-30 text-white font-semibold px-8 py-3 rounded-full transition-all text-center">
+                    Fale Conosco
+                </a>
+            </div>
         </div>
     </div>
 </section>
 {% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // FAQ Accordions
+        const faqHeaders = document.querySelectorAll('.faq-header');
+        faqHeaders.forEach(header => {
+            header.addEventListener('click', function() {
+                const content = header.nextElementSibling;
+                const icon = header.querySelector('i');
+                
+                if (content.classList.contains('hidden')) {
+                    content.classList.remove('hidden');
+                    content.style.maxHeight = content.scrollHeight + 'px';
+                    icon.classList.add('transform', 'rotate-180');
+                } else {
+                    content.classList.add('hidden');
+                    content.style.maxHeight = null;
+                    icon.classList.remove('transform', 'rotate-180');
+                }
+            });
+        });
+        
+        // Initialize AOS if available
+        if (typeof AOS !== 'undefined') {
+            AOS.init({
+                duration: 800,
+                once: true
+            });
+        }
+    });
+</script>
+{% endblock %}
+

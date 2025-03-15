@@ -1,122 +1,168 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}My Courses | PythonLearn{% endblock %}
+{% block title %}Meus Cursos | PythonLearn{% endblock %}
 
 {% block content %}
-<div class="container py-5">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1 class="mb-0">My Courses</h1>
-        <a href="{% url 'course_list' %}" class="btn btn-primary">
-            <i class="fas fa-plus me-2"></i>Find New Courses
-        </a>
-    </div>
+<div class="bg-gray-50 min-h-screen py-12">
+    <div class="container mx-auto px-4">
+        <!-- Cabeçalho da página -->
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8" data-aos="fade-up">
+            <div class="mb-4 md:mb-0">
+                <h1 class="text-3xl font-bold text-gray-800">Meus Cursos</h1>
+                <p class="text-gray-600 mt-1">Gerencie e continue seu aprendizado</p>
+            </div>
+            <a href="{% url 'course_list' %}" class="btn-gradient bg-gradient-to-r from-primary to-primary-light text-white font-semibold px-6 py-3 rounded-lg shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5">
+                <i class="fas fa-plus mr-2"></i>Explorar Novos Cursos
+            </a>
+        </div>
 
-    <!-- Tabs for filtering courses -->
-    <ul class="nav nav-tabs mb-4" id="coursesTabs" role="tablist">
-        <li class="nav-item" role="presentation">
-            <button class="nav-link active" id="all-tab" data-bs-toggle="tab" data-bs-target="#all-courses" type="button" role="tab" aria-controls="all-courses" aria-selected="true">
-                All Courses
-            </button>
-        </li>
-        <li class="nav-item" role="presentation">
-            <button class="nav-link" id="in-progress-tab" data-bs-toggle="tab" data-bs-target="#in-progress" type="button" role="tab" aria-controls="in-progress" aria-selected="false">
-                In Progress
-            </button>
-        </li>
-        <li class="nav-item" role="presentation">
-            <button class="nav-link" id="completed-tab" data-bs-toggle="tab" data-bs-target="#completed" type="button" role="tab" aria-controls="completed" aria-selected="false">
-                Completed
-            </button>
-        </li>
-    </ul>
+        <!-- Tabs para filtrar cursos -->
+        <div class="bg-white rounded-xl shadow-md overflow-hidden mb-8" data-aos="fade-up" data-aos-delay="100">
+            <div class="border-b border-gray-200">
+                <nav class="flex overflow-x-auto" aria-label="Tabs">
+                    <button class="tab-button text-gray-600 py-4 px-6 block hover:text-primary border-b-2 border-transparent font-medium whitespace-nowrap active" id="all-tab" data-tab="all-courses">
+                        <i class="fas fa-th-large mr-2"></i>Todos os Cursos
+                    </button>
+                    <button class="tab-button text-gray-600 py-4 px-6 block hover:text-primary border-b-2 border-transparent font-medium whitespace-nowrap" id="in-progress-tab" data-tab="in-progress">
+                        <i class="fas fa-spinner mr-2"></i>Em Progresso
+                    </button>
+                    <button class="tab-button text-gray-600 py-4 px-6 block hover:text-primary border-b-2 border-transparent font-medium whitespace-nowrap" id="completed-tab" data-tab="completed">
+                        <i class="fas fa-check-circle mr-2"></i>Concluídos
+                    </button>
+                </nav>
+            </div>
+        </div>
 
-    <div class="tab-content" id="coursesTabContent">
-        <!-- All Courses Tab -->
-        <div class="tab-pane fade show active" id="all-courses" role="tabpanel" aria-labelledby="all-tab">
+        <div class="tab-content" id="all-courses">
             {% if courses_with_progress %}
-            <div class="row g-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {% for course_data in courses_with_progress %}
-                <div class="col-md-6 col-lg-4">
-                    <div class="card h-100 border-0 shadow-sm">
-                        <img src="{{ course_data.enrollment.course.thumbnail.url }}" class="card-img-top" alt="{{ course_data.enrollment.course.title }}">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-center mb-2">
-                                <span class="badge bg-primary">{{ course_data.enrollment.course.get_level_display }}</span>
-                                {% if course_data.progress == 100 %}
-                                <span class="badge bg-success">Completed</span>
-                                {% else %}
-                                <span class="text-muted"><i class="far fa-clock me-1"></i>{{ course_data.enrollment.course.duration_in_weeks }} weeks</span>
-                                {% endif %}
+                <div class="bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg transform hover:-translate-y-1" data-aos="fade-up" data-aos-delay="{{ forloop.counter|add:'100' }}">
+                    <!-- Imagem do curso com overlay de progresso -->
+                    <div class="relative">
+                        <img src="{{ course_data.enrollment.course.thumbnail.url }}" class="w-full h-48 object-cover" alt="{{ course_data.enrollment.course.title }}">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end">
+                            <div class="p-4 w-full">
+                                <div class="flex justify-between items-center text-white mb-1">
+                                    <span class="font-medium">Progresso</span>
+                                    <span class="font-bold">{{ course_data.progress }}%</span>
+                                </div>
+                                <div class="w-full bg-gray-300 bg-opacity-40 rounded-full h-2">
+                                    <div class="h-2 rounded-full {% if course_data.progress == 100 %}bg-green-500{% else %}bg-primary{% endif %}" style="width: {{ course_data.progress }}%"></div>
+                                </div>
                             </div>
-                            <h5 class="card-title">{{ course_data.enrollment.course.title }}</h5>
-                            <p class="card-text text-muted">{{ course_data.enrollment.course.short_description|truncatechars:100 }}</p>
-                            
-                            <!-- Progress Bar -->
-                            <div class="progress mt-3 mb-2">
-                                <div class="progress-bar {% if course_data.progress == 100 %}bg-success{% endif %}" role="progressbar" style="width: {{ course_data.progress }}%;" aria-valuenow="{{ course_data.progress }}" aria-valuemin="0" aria-valuemax="100">{{ course_data.progress }}%</div>
+                        </div>
+                        <!-- Badge de nível -->
+                        <div class="absolute top-4 left-4">
+                            <span class="px-3 py-1 bg-primary text-white text-xs font-semibold rounded-full shadow-md">
+                                {{ course_data.enrollment.course.get_level_display }}
+                            </span>
+                        </div>
+                        <!-- Badge de conclusão (se aplicável) -->
+                        {% if course_data.progress == 100 %}
+                        <div class="absolute top-4 right-4">
+                            <span class="px-3 py-1 bg-green-500 text-white text-xs font-semibold rounded-full shadow-md flex items-center">
+                                <i class="fas fa-check-circle mr-1"></i> Concluído
+                            </span>
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2 line-clamp-2">{{ course_data.enrollment.course.title }}</h3>
+                        <p class="text-gray-600 text-sm mb-4 line-clamp-2">{{ course_data.enrollment.course.short_description }}</p>
+                        
+                        <div class="flex items-center text-sm text-gray-500 mb-4">
+                            <div class="flex items-center mr-4">
+                                <i class="far fa-clock mr-1 text-primary"></i>
+                                <span>{{ course_data.enrollment.course.duration_in_weeks }} semanas</span>
                             </div>
-                            
                             {% if course_data.last_accessed %}
-                            <p class="text-muted small mb-0">Last accessed: {{ course_data.last_accessed|date:"M d, Y" }}</p>
+                            <div class="flex items-center">
+                                <i class="far fa-calendar-alt mr-1 text-primary"></i>
+                                <span>{{ course_data.last_accessed|date:"d M, Y" }}</span>
+                            </div>
                             {% endif %}
                         </div>
-                        <div class="card-footer bg-white border-0">
-                            <a href="{% url 'course_learn' slug=course_data.enrollment.course.slug %}" class="btn btn-primary w-100">
-                                {% if course_data.progress == 0 %}
-                                Start Course
-                                {% elif course_data.progress == 100 %}
-                                Review Course
-                                {% else %}
-                                Continue Learning
-                                {% endif %}
-                            </a>
-                        </div>
+                        
+                        <a href="{% url 'course_learn' slug=course_data.enrollment.course.slug %}" class="block w-full text-center py-3 px-4 bg-primary hover:bg-primary-dark text-white font-semibold rounded-lg transition-colors">
+                            {% if course_data.progress == 0 %}
+                            <i class="fas fa-play mr-2"></i>Iniciar Curso
+                            {% elif course_data.progress == 100 %}
+                            <i class="fas fa-redo mr-2"></i>Revisar Curso
+                            {% else %}
+                            <i class="fas fa-book-reader mr-2"></i>Continuar Aprendendo
+                            {% endif %}
+                        </a>
                     </div>
                 </div>
                 {% endfor %}
             </div>
             {% else %}
-            <div class="card border-0 shadow-sm">
-                <div class="card-body p-5 text-center">
-                    <i class="fas fa-book fa-3x text-muted mb-3"></i>
-                    <h3>You haven't enrolled in any courses yet</h3>
-                    <p class="text-muted mb-4">Explore our course catalog to find the perfect course for you.</p>
-                    <a href="{% url 'course_list' %}" class="btn btn-primary btn-lg">Browse Courses</a>
+            <div class="bg-white rounded-xl shadow-md overflow-hidden" data-aos="fade-up">
+                <div class="p-8 text-center">
+                    <div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-book text-gray-400 text-4xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-2">Você ainda não se inscreveu em nenhum curso</h3>
+                    <p class="text-gray-600 mb-6 max-w-md mx-auto">Explore nosso catálogo de cursos para encontrar o curso perfeito para você e comece sua jornada de aprendizado.</p>
+                    <a href="{% url 'course_list' %}" class="inline-block py-3 px-6 bg-primary hover:bg-primary-dark text-white font-semibold rounded-lg transition-colors">
+                        <i class="fas fa-search mr-2"></i>Explorar Cursos
+                    </a>
                 </div>
             </div>
             {% endif %}
         </div>
         
-        <!-- In Progress Tab -->
-        <div class="tab-pane fade" id="in-progress" role="tabpanel" aria-labelledby="in-progress-tab">
+        <div class="tab-content hidden" id="in-progress">
             {% if courses_with_progress %}
-            <div class="row g-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {% for course_data in courses_with_progress %}
                 {% if course_data.progress > 0 and course_data.progress < 100 %}
-                <div class="col-md-6 col-lg-4">
-                    <div class="card h-100 border-0 shadow-sm">
-                        <img src="{{ course_data.enrollment.course.thumbnail.url }}" class="card-img-top" alt="{{ course_data.enrollment.course.title }}">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-center mb-2">
-                                <span class="badge bg-primary">{{ course_data.enrollment.course.get_level_display }}</span>
-                                <span class="text-muted"><i class="far fa-clock me-1"></i>{{ course_data.enrollment.course.duration_in_weeks }} weeks</span>
+                <div class="bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg transform hover:-translate-y-1" data-aos="fade-up" data-aos-delay="{{ forloop.counter|add:'100' }}">
+                    <!-- Imagem do curso com overlay de progresso -->
+                    <div class="relative">
+                        <img src="{{ course_data.enrollment.course.thumbnail.url }}" class="w-full h-48 object-cover" alt="{{ course_data.enrollment.course.title }}">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end">
+                            <div class="p-4 w-full">
+                                <div class="flex justify-between items-center text-white mb-1">
+                                    <span class="font-medium">Progresso</span>
+                                    <span class="font-bold">{{ course_data.progress }}%</span>
+                                </div>
+                                <div class="w-full bg-gray-300 bg-opacity-40 rounded-full h-2">
+                                    <div class="h-2 rounded-full bg-primary" style="width: {{ course_data.progress }}%"></div>
+                                </div>
                             </div>
-                            <h5 class="card-title">{{ course_data.enrollment.course.title }}</h5>
-                            <p class="card-text text-muted">{{ course_data.enrollment.course.short_description|truncatechars:100 }}</p>
-                            
-                            <!-- Progress Bar -->
-                            <div class="progress mt-3 mb-2">
-                                <div class="progress-bar" role="progressbar" style="width: {{ course_data.progress }}%;" aria-valuenow="{{ course_data.progress }}" aria-valuemin="0" aria-valuemax="100">{{ course_data.progress }}%</div>
+                        </div>
+                        <!-- Badge de nível -->
+                        <div class="absolute top-4 left-4">
+                            <span class="px-3 py-1 bg-primary text-white text-xs font-semibold rounded-full shadow-md">
+                                {{ course_data.enrollment.course.get_level_display }}
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2 line-clamp-2">{{ course_data.enrollment.course.title }}</h3>
+                        <p class="text-gray-600 text-sm mb-4 line-clamp-2">{{ course_data.enrollment.course.short_description }}</p>
+                        
+                        <div class="flex items-center text-sm text-gray-500 mb-4">
+                            <div class="flex items-center mr-4">
+                                <i class="far fa-clock mr-1 text-primary"></i>
+                                <span>{{ course_data.enrollment.course.duration_in_weeks }} semanas</span>
                             </div>
-                            
                             {% if course_data.last_accessed %}
-                            <p class="text-muted small mb-0">Last accessed: {{ course_data.last_accessed|date:"M d, Y" }}</p>
+                            <div class="flex items-center">
+                                <i class="far fa-calendar-alt mr-1 text-primary"></i>
+                                <span>{{ course_data.last_accessed|date:"d M, Y" }}</span>
+                            </div>
                             {% endif %}
                         </div>
-                        <div class="card-footer bg-white border-0">
-                            <a href="{% url 'course_learn' slug=course_data.enrollment.course.slug %}" class="btn btn-primary w-100">Continue Learning</a>
-                        </div>
+                        
+                        <a href="{% url 'course_learn' slug=course_data.enrollment.course.slug %}" class="block w-full text-center py-3 px-4 bg-primary hover:bg-primary-dark text-white font-semibold rounded-lg transition-colors">
+                            <i class="fas fa-book-reader mr-2"></i>Continuar Aprendendo
+                        </a>
                     </div>
                 </div>
                 {% endif %}
@@ -124,64 +170,103 @@
             </div>
             
             {% if not in_progress_exists %}
-            <div class="card border-0 shadow-sm">
-                <div class="card-body p-5 text-center">
-                    <i class="fas fa-tasks fa-3x text-muted mb-3"></i>
-                    <h3>No courses in progress</h3>
-                    <p class="text-muted mb-4">You don't have any courses that you've started but not completed.</p>
-                    <div class="d-flex justify-content-center gap-3">
-                        <a href="{% url 'course_list' %}" class="btn btn-primary">Browse Courses</a>
-                        <a href="#all-courses" class="btn btn-outline-primary" data-bs-toggle="tab" data-bs-target="#all-courses">View All Courses</a>
+            <div class="bg-white rounded-xl shadow-md overflow-hidden" data-aos="fade-up">
+                <div class="p-8 text-center">
+                    <div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-tasks text-gray-400 text-4xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-2">Nenhum curso em progresso</h3>
+                    <p class="text-gray-600 mb-6 max-w-md mx-auto">Você não tem nenhum curso que tenha começado mas ainda não concluiu.</p>
+                    <div class="flex flex-col sm:flex-row justify-center gap-3">
+                        <a href="{% url 'course_list' %}" class="py-3 px-6 bg-primary hover:bg-primary-dark text-white font-semibold rounded-lg transition-colors">
+                            <i class="fas fa-search mr-2"></i>Explorar Cursos
+                        </a>
+                        <button class="py-3 px-6 bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 font-semibold rounded-lg transition-colors" data-tab="all-courses">
+                            <i class="fas fa-th-large mr-2"></i>Ver Todos os Cursos
+                        </button>
                     </div>
                 </div>
             </div>
             {% endif %}
             {% else %}
-            <div class="card border-0 shadow-sm">
-                <div class="card-body p-5 text-center">
-                    <i class="fas fa-tasks fa-3x text-muted mb-3"></i>
-                    <h3>No courses in progress</h3>
-                    <p class="text-muted mb-4">You don't have any courses that you've started but not completed.</p>
-                    <div class="d-flex justify-content-center gap-3">
-                        <a href="{% url 'course_list' %}" class="btn btn-primary">Browse Courses</a>
-                        <a href="#all-courses" class="btn btn-outline-primary" data-bs-toggle="tab" data-bs-target="#all-courses">View All Courses</a>
+            <div class="bg-white rounded-xl shadow-md overflow-hidden" data-aos="fade-up">
+                <div class="p-8 text-center">
+                    <div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-tasks text-gray-400 text-4xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-2">Nenhum curso em progresso</h3>
+                    <p class="text-gray-600 mb-6 max-w-md mx-auto">Você não tem nenhum curso que tenha começado mas ainda não concluiu.</p>
+                    <div class="flex flex-col sm:flex-row justify-center gap-3">
+                        <a href="{% url 'course_list' %}" class="py-3 px-6 bg-primary hover:bg-primary-dark text-white font-semibold rounded-lg transition-colors">
+                            <i class="fas fa-search mr-2"></i>Explorar Cursos
+                        </a>
+                        <button class="py-3 px-6 bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 font-semibold rounded-lg transition-colors" data-tab="all-courses">
+                            <i class="fas fa-th-large mr-2"></i>Ver Todos os Cursos
+                        </button>
                     </div>
                 </div>
             </div>
             {% endif %}
         </div>
         
-        <!-- Completed Tab -->
-        <div class="tab-pane fade" id="completed" role="tabpanel" aria-labelledby="completed-tab">
+        <div class="tab-content hidden" id="completed">
             {% if courses_with_progress %}
-            <div class="row g-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {% for course_data in courses_with_progress %}
                 {% if course_data.progress == 100 %}
-                <div class="col-md-6 col-lg-4">
-                    <div class="card h-100 border-0 shadow-sm">
-                        <div class="card-img-overlay d-flex align-items-start justify-content-end">
-                            <span class="badge bg-success"><i class="fas fa-check-circle me-1"></i> Completed</span>
+                <div class="bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg transform hover:-translate-y-1" data-aos="fade-up" data-aos-delay="{{ forloop.counter|add:'100' }}">
+                    <!-- Imagem do curso com overlay de conclusão -->
+                    <div class="relative">
+                        <img src="{{ course_data.enrollment.course.thumbnail.url }}" class="w-full h-48 object-cover" alt="{{ course_data.enrollment.course.title }}">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end">
+                            <div class="p-4 w-full">
+                                <div class="flex justify-between items-center text-white mb-1">
+                                    <span class="font-medium">Concluído</span>
+                                    <span class="font-bold">100%</span>
+                                </div>
+                                <div class="w-full bg-gray-300 bg-opacity-40 rounded-full h-2">
+                                    <div class="h-2 rounded-full bg-green-500" style="width: 100%"></div>
+                                </div>
+                            </div>
                         </div>
-                        <img src="{{ course_data.enrollment.course.thumbnail.url }}" class="card-img-top" alt="{{ course_data.enrollment.course.title }}">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-center mb-2">
-                                <span class="badge bg-primary">{{ course_data.enrollment.course.get_level_display }}</span>
-                                <span class="text-muted"><i class="far fa-clock me-1"></i>{{ course_data.enrollment.course.duration_in_weeks }} weeks</span>
+                        <!-- Badge de nível -->
+                        <div class="absolute top-4 left-4">
+                            <span class="px-3 py-1 bg-primary text-white text-xs font-semibold rounded-full shadow-md">
+                                {{ course_data.enrollment.course.get_level_display }}
+                            </span>
+                        </div>
+                        <!-- Badge de conclusão -->
+                        <div class="absolute top-4 right-4">
+                            <span class="px-3 py-1 bg-green-500 text-white text-xs font-semibold rounded-full shadow-md flex items-center">
+                                <i class="fas fa-check-circle mr-1"></i> Concluído
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2 line-clamp-2">{{ course_data.enrollment.course.title }}</h3>
+                        <p class="text-gray-600 text-sm mb-4 line-clamp-2">{{ course_data.enrollment.course.short_description }}</p>
+                        
+                        <div class="flex items-center text-sm text-gray-500 mb-4">
+                            <div class="flex items-center mr-4">
+                                <i class="far fa-clock mr-1 text-primary"></i>
+                                <span>{{ course_data.enrollment.course.duration_in_weeks }} semanas</span>
                             </div>
-                            <h5 class="card-title">{{ course_data.enrollment.course.title }}</h5>
-                            <p class="card-text text-muted">{{ course_data.enrollment.course.short_description|truncatechars:100 }}</p>
-                            
-                            <!-- Progress Bar -->
-                            <div class="progress mt-3 mb-2">
-                                <div class="progress-bar bg-success" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">100%</div>
-                            </div>
-                            
                             {% if course_data.last_accessed %}
-                            <p class="text-muted small mb-0">Completed on: {{ course_data.last_accessed|date:"M d, Y" }}</p>
+                            <div class="flex items-center">
+                                <i class="fas fa-trophy mr-1 text-green-500"></i>
+                                <span>Concluído em {{ course_data.last_accessed|date:"d M, Y" }}</span>
+                            </div>
                             {% endif %}
                         </div>
-                        <div class="card-footer bg-white border-0">
-                            <a href="{% url 'course_learn' slug=course_data.enrollment.course.slug %}" class="btn btn-outline-primary w-100">Review Course</a>
+                        
+                        <div class="flex flex-col sm:flex-row gap-2">
+                            <a href="{% url 'course_learn' slug=course_data.enrollment.course.slug %}" class="flex-1 text-center py-3 px-4 bg-primary hover:bg-primary-dark text-white font-semibold rounded-lg transition-colors">
+                                <i class="fas fa-redo mr-2"></i>Revisar
+                            </a>
+                            <a href="{% url 'course_certificate' course_slug=course_data.enrollment.course.slug %}" class="flex-1 text-center py-3 px-4 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-lg transition-colors">
+                                <i class="fas fa-certificate mr-2"></i>Certificado
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -190,27 +275,39 @@
             </div>
             
             {% if not completed_exists %}
-            <div class="card border-0 shadow-sm">
-                <div class="card-body p-5 text-center">
-                    <i class="fas fa-trophy fa-3x text-muted mb-3"></i>
-                    <h3>No completed courses yet</h3>
-                    <p class="text-muted mb-4">Keep learning to complete your courses and earn certificates!</p>
-                    <div class="d-flex justify-content-center gap-3">
-                        <a href="{% url 'course_list' %}" class="btn btn-primary">Browse Courses</a>
-                        <a href="#in-progress" class="btn btn-outline-primary" data-bs-toggle="tab" data-bs-target="#in-progress">View In Progress</a>
+            <div class="bg-white rounded-xl shadow-md overflow-hidden" data-aos="fade-up">
+                <div class="p-8 text-center">
+                    <div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-trophy text-gray-400 text-4xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-2">Nenhum curso concluído ainda</h3>
+                    <p class="text-gray-600 mb-6 max-w-md mx-auto">Continue aprendendo para concluir seus cursos e ganhar certificados!</p>
+                    <div class="flex flex-col sm:flex-row justify-center gap-3">
+                        <a href="{% url 'course_list' %}" class="py-3 px-6 bg-primary hover:bg-primary-dark text-white font-semibold rounded-lg transition-colors">
+                            <i class="fas fa-search mr-2"></i>Explorar Cursos
+                        </a>
+                        <button class="py-3 px-6 bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 font-semibold rounded-lg transition-colors" data-tab="in-progress">
+                            <i class="fas fa-spinner mr-2"></i>Ver Em Progresso
+                        </button>
                     </div>
                 </div>
             </div>
             {% endif %}
             {% else %}
-            <div class="card border-0 shadow-sm">
-                <div class="card-body p-5 text-center">
-                    <i class="fas fa-trophy fa-3x text-muted mb-3"></i>
-                    <h3>No completed courses yet</h3>
-                    <p class="text-muted mb-4">Keep learning to complete your courses and earn certificates!</p>
-                    <div class="d-flex justify-content-center gap-3">
-                        <a href="{% url 'course_list' %}" class="btn btn-primary">Browse Courses</a>
-                        <a href="#in-progress" class="btn btn-outline-primary" data-bs-toggle="tab" data-bs-target="#in-progress">View In Progress</a>
+            <div class="bg-white rounded-xl shadow-md overflow-hidden" data-aos="fade-up">
+                <div class="p-8 text-center">
+                    <div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-trophy text-gray-400 text-4xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-2">Nenhum curso concluído ainda</h3>
+                    <p class="text-gray-600 mb-6 max-w-md mx-auto">Continue aprendendo para concluir seus cursos e ganhar certificados!</p>
+                    <div class="flex flex-col sm:flex-row justify-center gap-3">
+                        <a href="{% url 'course_list' %}" class="py-3 px-6 bg-primary hover:bg-primary-dark text-white font-semibold rounded-lg transition-colors">
+                            <i class="fas fa-search mr-2"></i>Explorar Cursos
+                        </a>
+                        <button class="py-3 px-6 bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 font-semibold rounded-lg transition-colors" data-tab="in-progress">
+                            <i class="fas fa-spinner mr-2"></i>Ver Em Progresso
+                        </button>
                     </div>
                 </div>
             </div>
@@ -222,24 +319,70 @@
 {% block extra_js %}
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Get the tab from URL hash or default to 'all'
-        const hash = window.location.hash || '#all-courses';
-        const tab = document.querySelector(`[data-bs-target="${hash}"]`);
+        // Gerenciamento de abas
+        const tabButtons = document.querySelectorAll('.tab-button');
+        const tabContents = document.querySelectorAll('.tab-content');
         
-        // Activate the tab if it exists
-        if (tab) {
-            const tabInstance = new bootstrap.Tab(tab);
-            tabInstance.show();
+        // Função para ativar uma aba
+        function activateTab(tabId) {
+            // Desativar todas as abas
+            tabButtons.forEach(button => {
+                button.classList.remove('active', 'text-primary', 'border-primary');
+                button.classList.add('text-gray-600', 'border-transparent');
+            });
+            
+            tabContents.forEach(content => {
+                content.classList.add('hidden');
+            });
+            
+            // Ativar a aba selecionada
+            const selectedButton = document.querySelector(`[data-tab="${tabId}"]`);
+            if (selectedButton) {
+                selectedButton.classList.add('active', 'text-primary', 'border-primary');
+                selectedButton.classList.remove('text-gray-600', 'border-transparent');
+            }
+            
+            const selectedContent = document.getElementById(tabId);
+            if (selectedContent) {
+                selectedContent.classList.remove('hidden');
+            }
+            
+            // Atualizar a URL com o hash
+            window.location.hash = tabId;
         }
         
-        // Update URL hash when tab changes
-        const tabs = document.querySelectorAll('[data-bs-toggle="tab"]');
-        tabs.forEach(tab => {
-            tab.addEventListener('shown.bs.tab', function(event) {
-                const target = event.target.getAttribute('data-bs-target');
-                window.location.hash = target;
+        // Adicionar event listeners aos botões de aba
+        tabButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const tabId = this.getAttribute('data-tab');
+                activateTab(tabId);
             });
         });
+        
+        // Adicionar event listeners aos botões dentro do conteúdo
+        document.querySelectorAll('[data-tab]').forEach(element => {
+            element.addEventListener('click', function() {
+                const tabId = this.getAttribute('data-tab');
+                activateTab(tabId);
+                
+                // Rolar para o topo se for um botão dentro do conteúdo
+                if (!this.classList.contains('tab-button')) {
+                    window.scrollTo({top: 0, behavior: 'smooth'});
+                }
+            });
+        });
+        
+        // Verificar se há um hash na URL
+        const hash = window.location.hash.substring(1) || 'all-courses';
+        activateTab(hash);
+        
+        // Adicionar animações AOS
+        if (typeof AOS !== 'undefined') {
+            AOS.init({
+                duration: 800,
+                once: true
+            });
+        }
     });
 </script>
 {% endblock %}

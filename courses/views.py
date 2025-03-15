@@ -184,6 +184,7 @@ def mark_lesson_complete(request, lesson_id):
         
         progress.save()
         
+        # verificar 
         return JsonResponse({'success': True, 'progress': new_progress})
     
     return JsonResponse({'success': False}, status=400)
@@ -273,3 +274,57 @@ def take_quiz_view(request, quiz_id):
     }
     
     return render(request, 'courses/take_quiz.html', context)
+
+
+# Adicione estas importações no topo do arquivo
+from .utils import create_certificate
+from .models import Certificate
+
+
+# Adicione esta view para gerar e exibir o certificado
+@login_required
+def certificate_view(request, course_slug):
+    """View for generating and displaying a certificate"""
+    course = get_object_or_404(Course, slug=course_slug)
+    
+    # Check if user is enrolled and has completed the course
+    enrollment = get_object_or_404(Enrollment, user=request.user, course=course)
+    progress = get_object_or_404(UserProgress, user=request.user, course=course)
+    
+    if progress.progress_percentage < 100:
+        messages.error(request, "Você precisa concluir 100% do curso para obter o certificado.")
+        return redirect('course_learn', slug=course_slug)
+    
+    # Get or create certificate
+    try:
+        certificate = Certificate.objects.get(user=request.user, course=course)
+    except Certificate.DoesNotExist:
+        certificate = create_certificate(request.user, course)
+    
+    context = {
+        'certificate': certificate,
+        'course': course
+    }
+    
+    return render(request, 'courses/certificate.html', context)
+
+# Adicione esta view para verificar certificados
+def verify_certificate_view(request):
+    """View for verifying certificate authenticity"""
+    certificate_number = request.GET.get('certificate_number')
+    certificate = None
+    
+    if certificate_number:
+        try:
+            certificate = Certificate.objects.get(certificate_number=certificate_number)
+        except Certificate.DoesNotExist:
+            pass
+    
+    context = {
+        'certificate_number': certificate_number,
+        'certificate': certificate
+    }
+    
+    return render(request, 'courses/verify_certificate.html', context)
+
+

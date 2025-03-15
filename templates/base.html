@@ -5,70 +5,243 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Python Course Platform{% endblock %}</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            DEFAULT: '#003b71',
+                            dark: '#002a50',
+                            light: '#0077c8',
+                        },
+                        secondary: {
+                            DEFAULT: '#ffcc29',
+                            dark: '#e6b800',
+                        },
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+        /* Animações personalizadas */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        /* Efeito de destaque para links do menu */
+        .nav-link {
+            position: relative;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: #ffcc29;
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after, .nav-link.active::after {
+            width: 100%;
+        }
+        
+        /* Efeito de gradiente para botões */
+        .btn-gradient {
+            background-size: 200% auto;
+            transition: 0.5s;
+        }
+        .btn-gradient:hover {
+            background-position: right center;
+        }
+        
+        /* Efeito de destaque para cards */
+        .course-card {
+            transition: all 0.3s ease;
+        }
+        .course-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+    </style>
     {% block extra_css %}{% endblock %}
 </head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-            <div class="container">
-                <a class="navbar-brand" href="{% url 'home' %}">
-                    <i class="fab fa-python me-2"></i>PythonLearn
+<body class="min-h-screen flex flex-col bg-gray-50">
+    <!-- Header com Tailwind CSS e efeitos modernos -->
+    <header class="bg-primary shadow-lg relative z-10">
+        <!-- Barra superior com informações de contato -->
+        <div class="bg-primary-dark py-2 px-4 hidden md:block">
+            <div class="container mx-auto flex justify-between items-center text-white text-sm">
+                <div class="flex items-center space-x-4">
+                    <a href="mailto:info@pythonlearn.com" class="flex items-center hover:text-secondary transition-colors">
+                        <i class="fas fa-envelope mr-2"></i> info@pythonlearn.com
+                    </a>
+                    <a href="tel:+1234567890" class="flex items-center hover:text-secondary transition-colors">
+                        <i class="fas fa-phone-alt mr-2"></i> (123) 456-7890
+                    </a>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <a href="#" class="hover:text-secondary transition-colors" aria-label="Facebook">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="hover:text-secondary transition-colors" aria-label="Twitter">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="hover:text-secondary transition-colors" aria-label="LinkedIn">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a href="#" class="hover:text-secondary transition-colors" aria-label="GitHub">
+                        <i class="fab fa-github"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Navegação principal -->
+        <nav class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <!-- Logo -->
+                <a href="{% url 'home' %}" class="flex items-center group" data-aos="fade-right">
+                    <img src="https://sjc.microlink.io/1-0QP2V6Sf32bw-2allIIFtjEzDZcWATj9ddDzW-Eaj1paoHQCMX8A7yw3uOyZjGB68RuS3O4WPEkWQbf9bQxQ.jpeg" alt="PythonLearn Logo" class="h-10 mr-2 group-hover:animate-float">
+                    <span class="text-white font-bold text-2xl">Python<span class="text-secondary">Learn</span></span>
                 </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav me-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'home' %}">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'course_list' %}">Courses</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'about' %}">About</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'contact' %}">Contact</a>
-                        </li>
-                    </ul>
-                    <div class="d-flex">
-                        {% if user.is_authenticated %}
-                            <div class="dropdown">
-                                <button class="btn btn-outline-light dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown">
-                                    <i class="fas fa-user me-1"></i>{{ user.username }}
-                                </button>
-                                <ul class="dropdown-menu dropdown-menu-end">
-                                    <li><a class="dropdown-item" href="{% url 'dashboard' %}">Dashboard</a></li>
-                                    <li><a class="dropdown-item" href="{% url 'profile' %}">Profile</a></li>
-                                    <li><a class="dropdown-item" href="{% url 'my_courses' %}">My Courses</a></li>
-                                    {% if user.user_type == 'instructor' %}
-                                        <li><a class="dropdown-item" href="{% url 'instructor_dashboard' %}">Instructor Dashboard</a></li>
-                                    {% endif %}
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
-                                </ul>
+                
+                <!-- Links de navegação para desktop -->
+                <div class="hidden md:flex items-center space-x-8" data-aos="fade-down" data-aos-delay="100">
+                    <a href="{% url 'home' %}" class="nav-link text-white hover:text-secondary transition-colors {% if request.path == '/' %}active{% endif %}">Home</a>
+                    <a href="{% url 'course_list' %}" class="nav-link text-white hover:text-secondary transition-colors {% if '/courses/' in request.path %}active{% endif %}">Courses</a>
+                    <a href="{% url 'about' %}" class="nav-link text-white hover:text-secondary transition-colors {% if '/about/' in request.path %}active{% endif %}">About</a>
+                    <a href="{% url 'contact' %}" class="nav-link text-white hover:text-secondary transition-colors {% if '/contact/' in request.path %}active{% endif %}">Contact</a>
+                </div>
+                
+                <!-- Botões de autenticação para desktop -->
+                <div class="hidden md:flex items-center space-x-4" data-aos="fade-left">
+                    {% if user.is_authenticated %}
+                        <div class="relative" x-data="{ open: false }">
+                            <button @click="open = !open" class="flex items-center bg-secondary hover:bg-secondary-dark text-primary font-semibold px-4 py-2 rounded-full transition-all shadow-md hover:shadow-lg">
+                                <i class="fas fa-user-circle mr-2"></i>
+                                <span>{{ user.username }}</span>
+                                <i class="fas fa-chevron-down ml-2 text-xs"></i>
+                            </button>
+                            <div x-show="open" @click.away="open = false" class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl py-2 z-20" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 transform scale-95" x-transition:enter-end="opacity-100 transform scale-100">
+                                <a href="{% url 'dashboard' %}" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">
+                                    <i class="fas fa-tachometer-alt mr-2 text-primary"></i> Dashboard
+                                </a>
+                                <a href="{% url 'profile' %}" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">
+                                    <i class="fas fa-user-circle mr-2 text-primary"></i> Profile
+                                </a>
+                                <a href="{% url 'my_courses' %}" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">
+                                    <i class="fas fa-graduation-cap mr-2 text-primary"></i> My Courses
+                                </a>
+                                {% if user.user_type == 'instructor' %}
+                                    <a href="{% url 'instructor_dashboard' %}" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">
+                                        <i class="fas fa-chalkboard-teacher mr-2 text-primary"></i> Instructor Dashboard
+                                    </a>
+                                {% endif %}
+                                <div class="border-t border-gray-200 my-1"></div>
+                                <a href="{% url 'logout' %}" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">
+                                    <i class="fas fa-sign-out-alt mr-2 text-primary"></i> Logout
+                                </a>
                             </div>
-                        {% else %}
-                            <a href="{% url 'login' %}" class="btn btn-outline-light me-2">Login</a>
-                            <a href="{% url 'register' %}" class="btn btn-light">Register</a>
+                        </div>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="text-white hover:text-secondary transition-colors">Login</a>
+                        <a href="{% url 'register' %}" class="btn-gradient bg-gradient-to-r from-secondary to-yellow-400 text-primary font-semibold px-6 py-2 rounded-full shadow-md hover:shadow-lg transition-all">Register</a>
+                    {% endif %}
+                </div>
+                
+                <!-- Botão de menu mobile -->
+                <button id="mobile-menu-button" class="md:hidden text-white focus:outline-none">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+            
+            <!-- Menu mobile -->
+            <div id="mobile-menu" class="md:hidden hidden bg-white rounded-lg mt-4 shadow-lg overflow-hidden">
+                <div class="flex flex-col">
+                    <a href="{% url 'home' %}" class="px-4 py-3 text-gray-800 hover:bg-gray-100 {% if request.path == '/' %}font-semibold text-primary{% endif %}">Home</a>
+                    <a href="{% url 'course_list' %}" class="px-4 py-3 text-gray-800 hover:bg-gray-100 {% if '/courses/' in request.path %}font-semibold text-primary{% endif %}">Courses</a>
+                    <a href="{% url 'about' %}" class="px-4 py-3 text-gray-800 hover:bg-gray-100 {% if '/about/' in request.path %}font-semibold text-primary{% endif %}">About</a>
+                    <a href="{% url 'contact' %}" class="px-4 py-3 text-gray-800 hover:bg-gray-100 {% if '/contact/' in request.path %}font-semibold text-primary{% endif %}">Contact</a>
+                    
+                    <div class="border-t border-gray-200 my-2"></div>
+                    
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'dashboard' %}" class="px-4 py-3 text-gray-800 hover:bg-gray-100">
+                            <i class="fas fa-tachometer-alt mr-2 text-primary"></i> Dashboard
+                        </a>
+                        <a href="{% url 'profile' %}" class="px-4 py-3 text-gray-800 hover:bg-gray-100">
+                            <i class="fas fa-user-circle mr-2 text-primary"></i> Profile
+                        </a>
+                        <a href="{% url 'my_courses' %}" class="px-4 py-3 text-gray-800 hover:bg-gray-100">
+                            <i class="fas fa-graduation-cap mr-2 text-primary"></i> My Courses
+                        </a>
+                        {% if user.user_type == 'instructor' %}
+                            <a href="{% url 'instructor_dashboard' %}" class="px-4 py-3 text-gray-800 hover:bg-gray-100">
+                                <i class="fas fa-chalkboard-teacher mr-2 text-primary"></i> Instructor Dashboard
+                            </a>
                         {% endif %}
-                    </div>
+                        <div class="border-t border-gray-200 my-2"></div>
+                        <a href="{% url 'logout' %}" class="px-4 py-3 text-gray-800 hover:bg-gray-100">
+                            <i class="fas fa-sign-out-alt mr-2 text-primary"></i> Logout
+                        </a>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="px-4 py-3 text-gray-800 hover:bg-gray-100">
+                            <i class="fas fa-sign-in-alt mr-2 text-primary"></i> Login
+                        </a>
+                        <a href="{% url 'register' %}" class="px-4 py-3 text-gray-800 hover:bg-gray-100">
+                            <i class="fas fa-user-plus mr-2 text-primary"></i> Register
+                        </a>
+                    {% endif %}
                 </div>
             </div>
         </nav>
     </header>
 
-    <main>
+    <main class="flex-grow">
         {% if messages %}
-            <div class="container mt-3">
+            <div class="container mx-auto px-4 mt-6">
                 {% for message in messages %}
-                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show">
-                        {{ message }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    <div class="flex items-center p-4 mb-4 rounded-lg shadow-md {% if message.tags == 'success' %}bg-green-50 border-l-4 border-green-500{% elif message.tags == 'warning' %}bg-yellow-50 border-l-4 border-yellow-500{% elif message.tags == 'error' %}bg-red-50 border-l-4 border-red-500{% else %}bg-blue-50 border-l-4 border-blue-500{% endif %}" role="alert" data-aos="fade-up">
+                        <div class="flex-shrink-0 mr-3">
+                            {% if message.tags == 'success' %}
+                                <i class="fas fa-check-circle text-green-500 text-xl"></i>
+                            {% elif message.tags == 'warning' %}
+                                <i class="fas fa-exclamation-triangle text-yellow-500 text-xl"></i>
+                            {% elif message.tags == 'error' %}
+                                <i class="fas fa-times-circle text-red-500 text-xl"></i>
+                            {% else %}
+                                <i class="fas fa-info-circle text-blue-500 text-xl"></i>
+                            {% endif %}
+                        </div>
+                        <div class="flex-1 text-sm font-medium {% if message.tags == 'success' %}text-green-700{% elif message.tags == 'warning' %}text-yellow-700{% elif message.tags == 'error' %}text-red-700{% else %}text-blue-700{% endif %}">
+                            {{ message }}
+                        </div>
+                        <button type="button" class="ml-auto -mx-1.5 -my-1.5 rounded-lg focus:ring-2 p-1.5 inline-flex h-8 w-8 {% if message.tags == 'success' %}text-green-500 hover:bg-green-100 focus:ring-green-400{% elif message.tags == 'warning' %}text-yellow-500 hover:bg-yellow-100 focus:ring-yellow-400{% elif message.tags == 'error' %}text-red-500 hover:bg-red-100 focus:ring-red-400{% else %}text-blue-500 hover:bg-blue-100 focus:ring-blue-400{% endif %}" data-dismiss-target="#alert-1" aria-label="Close">
+                            <span class="sr-only">Close</span>
+                            <i class="fas fa-times"></i>
+                        </button>
                     </div>
                 {% endfor %}
             </div>
@@ -77,61 +250,270 @@
         {% block content %}{% endblock %}
     </main>
 
-    <footer class="bg-dark text-white py-4 mt-5">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4 mb-4 mb-md-0">
-                    <h5>PythonLearn</h5>
-                    <p>Learn Python programming with our short, focused courses designed for all skill levels.</p>
-                    <div class="social-icons">
-                        <a href="#" class="text-white me-2"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="text-white me-2"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="text-white me-2"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="#" class="text-white"><i class="fab fa-github"></i></a>
+    <!-- Footer com Tailwind CSS e design moderno -->
+    <footer class="bg-primary text-white pt-16 pb-8 mt-16 relative overflow-hidden">
+        <!-- Elementos decorativos -->
+        <div class="absolute top-0 right-0 w-64 h-64 rounded-full bg-secondary opacity-5 -mr-32 -mt-32"></div>
+        <div class="absolute bottom-0 left-0 w-96 h-96 rounded-full bg-secondary opacity-5 -ml-48 -mb-48"></div>
+        
+        <div class="container mx-auto px-4 relative z-10">
+            <!-- Grid principal -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+                <!-- Coluna 1: Sobre nós -->
+                <div data-aos="fade-up" data-aos-delay="100">
+                    <div class="flex items-center mb-6 group">
+                        <img src="https://sjc.microlink.io/1-0QP2V6Sf32bw-2allIIFtjEzDZcWATj9ddDzW-Eaj1paoHQCMX8A7yw3uOyZjGB68RuS3O4WPEkWQbf9bQxQ.jpeg" alt="PythonLearn Logo" class="h-8 mr-2 group-hover:animate-float">
+                        <span class="font-bold text-xl">Python<span class="text-secondary">Learn</span></span>
+                    </div>
+                    <p class="text-gray-300 mb-6">Empowering students with high-quality Python courses designed for all skill levels. Learn at your own pace with expert instructors.</p>
+                    <div class="flex space-x-3">
+                        <a href="#" class="w-10 h-10 rounded-full bg-white bg-opacity-10 flex items-center justify-center hover:bg-secondary hover:text-primary transition-all" aria-label="Facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-white bg-opacity-10 flex items-center justify-center hover:bg-secondary hover:text-primary transition-all" aria-label="Twitter">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-white bg-opacity-10 flex items-center justify-center hover:bg-secondary hover:text-primary transition-all" aria-label="LinkedIn">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-white bg-opacity-10 flex items-center justify-center hover:bg-secondary hover:text-primary transition-all" aria-label="GitHub">
+                            <i class="fab fa-github"></i>
+                        </a>
                     </div>
                 </div>
-                <div class="col-md-2 mb-4 mb-md-0">
-                    <h5>Links</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="{% url 'home' %}" class="text-white">Home</a></li>
-                        <li><a href="{% url 'course_list' %}" class="text-white">Courses</a></li>
-                        <li><a href="{% url 'about' %}" class="text-white">About</a></li>
-                        <li><a href="{% url 'contact' %}" class="text-white">Contact</a></li>
+                
+                <!-- Coluna 2: Links rápidos -->
+                <div data-aos="fade-up" data-aos-delay="200">
+                    <h3 class="text-secondary font-bold text-lg mb-6 relative inline-block">
+                        QUICK LINKS
+                        <span class="absolute left-0 bottom-0 w-1/2 h-0.5 bg-secondary"></span>
+                    </h3>
+                    <ul class="space-y-3">
+                        <li>
+                            <a href="{% url 'home' %}" class="text-gray-300 hover:text-secondary transition-colors flex items-center">
+                                <i class="fas fa-chevron-right text-xs mr-2 text-secondary"></i> Home
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{% url 'course_list' %}" class="text-gray-300 hover:text-secondary transition-colors flex items-center">
+                                <i class="fas fa-chevron-right text-xs mr-2 text-secondary"></i> Courses
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{% url 'about' %}" class="text-gray-300 hover:text-secondary transition-colors flex items-center">
+                                <i class="fas fa-chevron-right text-xs mr-2 text-secondary"></i> About Us
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{% url 'contact' %}" class="text-gray-300 hover:text-secondary transition-colors flex items-center">
+                                <i class="fas fa-chevron-right text-xs mr-2 text-secondary"></i> Contact
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{% url 'privacy_policy' %}" class="text-gray-300 hover:text-secondary transition-colors flex items-center">
+                                <i class="fas fa-chevron-right text-xs mr-2 text-secondary"></i> Privacy Policy
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{% url 'terms_of_service' %}" class="text-gray-300 hover:text-secondary transition-colors flex items-center">
+                                <i class="fas fa-chevron-right text-xs mr-2 text-secondary"></i> Terms of Service
+                            </a>
+                        </li>
                     </ul>
                 </div>
-                <div class="col-md-3 mb-4 mb-md-0">
-                    <h5>Courses</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="#" class="text-white">Python Basics</a></li>
-                        <li><a href="#" class="text-white">Web Development</a></li>
-                        <li><a href="#" class="text-white">Data Science</a></li>
-                        <li><a href="#" class="text-white">Machine Learning</a></li>
+                
+                <!-- Coluna 3: Cursos populares -->
+                <div data-aos="fade-up" data-aos-delay="300">
+                    <h3 class="text-secondary font-bold text-lg mb-6 relative inline-block">
+                        POPULAR COURSES
+                        <span class="absolute left-0 bottom-0 w-1/2 h-0.5 bg-secondary"></span>
+                    </h3>
+                    <ul class="space-y-4">
+                        <li>
+                            <a href="#" class="group">
+                                <div class="flex items-start">
+                                    <div class="w-12 h-12 rounded bg-white bg-opacity-10 flex items-center justify-center mr-3 group-hover:bg-secondary transition-colors">
+                                        <i class="fas fa-code text-secondary group-hover:text-primary transition-colors"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-white group-hover:text-secondary transition-colors">Python Basics</h4>
+                                        <p class="text-gray-400 text-sm">For beginners</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="group">
+                                <div class="flex items-start">
+                                    <div class="w-12 h-12 rounded bg-white bg-opacity-10 flex items-center justify-center mr-3 group-hover:bg-secondary transition-colors">
+                                        <i class="fas fa-globe text-secondary group-hover:text-primary transition-colors"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-white group-hover:text-secondary transition-colors">Web Development</h4>
+                                        <p class="text-gray-400 text-sm">Django & Flask</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="group">
+                                <div class="flex items-start">
+                                    <div class="w-12 h-12 rounded bg-white bg-opacity-10 flex items-center justify-center mr-3 group-hover:bg-secondary transition-colors">
+                                        <i class="fas fa-chart-bar text-secondary group-hover:text-primary transition-colors"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-white group-hover:text-secondary transition-colors">Data Science</h4>
+                                        <p class="text-gray-400 text-sm">Pandas & NumPy</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
                     </ul>
                 </div>
-                <div class="col-md-3">
-                    <h5>Contact Us</h5>
-                    <address class="text-white">
-                        <i class="fas fa-map-marker-alt me-2"></i> 123 Python St, Code City<br>
-                        <i class="fas fa-phone me-2"></i> (123) 456-7890<br>
-                        <i class="fas fa-envelope me-2"></i> info@pythonlearn.com
-                    </address>
+                
+                <!-- Coluna 4: Contato e Newsletter -->
+                <div data-aos="fade-up" data-aos-delay="400">
+                    <h3 class="text-secondary font-bold text-lg mb-6 relative inline-block">
+                        CONTACT US
+                        <span class="absolute left-0 bottom-0 w-1/2 h-0.5 bg-secondary"></span>
+                    </h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <div class="w-10 h-10 rounded-full bg-white bg-opacity-10 flex items-center justify-center mr-3">
+                                <i class="fas fa-map-marker-alt text-secondary"></i>
+                            </div>
+                            <div>
+                                <p class="text-gray-300">123 Python St, Code City<br>CA 94043, USA</p>
+                            </div>
+                        </li>
+                        <li class="flex items-center">
+                            <div class="w-10 h-10 rounded-full bg-white bg-opacity-10 flex items-center justify-center mr-3">
+                                <i class="fas fa-phone-alt text-secondary"></i>
+                            </div>
+                            <div>
+                                <p class="text-gray-300">(123) 456-7890</p>
+                            </div>
+                        </li>
+                        <li class="flex items-center">
+                            <div class="w-10 h-10 rounded-full bg-white bg-opacity-10 flex items-center justify-center mr-3">
+                                <i class="fas fa-envelope text-secondary"></i>
+                            </div>
+                            <div>
+                                <p class="text-gray-300">info@pythonlearn.com</p>
+                            </div>
+                        </li>
+                    </ul>
+                    
+                    <!-- Newsletter -->
+                    <div class="mt-6">
+                        <h4 class="text-white font-semibold mb-3">Subscribe to our newsletter</h4>
+                        <form action="{% url 'newsletter_subscribe' %}" method="POST" class="space-y-3">
+                            {% csrf_token %}
+                            
+                            <div class="flex">
+                                <input type="email" name="email" placeholder="Your email" required class="flex-1 py-2 px-3 rounded-l-md focus:outline-none text-gray-800">
+                                <button type="submit" class="bg-secondary hover:bg-secondary-dark text-primary font-semibold py-2 px-4 rounded-r-md transition-colors">
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
+                            </div>
+                            <p class="text-xs text-gray-400">By subscribing, you agree to our <a href="{% url 'privacy_policy' %}" class="text-secondary hover:underline">Privacy Policy</a>.</p>
+                        </form>
+                    </div>
                 </div>
             </div>
-            <hr class="my-3 bg-light">
-            <div class="row">
-                <div class="col-md-6 text-center text-md-start">
-                    <p class="mb-0">&copy; {% now "Y" %} PythonLearn. All rights reserved.</p>
-                </div>
-                <div class="col-md-6 text-center text-md-end">
-                    <a href="#" class="text-white me-3">Privacy Policy</a>
-                    <a href="#" class="text-white">Terms of Service</a>
+            
+            <!-- Linha divisória -->
+            <div class="border-t border-white border-opacity-10 pt-8 mt-8">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <p class="text-gray-400 text-sm mb-4 md:mb-0">&copy; {% now "Y" %} PythonLearn. All rights reserved.</p>
+                    <div class="flex space-x-6">
+                        <a href="{% url 'privacy_policy' %}" class="text-gray-400 hover:text-secondary transition-colors text-sm">Privacy Policy</a>
+                        <a href="{% url 'terms_of_service' %}" class="text-gray-400 hover:text-secondary transition-colors text-sm">Terms of Service</a>
+                        <a href="{% url 'cookie_policy' %}" class="text-gray-400 hover:text-secondary transition-colors text-sm">Cookie Policy</a>
+                    </div>
                 </div>
             </div>
         </div>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="{% static 'js/main.js' %}"></script>
+    <!-- Botão flutuante para voltar ao topo -->
+    <button id="backToTop" class="fixed bottom-8 right-8 w-12 h-12 rounded-full bg-secondary text-primary shadow-lg flex items-center justify-center opacity-0 invisible transition-all duration-300 hover:bg-secondary-dark z-50">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Alpine.js para dropdown -->
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <!-- AOS Animation Library -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <!-- Scripts personalizados -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Inicializar AOS
+            AOS.init({
+                duration: 800,
+                once: true
+            });
+            
+            // Menu mobile toggle
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            mobileMenuButton.addEventListener('click', function() {
+                if (mobileMenu.classList.contains('hidden')) {
+                    mobileMenu.classList.remove('hidden');
+                    mobileMenu.classList.add('animate__animated', 'animate__fadeIn');
+                    mobileMenuButton.innerHTML = '<i class="fas fa-times text-2xl"></i>';
+                } else {
+                    mobileMenu.classList.add('hidden');
+                    mobileMenuButton.innerHTML = '<i class="fas fa-bars text-2xl"></i>';
+                }
+            });
+            
+            // Botão voltar ao topo
+            const backToTopButton = document.getElementById('backToTop');
+            
+            window.addEventListener('scroll', function() {
+                if (window.pageYOffset > 300) {
+                    backToTopButton.classList.remove('opacity-0', 'invisible');
+                    backToTopButton.classList.add('opacity-100', 'visible');
+                } else {
+                    backToTopButton.classList.remove('opacity-100', 'visible');
+                    backToTopButton.classList.add('opacity-0', 'invisible');
+                }
+            });
+            
+            backToTopButton.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+            
+            // Fechar alertas
+            const alertCloseButtons = document.querySelectorAll('[data-dismiss-target]');
+            alertCloseButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const alert = this.closest('[role="alert"]');
+                    alert.classList.add('opacity-0');
+                    setTimeout(() => {
+                        alert.remove();
+                    }, 300);
+                });
+            });
+            
+            // Efeito de hover nos cards de curso
+            const courseCards = document.querySelectorAll('.course-card');
+            courseCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.classList.add('transform', 'scale-105', 'shadow-xl');
+                });
+                card.addEventListener('mouseleave', function() {
+                    this.classList.remove('transform', 'scale-105', 'shadow-xl');
+                });
+            });
+        });
+    </script>
     {% block extra_js %}{% endblock %}
 </body>
 </html>
+

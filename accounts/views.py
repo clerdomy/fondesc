@@ -57,28 +57,6 @@ def dashboard_view(request):
     return render(request, 'accounts/dashboard.html', context)
 
 @login_required
-def _my_courses_view(request):
-    """View for user's enrolled courses"""
-    enrollments = Enrollment.objects.filter(user=request.user).select_related('course')
-    progress_data = UserProgress.objects.filter(user=request.user).select_related('course')
-    
-    # Combine enrollment and progress data
-    courses_with_progress = []
-    for enrollment in enrollments:
-        progress = next((p for p in progress_data if p.course_id == enrollment.course_id), None)
-        progress_percentage = progress.progress_percentage if progress else 0
-        courses_with_progress.append({
-            'enrollment': enrollment,
-            'progress': progress_percentage,
-            'last_accessed': progress.last_accessed if progress else None
-        })
-    
-    context = {
-        'courses_with_progress': courses_with_progress
-    }
-    return render(request, 'accounts/my_courses.html', context)
-
-@login_required
 def my_courses_view(request):
     """View for user's enrolled courses"""
     enrollments = Enrollment.objects.filter(user=request.user).select_related('course')
@@ -129,3 +107,8 @@ def instructor_dashboard_view(request):
         'total_enrollments': total_enrollments,
     }
     return render(request, 'accounts/instructor_dashboard.html', context)
+
+
+def logout_view(request):
+    logout(request)
+    return render(request, 'accounts/logout.html')

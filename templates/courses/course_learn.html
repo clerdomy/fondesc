@@ -1,174 +1,805 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Learning: {{ course.title }} | PythonLearn{% endblock %}
+{% block title %}{{ course.title }} | Aprendizado | PythonLearn{% endblock %}
 
 {% block content %}
-<div class="container-fluid py-4">
-    <div class="row">
-        <!-- Sidebar -->
-        <div class="col-lg-3 d-none d-lg-block">
-            <div class="course-sidebar p-3 bg-light rounded">
-                <h5 class="mb-3">{{ course.title }}</h5>
-                
-                <!-- Progress Bar -->
-                <div class="progress mb-3" style="height: 10px;">
-                    <div class="progress-bar bg-primary course-progress-bar" role="progressbar" style="width: {{ progress.progress_percentage }}%;" aria-valuenow="{{ progress.progress_percentage }}" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-                <p class="text-center mb-4"><small class="progress-text">{{ progress.progress_percentage }}% complete</small></p>
-                
-                <!-- Module List -->
-                <div class="module-list">
-                    {% for module in modules %}
-                    <div class="module-item">
-                        <div class="module-header" data-bs-toggle="collapse" data-bs-target="#module-{{ module.id }}" aria-expanded="{% if current_lesson.module == module %}true{% else %}false{% endif %}">
-                            <i class="fas fa-chevron-right me-2"></i>
-                            <span>{{ module.title }}</span>
-                        </div>
-                        <div class="collapse {% if current_lesson.module == module %}show{% endif %}" id="module-{{ module.id }}">
-                            <ul class="lesson-list">
-                                {% for lesson in module.lessons.all %}
-                                <li class="lesson-item">
-                                    <a href="{% url 'course_learn' slug=course.slug %}?lesson={{ lesson.id }}" class="lesson-link {% if current_lesson == lesson %}active{% endif %}" data-lesson-id="{{ lesson.id }}">
-                                        <i class="fas {% if lesson.id in completed_lessons %}fa-check-circle lesson-completed{% else %}fa-circle{% endif %} lesson-icon"></i>
-                                        <span>{{ lesson.title }}</span>
-                                    </a>
-                                </li>
-                                {% endfor %}
-                            </ul>
-                        </div>
+<!-- Barra de progresso fixa no topo -->
+<div class="fixed top-0 left-0 right-0 h-1 bg-gray-200 z-50">
+    <div class="h-1 bg-gradient-to-r from-primary to-primary-light transition-all duration-300" style="width: {{ progress.progress_percentage }}%;"></div>
+</div>
+
+<div class="flex flex-col lg:flex-row min-h-screen bg-gray-50">
+    <!-- Sidebar de navegação -->
+    <aside id="courseSidebar" class="lg:w-80 w-full lg:static fixed inset-y-0 left-0 z-40 bg-white shadow-lg transform lg:transform-none -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out overflow-hidden flex flex-col">
+        <!-- Cabeçalho do curso -->
+        <div class="bg-gradient-to-r from-primary to-primary-light text-white p-4">
+            <div class="flex items-center justify-between mb-3">
+                <h1 class="text-lg font-bold truncate">{{ course.title }}</h1>
+                <button id="closeSidebar" class="lg:hidden text-white hover:text-gray-200 focus:outline-none">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="flex items-center">
+                <!-- Progresso circular -->
+                <div class="relative w-12 h-12 mr-3">
+                    <svg class="w-12 h-12 transform -rotate-90" viewBox="0 0 36 36">
+                        <circle cx="18" cy="18" r="16" fill="none" stroke-width="3" stroke-dasharray="100" stroke-dashoffset="0" stroke="rgba(255,255,255,0.2)"></circle>
+                        <circle cx="18" cy="18" r="16" fill="none" stroke-width="3" stroke-dasharray="100" stroke-dashoffset="{{ progress.circle_offset|default:0 }}" stroke="white" class="transition-all duration-500 ease-in-out"></circle>
+                    </svg>
+                    <div class="absolute inset-0 flex items-center justify-center text-white font-bold text-sm">
+                        {{ progress.progress_percentage }}%
                     </div>
-                    {% endfor %}
+                </div>
+                <div>
+                    <div class="text-sm opacity-90">Seu progresso</div>
+                    <div class="font-bold">{{ progress.progress_percentage }}% completo</div>
                 </div>
             </div>
         </div>
         
-        <!-- Main Content -->
-        <div class="col-lg-9">
-            <!-- Mobile Course Navigation -->
-            <div class="d-lg-none mb-3">
-                <button class="btn btn-outline-primary w-100" type="button" data-bs-toggle="offcanvas" data-bs-target="#courseSidebarMobile">
-                    <i class="fas fa-list me-2"></i> Course Content
-                </button>
-                
-                <div class="offcanvas offcanvas-start" tabindex="-1" id="courseSidebarMobile">
-                    <div class="offcanvas-header">
-                        <h5 class="offcanvas-title">{{ course.title }}</h5>
-                        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                    </div>
-                    <div class="offcanvas-body">
-                        <!-- Progress Bar -->
-                        <div class="progress mb-3" style="height: 10px;">
-                            <div class="progress-bar bg-primary" role="progressbar" style="width: {{ progress.progress_percentage }}%;" aria-valuenow="{{ progress.progress_percentage }}" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                        <p class="text-center mb-4"><small>{{ progress.progress_percentage }}% complete</small></p>
-                        
-                        <!-- Module List (Mobile) -->
-                        <div class="module-list">
-                            {% for module in modules %}
-                            <div class="module-item">
-                                <div class="module-header" data-bs-toggle="collapse" data-bs-target="#module-mobile-{{ module.id }}" aria-expanded="{% if current_lesson.module == module %}true{% else %}false{% endif %}">
-                                    <i class="fas fa-chevron-right me-2"></i>
-                                    <span>{{ module.title }}</span>
-                                </div>
-                                <div class="collapse {% if current_lesson.module == module %}show{% endif %}" id="module-mobile-{{ module.id }}">
-                                    <ul class="lesson-list">
-                                        {% for lesson in module.lessons.all %}
-                                        <li class="lesson-item">
-                                            <a href="{% url 'course_learn' slug=course.slug %}?lesson={{ lesson.id }}" class="lesson-link {% if current_lesson == lesson %}active{% endif %}" data-lesson-id="{{ lesson.id }}">
-                                                <i class="fas {% if lesson.id in completed_lessons %}fa-check-circle lesson-completed{% else %}fa-circle{% endif %} lesson-icon"></i>
-                                                <span>{{ lesson.title }}</span>
-                                            </a>
-                                        </li>
-                                        {% endfor %}
-                                    </ul>
-                                </div>
+        <!-- Navegação de módulos e lições -->
+        <div class="flex-grow overflow-y-auto">
+            <nav class="divide-y divide-gray-100">
+                {% for module in course.modules.all %}
+                <div class="module-container">
+                    <div class="p-4 flex items-center justify-between cursor-pointer hover:bg-gray-50 transition-colors module-header {% if current_module.id == module.id %}bg-gray-50{% endif %}" data-module-id="{{ module.id }}">
+                        <div class="flex items-center">
+                            {% if module.is_completed %}
+                            <div class="w-6 h-6 rounded-full bg-green-500 flex items-center justify-center mr-3">
+                                <i class="fas fa-check text-white text-xs"></i>
                             </div>
-                            {% endfor %}
+                            {% else %}
+                            <div class="w-6 h-6 rounded-full border-2 border-gray-300 flex items-center justify-center mr-3">
+                                <span class="text-xs text-gray-500 font-medium">{{ forloop.counter }}</span>
+                            </div>
+                            {% endif %}
+                            <span class="font-medium text-gray-800 line-clamp-1">{{ module.title }}</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-xs text-gray-500 mr-2">{{ module.completed_lessons|default:0 }}/{{ module.lessons.count }}</span>
+                            <i class="fas fa-chevron-down text-gray-400 transform transition-transform duration-300 {% if current_module.id == module.id %}rotate-180{% endif %}"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="lesson-nav {% if current_module.id == module.id %}active{% endif %} max-h-0 overflow-hidden transition-all duration-300 ease-in-out" style="max-height: 0px;">
+                        {% for lesson in module.lessons.all %}
+                        <a href="{% url 'course_learn' slug=course.slug %}?lesson={{ lesson.id }}" 
+                           class="flex items-center justify-between p-3 pl-12 hover:bg-gray-50 transition-colors relative {% if current_lesson.id == lesson.id %}bg-blue-50 border-l-4 border-primary{% else %}border-l-4 border-transparent{% endif %}">
+                            <div class="flex items-center">
+                                {% if lesson.is_completed %}
+                                <div class="w-5 h-5 rounded-full bg-green-500 flex items-center justify-center mr-3 absolute left-4">
+                                    <i class="fas fa-check text-white text-xs"></i>
+                                </div>
+                                {% elif current_lesson.id == lesson.id %}
+                                <div class="w-5 h-5 rounded-full bg-primary flex items-center justify-center mr-3 absolute left-4">
+                                    <i class="fas fa-play text-white text-xs"></i>
+                                </div>
+                                {% else %}
+                                <div class="w-5 h-5 rounded-full border border-gray-300 mr-3 absolute left-4"></div>
+                                {% endif %}
+                                <span class="text-sm {% if current_lesson.id == lesson.id %}font-medium text-primary{% else %}text-gray-700{% endif %} line-clamp-1">
+                                    {{ lesson.title }} test
+                                </span>
+                            </div>
+                            <div class="flex items-center">
+                                {% if lesson.quiz %}
+                                <span class="mr-2 text-xs px-2 py-0.5 bg-blue-100 text-blue-700 rounded-full">Quiz</span>
+                                {% endif %}
+                                <span class="text-xs text-gray-500">{{ lesson.duration_in_minutes }} min</span>
+                            </div>
+                        </a>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endfor %}
+            </nav>
+        </div>
+        
+        <!-- Rodapé do sidebar -->
+        <div class="p-4 border-t border-gray-200 bg-gray-50">
+            <div class="flex flex-col space-y-2">
+                <a href="#" class="flex items-center text-gray-700 hover:text-primary transition-colors p-2 rounded-md hover:bg-gray-100">
+                    <i class="fas fa-download text-primary mr-3"></i>
+                    <span>Recursos do curso</span>
+                </a>
+                <a href="#" class="flex items-center text-gray-700 hover:text-primary transition-colors p-2 rounded-md hover:bg-gray-100">
+                    <i class="fas fa-question-circle text-primary mr-3"></i>
+                    <span>Suporte ao aluno</span>
+                </a>
+            </div>
+        </div>
+    </aside>
+    
+    <!-- Conteúdo principal -->
+    <main class="flex-grow lg:ml-0 overflow-hidden flex flex-col">
+        <!-- Cabeçalho do conteúdo -->
+        <header class="bg-white border-b border-gray-200 sticky top-0 z-30 shadow-sm">
+            <div class="container mx-auto px-4 py-3">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <button id="sidebarToggle" class="lg:hidden mr-4 p-2 rounded-md text-gray-700 hover:bg-gray-100 focus:outline-none">
+                            <i class="fas fa-bars"></i>
+                        </button>
+                        <div>
+                            <h2 class="text-lg font-bold text-gray-800 line-clamp-1">{{ current_lesson.title }}</h2>
+                            <div class="text-sm text-gray-600">{{ current_module.title }}</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <button id="notesToggle" class="p-2 rounded-md text-gray-700 hover:bg-gray-100 focus:outline-none" title="Minhas anotações">
+                            <i class="far fa-sticky-note"></i>
+                        </button>
+                        <div class="relative" x-data="{ open: false }">
+                            <button @click="open = !open" class="p-2 rounded-md text-gray-700 hover:bg-gray-100 focus:outline-none" title="Mais opções">
+                                <i class="fas fa-ellipsis-v"></i>
+                            </button>
+                            <div x-show="open" @click.away="open = false" class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl py-2 z-20">
+                                <a href="#" class="flex items-center px-4 py-2 text-gray-800 hover:bg-gray-100">
+                                    <i class="fas fa-flag text-red-500 mr-2"></i> Reportar problema
+                                </a>
+                                <a href="#" class="flex items-center px-4 py-2 text-gray-800 hover:bg-gray-100">
+                                    <i class="fas fa-bookmark text-primary mr-2"></i> Marcar como favorito
+                                </a>
+                                <a href="#" class="flex items-center px-4 py-2 text-gray-800 hover:bg-gray-100">
+                                    <i class="fas fa-share-alt text-green-500 mr-2"></i> Compartilhar
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            
-            {% if current_lesson %}
-            <div class="card border-0 shadow-sm">
-                <div class="card-body p-4">
-                    <h2 class="mb-4">{{ current_lesson.title }}</h2>
-                    
+        </header>
+        
+        <!-- Conteúdo da lição -->
+        <div class="flex-grow overflow-y-auto">
+            <div class="container mx-auto px-4 py-6">
+                {% if progress.progress_percentage == 100 %}
+                <div class="bg-green-50 border-l-4 border-green-500 p-4 mb-6 rounded-lg shadow-sm">
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center">
+                        <div class="flex-shrink-0 mb-3 sm:mb-0">
+                            <div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center">
+                                <i class="fas fa-check-circle text-green-500 text-2xl"></i>
+                            </div>
+                        </div>
+                        <div class="sm:ml-4 flex-grow">
+                            <h5 class="font-bold text-green-800 mb-1 text-lg">Parabéns! Você concluiu este curso.</h5>
+                            <p class="text-green-700">Você pode obter seu certificado de conclusão agora.</p>
+                        </div>
+                        <div class="mt-3 sm:mt-0 sm:ml-4 w-full sm:w-auto">
+                            <a href="{% url 'course_certificate' course_slug=course.slug %}" class="flex items-center justify-center w-full sm:w-auto px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition-colors shadow-sm">
+                                <i class="fas fa-certificate mr-2"></i> Obter Certificado
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                
+                <div class="max-w-3xl mx-auto">
+                    <!-- Vídeo da lição (se disponível) -->
                     {% if current_lesson.video_url %}
-                    <div class="video-container mb-4">
-                        <iframe src="{{ current_lesson.video_url }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    <div class="mb-8 rounded-xl overflow-hidden shadow-lg">
+                        <div class="aspect-w-16 aspect-h-9">
+                            <iframe
+                                src="{{ current_lesson.video_url }}"
+                                frameborder="0"
+                                allowfullscreen
+                                allow="autoplay; encrypted-media"
+                                class="w-full h-full"
+                            ></iframe>
+                        </div>
                     </div>
                     {% endif %}
                     
-                    <div class="lesson-content mb-4">
+                    <!-- Conteúdo da lição -->
+                    <div class="prose prose-lg max-w-none bg-white p-6 rounded-xl shadow-md mb-8">
                         {{ current_lesson.content|safe }}
                     </div>
                     
-                    {% if current_lesson.resources.exists %}
-                    <div class="resources-section mb-4">
-                        <h4 class="mb-3">Resources</h4>
-                        <div class="list-group">
-                            {% for resource in current_lesson.resources.all %}
-                            <a href="{{ resource.file.url }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                                <div>
-                                    <i class="fas fa-file-download me-2"></i>
-                                    {{ resource.title }}
+                    <!-- Quiz (se disponível) -->
+                    {% if current_lesson.quiz %}
+                    <div class="bg-white p-6 rounded-xl shadow-md mb-8" id="quizContainer">
+                        <div class="flex items-center mb-4">
+                            <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mr-3">
+                                <i class="fas fa-question text-primary"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-800">{{ current_lesson.quiz.title }}</h3>
+                        </div>
+                        <p class="text-gray-600 mb-6">{{ current_lesson.quiz.description }}</p>
+                        
+                        <form id="quizForm" class="space-y-6">
+                            {% for question in current_lesson.quiz.questions.all %}
+                            <div class="quiz-question bg-gray-50 p-6 rounded-lg border border-gray-200" data-question-id="{{ question.id }}">
+                                <h4 class="font-bold text-gray-800 mb-4 flex items-start">
+                                    <span class="w-6 h-6 rounded-full bg-primary text-white flex items-center justify-center mr-2 flex-shrink-0">{{ forloop.counter }}</span>
+                                    <span>{{ question.text|safe }}</span>
+                                </h4>
+                                
+                                <div class="space-y-3 ml-8">
+                                    {% for answer in question.answers.all %}
+                                    <div class="quiz-option border border-gray-200 rounded-lg p-4 cursor-pointer hover:bg-blue-50 transition-all duration-200" data-answer-id="{{ answer.id }}" data-is-correct="{{ answer.is_correct|lower }}">
+                                        <div class="flex items-start">
+                                            <div class="flex-shrink-0 mt-0.5">
+                                                <div class="w-5 h-5 border-2 border-gray-300 rounded-full flex items-center justify-center option-indicator">
+                                                    <div class="w-3 h-3 rounded-full bg-primary hidden"></div>
+                                                </div>
+                                            </div>
+                                            <div class="ml-3 flex-grow">
+                                                <p class="text-gray-800">{{ answer.text|safe }}</p>
+                                                <div class="feedback-text hidden mt-2 text-sm font-medium"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
                                 </div>
-                                <span class="badge bg-primary rounded-pill">Download</span>
+                            </div>
+                            {% endfor %}
+                            
+                            <div class="flex flex-col sm:flex-row justify-between items-center p-4 bg-gray-50 rounded-lg border border-gray-200">
+                                <div class="text-gray-600 mb-4 sm:mb-0">
+                                    <span class="font-medium">Nota mínima para aprovação:</span> {{ current_lesson.quiz.pass_percentage|default:70 }}%
+                                </div>
+                                <button type="button" id="submitQuiz" class="w-full sm:w-auto px-6 py-2 bg-primary hover:bg-primary-dark text-white font-medium rounded-lg transition-colors shadow-sm">
+                                    <i class="fas fa-check-circle mr-2"></i>Verificar Respostas
+                                </button>
+                            </div>
+                            
+                            <div id="quizResults" class="hidden">
+                                <!-- Resultados do quiz serão exibidos aqui via JavaScript -->
+                            </div>
+                        </form>
+                    </div>
+                    {% endif %}
+                    
+                    <!-- Recursos adicionais -->
+                    {% if current_lesson.resources.exists %}
+                    <div class="bg-white p-6 rounded-xl shadow-md mb-8">
+                        <div class="flex items-center mb-4">
+                            <div class="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center mr-3">
+                                <i class="fas fa-file-alt text-purple-600"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-800">Recursos Adicionais</h3>
+                        </div>
+                        <div class="space-y-3">
+                            {% for resource in current_lesson.resources.all %}
+                            <a href="{{ resource.file.url }}" download class="flex items-center p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors group">
+                                <div class="w-12 h-12 flex-shrink-0 rounded-lg flex items-center justify-center mr-4
+                                    {% if resource.file_type == 'pdf' %}bg-red-100{% elif resource.file_type == 'doc' or resource.file_type == 'docx' %}bg-blue-100{% elif resource.file_type == 'xls' or resource.file_type == 'xlsx' %}bg-green-100{% elif resource.file_type == 'zip' or resource.file_type == 'rar' %}bg-yellow-100{% else %}bg-gray-100{% endif %}">
+                                    {% if resource.file_type == 'pdf' %}
+                                    <i class="far fa-file-pdf text-red-500 text-xl"></i>
+                                    {% elif resource.file_type == 'doc' or resource.file_type == 'docx' %}
+                                    <i class="far fa-file-word text-blue-500 text-xl"></i>
+                                    {% elif resource.file_type == 'xls' or resource.file_type == 'xlsx' %}
+                                    <i class="far fa-file-excel text-green-500 text-xl"></i>
+                                    {% elif resource.file_type == 'zip' or resource.file_type == 'rar' %}
+                                    <i class="far fa-file-archive text-yellow-500 text-xl"></i>
+                                    {% else %}
+                                    <i class="far fa-file text-gray-500 text-xl"></i>
+                                    {% endif %}
+                                </div>
+                                <div class="flex-grow">
+                                    <div class="font-medium text-gray-800 group-hover:text-primary transition-colors">{{ resource.title }}</div>
+                                    <div class="text-sm text-gray-500">{{ resource.file.size|filesizeformat }}</div>
+                                </div>
+                                <div class="ml-4">
+                                    <i class="fas fa-download text-gray-400 group-hover:text-primary transition-colors"></i>
+                                </div>
                             </a>
                             {% endfor %}
                         </div>
                     </div>
                     {% endif %}
                     
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            {% if prev_lesson %}
-                            <a href="{% url 'course_learn' slug=course.slug %}?lesson={{ prev_lesson.id }}" class="btn btn-outline-primary">
-                                <i class="fas fa-arrow-left me-2"></i> Previous Lesson
-                            </a>
-                            {% endif %}
+                    <!-- Comentários e discussão -->
+                    <div class="bg-white p-6 rounded-xl shadow-md mb-8">
+                        <div class="flex items-center mb-4">
+                            <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center mr-3">
+                                <i class="fas fa-comments text-green-600"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-800">Discussão</h3>
                         </div>
                         
-                        <div class="d-flex">
-                            {% if current_lesson.quiz %}
-                            <a href="{% url 'take_quiz' quiz_id=current_lesson.quiz.id %}" class="btn btn-warning me-2">
-                                <i class="fas fa-question-circle me-2"></i> Take Quiz
-                            </a>
-                            {% endif %}
+                        <!-- Formulário de comentário -->
+                        <form class="mb-6">
+                            <div class="mb-4">
+                                <textarea rows="3" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary resize-none" placeholder="Faça uma pergunta ou deixe um comentário..."></textarea>
+                            </div>
+                            <div class="flex justify-end">
+                                <button type="submit" class="px-6 py-2 bg-primary hover:bg-primary-dark text-white font-medium rounded-lg transition-colors shadow-sm">
+                                    <i class="fas fa-paper-plane mr-2"></i>Publicar Comentário
+                                </button>
+                            </div>
+                        </form>
+                        
+                        <!-- Lista de comentários -->
+                        <div class="space-y-6">
+                            <div class="flex">
+                                <div class="flex-shrink-0 mr-4">
+                                    <div class="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold">
+                                        MS
+                                    </div>
+                                </div>
+                                <div class="flex-grow">
+                                    <div class="flex items-center mb-1">
+                                        <h4 class="font-semibold text-gray-800 mr-2">Maria Silva</h4>
+                                        <span class="text-gray-500 text-sm">há 2 dias</span>
+                                    </div>
+                                    <p class="text-gray-700 mb-3">Excelente explicação! Consegui entender perfeitamente o conceito de herança em Python.</p>
+                                    <div class="flex items-center text-sm">
+                                        <button class="flex items-center text-gray-500 hover:text-primary transition-colors mr-4">
+                                            <i class="far fa-thumbs-up mr-1"></i> 5
+                                        </button>
+                                        <button class="flex items-center text-gray-500 hover:text-primary transition-colors">
+                                            <i class="far fa-comment mr-1"></i> Responder
+                                        </button>
+                                    </div>
+                                    
+                                    <!-- Respostas -->
+                                    <div class="mt-4 ml-6 space-y-4">
+                                        <div class="flex">
+                                            <div class="flex-shrink-0 mr-3">
+                                                <div class="w-8 h-8 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold text-sm">
+                                                    JS
+                                                </div>
+                                            </div>
+                                            <div class="flex-grow">
+                                                <div class="flex items-center mb-1">
+                                                    <h4 class="font-semibold text-gray-800 mr-2">João Santos</h4>
+                                                    <span class="text-gray-500 text-sm">há 1 dia</span>
+                                                </div>
+                                                <p class="text-gray-700 mb-3">Concordo! O exemplo prático ajudou muito.</p>
+                                                <div class="flex items-center text-sm">
+                                                    <button class="flex items-center text-gray-500 hover:text-primary transition-colors mr-4">
+                                                        <i class="far fa-thumbs-up mr-1"></i> 2
+                                                    </button>
+                                                    <button class="flex items-center text-gray-500 hover:text-primary transition-colors">
+                                                        <i class="far fa-comment mr-1"></i> Responder
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             
-                            <button class="btn btn-primary mark-complete-btn" data-lesson-id="{{ current_lesson.id }}" {% if current_lesson.id in completed_lessons %}disabled{% endif %}>
-                                {% if current_lesson.id in completed_lessons %}
-                                <i class="fas fa-check-circle"></i> Completed
-                                {% else %}
-                                <i class="fas fa-check"></i> Mark as Complete
-                                {% endif %}
-                            </button>
-                        </div>
-                        
-                        <div>
-                            {% if next_lesson %}
-                            <a href="{% url 'course_learn' slug=course.slug %}?lesson={{ next_lesson.id }}" class="btn btn-outline-primary">
-                                Next Lesson <i class="fas fa-arrow-right ms-2"></i>
-                            </a>
-                            {% endif %}
+                            <div class="flex">
+                                <div class="flex-shrink-0 mr-4">
+                                    <div class="w-10 h-10 rounded-full bg-green-500 text-white flex items-center justify-center font-bold">
+                                        PL
+                                    </div>
+                                </div>
+                                <div class="flex-grow">
+                                    <div class="flex items-center mb-1">
+                                        <h4 class="font-semibold text-gray-800 mr-2">Pedro Lima</h4>
+                                        <span class="text-gray-500 text-sm">há 3 dias</span>
+                                    </div>
+                                    <p class="text-gray-700 mb-3">Tenho uma dúvida sobre o exemplo da linha 15. Por que usamos super() nesse caso?</p>
+                                    <div class="flex items-center text-sm">
+                                        <button class="flex items-center text-gray-500 hover:text-primary transition-colors mr-4">
+                                            <i class="far fa-thumbs-up mr-1"></i> 1
+                                        </button>
+                                        <button class="flex items-center text-gray-500 hover:text-primary transition-colors">
+                                            <i class="far fa-comment mr-1"></i> Responder
+                                        </button>
+                                    </div>
+                                    
+                                    <!-- Respostas -->
+                                    <div class="mt-4 ml-6 space-y-4">
+                                        <div class="flex">
+                                            <div class="flex-shrink-0 mr-3">
+                                                <div class="w-8 h-8 rounded-full bg-purple-500 text-white flex items-center justify-center font-bold text-sm">
+                                                    <i class="fas fa-chalkboard-teacher"></i>
+                                                </div>
+                                            </div>
+                                            <div class="flex-grow">
+                                                <div class="flex items-center mb-1">
+                                                    <h4 class="font-semibold text-gray-800 mr-2">Instrutor</h4>
+                                                    <span class="text-gray-500 text-sm">há 2 dias</span>
+                                                </div>
+                                                <p class="text-gray-700 mb-3">Boa pergunta, Pedro! Usamos super() para chamar o método da classe pai. Isso é útil quando queremos estender o comportamento de um método em vez de substituí-lo completamente.</p>
+                                                <div class="flex items-center text-sm">
+                                                    <button class="flex items-center text-gray-500 hover:text-primary transition-colors mr-4">
+                                                        <i class="far fa-thumbs-up mr-1"></i> 3
+                                                    </button>
+                                                    <button class="flex items-center text-gray-500 hover:text-primary transition-colors">
+                                                        <i class="far fa-comment mr-1"></i> Responder
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            {% else %}
-            <div class="card border-0 shadow-sm">
-                <div class="card-body p-4 text-center">
-                    <h3 class="mb-3">Welcome to {{ course.title }}</h3>
-                    <p class="lead mb-4">Start your learning journey by selecting a lesson from the course content.</p>
-                    <button class="btn btn-primary btn-lg d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#courseSidebarMobile">
-                        <i class="fas fa-list me-2"></i> Browse Course Content
-                    </button>
+        </div>
+        
+        <!-- Botões de navegação -->
+        <div class="bg-white border-t border-gray-200 sticky bottom-0 z-30 shadow-md">
+            <div class="container mx-auto px-4 py-3">
+                <div class="flex justify-between items-center">
+                    {% if prev_lesson %}
+                    <a href="{% url 'course_learn' slug=course.slug %}?lesson={{ prev_lesson.id }}" class="flex items-center text-gray-700 hover:text-primary transition-colors px-4 py-2 rounded-lg hover:bg-gray-100">
+                        <i class="fas fa-chevron-left mr-2"></i>
+                        <span class="hidden sm:inline">Anterior:</span>
+                        <span class="ml-1 line-clamp-1">{{ prev_lesson.title|truncatechars:30 }}</span>
+                    </a>
+                    {% else %}
+                    <div></div>
+                    {% endif %}
+                    
+                    {% if not current_lesson.is_completed %}
+                    <form method="post" action="{% url 'mark_lesson_complete' lesson_id=current_lesson.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="px-6 py-2 bg-primary hover:bg-primary-dark text-white font-medium rounded-lg transition-colors shadow-sm">
+                            <i class="fas fa-check mr-2"></i>Marcar como concluído
+                        </button>
+                    </form>
+                    {% else %}
+                    <div class="flex items-center text-green-500 font-medium px-4 py-2 bg-green-50 rounded-lg">
+                        <i class="fas fa-check-circle mr-2"></i> Concluído
+                    </div>
+                    {% endif %}
+                    
+                    {% if next_lesson %}
+                    <a href="{% url 'course_learn' slug=course.slug %}?lesson={{ next_lesson.id }}" class="flex items-center text-gray-700 hover:text-primary transition-colors px-4 py-2 rounded-lg hover:bg-gray-100">
+                        <span class="mr-1 line-clamp-1">{{ next_lesson.title|truncatechars:30 }}</span>
+                        <span class="hidden sm:inline">:Próximo</span>
+                        <i class="fas fa-chevron-right ml-2"></i>
+                    </a>
+                    {% else %}
+                    <div></div>
+                    {% endif %}
                 </div>
             </div>
-            {% endif %}
         </div>
-    </div>
+    </main>
+    
+    <!-- Painel de anotações -->
+    <aside id="notesContainer" class="fixed inset-y-0 right-0 w-80 bg-white shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out z-40 flex flex-col">
+        <div class="p-4 bg-gray-50 border-b border-gray-200 flex items-center justify-between">
+            <h3 class="font-bold text-gray-800 flex items-center">
+                <i class="far fa-sticky-note text-primary mr-2"></i>
+                Minhas Anotações
+            </h3>
+            <button id="closeNotes" class="text-gray-500 hover:text-gray-700 focus:outline-none">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="p-4 flex-grow overflow-y-auto">
+            <textarea id="lessonNotes" class="w-full h-full p-4 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary resize-none" placeholder="Digite suas anotações para esta lição..."></textarea>
+        </div>
+        <div class="p-4 border-t border-gray-200 bg-gray-50">
+            <button id="saveNotes" class="w-full px-4 py-2 bg-primary hover:bg-primary-dark text-white font-medium rounded-lg transition-colors shadow-sm flex items-center justify-center">
+                <i class="fas fa-save mr-2"></i>
+                Salvar Anotações
+            </button>
+        </div>
+    </aside>
+    
+    <!-- Overlay para mobile -->
+    <div id="sidebarOverlay" class="fixed inset-0 bg-black bg-opacity-50 z-30 hidden lg:hidden"></div>
 </div>
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Toggle do sidebar em dispositivos móveis
+        const sidebarToggle = document.getElementById('sidebarToggle');
+        const closeSidebar = document.getElementById('closeSidebar');
+        const courseSidebar = document.getElementById('courseSidebar');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+        
+        if (sidebarToggle) {
+            sidebarToggle.addEventListener('click', function() {
+                courseSidebar.classList.remove('-translate-x-full');
+                sidebarOverlay.classList.remove('hidden');
+                document.body.classList.add('overflow-hidden');
+            });
+        }
+        
+        if (closeSidebar) {
+            closeSidebar.addEventListener('click', function() {
+                courseSidebar.classList.add('-translate-x-full');
+                sidebarOverlay.classList.add('hidden');
+                document.body.classList.remove('overflow-hidden');
+            });
+        }
+        
+        if (sidebarOverlay) {
+            sidebarOverlay.addEventListener('click', function() {
+                courseSidebar.classList.add('-translate-x-full');
+                sidebarOverlay.classList.add('hidden');
+                document.body.classList.remove('overflow-hidden');
+            });
+        }
+        
+        // Toggle dos módulos
+        const moduleHeaders = document.querySelectorAll('.module-header');
+
+        moduleHeaders.forEach(header => {
+            header.addEventListener('click', function() {
+                const moduleId = this.getAttribute('data-module-id');
+                const lessonNav = this.nextElementSibling;
+                const icon = this.querySelector('i.fa-chevron-down');
+                
+                // Calculate the scroll height before toggling
+                const scrollHeight = lessonNav.scrollHeight;
+                
+                if (lessonNav.classList.contains('active')) {
+                    lessonNav.style.maxHeight = '0px';
+                    lessonNav.classList.remove('active');
+                    if (icon) {
+                        icon.classList.remove('rotate-180');
+                    }
+                } else {
+                    // Close other open modules
+                    document.querySelectorAll('.lesson-nav.active').forEach(nav => {
+                        if (nav !== lessonNav) {
+                            nav.style.maxHeight = '0px';
+                            nav.classList.remove('active');
+                            const otherIcon = nav.previousElementSibling.querySelector('i.fa-chevron-down');
+                            if (otherIcon) {
+                                otherIcon.classList.remove('rotate-180');
+                            }
+                        }
+                    });
+                    
+                    // Open this module
+                    lessonNav.classList.add('active');
+                    lessonNav.style.maxHeight = scrollHeight + 'px';
+                    if (icon) {
+                        icon.classList.add('rotate-180');
+                    }
+                }
+            });
+        });
+
+        // Abrir o módulo atual por padrão
+        const currentModuleNav = document.querySelector('.module-header[data-module-id="{{ current_module.id }}"] + .lesson-nav');
+if (currentModuleNav) {
+    const scrollHeight = currentModuleNav.scrollHeight;
+    currentModuleNav.classList.add('active');
+    currentModuleNav.style.maxHeight = scrollHeight + 'px';
+    const icon = currentModuleNav.previousElementSibling.querySelector('i.fa-chevron-down');
+    if (icon) {
+        icon.classList.add('rotate-180');
+    }
+}
+        
+        // Toggle do painel de anotações
+        const notesToggle = document.getElementById('notesToggle');
+        const closeNotes = document.getElementById('closeNotes');
+        const notesContainer = document.getElementById('notesContainer');
+        
+        if (notesToggle) {
+            notesToggle.addEventListener('click', function() {
+                notesContainer.classList.toggle('translate-x-full');
+                if (!notesContainer.classList.contains('translate-x-full')) {
+                    // Se o painel de anotações estiver aberto em mobile, fechar o sidebar
+                    if (window.innerWidth < 1024) {
+                        courseSidebar.classList.add('-translate-x-full');
+                        sidebarOverlay.classList.add('hidden');
+                    }
+                }
+            });
+        }
+        
+        if (closeNotes) {
+            closeNotes.addEventListener('click', function() {
+                notesContainer.classList.add('translate-x-full');
+            });
+        }
+        
+        // Salvar anotações
+        const saveNotes = document.getElementById('saveNotes');
+        const lessonNotes = document.getElementById('lessonNotes');
+        
+        if (saveNotes && lessonNotes) {
+            // Carregar anotações salvas
+            const currentLessonId = '{{ current_lesson.id }}';
+            const savedNotes = localStorage.getItem('notes_' + currentLessonId);
+            if (savedNotes) {
+                lessonNotes.value = savedNotes;
+            }
+            
+            saveNotes.addEventListener('click', function() {
+                const notes = lessonNotes.value;
+                localStorage.setItem('notes_' + currentLessonId, notes);
+                
+                // Feedback visual
+                const originalText = this.innerHTML;
+                this.innerHTML = '<i class="fas fa-check mr-2"></i>Salvo com sucesso!';
+                this.classList.add('bg-green-500');
+                
+                setTimeout(() => {
+                    this.innerHTML = originalText;
+                    this.classList.remove('bg-green-500');
+                }, 2000);
+            });
+        }
+        
+        // Lógica do quiz
+        const quizContainer = document.getElementById('quizContainer');
+        if (quizContainer) {
+            const quizOptions = document.querySelectorAll('.quiz-option');
+            const submitQuiz = document.getElementById('submitQuiz');
+            const quizResults = document.getElementById('quizResults');
+            
+            quizOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    // Desmarcar outras opções na mesma pergunta
+                    const questionId = this.closest('.quiz-question').getAttribute('data-question-id');
+                    const questionOptions = document.querySelectorAll(`.quiz-question[data-question-id="${questionId}"] .quiz-option`);
+                    
+                    questionOptions.forEach(opt => {
+                        opt.classList.remove('selected', 'bg-blue-50', 'border-primary');
+                        const indicator = opt.querySelector('.option-indicator div');
+                        if (indicator) {
+                            indicator.classList.add('hidden');
+                        }
+                    });
+                    
+                    // Marcar esta opção
+                    this.classList.add('selected', 'bg-blue-50', 'border-primary');
+                    const indicator = this.querySelector('.option-indicator div');
+                    if (indicator) {
+                        indicator.classList.remove('hidden');
+                    }
+                });
+            });
+            
+            if (submitQuiz) {
+                submitQuiz.addEventListener('click', function() {
+                    // Verificar se todas as perguntas foram respondidas
+                    const questions = document.querySelectorAll('.quiz-question');
+                    let allAnswered = true;
+                    
+                    questions.forEach(question => {
+                        const selectedOption = question.querySelector('.quiz-option.selected');
+                        if (!selectedOption) {
+                            allAnswered = false;
+                        }
+                    });
+                    
+                    if (!allAnswered) {
+                        alert('Por favor, responda todas as perguntas antes de enviar.');
+                        return;
+                    }
+                    
+                    // Calcular pontuação
+                    let correctAnswers = 0;
+                    
+                    questions.forEach(question => {
+                        const selectedOption = question.querySelector('.quiz-option.selected');
+                        const isCorrect = selectedOption.getAttribute('data-is-correct') === 'true';
+                        
+                        if (isCorrect) {
+                            correctAnswers++;
+                            selectedOption.classList.add('bg-green-50', 'border-green-500');
+                            selectedOption.classList.remove('bg-blue-50', 'border-primary');
+                            const feedback = selectedOption.querySelector('.feedback-text');
+                            if (feedback) {
+                                feedback.textContent = '✓ Correto!';
+                                feedback.classList.remove('hidden');
+                                feedback.classList.add('text-green-600');
+                            }
+                        } else {
+                            selectedOption.classList.add('bg-red-50', 'border-red-500');
+                            selectedOption.classList.remove('bg-blue-50', 'border-primary');
+                            const feedback = selectedOption.querySelector('.feedback-text');
+                            if (feedback) {
+                                feedback.textContent = '✗ Incorreto';
+                                feedback.classList.remove('hidden');
+                                feedback.classList.add('text-red-600');
+                            }
+                            
+                            // Mostrar a resposta correta
+                            const correctOption = question.querySelector('.quiz-option[data-is-correct="true"]');
+                            if (correctOption) {
+                                correctOption.classList.add('bg-green-50', 'border-green-500');
+                                const correctFeedback = correctOption.querySelector('.feedback-text');
+                                if (correctFeedback) {
+                                    correctFeedback.textContent = '✓ Resposta correta';
+                                    correctFeedback.classList.remove('hidden');
+                                    correctFeedback.classList.add('text-green-600');
+                                }
+                            }
+                        }
+                    });
+                    
+                    // Calcular porcentagem
+                    const totalQuestions = questions.length;
+                    const scorePercentage = Math.round((correctAnswers / totalQuestions) * 100);
+                    const passPercentage = {{ current_lesson.quiz.pass_percentage|default:70 }};
+                    const passed = scorePercentage >= passPercentage;
+                    
+                    // Exibir resultados
+                    if (quizResults) {
+                        quizResults.innerHTML = `
+                            <div class="p-6 rounded-lg ${passed ? 'bg-green-50 border border-green-200' : 'bg-red-50 border border-red-200'} mt-6">
+                                <div class="flex items-center mb-4">
+                                    <div class="w-12 h-12 rounded-full ${passed ? 'bg-green-100' : 'bg-red-100'} flex items-center justify-center mr-4">
+                                        <i class="fas ${passed ? 'fa-check' : 'fa-times'} ${passed ? 'text-green-600' : 'text-red-600'} text-2xl"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-xl font-bold ${passed ? 'text-green-800' : 'text-red-800'} mb-1">
+                                            ${passed ? 'Parabéns!' : 'Tente novamente!'} 
+                                        </h4>
+                                        <p class="${passed ? 'text-green-700' : 'text-red-700'}">
+                                            Sua pontuação: ${scorePercentage}% (${correctAnswers} de ${totalQuestions} questões)
+                                        </p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex flex-col sm:flex-row justify-end mt-4">
+                                    ${!passed ? `
+                                    <button type="button" id="retryQuiz" class="w-full sm:w-auto px-6 py-2 bg-red-600 hover:bg-red-700 text-white font-medium rounded-lg transition-colors shadow-sm mb-3 sm:mb-0 sm:mr-3">
+                                        <i class="fas fa-redo mr-2"></i>Tentar Novamente
+                                    </button>
+                                    ` : ''}
+                                    
+                                    ${passed ? `
+                                    <form method="post" action="{% url 'mark_lesson_complete' lesson_id=current_lesson.id %}" class="w-full sm:w-auto">
+                                        {% csrf_token %}
+                                        <button type="submit" class="w-full px-6 py-2 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition-colors shadow-sm">
+                                            <i class="fas fa-arrow-right mr-2"></i>Continuar para a próxima lição
+                                        </button>
+                                    </form>
+                                    ` : ''}
+                                </div>
+                            </div>
+                        `;
+                        
+                        quizResults.classList.remove('hidden');
+                        
+                        // Desabilitar opções
+                        quizOptions.forEach(option => {
+                            option.style.pointerEvents = 'none';
+                        });
+                        
+                        // Ocultar botão de envio
+                        this.style.display = 'none';
+                        
+                        // Adicionar evento para o botão de tentar novamente
+                        const retryQuiz = document.getElementById('retryQuiz');
+                        if (retryQuiz) {
+                            retryQuiz.addEventListener('click', function() {
+                                // Resetar o quiz
+                                quizOptions.forEach(option => {
+                                    option.classList.remove('selected', 'bg-blue-50', 'bg-green-50', 'bg-red-50', 'border-primary', 'border-green-500', 'border-red-500');
+                                    option.style.pointerEvents = 'auto';
+                                    const indicator = option.querySelector('.option-indicator div');
+                                    if (indicator) {
+                                        indicator.classList.add('hidden');
+                                    }
+                                    const feedback = option.querySelector('.feedback-text');
+                                    if (feedback) {
+                                        feedback.classList.add('hidden');
+                                        feedback.classList.remove('text-green-600', 'text-red-600');
+                                    }
+                                });
+                                
+                                quizResults.classList.add('hidden');
+                                submitQuiz.style.display = 'block';
+                            });
+                        }
+                    }
+                });
+            }
+        }
+        
+        // Inicializar AOS se disponível
+        if (typeof AOS !== 'undefined') {
+            AOS.init({
+                duration: 800,
+                once: true
+            });
+        }
+    });
+</script>
 {% endblock %}
+{% endblock %}
+

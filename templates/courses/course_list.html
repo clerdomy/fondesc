@@ -5,17 +5,17 @@
 
 {% block content %}
 <!-- Hero Section -->
-<section class="bg-primary text-white py-4">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-6">
-                <h1 class="display-5 fw-bold mb-3">Python Courses</h1>
-                <p class="lead mb-0">Discover our collection of Python courses designed for all skill levels</p>
+<section class="bg-gradient-to-r from-primary to-primary-light text-white py-12">
+    <div class="container mx-auto px-4">
+        <div class="flex flex-col md:flex-row items-center">
+            <div class="w-full md:w-1/2 mb-8 md:mb-0" data-aos="fade-right">
+                <h1 class="text-4xl font-bold mb-4">Python Courses</h1>
+                <p class="text-xl opacity-90 mb-0">Discover our collection of Python courses designed for all skill levels</p>
             </div>
-            <div class="col-lg-6">
-                <form action="{% url 'course_list' %}" method="get" class="d-flex mt-3 mt-lg-0">
-                    <input type="text" name="q" class="form-control form-control-lg me-2" placeholder="Search courses..." value="{{ search_query|default:'' }}">
-                    <button type="submit" class="btn btn-light">
+            <div class="w-full md:w-1/2" data-aos="fade-left">
+                <form action="{% url 'course_list' %}" method="get" class="flex">
+                    <input type="text" name="q" class="w-full px-4 py-3 rounded-l-lg focus:outline-none text-gray-800" placeholder="Search courses..." value="{{ search_query|default:'' }}">
+                    <button type="submit" class="bg-secondary hover:bg-secondary-dark text-primary px-6 rounded-r-lg transition-colors">
                         <i class="fas fa-search"></i>
                     </button>
                 </form>
@@ -25,14 +25,14 @@
 </section>
 
 <!-- Courses Section -->
-<section class="py-5">
-    <div class="container">
-        <div class="row">
-            <!-- Filters Sidebar -->
-            <div class="col-lg-3 mb-4 mb-lg-0">
-                <div class="card border-0 shadow-sm sticky-top" style="top: 2rem; z-index: 999;">
-                    <div class="card-body">
-                        <h5 class="card-title mb-3">Filters</h5>
+<section class="py-12 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <div class="flex flex-col lg:flex-row">
+            <!-- Filters Sidebar (Desktop Only) -->
+            <div class="hidden lg:block lg:w-1/4 lg:pr-8 mb-8 lg:mb-0">
+                <div class="bg-white rounded-xl shadow-md sticky top-24" data-aos="fade-right">
+                    <div class="p-6">
+                        <h5 class="text-lg font-bold text-gray-800 mb-4">Filters</h5>
                         
                         <form action="{% url 'course_list' %}" method="get" id="filter-form">
                             <!-- Preserve search query if exists -->
@@ -41,16 +41,16 @@
                             {% endif %}
                             
                             <!-- Categories -->
-                            <div class="mb-4">
-                                <h6 class="fw-bold mb-2">Categories</h6>
-                                <div class="list-group list-group-flush">
+                            <div class="mb-6">
+                                <h6 class="font-semibold text-gray-700 mb-3">Categories</h6>
+                                <div class="space-y-2">
                                     <a href="{% url 'course_list' %}{% if search_query %}?q={{ search_query }}{% endif %}" 
-                                       class="list-group-item list-group-item-action border-0 px-0 {% if not selected_category %}active{% endif %}">
+                                       class="block py-2 px-3 rounded-lg {% if not selected_category %}bg-primary text-white{% else %}text-gray-700 hover:bg-gray-100{% endif %} transition-colors">
                                         All Categories
                                     </a>
                                     {% for category in categories %}
                                     <a href="{% url 'course_list' %}?category={{ category.slug }}{% if search_query %}&q={{ search_query }}{% endif %}" 
-                                       class="list-group-item list-group-item-action border-0 px-0 {% if selected_category == category.slug %}active{% endif %}">
+                                       class="block py-2 px-3 rounded-lg {% if selected_category == category.slug %}bg-primary text-white{% else %}text-gray-700 hover:bg-gray-100{% endif %} transition-colors">
                                         {{ category.name }}
                                     </a>
                                     {% endfor %}
@@ -58,51 +58,53 @@
                             </div>
                             
                             <!-- Level -->
-                            <div class="mb-4">
-                                <h6 class="fw-bold mb-2">Level</h6>
-                                <div class="form-check mb-2">
-                                    <input class="form-check-input" type="radio" name="level" id="level-all" value="" 
-                                           {% if not selected_level %}checked{% endif %} onchange="document.getElementById('filter-form').submit();">
-                                    <label class="form-check-label" for="level-all">
-                                        All Levels
-                                    </label>
-                                </div>
-                                <div class="form-check mb-2">
-                                    <input class="form-check-input" type="radio" name="level" id="level-beginner" value="beginner" 
-                                           {% if selected_level == 'beginner' %}checked{% endif %} onchange="document.getElementById('filter-form').submit();">
-                                    <label class="form-check-label" for="level-beginner">
-                                        Beginner
-                                    </label>
-                                </div>
-                                <div class="form-check mb-2">
-                                    <input class="form-check-input" type="radio" name="level" id="level-intermediate" value="intermediate" 
-                                           {% if selected_level == 'intermediate' %}checked{% endif %} onchange="document.getElementById('filter-form').submit();">
-                                    <label class="form-check-label" for="level-intermediate">
-                                        Intermediate
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="level" id="level-advanced" value="advanced" 
-                                           {% if selected_level == 'advanced' %}checked{% endif %} onchange="document.getElementById('filter-form').submit();">
-                                    <label class="form-check-label" for="level-advanced">
-                                        Advanced
-                                    </label>
+                            <div class="mb-6">
+                                <h6 class="font-semibold text-gray-700 mb-3">Level</h6>
+                                <div class="space-y-2">
+                                    <div class="flex items-center">
+                                        <input class="h-4 w-4 text-primary border-gray-300 focus:ring-primary" type="radio" name="level" id="level-all" value="" 
+                                               {% if not selected_level %}checked{% endif %} onchange="document.getElementById('filter-form').submit();">
+                                        <label class="ml-2 text-gray-700" for="level-all">
+                                            All Levels
+                                        </label>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <input class="h-4 w-4 text-primary border-gray-300 focus:ring-primary" type="radio" name="level" id="level-beginner" value="beginner" 
+                                               {% if selected_level == 'beginner' %}checked{% endif %} onchange="document.getElementById('filter-form').submit();">
+                                        <label class="ml-2 text-gray-700" for="level-beginner">
+                                            Beginner
+                                        </label>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <input class="h-4 w-4 text-primary border-gray-300 focus:ring-primary" type="radio" name="level" id="level-intermediate" value="intermediate" 
+                                               {% if selected_level == 'intermediate' %}checked{% endif %} onchange="document.getElementById('filter-form').submit();">
+                                        <label class="ml-2 text-gray-700" for="level-intermediate">
+                                            Intermediate
+                                        </label>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <input class="h-4 w-4 text-primary border-gray-300 focus:ring-primary" type="radio" name="level" id="level-advanced" value="advanced" 
+                                               {% if selected_level == 'advanced' %}checked{% endif %} onchange="document.getElementById('filter-form').submit();">
+                                        <label class="ml-2 text-gray-700" for="level-advanced">
+                                            Advanced
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
                             
                             <!-- Clear Filters -->
-                            <a href="{% url 'course_list' %}" class="btn btn-outline-primary w-100">Clear Filters</a>
+                            <a href="{% url 'course_list' %}" class="block w-full py-2 px-4 bg-gray-200 hover:bg-gray-300 text-gray-800 text-center rounded-lg transition-colors">Clear Filters</a>
                         </form>
                     </div>
                 </div>
             </div>
             
             <!-- Course Grid -->
-            <div class="col-lg-9">
+            <div class="w-full lg:w-3/4">
                 <!-- Filter Results Info -->
-                <div class="d-flex justify-content-between align-items-center mb-4">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6" data-aos="fade-up">
                     <div>
-                        <h2 class="h4 mb-0">
+                        <h2 class="text-2xl font-bold text-gray-800">
                             {% if search_query %}
                                 Search results for "{{ search_query }}"
                             {% elif selected_category %}
@@ -113,39 +115,37 @@
                                 All Courses
                             {% endif %}
                         </h2>
-                        <p class="text-muted mb-0">{{ paginator.count }} courses found</p>
+                        <p class="text-gray-600">{{ paginator.count }} courses found</p>
                     </div>
                     
                     <!-- Mobile Filters Button -->
-                    <button class="btn btn-outline-primary d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#filtersOffcanvas">
-                        <i class="fas fa-filter me-2"></i> Filters
+                    <button id="showFiltersBtn" class="mt-4 sm:mt-0 py-2 px-4 bg-primary text-white rounded-lg lg:hidden flex items-center">
+                        <i class="fas fa-filter mr-2"></i> Filters
                     </button>
                 </div>
                 
                 {% if courses %}
-                <div class="row g-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {% for course in courses %}
-                    <div class="col-md-6 col-lg-4">
-                        <div class="card h-100 border-0 shadow-sm">
-                            <img src="{{ course.thumbnail.url }}" class="card-img-top" alt="{{ course.title }}">
-                            <div class="card-body">
-                                <div class="d-flex justify-content-between align-items-center mb-2">
-                                    <span class="badge bg-primary">{{ course.get_level_display }}</span>
-                                    <span class="text-muted"><i class="far fa-clock me-1"></i>{{ course.duration_in_weeks }} weeks</span>
-                                </div>
-                                <h5 class="card-title">{{ course.title }}</h5>
-                                <p class="card-text text-muted">{{ course.short_description|truncatechars:100 }}</p>
+                    <div class="course-card bg-white rounded-xl shadow-md overflow-hidden" data-aos="fade-up" data-aos-delay="{{ forloop.counter|add:'50' }}">
+                        <img src="{{ course.thumbnail.url }}" class="w-full h-48 object-cover" alt="{{ course.title }}">
+                        <div class="p-6">
+                            <div class="flex justify-between items-center mb-3">
+                                <span class="px-3 py-1 bg-primary text-white text-xs font-semibold rounded-full">{{ course.get_level_display }}</span>
+                                <span class="text-gray-600 text-sm"><i class="far fa-clock mr-1"></i>{{ course.duration_in_weeks }} weeks</span>
                             </div>
-                            <div class="card-footer bg-white border-0 d-flex justify-content-between align-items-center">
+                            <h5 class="text-xl font-bold text-gray-800 mb-2">{{ course.title }}</h5>
+                            <p class="text-gray-600 text-sm mb-4">{{ course.short_description|truncatechars:100 }}</p>
+                            <div class="flex justify-between items-center">
                                 <div>
                                     {% if course.discount_price %}
-                                    <span class="fw-bold text-primary">${{ course.discount_price }}</span>
-                                    <span class="text-muted text-decoration-line-through ms-2">${{ course.price }}</span>
+                                    <span class="text-primary font-bold">${{ course.discount_price }}</span>
+                                    <span class="text-gray-500 line-through ml-2">${{ course.price }}</span>
                                     {% else %}
-                                    <span class="fw-bold text-primary">${{ course.price }}</span>
+                                    <span class="text-primary font-bold">${{ course.price }}</span>
                                     {% endif %}
                                 </div>
-                                <a href="{% url 'course_detail' slug=course.slug %}" class="btn btn-sm btn-primary">View Course</a>
+                                <a href="{% url 'course_detail' slug=course.slug %}" class="py-2 px-4 bg-secondary hover:bg-secondary-dark text-primary font-semibold rounded-lg transition-colors">View Course</a>
                             </div>
                         </div>
                     </div>
@@ -154,16 +154,16 @@
                 
                 <!-- Pagination -->
                 {% if is_paginated %}
-                <nav aria-label="Page navigation" class="mt-5">
-                    <ul class="pagination justify-content-center">
+                <nav class="mt-12" data-aos="fade-up">
+                    <ul class="flex justify-center">
                         {% if page_obj.has_previous %}
-                        <li class="page-item">
-                            <a class="page-link" href="?page=1{% if search_query %}&q={{ search_query }}{% endif %}{% if selected_category %}&category={{ selected_category }}{% endif %}{% if selected_level %}&level={{ selected_level }}{% endif %}" aria-label="First">
+                        <li>
+                            <a class="mx-1 flex h-9 w-9 items-center justify-center rounded-full border border-gray-300 bg-white text-gray-700 hover:bg-gray-100" href="?page=1{% if search_query %}&q={{ search_query }}{% endif %}{% if selected_category %}&category={{ selected_category }}{% endif %}{% if selected_level %}&level={{ selected_level }}{% endif %}" aria-label="First">
                                 <span aria-hidden="true">&laquo;&laquo;</span>
                             </a>
                         </li>
-                        <li class="page-item">
-                            <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if search_query %}&q={{ search_query }}{% endif %}{% if selected_category %}&category={{ selected_category }}{% endif %}{% if selected_level %}&level={{ selected_level }}{% endif %}" aria-label="Previous">
+                        <li>
+                            <a class="mx-1 flex h-9 w-9 items-center justify-center rounded-full border border-gray-300 bg-white text-gray-700 hover:bg-gray-100" href="?page={{ page_obj.previous_page_number }}{% if search_query %}&q={{ search_query }}{% endif %}{% if selected_category %}&category={{ selected_category }}{% endif %}{% if selected_level %}&level={{ selected_level }}{% endif %}" aria-label="Previous">
                                 <span aria-hidden="true">&laquo;</span>
                             </a>
                         </li>
@@ -171,22 +171,24 @@
                         
                         {% for num in page_obj.paginator.page_range %}
                             {% if page_obj.number == num %}
-                            <li class="page-item active"><a class="page-link" href="#">{{ num }}</a></li>
+                            <li>
+                                <a class="mx-1 flex h-9 w-9 items-center justify-center rounded-full border border-primary bg-primary text-white" href="#">{{ num }}</a>
+                            </li>
                             {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
-                            <li class="page-item">
-                                <a class="page-link" href="?page={{ num }}{% if search_query %}&q={{ search_query }}{% endif %}{% if selected_category %}&category={{ selected_category }}{% endif %}{% if selected_level %}&level={{ selected_level }}{% endif %}">{{ num }}</a>
+                            <li>
+                                <a class="mx-1 flex h-9 w-9 items-center justify-center rounded-full border border-gray-300 bg-white text-gray-700 hover:bg-gray-100" href="?page={{ num }}{% if search_query %}&q={{ search_query }}{% endif %}{% if selected_category %}&category={{ selected_category }}{% endif %}{% if selected_level %}&level={{ selected_level }}{% endif %}">{{ num }}</a>
                             </li>
                             {% endif %}
                         {% endfor %}
                         
                         {% if page_obj.has_next %}
-                        <li class="page-item">
-                            <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if search_query %}&q={{ search_query }}{% endif %}{% if selected_category %}&category={{ selected_category }}{% endif %}{% if selected_level %}&level={{ selected_level }}{% endif %}" aria-label="Next">
+                        <li>
+                            <a class="mx-1 flex h-9 w-9 items-center justify-center rounded-full border border-gray-300 bg-white text-gray-700 hover:bg-gray-100" href="?page={{ page_obj.next_page_number }}{% if search_query %}&q={{ search_query }}{% endif %}{% if selected_category %}&category={{ selected_category }}{% endif %}{% if selected_level %}&level={{ selected_level }}{% endif %}" aria-label="Next">
                                 <span aria-hidden="true">&raquo;</span>
                             </a>
                         </li>
-                        <li class="page-item">
-                            <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}{% if search_query %}&q={{ search_query }}{% endif %}{% if selected_category %}&category={{ selected_category }}{% endif %}{% if selected_level %}&level={{ selected_level }}{% endif %}" aria-label="Last">
+                        <li>
+                            <a class="mx-1 flex h-9 w-9 items-center justify-center rounded-full border border-gray-300 bg-white text-gray-700 hover:bg-gray-100" href="?page={{ page_obj.paginator.num_pages }}{% if search_query %}&q={{ search_query }}{% endif %}{% if selected_category %}&category={{ selected_category }}{% endif %}{% if selected_level %}&level={{ selected_level }}{% endif %}" aria-label="Last">
                                 <span aria-hidden="true">&raquo;&raquo;</span>
                             </a>
                         </li>
@@ -196,13 +198,11 @@
                 {% endif %}
                 
                 {% else %}
-                <div class="card border-0 shadow-sm">
-                    <div class="card-body p-5 text-center">
-                        <i class="fas fa-search fa-3x text-muted mb-3"></i>
-                        <h3>No courses found</h3>
-                        <p class="text-muted mb-4">We couldn't find any courses matching your criteria.</p>
-                        <a href="{% url 'course_list' %}" class="btn btn-primary">Clear Filters</a>
-                    </div>
+                <div class="bg-white rounded-xl shadow-md p-12 text-center" data-aos="fade-up">
+                    <i class="fas fa-search text-gray-400 text-5xl mb-4"></i>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-2">No courses found</h3>
+                    <p class="text-gray-600 mb-6">We couldn't find any courses matching your criteria.</p>
+                    <a href="{% url 'course_list' %}" class="py-2 px-6 bg-primary hover:bg-primary-dark text-white font-semibold rounded-lg transition-colors">Clear Filters</a>
                 </div>
                 {% endif %}
             </div>
@@ -210,76 +210,136 @@
     </div>
 </section>
 
-<!-- Mobile Filters Offcanvas -->
-<div class="offcanvas offcanvas-start" tabindex="-1" id="filtersOffcanvas" aria-labelledby="filtersOffcanvasLabel">
-    <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="filtersOffcanvasLabel">Filters</h5>
-        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-    </div>
-    <div class="offcanvas-body">
-        <form action="{% url 'course_list' %}" method="get" id="mobile-filter-form">
-            <!-- Preserve search query if exists -->
-            {% if search_query %}
-            <input type="hidden" name="q" value="{{ search_query }}">
-            {% endif %}
-            
-            <!-- Categories -->
-            <div class="mb-4">
-                <h6 class="fw-bold mb-2">Categories</h6>
-                <div class="list-group list-group-flush">
-                    <a href="{% url 'course_list' %}{% if search_query %}?q={{ search_query }}{% endif %}" 
-                       class="list-group-item list-group-item-action border-0 {% if not selected_category %}active{% endif %}">
-                        All Categories
-                    </a>
-                    {% for category in categories %}
-                    <a href="{% url 'course_list' %}?category={{ category.slug }}{% if search_query %}&q={{ search_query }}{% endif %}" 
-                       class="list-group-item list-group-item-action border-0 {% if selected_category == category.slug %}active{% endif %}">
-                        {{ category.name }}
-                    </a>
-                    {% endfor %}
+<!-- Mobile Filters Modal -->
+<div id="mobileFiltersModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
+    <div class="bg-white h-full w-4/5 max-w-sm overflow-y-auto transform transition-transform duration-300 translate-x-0" id="mobileFiltersPanel">
+        <div class="p-4 border-b border-gray-200 flex justify-between items-center">
+            <h5 class="text-lg font-bold">Filters</h5>
+            <button type="button" class="text-gray-500 hover:text-gray-700" id="closeFiltersBtn">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+        </div>
+        <div class="p-4">
+            <form action="{% url 'course_list' %}" method="get" id="mobile-filter-form">
+                <!-- Preserve search query if exists -->
+                {% if search_query %}
+                <input type="hidden" name="q" value="{{ search_query }}">
+                {% endif %}
+                
+                <!-- Categories -->
+                <div class="mb-6">
+                    <h6 class="font-semibold text-gray-700 mb-3">Categories</h6>
+                    <div class="space-y-2">
+                        <a href="{% url 'course_list' %}{% if search_query %}?q={{ search_query }}{% endif %}" 
+                           class="block py-2 px-3 rounded-lg {% if not selected_category %}bg-primary text-white{% else %}text-gray-700 hover:bg-gray-100{% endif %} transition-colors">
+                            All Categories
+                        </a>
+                        {% for category in categories %}
+                        <a href="{% url 'course_list' %}?category={{ category.slug }}{% if search_query %}&q={{ search_query }}{% endif %}" 
+                           class="block py-2 px-3 rounded-lg {% if selected_category == category.slug %}bg-primary text-white{% else %}text-gray-700 hover:bg-gray-100{% endif %} transition-colors">
+                            {{ category.name }}
+                        </a>
+                        {% endfor %}
+                    </div>
                 </div>
-            </div>
-            
-            <!-- Level -->
-            <div class="mb-4">
-                <h6 class="fw-bold mb-2">Level</h6>
-                <div class="form-check mb-2">
-                    <input class="form-check-input" type="radio" name="level" id="mobile-level-all" value="" 
-                           {% if not selected_level %}checked{% endif %} onchange="document.getElementById('mobile-filter-form').submit();">
-                    <label class="form-check-label" for="mobile-level-all">
-                        All Levels
-                    </label>
-                </div>
-                <div class="form-check mb-2">
-                    <input class="form-check-input" type="radio" name="level" id="mobile-level-beginner" value="beginner" 
-                           {% if selected_level == 'beginner' %}checked{% endif %} onchange="document.getElementById('mobile-filter-form').submit();">
-                    <label class="form-check-label" for="mobile-level-beginner">
-                        Beginner
-                    </label>
-                </div>
-                <div class="form-check mb-2">
-                    <input class="form-check-input" type="radio" name="level" id="mobile-level-intermediate" value="intermediate" 
-                           {% if selected_level == 'intermediate' %}checked{% endif %} onchange="document.getElementById('mobile-filter-form').submit();">
-                    <label class="form-check-label" for="mobile-level-intermediate">
-                        Intermediate
-                    </label>
-                </div>
-                <div class="form-check mb-4">
-                    <input class="form-check-input" type="radio" name="level" id="mobile-level-advanced" value="advanced" 
-                           {% if selected_level == 'advanced' %}checked{% endif %} onchange="document.getElementById('mobile-filter-form').submit();">
-                    <label class="form-check-label" for="mobile-level-advanced">
-                        Advanced
-                    </label>
+                
+                <!-- Level -->
+                <div class="mb-6">
+                    <h6 class="font-semibold text-gray-700 mb-3">Level</h6>
+                    <div class="space-y-2">
+                        <div class="flex items-center">
+                            <input class="h-4 w-4 text-primary border-gray-300 focus:ring-primary" type="radio" name="level" id="mobile-level-all" value="" 
+                                   {% if not selected_level %}checked{% endif %}>
+                            <label class="ml-2 text-gray-700" for="mobile-level-all">
+                                All Levels
+                            </label>
+                        </div>
+                        <div class="flex items-center">
+                            <input class="h-4 w-4 text-primary border-gray-300 focus:ring-primary" type="radio" name="level" id="mobile-level-beginner" value="beginner" 
+                                   {% if selected_level == 'beginner' %}checked{% endif %}>
+                            <label class="ml-2 text-gray-700" for="mobile-level-beginner">
+                                Beginner
+                            </label>
+                        </div>
+                        <div class="flex items-center">
+                            <input class="h-4 w-4 text-primary border-gray-300 focus:ring-primary" type="radio" name="level" id="mobile-level-intermediate" value="intermediate" 
+                                   {% if selected_level == 'intermediate' %}checked{% endif %}>
+                            <label class="ml-2 text-gray-700" for="mobile-level-intermediate">
+                                Intermediate
+                            </label>
+                        </div>
+                        <div class="flex items-center">
+                            <input class="h-4 w-4 text-primary border-gray-300 focus:ring-primary" type="radio" name="level" id="mobile-level-advanced" value="advanced" 
+                                   {% if selected_level == 'advanced' %}checked{% endif %}>
+                            <label class="ml-2 text-gray-700" for="mobile-level-advanced">
+                                Advanced
+                            </label>
+                        </div>
+                    </div>
                 </div>
                 
                 <!-- Apply and Clear Buttons -->
-                <div class="d-grid gap-2">
-                    <button type="submit" class="btn btn-primary">Apply Filters</button>
-                    <a href="{% url 'course_list' %}" class="btn btn-outline-secondary">Clear Filters</a>
+                <div class="grid grid-cols-2 gap-4">
+                    <button type="submit" class="py-2 px-4 bg-primary hover:bg-primary-dark text-white font-semibold rounded-lg transition-colors">Apply Filters</button>
+                    <a href="{% url 'course_list' %}" class="py-2 px-4 bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold rounded-lg transition-colors text-center">Clear Filters</a>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
 </div>
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Mobile filters functionality
+        const showFiltersBtn = document.getElementById('showFiltersBtn');
+        const closeFiltersBtn = document.getElementById('closeFiltersBtn');
+        const mobileFiltersModal = document.getElementById('mobileFiltersModal');
+        const mobileFiltersPanel = document.getElementById('mobileFiltersPanel');
+        
+        if (showFiltersBtn && closeFiltersBtn && mobileFiltersModal) {
+            // Show filters
+            showFiltersBtn.addEventListener('click', function() {
+                mobileFiltersModal.classList.remove('hidden');
+                // Reset transform to ensure it slides in correctly
+                setTimeout(() => {
+                    mobileFiltersPanel.classList.remove('-translate-x-full');
+                    mobileFiltersPanel.classList.add('translate-x-0');
+                }, 10);
+                document.body.classList.add('overflow-hidden');
+            });
+            
+            // Hide filters
+            closeFiltersBtn.addEventListener('click', function() {
+                mobileFiltersPanel.classList.remove('translate-x-0');
+                mobileFiltersPanel.classList.add('-translate-x-full');
+                setTimeout(() => {
+                    mobileFiltersModal.classList.add('hidden');
+                    document.body.classList.remove('overflow-hidden');
+                }, 300);
+            });
+            
+            // Close when clicking outside the panel
+            mobileFiltersModal.addEventListener('click', function(e) {
+                if (e.target === mobileFiltersModal) {
+                    mobileFiltersPanel.classList.remove('translate-x-0');
+                    mobileFiltersPanel.classList.add('-translate-x-full');
+                    setTimeout(() => {
+                        mobileFiltersModal.classList.add('hidden');
+                        document.body.classList.remove('overflow-hidden');
+                    }, 300);
+                }
+            });
+            
+            // Handle radio button changes to auto-submit the form
+            const radioButtons = document.querySelectorAll('#mobile-filter-form input[type="radio"]');
+            radioButtons.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    document.getElementById('mobile-filter-form').submit();
+                });
+            });
+        }
+    });
+</script>
+{% endblock %}
 {% endblock %}
 

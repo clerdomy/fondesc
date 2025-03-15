@@ -1,167 +1,432 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Contact Us | PythonLearn{% endblock %}
+{% block title %}Contato | PythonLearn{% endblock %}
 
 {% block content %}
 <!-- Hero Section -->
-<section class="bg-primary text-white py-5">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-6">
-                <h1 class="display-4 fw-bold mb-3">Contact Us</h1>
-                <p class="lead mb-0">Have questions or feedback? We'd love to hear from you!</p>
+<section class="relative bg-gradient-to-r from-primary to-primary-light text-white py-16 overflow-hidden">
+    <!-- Decorative elements -->
+    <div class="absolute top-0 right-0 w-96 h-96 bg-secondary opacity-10 rounded-full -mt-24 -mr-24"></div>
+    <div class="absolute bottom-0 left-0 w-64 h-64 bg-secondary opacity-10 rounded-full -mb-32 -ml-32"></div>
+    
+    <div class="container mx-auto px-4 relative z-10">
+        <div class="max-w-3xl mx-auto text-center">
+            <h1 class="text-4xl md:text-5xl font-bold mb-6" data-aos="fade-up">Entre em Contato</h1>
+            <p class="text-xl opacity-90" data-aos="fade-up" data-aos-delay="100">
+                Estamos aqui para ajudar. Envie-nos uma mensagem e responderemos o mais breve possível.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            <!-- Contact Form -->
+            <div data-aos="fade-right">
+                <div class="bg-white rounded-xl shadow-md p-8">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6">Envie-nos uma mensagem</h2>
+                    
+                    {% if messages %}
+                    <div class="mb-6">
+                        {% for message in messages %}
+                        <div class="{% if message.tags == 'success' %}bg-green-50 border-l-4 border-green-500{% elif message.tags == 'error' %}bg-red-50 border-l-4 border-red-500{% else %}bg-blue-50 border-l-4 border-blue-500{% endif %} p-4 mb-4 rounded-lg">
+                            <div class="flex">
+                                <div class="flex-shrink-0">
+                                    {% if message.tags == 'success' %}
+                                    <i class="fas fa-check-circle text-green-500"></i>
+                                    {% elif message.tags == 'error' %}
+                                    <i class="fas fa-exclamation-circle text-red-500"></i>
+                                    {% else %}
+                                    <i class="fas fa-info-circle text-blue-500"></i>
+                                    {% endif %}
+                                </div>
+                                <div class="ml-3">
+                                    <p class="text-sm {% if message.tags == 'success' %}text-green-700{% elif message.tags == 'error' %}text-red-700{% else %}text-blue-700{% endif %}">
+                                        {{ message }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    
+                    <form method="post" class="space-y-6">
+                        {% csrf_token %}
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- Name Field -->
+                            <div>
+                                <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Nome completo</label>
+                                <input type="text" id="name" name="name" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary" required>
+                            </div>
+                            
+                            <!-- Email Field -->
+                            <div>
+                                <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                                <input type="email" id="email" name="email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary" required>
+                            </div>
+                        </div>
+                        
+                        <!-- Phone Field -->
+                        <div>
+                            <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">Telefone</label>
+                            <div class="flex">
+                                <span class="inline-flex items-center px-3 text-gray-500 bg-gray-100 border border-r-0 border-gray-300 rounded-l-md">
+                                    +509
+                                </span>
+                                <input type="tel" id="phone" name="phone" class="flex-1 min-w-0 block w-full px-3 py-2 rounded-none rounded-r-md border border-gray-300 focus:ring-primary focus:border-primary" placeholder="3456 7890">
+                            </div>
+                        </div>
+                        
+                        <!-- Subject Field -->
+                        <div>
+                            <label for="subject" class="block text-sm font-medium text-gray-700 mb-1">Assunto</label>
+                            <select id="subject" name="subject" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary" required>
+                                <option value="">Selecione um assunto</option>
+                                <option value="general">Informações gerais</option>
+                                <option value="courses">Dúvidas sobre cursos</option>
+                                <option value="technical">Suporte técnico</option>
+                                <option value="billing">Pagamentos e faturamento</option>
+                                <option value="partnership">Parcerias</option>
+                                <option value="other">Outro assunto</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Message Field -->
+                        <div>
+                            <label for="message" class="block text-sm font-medium text-gray-700 mb-1">Mensagem</label>
+                            <textarea id="message" name="message" rows="5" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary resize-none" required></textarea>
+                        </div>
+                        
+                        <!-- Submit Button -->
+                        <div>
+                            <button type="submit" class="w-full bg-primary hover:bg-primary-dark text-white font-semibold py-3 px-4 rounded-lg transition-colors shadow-md hover:shadow-lg">
+                                <i class="fas fa-paper-plane mr-2"></i>Enviar Mensagem
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div class="col-lg-6">
-                <img src="{% static 'images/contact-hero.svg' %}" alt="Contact Us" class="img-fluid">
+            
+            <!-- Contact Information -->
+            <div data-aos="fade-left">
+                <div class="bg-white rounded-xl shadow-md p-8 mb-8">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6">Informações de Contato</h2>
+                    
+                    <div class="space-y-6">
+                        <!-- Address -->
+                        <div class="flex">
+                            <div class="flex-shrink-0 mr-4">
+                                <div class="w-12 h-12 bg-primary bg-opacity-10 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-map-marker-alt text-primary text-xl"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-800 mb-1">Endereço</h3>
+                                <p class="text-gray-600">
+                                    Delmas 60, Rue Metellus #7<br>
+                                    Port-au-Prince, Haiti
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <!-- Phone -->
+                        <div class="flex">
+                            <div class="flex-shrink-0 mr-4">
+                                <div class="w-12 h-12 bg-primary bg-opacity-10 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-phone-alt text-primary text-xl"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-800 mb-1">Telefone</h3>
+                                <p class="text-gray-600">
+                                    <a href="tel:+50934567890" class="hover:text-primary transition-colors">+509 3456 7890</a><br>
+                                    <a href="tel:+50928901234" class="hover:text-primary transition-colors">+509 2890 1234</a>
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <!-- Email -->
+                        <div class="flex">
+                            <div class="flex-shrink-0 mr-4">
+                                <div class="w-12 h-12 bg-primary bg-opacity-10 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-envelope text-primary text-xl"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-800 mb-1">Email</h3>
+                                <p class="text-gray-600">
+                                    <a href="mailto:info@pythonlearn.ht" class="hover:text-primary transition-colors">info@pythonlearn.ht</a><br>
+                                    <a href="mailto:suporte@pythonlearn.ht" class="hover:text-primary transition-colors">suporte@pythonlearn.ht</a>
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <!-- Hours -->
+                        <div class="flex">
+                            <div class="flex-shrink-0 mr-4">
+                                <div class="w-12 h-12 bg-primary bg-opacity-10 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-clock text-primary text-xl"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-800 mb-1">Horário de Atendimento</h3>
+                                <p class="text-gray-600">
+                                    Segunda a Sexta: 8h às 18h<br>
+                                    Sábado: 9h às 13h
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Social Media -->
+                <div class="bg-white rounded-xl shadow-md p-8">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6">Siga-nos</h2>
+                    
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <a href="#" class="flex flex-col items-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                            <div class="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center text-white mb-2">
+                                <i class="fab fa-facebook-f text-xl"></i>
+                            </div>
+                            <span class="text-gray-800 font-medium">Facebook</span>
+                        </a>
+                        
+                        <a href="#" class="flex flex-col items-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                            <div class="w-12 h-12 bg-blue-400 rounded-full flex items-center justify-center text-white mb-2">
+                                <i class="fab fa-twitter text-xl"></i>
+                            </div>
+                            <span class="text-gray-800 font-medium">Twitter</span>
+                        </a>
+                        
+                        <a href="#" class="flex flex-col items-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                            <div class="w-12 h-12 bg-pink-600 rounded-full flex items-center justify-center text-white mb-2">
+                                <i class="fab fa-instagram text-xl"></i>
+                            </div>
+                            <span class="text-gray-800 font-medium">Instagram</span>
+                        </a>
+                        
+                        <a href="#" class="flex flex-col items-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                            <div class="w-12 h-12 bg-blue-700 rounded-full flex items-center justify-center text-white mb-2">
+                                <i class="fab fa-linkedin-in text-xl"></i>
+                            </div>
+                            <span class="text-gray-800 font-medium">LinkedIn</span>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Contact Form Section -->
-<section class="py-5">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8">
-                <div class="card border-0 shadow-sm">
-                    <div class="card-body p-4 p-md-5">
-                        <h2 class="fw-bold mb-4">Send Us a Message</h2>
-                        
-                        <form>
-                            <div class="row g-3">
-                                <div class="col-md-6">
-                                    <label for="name" class="form-label">Your Name</label>
-                                    <input type="text" class="form-control" id="name" placeholder="John Doe" required>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="email" class="form-label">Email Address</label>
-                                    <input type="email" class="form-control" id="email" placeholder="john@example.com" required>
-                                </div>
-                                <div class="col-12">
-                                    <label for="subject" class="form-label">Subject</label>
-                                    <input type="text" class="form-control" id="subject" placeholder="How can we help you?">
-                                </div>
-                                <div class="col-12">
-                                    <label for="message" class="form-label">Message</label>
-                                    <textarea class="form-control" id="message" rows="5" placeholder="Your message here..." required></textarea>
-                                </div>
-                                <div class="col-12">
-                                    <button type="submit" class="btn btn-primary btn-lg">Send Message</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col-lg-4 mt-4 mt-lg-0">
-                <div class="card border-0 shadow-sm mb-4">
-                    <div class="card-body p-4">
-                        <h3 class="fw-bold mb-3">Contact Information</h3>
-                        <ul class="list-unstyled mb-0">
-                            <li class="d-flex mb-3">
-                                <i class="fas fa-map-marker-alt text-primary me-3 mt-1"></i>
-                                <span>123 Python St, Code City<br>CA 94043, USA</span>
-                            </li>
-                            <li class="d-flex mb-3">
-                                <i class="fas fa-phone text-primary me-3 mt-1"></i>
-                                <span>(123) 456-7890</span>
-                            </li>
-                            <li class="d-flex mb-3">
-                                <i class="fas fa-envelope text-primary me-3 mt-1"></i>
-                                <span>info@pythonlearn.com</span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <div class="card border-0 shadow-sm">
-                    <div class="card-body p-4">
-                        <h3 class="fw-bold mb-3">Follow Us</h3>
-                        <div class="d-flex gap-3">
-                            <a href="#" class="btn btn-outline-primary">
-                                <i class="fab fa-facebook-f"></i>
-                            </a>
-                            <a href="#" class="btn btn-outline-primary">
-                                <i class="fab fa-twitter"></i>
-                            </a>
-                            <a href="#" class="btn btn-outline-primary">
-                                <i class="fab fa-linkedin-in"></i>
-                            </a>
-                            <a href="#" class="btn btn-outline-primary">
-                                <i class="fab fa-github"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
+<!-- Map Section -->
+<section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-12" data-aos="fade-up">
+            <h2 class="text-3xl font-bold text-gray-800 mb-4">Nossa Localização</h2>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                Visite nosso escritório em Port-au-Prince
+            </p>
+            <div class="w-20 h-1 bg-primary mx-auto mt-6"></div>
+        </div>
+        
+        <div class="bg-white rounded-xl shadow-md overflow-hidden" data-aos="fade-up" data-aos-delay="100">
+            <div class="aspect-w-16 aspect-h-9">
+                <!-- Replace with your actual Google Maps embed code -->
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d30423.25897280576!2d-72.33040566259766!3d18.547275300000003!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8eb9e7963a3a5a41%3A0x4a5a4ee8a8112e44!2sDelmas%2060%2C%20Port-au-Prince%2C%20Haiti!5e0!3m2!1sen!2sus!4v1648138000000!5m2!1sen!2sus" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
         </div>
     </div>
 </section>
 
 <!-- FAQ Section -->
-<section class="py-5 bg-light">
-    <div class="container">
-        <h2 class="text-center fw-bold mb-5">Frequently Asked Questions</h2>
+<section class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-12" data-aos="fade-up">
+            <h2 class="text-3xl font-bold text-gray-800 mb-4">Perguntas Frequentes sobre Contato</h2>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                Respostas para as dúvidas mais comuns sobre como entrar em contato conosco
+            </p>
+            <div class="w-20 h-1 bg-primary mx-auto mt-6"></div>
+        </div>
         
-        <div class="row justify-content-center">
-            <div class="col-lg-8">
-                <div class="accordion" id="faqAccordion">
-                    <div class="accordion-item border-0 shadow-sm mb-3">
-                        <h2 class="accordion-header" id="headingOne">
-                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                How do I enroll in a course?
-                            </button>
-                        </h2>
-                        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
-                            <div class="accordion-body">
-                                To enroll in a course, simply browse our course catalog, select the course you're interested in, and click the "Enroll Now" button. You'll be prompted to create an account or log in if you already have one, and then you can complete the enrollment process.
-                            </div>
-                        </div>
+        <div class="max-w-3xl mx-auto" data-aos="fade-up" data-aos-delay="100">
+            <div class="space-y-4">
+                <!-- FAQ Item 1 -->
+                <div class="border border-gray-200 rounded-lg overflow-hidden">
+                    <div class="bg-gray-50 px-4 py-3 flex justify-between items-center cursor-pointer faq-header">
+                        <h3 class="font-semibold text-gray-800">Qual é o tempo médio de resposta para mensagens?</h3>
+                        <i class="fas fa-chevron-down text-gray-600 transition-transform"></i>
                     </div>
-                    
-                    <div class="accordion-item border-0 shadow-sm mb-3">
-                        <h2 class="accordion-header" id="headingTwo">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                What payment methods do you accept?
-                            </button>
-                        </h2>
-                        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
-                            <div class="accordion-body">
-                                We accept all major credit cards (Visa, MasterCard, American Express, Discover), PayPal, and bank transfers. All payments are processed securely through our payment provider.
-                            </div>
-                        </div>
+                    <div class="faq-content hidden px-4 py-3">
+                        <p class="text-gray-600">
+                            Nosso tempo médio de resposta é de 24 horas úteis. Para questões urgentes, recomendamos entrar em contato por telefone para um atendimento mais rápido.
+                        </p>
                     </div>
-                    
-                    <div class="accordion-item border-0 shadow-sm mb-3">
-                        <h2 class="accordion-header" id="headingThree">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                Can I access the courses on mobile devices?
-                            </button>
-                        </h2>
-                        <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#faqAccordion">
-                            <div class="accordion-body">
-                                Yes! Our platform is fully responsive and optimized for mobile devices. You can access your courses on smartphones, tablets, laptops, or desktop computers. Your progress will be synchronized across all your devices.
-                            </div>
-                        </div>
+                </div>
+                
+                <!-- FAQ Item 2 -->
+                <div class="border border-gray-200 rounded-lg overflow-hidden">
+                    <div class="bg-gray-50 px-4 py-3 flex justify-between items-center cursor-pointer faq-header">
+                        <h3 class="font-semibold text-gray-800">Vocês oferecem suporte em crioulo haitiano?</h3>
+                        <i class="fas fa-chevron-down text-gray-600 transition-transform"></i>
                     </div>
-                    
-                    <div class="accordion-item border-0 shadow-sm">
-                        <h2 class="accordion-header" id="headingFour">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-                                Do I get a certificate after completing a course?
-                            </button>
-                        </h2>
-                        <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#faqAccordion">
-                            <div class="accordion-body">
-                                Yes, upon successful completion of a course (including all quizzes and assignments), you will receive a certificate of completion that you can download, print, or share on your social media profiles.
-                            </div>
-                        </div>
+                    <div class="faq-content hidden px-4 py-3">
+                        <p class="text-gray-600">
+                            Sim, nossa equipe de suporte é bilíngue e oferece atendimento tanto em crioulo haitiano quanto em francês. Basta indicar sua preferência de idioma ao entrar em contato conosco.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- FAQ Item 3 -->
+                <div class="border border-gray-200 rounded-lg overflow-hidden">
+                    <div class="bg-gray-50 px-4 py-3 flex justify-between items-center cursor-pointer faq-header">
+                        <h3 class="font-semibold text-gray-800">Como posso agendar uma visita ao escritório?</h3>
+                        <i class="fas fa-chevron-down text-gray-600 transition-transform"></i>
+                    </div>
+                    <div class="faq-content hidden px-4 py-3">
+                        <p class="text-gray-600">
+                            Para agendar uma visita ao nosso escritório, entre em contato por telefone ou email com pelo menos 24 horas de antecedência. Isso nos permite garantir que teremos um membro da equipe disponível para atendê-lo adequadamente.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- FAQ Item 4 -->
+                <div class="border border-gray-200 rounded-lg overflow-hidden">
+                    <div class="bg-gray-50 px-4 py-3 flex justify-between items-center cursor-pointer faq-header">
+                        <h3 class="font-semibold text-gray-800">Como posso reportar problemas técnicos na plataforma?</h3>
+                        <i class="fas fa-chevron-down text-gray-600 transition-transform"></i>
+                    </div>
+                    <div class="faq-content hidden px-4 py-3">
+                        <p class="text-gray-600">
+                            Para reportar problemas técnicos, envie um email para suporte@pythonlearn.ht com o assunto "Problema Técnico" ou use o formulário de contato selecionando "Suporte técnico" no campo de assunto. Inclua detalhes como o dispositivo utilizado, navegador e uma descrição detalhada do problema.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- FAQ Item 5 -->
+                <div class="border border-gray-200 rounded-lg overflow-hidden">
+                    <div class="bg-gray-50 px-4 py-3 flex justify-between items-center cursor-pointer faq-header">
+                        <h3 class="font-semibold text-gray-800">Vocês oferecem suporte fora do horário comercial?</h3>
+                        <i class="fas fa-chevron-down text-gray-600 transition-transform"></i>
+                    </div>
+                    <div class="faq-content hidden px-4 py-3">
+                        <p class="text-gray-600">
+                            Para questões urgentes fora do horário comercial, oferecemos suporte limitado via email. Mensagens enviadas fora do horário comercial serão respondidas no próximo dia útil, mas tentamos monitorar emails urgentes mesmo fora do expediente.
+                        </p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
+
+<!-- CTA Section -->
+<section class="py-16 bg-gradient-to-r from-primary to-primary-light text-white">
+    <div class="container mx-auto px-4">
+        <div class="max-w-3xl mx-auto text-center" data-aos="fade-up">
+            <h2 class="text-3xl font-bold mb-6">Ainda tem dúvidas?</h2>
+            <p class="text-xl opacity-90 mb-8">
+                Nossa equipe está pronta para ajudar. Entre em contato conosco hoje mesmo!
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+                <a href="tel:+50934567890" class="btn-gradient bg-gradient-to-r from-secondary to-yellow-400 text-primary font-semibold px-8 py-3 rounded-full shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1 text-center">
+                    <i class="fas fa-phone-alt mr-2"></i> Ligue Agora
+                </a>
+                <a href="mailto:info@pythonlearn.ht" class="bg-white bg-opacity-20 hover:bg-opacity-30 text-white font-semibold px-8 py-3 rounded-full transition-all text-center">
+                    <i class="fas fa-envelope mr-2"></i> Envie um Email
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
 {% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // FAQ Accordions
+        const faqHeaders = document.querySelectorAll('.faq-header');
+        faqHeaders.forEach(header => {
+            header.addEventListener('click', function() {
+                const content = header.nextElementSibling;
+                const icon = header.querySelector('i');
+                
+                if (content.classList.contains('hidden')) {
+                    content.classList.remove('hidden');
+                    content.style.maxHeight = content.scrollHeight + 'px';
+                    icon.classList.add('transform', 'rotate-180');
+                } else {
+                    content.classList.add('hidden');
+                    content.style.maxHeight = null;
+                    icon.classList.remove('transform', 'rotate-180');
+                }
+            });
+        });
+        
+        // Form validation
+        const contactForm = document.querySelector('form');
+        if (contactForm) {
+            contactForm.addEventListener('submit', function(event) {
+                let isValid = true;
+                const name = document.getElementById('name');
+                const email = document.getElementById('email');
+                const subject = document.getElementById('subject');
+                const message = document.getElementById('message');
+                
+                // Simple validation
+                if (!name.value.trim()) {
+                    isValid = false;
+                    name.classList.add('border-red-500');
+                } else {
+                    name.classList.remove('border-red-500');
+                }
+                
+                if (!email.value.trim() || !email.value.includes('@')) {
+                    isValid = false;
+                    email.classList.add('border-red-500');
+                } else {
+                    email.classList.remove('border-red-500');
+                }
+                
+                if (!subject.value) {
+                    isValid = false;
+                    subject.classList.add('border-red-500');
+                } else {
+                    subject.classList.remove('border-red-500');
+                }
+                
+                if (!message.value.trim()) {
+                    isValid = false;
+                    message.classList.add('border-red-500');
+                } else {
+                    message.classList.remove('border-red-500');
+                }
+                
+                if (!isValid) {
+                    event.preventDefault();
+                    // Scroll to the first error
+                    const firstError = document.querySelector('.border-red-500');
+                    if (firstError) {
+                        firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        firstError.focus();
+                    }
+                }
+            });
+        }
+        
+        // Initialize AOS if available
+        if (typeof AOS !== 'undefined') {
+            AOS.init({
+                duration: 800,
+                once: true
+            });
+        }
+    });
+</script>
+{% endblock %}
+
