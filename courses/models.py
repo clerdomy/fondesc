@@ -1,8 +1,9 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.utils.text import slugify
-from django.utils import timesince
+from django.utils import timezone
 from accounts.models import User
+
 
 class Category(models.Model):
     """Course categories"""
@@ -157,10 +158,11 @@ class Enrollment(models.Model):
     def __str__(self):
         return f"{self.user.username} enrolled in {self.course.title}"
 
+
 class Certificate(models.Model):
     """Certificates for completed courses"""
-    user = models.ForeignKey('accounts.User', on_delete=models.CASCADE, related_name='certificates')
-    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='certificates')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='certificates')
+    course = models.ForeignKey('Course', on_delete=models.CASCADE, related_name='certificates')
     created_at = models.DateTimeField(auto_now_add=True)
     certificate_number = models.CharField(max_length=50, unique=True)
     file = models.FileField(upload_to='certificates/', blank=True, null=True)
@@ -180,3 +182,40 @@ class Certificate(models.Model):
             year = timezone.now().year
             self.certificate_number = f"CERT-{year}-{uuid.uuid4().hex[:8].upper()}"
         super().save(*args, **kwargs)
+
+class UserProgress(models.Model):
+    """Track user progress through courses"""
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='progress')
+    course = models.ForeignKey('courses.Course', on_delete=models.CASCADE)
+    completed_lessons = models.ManyToManyField(Lesson, blank=True, related_name='completed_by')
+    last_accessed = models.DateTimeField(auto_now=True)
+    completed = models.BooleanField(default=False)
+    progress_percentage = models.IntegerField(default=0)
+    
+    class Meta:
+        unique_together = ['user', 'course']
+        verbose_name = _('User Progress')
+        verbose_name_plural = _('User Progress')
+    
+    def __str__(self):
+        return f"{self.user.username}'s progress in {self.course.title}"
+    
+
+
+
+class Comment(models.Model):
+    """Comments on lessons"""
+    user = models.ForeignKey('accounts.User', on_delete=models.CASCADE, related_name='comments')
+    lesson = models.ForeignKey('Lesson', on_delete=models.CASCADE, related_name='comments')
+    text = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='replies')
+    
+    class Meta:
+        ordering = ['-created_at']
+        verbose_name = _('Comment')
+        verbose_name_plural = _('Comments')
+    
+    def __str__(self):
+        return f"Comment by {self.user.username} on {self.lesson.title}"

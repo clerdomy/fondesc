@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}My Projects{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="flex flex-col md:flex-row justify-between items-start mb-8">
+        <div>
+            <h1 class="text-3xl font-bold mb-2">My Projects</h1>
+            <p class="text-gray-600">Manage your projects and track their status</p>
+        </div>
+        <a href="{% url 'create_project' %}" class="mt-4 md:mt-0 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            <i class="fas fa-plus mr-2"></i> Create New Project
+        </a>
+    </div>
+    
+    <!-- Status Filter -->
+    <div class="bg-white rounded-lg shadow-md p-4 mb-8">
+        <form method="get" action="{% url 'my_projects' %}" class="flex flex-col md:flex-row items-center justify-between">
+            <div class="flex space-x-4 mb-4 md:mb-0">
+                <a href="{% url 'my_projects' %}" class="px-4 py-2 rounded-md {% if not selected_status %}bg-blue-600 text-white{% else %}bg-gray-200 text-gray-700 hover:bg-gray-300{% endif %}">
+                    All
+                </a>
+                <a href="{% url 'my_projects' %}?status=published" class="px-4 py-2 rounded-md {% if selected_status == 'published' %}bg-blue-600 text-white{% else %}bg-gray-200 text-gray-700 hover:bg-gray-300{% endif %}">
+                    Published
+                </a>
+                <a href="{% url 'my_projects' %}?status=draft" class="px-4 py-2 rounded-md {% if selected_status == 'draft' %}bg-blue-600 text-white{% else %}bg-gray-200 text-gray-700 hover:bg-gray-300{% endif %}">
+                    Drafts
+                </a>
+                <a href="{% url 'my_projects' %}?status=featured" class="px-4 py-2 rounded-md {% if selected_status == 'featured' %}bg-blue-600 text-white{% else %}bg-gray-200 text-gray-700 hover:bg-gray-300{% endif %}">
+                    Featured
+                </a>
+            </div>
+        </form>
+    </div>
+    
+    <!-- Projects List -->
+    {% if projects %}
+    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Project</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Course</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    {% for project in projects %}
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0 h-10 w-10">
+                                    {% if project.image %}
+                                    <img class="h-10 w-10 rounded-md object-cover" src="{{ project.image.url }}" alt="{{ project.title }}">
+                                    {% else %}
+                                    <div class="h-10 w-10 rounded-md bg-blue-100 flex items-center justify-center">
+                                        <i class="fas fa-code text-blue-500"></i>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                <div class="ml-4">
+                                    <a href="{{ project.get_absolute_url }}" class="text-sm font-medium text-gray-900 hover:text-blue-600">{{ project.title }}</a>
+                                    <div class="text-sm text-gray-500 truncate max-w-xs">{{ project.description|truncatechars:60 }}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            {% if project.status == 'published' %}
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                Published
+                            </span>
+                            {% elif project.status == 'draft' %}
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                Draft
+                            </span>
+                            {% elif project.status == 'featured' %}
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-indigo-100 text-indigo-800">
+                                <i class="fas fa-star mr-1"></i> Featured
+                            </span>
+                            {% endif %}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            {% if project.course %}
+                            <a href="{% url 'course_detail' project.course.slug %}" class="text-blue-600 hover:text-blue-800">
+                                {{ project.course.title|truncatechars:30 }}
+                            </a>
+                            {% else %}
+                            <span class="text-gray-400">—</span>
+                            {% endif %}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            {{ project.created_at|date:"M d, Y" }}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                            <div class="flex space-x-2">
+                                <a href="{% url 'edit_project' project.slug %}" class="text-blue-600 hover:text-blue-900">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <a href="{% url 'delete_project' project.slug %}" class="text-red-600 hover:text-red-900">
+                                    <i class="fas fa-trash-alt"></i>
+                                </a>
+                                {% if project.status == 'draft' %}
+                                <form method="post" action="{% url 'publish_project' project.slug %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="text-green-600 hover:text-green-900">
+                                        <i class="fas fa-check-circle"></i>
+                                    </button>
+                                </form>
+                                {% endif %}
+                                <a href="{{ project.get_absolute_url }}" class="text-gray-600 hover:text-gray-900">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% else %}
+    <div class="bg-white rounded-lg shadow-md p-8 text-center">
+        <i class="fas fa-project-diagram text-5xl text-gray-300 mb-4"></i>
+        <h3 class="text-xl font-semibold mb-2">No projects found</h3>
+        <p class="text-gray-600 mb-4">
+            {% if selected_status %}
+            You don't have any {{ selected_status }} projects yet.
+            {% else %}
+            You haven't created any projects yet. Start sharing your work with the community!
+            {% endif %}
+        </p>
+        <a href="{% url 'create_project' %}" class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            <i class="fas fa-plus mr-2"></i> Create Your First Project
+        </a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+

@@ -1,0 +1,477 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Certificado: {{ course.title }} | PythonLearn{% endblock %}
+
+{% block extra_css %}
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@400;500;600;700&display=swap');
+
+  .certificate-font {
+    font-family: 'Playfair Display', serif;
+  }
+  
+  .content-font {
+    font-family: 'Montserrat', sans-serif;
+  }
+  
+  .certificate-container {
+    background-color: white;
+    background-image: 
+      url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23003b71' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E"),
+      radial-gradient(circle at 50% 50%, rgba(255, 204, 41, 0.05) 0%, rgba(255, 255, 255, 0) 70%);
+  }
+  
+  .certificate-border {
+    border: 2px solid #003b71;
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .certificate-border::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: 1px solid #ffcc29;
+    border-radius: 6px;
+    margin: 4px;
+    pointer-events: none;
+  }
+  
+  .watermark {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-30deg);
+    font-size: 8rem;
+    opacity: 0.03;
+    color: #003b71;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+  
+  .signature-pad {
+    border: 1px dashed #ccc;
+    border-radius: 4px;
+    touch-action: none;
+  }
+  
+  .flip-container {
+    perspective: 1000px;
+  }
+  
+  .flipper {
+    transition: 0.6s;
+    transform-style: preserve-3d;
+    position: relative;
+  }
+  
+  .front, .back {
+    backface-visibility: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+  }
+  
+  .front {
+    z-index: 2;
+    transform: rotateY(0deg);
+  }
+  
+  .back {
+    transform: rotateY(180deg);
+  }
+  
+  .flipped {
+    transform: rotateY(180deg);
+  }
+  
+  @media print {
+    .no-print {
+      display: none !important;
+    }
+    
+    .print-only {
+      display: block !important;
+    }
+    
+    .certificate-page {
+      page-break-after: always;
+    }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container mx-auto py-8 px-4">
+  <!-- Controles - Não aparecem na impressão -->
+  <div class="no-print mb-6 flex flex-col md:flex-row justify-between items-center gap-4">
+    <div>
+      <h1 class="text-2xl md:text-3xl font-bold text-primary">Certificado de Conclusão</h1>
+      <p class="text-gray-600">{{ course.title }}</p>
+    </div>
+    
+    <div class="flex flex-wrap gap-3">
+      <button id="flipBtn" class="btn btn-outline-primary">
+        <i class="fas fa-sync-alt mr-2"></i> Virar Certificado
+      </button>
+      
+      <button id="downloadBtn" class="btn btn-primary">
+        <i class="fas fa-download mr-2"></i> Baixar PDF
+      </button>
+      
+      <a href="{% url 'course_learn' slug=course.slug %}" class="btn btn-outline-secondary">
+        <i class="fas fa-arrow-left mr-2"></i> Voltar ao Curso
+      </a>
+    </div>
+  </div>
+  
+  <!-- Container do Certificado -->
+  <div id="certificateContainer" class="flip-container mb-8">
+    <div id="flipper" class="flipper">
+      <!-- FRENTE - Certificado -->
+      <div class="front">
+        <div id="certificateFront" class="certificate-page certificate-container certificate-border p-8 shadow-lg">
+          <!-- Watermark -->
+          <div class="watermark certificate-font">PYTHONLEARN</div>
+          
+          <!-- Cabeçalho -->
+          <div class="flex justify-between items-center mb-6">
+            <div class="flex items-center">
+              <img src="{% static 'img/logo.png' %}" alt="Logo PythonLearn" class="h-16">
+            </div>
+            <div class="text-right">
+              <div class="text-sm text-gray-600">Certificado Nº</div>
+              <div class="font-bold text-primary">{{ certificate.certificate_number }}</div>
+            </div>
+          </div>
+          
+          <!-- Título -->
+          <div class="text-center mb-8">
+            <h1 class="certificate-font text-4xl md:text-5xl text-primary mb-2">Certificado</h1>
+            <div class="h-1 w-32 bg-secondary mx-auto"></div>
+          </div>
+          
+          <!-- Conteúdo -->
+          <div class="text-center mb-10">
+            <p class="text-lg md:text-xl mb-6">Certificamos que</p>
+            <p class="certificate-font text-2xl md:text-3xl text-primary font-bold mb-6">{{ user.get_full_name|default:user.username }}</p>
+            <p class="text-lg md:text-xl mb-6">concluiu com êxito o curso</p>
+            <p class="certificate-font text-2xl md:text-3xl text-primary font-bold mb-6">{{ course.title }}</p>
+            <p class="text-lg md:text-xl">com carga horária de <strong>{{ course.duration }} horas</strong></p>
+            <p class="text-lg md:text-xl">concluído em <strong>{{ certificate.created_at|date:"d/m/Y" }}</strong></p>
+          </div>
+          
+          <!-- Assinaturas -->
+          <div class="flex flex-col md:flex-row justify-between items-center mt-12">
+            <div class="text-center mb-6 md:mb-0">
+              <div class="border-t-2 border-gray-400 w-48 mx-auto pt-2">
+                <p class="font-bold">Diretor Acadêmico</p>
+                <p class="text-sm text-gray-600">PythonLearn</p>
+              </div>
+            </div>
+            
+            <div class="text-center">
+              <div id="signatureContainer" class="mb-2">
+                <canvas id="signatureCanvas" class="signature-pad bg-white" width="240" height="80"></canvas>
+              </div>
+              <div class="border-t-2 border-gray-400 w-48 mx-auto pt-2">
+                <p class="font-bold">Assinatura do Aluno</p>
+                <p class="text-sm text-gray-600">{{ user.get_full_name|default:user.username }}</p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Rodapé -->
+          <div class="mt-12 text-center text-sm text-gray-600">
+            <p>Para verificar a autenticidade deste certificado, acesse:</p>
+           
+           
+           {% comment %} <p class="font-medium">{{ request.scheme }}://{{ request.get_host }}{% url 'verify_certificate' certificate.certificate_number %}</p> {% endcomment %}
+            
+            <!-- QR Code -->
+            <div class="mt-4 flex justify-center">
+              {% comment %}
+              <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data={{ request.scheme }}://{{ request.get_host }}{% url 'verify_certificate' certificate.certificate_number %}" 
+                   alt="QR Code para verificação" class="h-24 w-24">
+              {% endcomment %}
+                   <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data={{ request.scheme }}://{{ request.get_host }}#" 
+                   alt="QR Code para verificação" class="h-24 w-24">
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- VERSO - Conteúdo Programático -->
+      <div class="back">
+        <div id="certificateBack" class="certificate-page certificate-container certificate-border p-8 shadow-lg content-font">
+          <!-- Watermark -->
+          <div class="watermark certificate-font">CONTEÚDO</div>
+          
+          <!-- Cabeçalho -->
+          <div class="text-center mb-8">
+            <h1 class="certificate-font text-3xl md:text-4xl text-primary mb-2">Conteúdo Programático</h1>
+            <h2 class="text-xl md:text-2xl text-gray-700 mb-2">{{ course.title }}</h2>
+            <div class="h-1 w-32 bg-secondary mx-auto"></div>
+          </div>
+          
+          <!-- Informações do Curso -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <div class="bg-gray-50 p-4 rounded-lg">
+              <h3 class="font-bold text-primary mb-2">Informações Gerais</h3>
+              <ul class="space-y-2">
+                <li><span class="font-medium">Carga Horária:</span> {{ course.duration }} horas</li>
+                <li><span class="font-medium">Categoria:</span> {{ course.category }}</li>
+                <li><span class="font-medium">Nível:</span> {{ course.get_level_display }}</li>
+                <li><span class="font-medium">Professor:</span> {{ course.instructor }}</li>
+              </ul>
+            </div>
+            
+            <div class="bg-gray-50 p-4 rounded-lg">
+              <h3 class="font-bold text-primary mb-2">Avaliação</h3>
+              <ul class="space-y-2">
+                <li><span class="font-medium">Módulos:</span> {{ course.modules.count }}</li>
+                <li><span class="font-medium">Aulas:</span> {{ total_lessons }} aulas</li>
+                <li><span class="font-medium">Exercícios:</span> {{ total_questions }} questões</li>
+                <li><span class="font-medium">Aprovação:</span> Mínimo 70% de acertos</li>
+              </ul>
+            </div>
+          </div>
+          
+          <!-- Conteúdo Programático -->
+          <div class="mb-8">
+            <h3 class="font-bold text-primary text-xl mb-4">Módulos do Curso</h3>
+            
+            <div class="space-y-4">
+              {% for module in course.modules.all %}
+              <div class="bg-white border border-gray-200 rounded-lg p-4">
+                <h4 class="font-bold text-lg mb-2">{{ module.title }}</h4>
+                <p class="text-gray-600 mb-3">{{ module.description }}</p>
+                
+                <h5 class="font-medium text-primary mb-2">Aulas:</h5>
+                <ul class="list-disc list-inside space-y-1 text-gray-700">
+                  {% for lesson in module.lessons.all %}
+                  <li>{{ lesson.title }}</li>
+                  {% endfor %}
+                </ul>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+          
+          <!-- Competências Adquiridas -->
+          <div class="mb-8">
+            <h3 class="font-bold text-primary text-xl mb-4">Competências Adquiridas</h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {% for skill in skills %}
+              <div class="flex items-start">
+                <div class="text-secondary mr-2"><i class="fas fa-check-circle"></i></div>
+                <div>{{ skill }}</div>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+          
+          <!-- Rodapé -->
+          <div class="mt-12 text-center text-sm text-gray-600">
+            <p>Este documento é parte integrante do certificado nº {{ certificate.certificate_number }}</p>
+            <p>Emitido em {{ certificate.created_at|date:"d/m/Y" }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Controles de Assinatura - Não aparecem na impressão -->
+  <div class="no-print mb-8">
+    <div class="flex flex-wrap gap-3 justify-center">
+      <button id="clearSignatureBtn" class="btn btn-outline-danger">
+        <i class="fas fa-eraser mr-2"></i> Limpar Assinatura
+      </button>
+      
+      <button id="saveSignatureBtn" class="btn btn-outline-success">
+        <i class="fas fa-save mr-2"></i> Salvar Assinatura
+      </button>
+    </div>
+  </div>
+  
+  <!-- Compartilhamento - Não aparece na impressão -->
+  <div class="no-print">
+    <div class="card border-0 shadow-sm">
+      <div class="card-body p-4">
+        <h4 class="mb-3">Compartilhe sua conquista</h4>
+        <div class="d-flex gap-3">
+          <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ request.build_absolute_uri }}" target="_blank" class="btn btn-outline-primary">
+            <i class="fab fa-linkedin me-2"></i> LinkedIn
+          </a>
+          <a href="https://twitter.com/intent/tweet?text=Acabei%20de%20concluir%20o%20curso%20{{ course.title|urlencode }}%20na%20PythonLearn!&url={{ request.build_absolute_uri }}" target="_blank" class="btn btn-outline-primary">
+            <i class="fab fa-twitter me-2"></i> Twitter
+          </a>
+          <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" target="_blank" class="btn btn-outline-primary">
+            <i class="fab fa-facebook me-2"></i> Facebook
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% block extra_js %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Elementos
+    const flipBtn = document.getElementById('flipBtn');
+    const flipper = document.getElementById('flipper');
+    const downloadBtn = document.getElementById('downloadBtn');
+    const signatureCanvas = document.getElementById('signatureCanvas');
+    const clearSignatureBtn = document.getElementById('clearSignatureBtn');
+    const saveSignatureBtn = document.getElementById('saveSignatureBtn');
+    
+    // Variáveis para desenho
+    const ctx = signatureCanvas.getContext('2d');
+    let isDrawing = false;
+    let lastX = 0;
+    let lastY = 0;
+    
+    // Verificar se há assinatura salva
+    const savedSignature = localStorage.getItem('userSignature');
+    if (savedSignature) {
+      const img = new Image();
+      img.onload = function() {
+        ctx.drawImage(img, 0, 0);
+      };
+      img.src = savedSignature;
+    }
+    
+    // Configurar canvas
+    ctx.lineJoin = 'round';
+    ctx.lineCap = 'round';
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = '#003b71';
+    
+    // Funções de desenho
+    function startDrawing(e) {
+      isDrawing = true;
+      [lastX, lastY] = getCoordinates(e);
+    }
+    
+    function draw(e) {
+      if (!isDrawing) return;
+      e.preventDefault();
+      
+      const [currentX, currentY] = getCoordinates(e);
+      
+      ctx.beginPath();
+      ctx.moveTo(lastX, lastY);
+      ctx.lineTo(currentX, currentY);
+      ctx.stroke();
+      
+      [lastX, lastY] = [currentX, currentY];
+    }
+    
+    function stopDrawing() {
+      isDrawing = false;
+    }
+    
+    function getCoordinates(e) {
+      const rect = signatureCanvas.getBoundingClientRect();
+      const scaleX = signatureCanvas.width / rect.width;
+      const scaleY = signatureCanvas.height / rect.height;
+      
+      if (e.type.includes('touch')) {
+        return [
+          (e.touches[0].clientX - rect.left) * scaleX,
+          (e.touches[0].clientY - rect.top) * scaleY
+        ];
+      } else {
+        return [
+          (e.clientX - rect.left) * scaleX,
+          (e.clientY - rect.top) * scaleY
+        ];
+      }
+    }
+    
+    function clearSignature() {
+      ctx.clearRect(0, 0, signatureCanvas.width, signatureCanvas.height);
+    }
+    
+    function saveSignature() {
+      const dataURL = signatureCanvas.toDataURL();
+      localStorage.setItem('userSignature', dataURL);
+      alert('Assinatura salva com sucesso!');
+    }
+    
+    // Event listeners para desenho
+    signatureCanvas.addEventListener('mousedown', startDrawing);
+    signatureCanvas.addEventListener('mousemove', draw);
+    signatureCanvas.addEventListener('mouseup', stopDrawing);
+    signatureCanvas.addEventListener('mouseout', stopDrawing);
+    
+    // Suporte para touch
+    signatureCanvas.addEventListener('touchstart', startDrawing);
+    signatureCanvas.addEventListener('touchmove', draw);
+    signatureCanvas.addEventListener('touchend', stopDrawing);
+    
+    // Event listeners para botões
+    clearSignatureBtn.addEventListener('click', clearSignature);
+    saveSignatureBtn.addEventListener('click', saveSignature);
+    
+    // Virar certificado
+    flipBtn.addEventListener('click', function() {
+      flipper.classList.toggle('flipped');
+      
+      if (flipper.classList.contains('flipped')) {
+        flipBtn.innerHTML = '<i class="fas fa-sync-alt mr-2"></i> Mostrar Frente';
+      } else {
+        flipBtn.innerHTML = '<i class="fas fa-sync-alt mr-2"></i> Mostrar Verso';
+      }
+    });
+    
+    // Gerar PDF
+    downloadBtn.addEventListener('click', function() {
+      // Mostrar mensagem de carregamento
+      const loadingMsg = document.createElement('div');
+      loadingMsg.className = 'fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50';
+      loadingMsg.innerHTML = '<div class="bg-white p-4 rounded-lg shadow-lg"><i class="fas fa-spinner fa-spin mr-2"></i> Gerando PDF...</div>';
+      document.body.appendChild(loadingMsg);
+      
+      // Configurações do PDF
+      const options = {
+        margin: 10,
+        filename: 'Certificado_{{ course.title|slugify }}.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' }
+      };
+      
+      // Gerar PDF da frente
+      const frontElement = document.getElementById('certificateFront');
+      
+      // Primeiro, gerar o PDF da frente
+      html2pdf().set(options).from(frontElement).toPdf().get('pdf').then(function(pdf) {
+        // Depois, adicionar uma nova página e gerar o PDF do verso
+        const backElement = document.getElementById('certificateBack');
+        
+        pdf.addPage();
+        
+        return html2pdf().set(options).from(backElement).toPdf().get('pdf').then(function(newPdf) {
+          // Remover mensagem de carregamento
+          document.body.removeChild(loadingMsg);
+          
+          // Salvar o PDF
+          newPdf.save();
+        });
+      });
+    });
+  });
+</script>
+{% endblock %}
+{% endblock %}
+

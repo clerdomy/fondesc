@@ -10,9 +10,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True#os.getenv("DEBUG", "False").lower() in ("true", "1", "t", "yes", "on")
+DEBUG = True #os.getenv("DEBUG", "False").lower() in ("true", "1", "t", "yes", "on")
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 INSTALLED_APPS = [
@@ -33,10 +33,16 @@ INSTALLED_APPS = [
     'accounts',
     'courses',
     'payments',
-    'fondescapp'
+    'fondescapp',
+    'projects',
 ]
 
+# Maintenance mode setting
+MAINTENANCE_MODE = False  # Set to True to enable maintenance mode
+
 MIDDLEWARE = [
+    'core.middleware.MaintenanceModeMiddleware',
+    'core.middleware.BrowserRestrictionMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -44,6 +50,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+      # ... other middleware ...
 ]
 
 ROOT_URLCONF = 'core.urls'

@@ -1,7 +1,117 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Processamento de Pagamento | LearnHub{% endblock %}
+{% block title %}Payment | {{ course.title }}{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Custom styles for payment form */
+    .payment-method-tab {
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    .payment-method-tab.active {
+        border-color: #4F46E5;
+        background-color: #F5F3FF;
+    }
+    .payment-method-content {
+        display: none;
+    }
+    .payment-method-content.active {
+        display: block;
+    }
+    
+    /* Stripe Elements styling */
+    #payment-element {
+        margin-bottom: 24px;
+    }
+    #payment-message {
+        color: rgb(105, 115, 134);
+        font-size: 16px;
+        line-height: 20px;
+        padding-top: 12px;
+        text-align: center;
+    }
+    #payment-element .StripeElement {
+        border-radius: 4px;
+        padding: 12px;
+        border: 1px solid rgba(50, 50, 93, 0.1);
+        max-height: 44px;
+        width: 100%;
+        background: white;
+        box-sizing: border-box;
+    }
+    
+    /* Loading spinner */
+    .spinner,
+    .spinner:before,
+    .spinner:after {
+        border-radius: 50%;
+    }
+    .spinner {
+        color: #ffffff;
+        font-size: 22px;
+        text-indent: -99999px;
+        margin: 0px auto;
+        position: relative;
+        width: 20px;
+        height: 20px;
+        box-shadow: inset 0 0 0 2px;
+        -webkit-transform: translateZ(0);
+        -ms-transform: translateZ(0);
+        transform: translateZ(0);
+    }
+    .spinner:before,
+    .spinner:after {
+        position: absolute;
+        content: "";
+    }
+    .spinner:before {
+        width: 10.4px;
+        height: 20.4px;
+        background: #5469d4;
+        border-radius: 20.4px 0 0 20.4px;
+        top: -0.2px;
+        left: -0.2px;
+        -webkit-transform-origin: 10.4px 10.2px;
+        transform-origin: 10.4px 10.2px;
+        -webkit-animation: loading 2s infinite ease 1.5s;
+        animation: loading 2s infinite ease 1.5s;
+    }
+    .spinner:after {
+        width: 10.4px;
+        height: 10.2px;
+        background: #5469d4;
+        border-radius: 0 10.2px 10.2px 0;
+        top: -0.1px;
+        left: 10.2px;
+        -webkit-transform-origin: 0px 10.2px;
+        transform-origin: 0px 10.2px;
+        -webkit-animation: loading 2s infinite ease;
+        animation: loading 2s infinite ease;
+    }
+    @-webkit-keyframes loading {
+        0% {
+            -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+        }
+        100% {
+            -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+        }
+    }
+    @keyframes loading {
+        0% {
+            -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+        }
+        100% {
+            -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+        }
+    }
+</style>
+{% endblock %}
 
 {% block content %}
 <!-- Breadcrumb -->
@@ -16,477 +126,385 @@
                 <a href="{% url 'course_detail' slug=course.slug %}" class="hover:text-primary transition-colors">{{ course.title }}</a>
                 <svg class="w-3 h-3 mx-2 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg>
             </li>
-            <li class="text-primary font-medium">Pagamento</li>
+            <li class="text-primary font-medium">Payment</li>
         </ol>
     </div>
 </nav>
 
 <div class="container mx-auto px-4 py-12">
-    <div class="max-w-5xl mx-auto">
-        <h1 class="text-3xl font-bold text-gray-800 mb-8 text-center">Finalizar Compra</h1>
-        
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <!-- Resumo do pedido -->
-            <div class="lg:col-span-1 order-2 lg:order-1">
-                <div class="bg-white rounded-lg shadow-md p-6 sticky top-24">
-                    <h2 class="text-xl font-bold text-gray-800 mb-4">Resumo do Pedido</h2>
+    <div class="flex flex-wrap -mx-4">
+        <!-- Course Summary -->
+        <div class="w-full lg:w-4/12 px-4 mb-8 lg:mb-0">
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden sticky top-24">
+                <div class="p-6 border-b border-gray-200">
+                    <h2 class="text-xl font-bold mb-4">Order Summary</h2>
                     
-                    <div class="flex items-start mb-4 pb-4 border-b border-gray-200">
-                        <img src="{{ course.thumbnail.url }}" alt="{{ course.title }}" class="w-20 h-20 object-cover rounded-md mr-4">
+                    <div class="flex items-center mb-4">
+                        {% if course.image %}
+                            <img src="{{ course.image.url }}" alt="{{ course.title }}" class="w-20 h-20 object-cover rounded mr-4">
+                        {% else %}
+                            <div class="w-20 h-20 bg-gray-200 rounded mr-4 flex items-center justify-center">
+                                <i class="fas fa-book text-gray-400 text-2xl"></i>
+                            </div>
+                        {% endif %}
                         <div>
-                            <h3 class="font-semibold text-gray-800">{{ course.title }}</h3>
-                            <p class="text-gray-600 text-sm">{{ course.short_description|truncatechars:60 }}</p>
+                            <h3 class="font-semibold">{{ course.title }}</h3>
+                            <p class="text-sm text-gray-600">{{ course.lessons.count }} lessons</p>
                         </div>
                     </div>
                     
-                    <div class="space-y-2 mb-4 pb-4 border-b border-gray-200">
-                        <div class="flex justify-between">
-                            <span class="text-gray-600">Preço do curso</span>
-                            <span class="text-gray-800">HTG {{ course.price|floatformat:2 }}</span>
+                    <div class="border-t border-gray-200 pt-4">
+                        <div class="flex justify-between mb-2">
+                            <span class="text-gray-600">Subtotal</span>
+                            <span>{{ course.currency }} {{ subtotal }}</span>
                         </div>
-                        {% if discount %}
-                        <div class="flex justify-between text-green-600">
-                            <span>Desconto</span>
-                            <span>-HTG {{ discount|floatformat:2 }}</span>
+                        
+                        {% if discount > 0 %}
+                        <div class="flex justify-between mb-2 text-green-600">
+                            <span>Discount ({{ discount_obj.code }})</span>
+                            <span>-{{ course.currency }} {{ discount }}</span>
                         </div>
                         {% endif %}
-                        {% if tax %}
-                        <div class="flex justify-between">
-                            <span class="text-gray-600">Impostos</span>
-                            <span class="text-gray-800">HTG {{ tax|floatformat:2 }}</span>
+                        
+                        <div class="flex justify-between mb-2">
+                            <span class="text-gray-600">Tax (10%)</span>
+                            <span>{{ course.currency }} {{ tax }}</span>
                         </div>
-                        {% endif %}
-                    </div>
-                    
-                    <div class="flex justify-between font-bold text-lg mb-6">
-                        <span>Total</span>
-                        <span class="text-primary">HTG {{ total|floatformat:2 }}</span>
-                    </div>
-                    
-                    <div class="bg-gray-50 p-4 rounded-lg mb-4">
-                        <div class="flex items-center mb-2">
-                            <i class="fas fa-shield-alt text-primary mr-2"></i>
-                            <span class="font-semibold text-gray-800">Pagamento Seguro</span>
+                        
+                        <div class="flex justify-between font-bold text-lg mt-4 pt-4 border-t border-gray-200">
+                            <span>Total</span>
+                            <span>{{ course.currency }} {{ total }}</span>
                         </div>
-                        <p class="text-gray-600 text-sm">Suas informações de pagamento são processadas com segurança. Seus dados não serão armazenados.</p>
+                    </div>
+                </div>
+                
+                <!-- Discount Code Form -->
+                <div class="p-6 bg-gray-50">
+                    <h3 class="font-semibold mb-3">Have a discount code?</h3>
+                    <div class="flex">
+                        <input type="text" id="discount-code" class="flex-grow px-3 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-primary focus:border-primary" placeholder="Enter code">
+                        <button id="apply-discount" class="px-4 py-2 bg-primary text-white rounded-r-md hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors" data-course-id="{{ course.id }}">Apply</button>
+                    </div>
+                    <div id="discount-message" class="mt-2 text-sm"></div>
+                </div>
+                
+                <!-- Secure Payment Notice -->
+                <div class="p-6 border-t border-gray-200">
+                    <div class="flex items-center mb-3">
+                        <i class="fas fa-shield-alt text-primary mr-2"></i>
+                        <span class="font-semibold">Secure Payment</span>
+                    </div>
+                    <p class="text-sm text-gray-600">Your payment information is processed securely. We do not store your credit card details.</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Payment Form -->
+        <div class="w-full lg:w-8/12 px-4">
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                <div class="p-6 border-b border-gray-200">
+                    <h1 class="text-2xl font-bold mb-2">Complete Your Purchase</h1>
+                    <p class="text-gray-600">Choose your preferred payment method below.</p>
+                </div>
+                
+                <!-- Payment Method Tabs -->
+                <div class="p-6">
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-6">
+                        <div class="payment-method-tab active border rounded-lg p-4 text-center" data-method="card">
+                            <i class="fas fa-credit-card text-2xl mb-2 text-primary"></i>
+                            <p class="font-medium">Credit/Debit Card</p>
+                        </div>
+                        <div class="payment-method-tab border rounded-lg p-4 text-center" data-method="moncash">
+                            <i class="fas fa-mobile-alt text-2xl mb-2 text-primary"></i>
+                            <p class="font-medium">MonCash</p>
+                        </div>
+                        <div class="payment-method-tab border rounded-lg p-4 text-center" data-method="lajancash">
+                            <i class="fas fa-money-bill-wave text-2xl mb-2 text-primary"></i>
+                            <p class="font-medium">Lajan Cash</p>
+                        </div>
+                        <div class="payment-method-tab border rounded-lg p-4 text-center" data-method="bank">
+                            <i class="fas fa-university text-2xl mb-2 text-primary"></i>
+                            <p class="font-medium">Bank Transfer</p>
+                        </div>
+                        <div class="payment-method-tab border rounded-lg p-4 text-center" data-method="remittance">
+                            <i class="fas fa-exchange-alt text-2xl mb-2 text-primary"></i>
+                            <p class="font-medium">Remittance</p>
+                        </div>
+                        <div class="payment-method-tab border rounded-lg p-4 text-center" data-method="cash">
+                            <i class="fas fa-hand-holding-usd text-2xl mb-2 text-primary"></i>
+                            <p class="font-medium">Cash</p>
+                        </div>
                     </div>
                     
-                    <div class="text-center text-sm text-gray-600">
-                        <p>Ao finalizar sua compra, você concorda com nossos <a href="#" class="text-primary hover:underline">Termos de Serviço</a> e <a href="#" class="text-primary hover:underline">Política de Privacidade</a>.</p>
+                    <!-- Credit/Debit Card Payment Form -->
+                    <div class="payment-method-content active" id="card-payment">
+                        <form id="payment-form">
+                            <div id="payment-element">
+                                <!-- Stripe Elements will be inserted here -->
+                            </div>
+                            <button id="submit-button" class="w-full bg-primary text-white py-3 px-4 rounded-md font-medium hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors">
+                                <div class="spinner hidden" id="spinner"></div>
+                                <span id="button-text">Pay Now</span>
+                            </button>
+                            <div id="payment-message" class="hidden"></div>
+                        </form>
+                    </div>
+                    
+                    <!-- MonCash Payment Form -->
+                    <div class="payment-method-content" id="moncash-payment">
+                        <form action="{% url 'process_payment' %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="course_id" value="{{ course.id }}">
+                            <input type="hidden" name="payment_method" value="moncash">
+                            
+                            <div class="mb-6">
+                                <label for="moncash-phone" class="block text-sm font-medium text-gray-700 mb-1">MonCash Phone Number</label>
+                                <input type="tel" id="moncash-phone" name="moncash_phone" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary" placeholder="e.g. 50937000000" required>
+                                <p class="mt-2 text-sm text-gray-600">Enter the phone number associated with your MonCash account.</p>
+                            </div>
+                            
+                            <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
+                                <div class="flex">
+                                    <div class="flex-shrink-0">
+                                        <i class="fas fa-exclamation-triangle text-yellow-400"></i>
+                                    </div>
+                                    <div class="ml-3">
+                                        <p class="text-sm text-yellow-700">
+                                            After submitting this form, you'll need to confirm the payment on your phone. Your enrollment will be activated after we verify your payment.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <button type="submit" class="w-full bg-primary text-white py-3 px-4 rounded-md font-medium hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors">
+                                Continue with MonCash
+                            </button>
+                        </form>
+                    </div>
+                    
+                    <!-- Lajan Cash Payment Form -->
+                    <div class="payment-method-content" id="lajancash-payment">
+                        <form action="{% url 'process_payment' %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="course_id" value="{{ course.id }}">
+                            <input type="hidden" name="payment_method" value="lajancash">
+                            
+                            <div class="mb-6">
+                                <label for="lajancash-phone" class="block text-sm font-medium text-gray-700 mb-1">Lajan Cash Phone Number</label>
+                                <input type="tel" id="lajancash-phone" name="lajancash_phone" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary" placeholder="e.g. 50934000000" required>
+                                <p class="mt-2 text-sm text-gray-600">Enter the phone number associated with your Lajan Cash account.</p>
+                            </div>
+                            
+                            <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
+                                <div class="flex">
+                                    <div class="flex-shrink-0">
+                                        <i class="fas fa-exclamation-triangle text-yellow-400"></i>
+                                    </div>
+                                    <div class="ml-3">
+                                        <p class="text-sm text-yellow-700">
+                                            After submitting this form, you'll need to confirm the payment on your phone. Your enrollment will be activated after we verify your payment.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <button type="submit" class="w-full bg-primary text-white py-3 px-4 rounded-md font-medium hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors">
+                                Continue with Lajan Cash
+                            </button>
+                        </form>
+                    </div>
+                    
+                    <!-- Bank Transfer Payment Form -->
+                    <div class="payment-method-content" id="bank-payment">
+                        <form action="{% url 'process_payment' %}" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <input type="hidden" name="course_id" value="{{ course.id }}">
+                            <input type="hidden" name="payment_method" value="bank">
+                            
+                            <div class="bg-blue-50 p-4 mb-6 rounded-md">
+                                <h3 class="font-semibold text-blue-800 mb-2">Bank Transfer Information</h3>
+                                <p class="text-sm text-blue-700 mb-2">Please transfer the exact amount to the following bank account:</p>
+                                <ul class="text-sm text-blue-700 list-disc pl-5 mb-2">
+                                    <li>Bank Name: Sogebank</li>
+                                    <li>Account Name: Python Learn Haiti</li>
+                                    <li>Account Number: 123456789</li>
+                                    <li>Amount: {{ course.currency }} {{ total }}</li>
+                                    <li>Reference: PL-{{ course.id }}-{{ request.user.id }}</li>
+                                </ul>
+                                <p class="text-sm text-blue-700">After making the transfer, please provide the reference number and upload your receipt below.</p>
+                            </div>
+                            
+                            <div class="mb-6">
+                                <label for="bank-reference" class="block text-sm font-medium text-gray-700 mb-1">Bank Reference Number</label>
+                                <input type="text" id="bank-reference" name="bank_reference" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary" placeholder="e.g. Transaction ID or Reference Number" required>
+                            </div>
+                            
+                            <div class="mb-6">
+                                <label for="bank-receipt" class="block text-sm font-medium text-gray-700 mb-1">Upload Receipt (optional)</label>
+                                <input type="file" id="bank-receipt" name="bank_receipt" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary" accept="image/*,.pdf">
+                                <p class="mt-2 text-sm text-gray-600">Upload a screenshot or photo of your bank transfer receipt.</p>
+                            </div>
+                            
+                            <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
+                                <div class="flex">
+                                    <div class="flex-shrink-0">
+                                        <i class="fas fa-exclamation-triangle text-yellow-400"></i>
+                                    </div>
+                                    <div class="ml-3">
+                                        <p class="text-sm text-yellow-700">
+                                            Your enrollment will be activated after we verify your payment. This usually takes 1-2 business days.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <button type="submit" class="w-full bg-primary text-white py-3 px-4 rounded-md font-medium hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors">
+                                Submit Bank Transfer Information
+                            </button>
+                        </form>
+                    </div>
+                    
+                    <!-- Remittance Payment Form -->
+                    <div class="payment-method-content" id="remittance-payment">
+                        <form action="{% url 'process_payment' %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="course_id" value="{{ course.id }}">
+                            <input type="hidden" name="payment_method" value="remittance">
+                            
+                            <div class="bg-blue-50 p-4 mb-6 rounded-md">
+                                <h3 class="font-semibold text-blue-800 mb-2">Remittance Information</h3>
+                                <p class="text-sm text-blue-700 mb-2">Please send the remittance to:</p>
+                                <ul class="text-sm text-blue-700 list-disc pl-5">
+                                    <li>Recipient Name: John Doe</li>
+                                    <li>City: Port-au-Prince</li>
+                                    <li>Country: Haiti</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="mb-6">
+                                <label for="remittance-service" class="block text-sm font-medium text-gray-700 mb-1">Remittance Service</label>
+                                <select id="remittance-service" name="remittance_service" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary" required>
+                                    <option value="">Select a service</option>
+                                    <option value="western_union">Western Union</option>
+                                    <option value="moneygram">MoneyGram</option>
+                                    <option value="cam">CAM Transfer</option>
+                                    <option value="unitransfer">Unitransfer</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-6">
+                                <label for="remittance-sender" class="block text-sm font-medium text-gray-700 mb-1">Sender's Name</label>
+                                <input type="text" id="remittance-sender" name="remittance_sender" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary" required>
+                            </div>
+                            
+                            <div class="mb-6">
+                                <label for="remittance-mtcn" class="block text-sm font-medium text-gray-700 mb-1">MTCN / Reference Number</label>
+                                <input type="text" id="remittance-mtcn" name="remittance_mtcn" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary" required>
+                                <p class="mt-2 text-sm text-gray-600">The tracking number provided by the remittance service.</p>
+                            </div>
+                            
+                            <div class="grid grid-cols-2 gap-4 mb-6">
+                                <div>
+                                    <label for="remittance-amount" class="block text-sm font-medium text-gray-700 mb-1">Amount Sent</label>
+                                    <input type="number" id="remittance-amount" name="remittance_amount" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary" step="0.01" required>
+                                </div>
+                                
+                                <div>
+                                    <label for="remittance-currency" class="block text-sm font-medium text-gray-700 mb-1">Currency</label>
+                                    <select id="remittance-currency" name="remittance_currency" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary" required>
+                                        <option value="USD">USD</option>
+                                        <option value="EUR">EUR</option>
+                                        <option value="CAD">CAD</option>
+                                        <option value="HTG">HTG</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
+                                <div class="flex">
+                                    <div class="flex-shrink-0">
+                                        <i class="fas fa-exclamation-triangle text-yellow-400"></i>
+                                    </div>
+                                    <div class="ml-3">
+                                        <p class="text-sm text-yellow-700">
+                                            Your enrollment will be activated after we verify your payment. This usually takes 1-2 business days.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <button type="submit" class="w-full bg-primary text-white py-3 px-4 rounded-md font-medium hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors">
+                                Submit Remittance Information
+                            </button>
+                        </form>
+                    </div>
+                    
+                    <!-- Cash Payment Form -->
+                    <div class="payment-method-content" id="cash-payment">
+                        <form action="{% url 'process_payment' %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="course_id" value="{{ course.id }}">
+                            <input type="hidden" name="payment_method" value="cash">
+                            
+                            <div class="bg-blue-50 p-4 mb-6 rounded-md">
+                                <h3 class="font-semibold text-blue-800 mb-2">Cash Payment Information</h3>
+                                <p class="text-sm text-blue-700 mb-2">You can pay in cash at one of our offices:</p>
+                                <ul class="text-sm text-blue-700 list-disc pl-5">
+                                    <li>Port-au-Prince: 123 Main Street, Monday-Friday, 9am-5pm</li>
+                                    <li>Cap-Haïtien: 456 Ocean Avenue, Monday-Friday, 9am-5pm</li>
+                                    <li>Les Cayes: 789 Palm Street, Monday-Friday, 10am-4pm</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="mb-6">
+                                <label for="cash-location" class="block text-sm font-medium text-gray-700 mb-1">Office Location</label>
+                                <select id="cash-location" name="cash_location" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary" required>
+                                    <option value="">Select a location</option>
+                                    <option value="port_au_prince">Port-au-Prince</option>
+                                    <option value="cap_haitien">Cap-Haïtien</option>
+                                    <option value="les_cayes">Les Cayes</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-6">
+                                <label for="cash-date" class="block text-sm font-medium text-gray-700 mb-1">Planned Payment Date</label>
+                                <input type="date" id="cash-date" name="cash_date" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary" min="{{ tomorrow_date|date:'Y-m-d' }}" required>
+                                <p class="mt-2 text-sm text-gray-600">Please select the date when you plan to visit our office.</p>
+                            </div>
+                            
+                            <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
+                                <div class="flex">
+                                    <div class="flex-shrink-0">
+                                        <i class="fas fa-exclamation-triangle text-yellow-400"></i>
+                                    </div>
+                                    <div class="ml-3">
+                                        <p class="text-sm text-yellow-700">
+                                            This will reserve your spot in the course. Your enrollment will be activated after you make the payment at our office.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <button type="submit" class="w-full bg-primary text-white py-3 px-4 rounded-md font-medium hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors">
+                                Reserve Spot and Pay Later
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>
             
-            <!-- Formulário de pagamento -->
-            <div class="lg:col-span-2 order-1 lg:order-2">
-                <div class="bg-white rounded-lg shadow-md p-6 mb-8">
-                    <h2 class="text-xl font-bold text-gray-800 mb-4">Escolha o método de pagamento</h2>
-                    
-                    <form id="payment-form" method="post" action="{% url 'process_payment' %}">
-                        {% csrf_token %}
-                        <input type="hidden" name="course_id" value="{{ course.id }}">
-                        
-                        <div class="mb-6">
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <!-- MonCash -->
-                                <div class="payment-method-card border border-gray-200 rounded-lg p-4 cursor-pointer hover:border-primary transition-colors" data-method="moncash">
-                                    <div class="flex items-center mb-3">
-                                        <input type="radio" name="payment_method" id="moncash" value="moncash" class="h-4 w-4 text-primary border-gray-300 focus:ring-primary">
-                                        <label for="moncash" class="ml-2 font-semibold text-gray-800">MonCash</label>
-                                        <img src="{% static 'img/payments/moncash.png' %}" alt="MonCash" class="h-8 ml-auto">
-                                    </div>
-                                    <p class="text-sm text-gray-600">Pague facilmente com sua conta MonCash da Digicel Haiti.</p>
-                                </div>
-                                
-                                <!-- Lajan Cash -->
-                                <div class="payment-method-card border border-gray-200 rounded-lg p-4 cursor-pointer hover:border-primary transition-colors" data-method="lajancash">
-                                    <div class="flex items-center mb-3">
-                                        <input type="radio" name="payment_method" id="lajancash" value="lajancash" class="h-4 w-4 text-primary border-gray-300 focus:ring-primary">
-                                        <label for="lajancash" class="ml-2 font-semibold text-gray-800">Lajan Cash</label>
-                                        <img src="{% static 'img/payments/lajancash.png' %}" alt="Lajan Cash" class="h-8 ml-auto">
-                                    </div>
-                                    <p class="text-sm text-gray-600">Pague com sua conta Lajan Cash da Natcom Haiti.</p>
-                                </div>
-                                
-                                <!-- Cartão de crédito/débito -->
-                                <div class="payment-method-card border border-gray-200 rounded-lg p-4 cursor-pointer hover:border-primary transition-colors" data-method="card">
-                                    <div class="flex items-center mb-3">
-                                        <input type="radio" name="payment_method" id="card" value="card" class="h-4 w-4 text-primary border-gray-300 focus:ring-primary">
-                                        <label for="card" class="ml-2 font-semibold text-gray-800">Cartão de Crédito/Débito</label>
-                                        <div class="flex ml-auto">
-                                            <img src="{% static 'img/payments/visa.png' %}" alt="Visa" class="h-6 mr-1">
-                                            <img src="{% static 'img/payments/mastercard.svg' %}" alt="Mastercard" class="h-6">
-                                        </div>
-                                    </div>
-                                    <p class="text-sm text-gray-600">Pague com cartão de crédito ou débito internacional.</p>
-                                </div>
-                                
-                                <!-- Transferência bancária -->
-                                <div class="payment-method-card border border-gray-200 rounded-lg p-4 cursor-pointer hover:border-primary transition-colors" data-method="bank">
-                                    <div class="flex items-center mb-3">
-                                        <input type="radio" name="payment_method" id="bank" value="bank" class="h-4 w-4 text-primary border-gray-300 focus:ring-primary">
-                                        <label for="bank" class="ml-2 font-semibold text-gray-800">Transferência Bancária</label>
-                                        <div class="flex ml-auto">
-                                            <img src="{% static 'img/payments/sogebank.png' %}" alt="Sogebank" class="h-6 mr-1">
-                                            <!-- <img src="{% static 'img/payments/unibank.png' %}" alt="Unibank" class="h-6"> -->
-                                        </div>
-                                    </div>
-                                    <p class="text-sm text-gray-600">Transferência dos principais bancos haitianos.</p>
-                                </div>
-                                
-                                <!-- Western Union / MoneyGram -->
-                                <div class="payment-method-card border border-gray-200 rounded-lg p-4 cursor-pointer hover:border-primary transition-colors" data-method="remittance">
-                                    <div class="flex items-center mb-3">
-                                        <input type="radio" name="payment_method" id="remittance" value="remittance" class="h-4 w-4 text-primary border-gray-300 focus:ring-primary">
-                                        <label for="remittance" class="ml-2 font-semibold text-gray-800">Western Union / MoneyGram</label>
-                                        <div class="flex ml-auto">
-                                            <img src="{% static 'img/payments/wu.svg' %}" alt="Western Union" class="h-6 mr-1">
-                                            <img src="{% static 'img/payments/moneygram.svg' %}" alt="MoneyGram" class="h-6" >
-                                        </div>
-                                    </div>
-                                    <p class="text-sm text-gray-600">Envie pagamento via serviços de remessa internacional.</p>
-                                </div>
-                                
-                                <!-- Pagamento em dinheiro -->
-                                <div class="payment-method-card border border-gray-200 rounded-lg p-4 cursor-pointer hover:border-primary transition-colors" data-method="cash">
-                                    <div class="flex items-center mb-3">
-                                        <input type="radio" name="payment_method" id="cash" value="cash" class="h-4 w-4 text-primary border-gray-300 focus:ring-primary">
-                                        <label for="cash" class="ml-2 font-semibold text-gray-800">Pagamento em Dinheiro</label>
-                                        <div class="ml-auto">
-                                            <i class="fas fa-money-bill-wave text-green-600 text-xl"></i>
-                                        </div>
-                                    </div>
-                                    <p class="text-sm text-gray-600">Pague em dinheiro em um de nossos pontos de coleta.</p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Detalhes de pagamento (dinâmicos baseados na seleção) -->
-                        <div id="payment-details" class="mb-6">
-                            <!-- MonCash Details -->
-                            <div id="moncash-details" class="payment-details hidden">
-                                <div class="bg-blue-50 p-4 rounded-lg mb-4">
-                                    <h3 class="font-semibold text-gray-800 mb-2">Como pagar com MonCash:</h3>
-                                    <ol class="list-decimal pl-5 space-y-2 text-gray-700">
-                                        <li>Digite seu número de telefone Digicel abaixo</li>
-                                        <li>Clique em "Finalizar Pagamento"</li>
-                                        <li>Você receberá uma notificação no seu telefone</li>
-                                        <li>Digite seu PIN MonCash para confirmar o pagamento</li>
-                                    </ol>
-                                </div>
-                                
-                                <div class="mb-4">
-                                    <label for="moncash-phone" class="block text-sm font-medium text-gray-700 mb-1">Número de telefone Digicel</label>
-                                    <div class="flex">
-                                        <span class="inline-flex items-center px-3 text-gray-500 bg-gray-100 border border-r-0 border-gray-300 rounded-l-md">
-                                            +509
-                                        </span>
-                                        <input type="tel" id="moncash-phone" name="moncash_phone" class="flex-1 min-w-0 block w-full px-3 py-2 rounded-none rounded-r-md border border-gray-300 focus:ring-primary focus:border-primary" placeholder="3456 7890">
-                                    </div>
-                                    <p class="mt-1 text-xs text-gray-500">Exemplo: 3456 7890 (sem espaços ou traços)</p>
-                                </div>
-                            </div>
-                            
-                            <!-- Lajan Cash Details -->
-                            <div id="lajancash-details" class="payment-details hidden">
-                                <div class="bg-green-50 p-4 rounded-lg mb-4">
-                                    <h3 class="font-semibold text-gray-800 mb-2">Como pagar com Lajan Cash:</h3>
-                                    <ol class="list-decimal pl-5 space-y-2 text-gray-700">
-                                        <li>Digite seu número de telefone Natcom abaixo</li>
-                                        <li>Clique em "Finalizar Pagamento"</li>
-                                        <li>Você receberá uma notificação no seu telefone</li>
-                                        <li>Digite seu PIN Lajan Cash para confirmar o pagamento</li>
-                                    </ol>
-                                </div>
-                                
-                                <div class="mb-4">
-                                    <label for="lajancash-phone" class="block text-sm font-medium text-gray-700 mb-1">Número de telefone Natcom</label>
-                                    <div class="flex">
-                                        <span class="inline-flex items-center px-3 text-gray-500 bg-gray-100 border border-r-0 border-gray-300 rounded-l-md">
-                                            +509
-                                        </span>
-                                        <input type="tel" id="lajancash-phone" name="lajancash_phone" class="flex-1 min-w-0 block w-full px-3 py-2 rounded-none rounded-r-md border border-gray-300 focus:ring-primary focus:border-primary" placeholder="4123 4567">
-                                    </div>
-                                    <p class="mt-1 text-xs text-gray-500">Exemplo: 4123 4567 (sem espaços ou traços)</p>
-                                </div>
-                            </div>
-                            
-                            <!-- Card Details -->
-                            <div id="card-details" class="payment-details hidden">
-                                <div class="space-y-4">
-                                    <div>
-                                        <label for="card-name" class="block text-sm font-medium text-gray-700 mb-1">Nome no cartão</label>
-                                        <input type="text" id="card-name" name="card_name" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary" placeholder="Nome completo como aparece no cartão">
-                                    </div>
-                                    
-                                    <div>
-                                        <label for="card-number" class="block text-sm font-medium text-gray-700 mb-1">Número do cartão</label>
-                                        <div class="relative">
-                                            <input type="text" id="card-number" name="card_number" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary" placeholder="1234 5678 9012 3456">
-                                            <div class="absolute inset-y-0 right-0 flex items-center pr-3">
-                                                <i class="fas fa-credit-card text-gray-400"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="grid grid-cols-2 gap-4">
-                                        <div>
-                                            <label for="card-expiry" class="block text-sm font-medium text-gray-700 mb-1">Data de validade</label>
-                                            <input type="text" id="card-expiry" name="card_expiry" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary" placeholder="MM/AA">
-                                        </div>
-                                        
-                                        <div>
-                                            <label for="card-cvc" class="block text-sm font-medium text-gray-700 mb-1">CVC/CVV</label>
-                                            <div class="relative">
-                                                <input type="text" id="card-cvc" name="card_cvc" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary" placeholder="123">
-                                                <div class="absolute inset-y-0 right-0 flex items-center pr-3">
-                                                    <i class="fas fa-question-circle text-gray-400 cursor-help" title="O código de segurança de 3 dígitos no verso do seu cartão"></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <!-- Bank Transfer Details -->
-                            <div id="bank-details" class="payment-details hidden">
-                                <div class="bg-yellow-50 p-4 rounded-lg mb-4">
-                                    <h3 class="font-semibold text-gray-800 mb-2">Instruções para transferência bancária:</h3>
-                                    <p class="text-gray-700 mb-2">Faça uma transferência para uma das seguintes contas bancárias:</p>
-                                    
-                                    <div class="space-y-3 mb-3">
-                                        <div class="bg-white p-3 rounded border border-gray-200">
-                                            <div class="font-semibold text-gray-800">Sogebank</div>
-                                            <div class="grid grid-cols-2 gap-2 text-sm">
-                                                <div class="text-gray-600">Nome:</div>
-                                                <div>LearnHub Haiti</div>
-                                                <div class="text-gray-600">Conta:</div>
-                                                <div>1234567890</div>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="bg-white p-3 rounded border border-gray-200">
-                                            <div class="font-semibold text-gray-800">Unibank</div>
-                                            <div class="grid grid-cols-2 gap-2 text-sm">
-                                                <div class="text-gray-600">Nome:</div>
-                                                <div>LearnHub Haiti</div>
-                                                <div class="text-gray-600">Conta:</div>
-                                                <div>0987654321</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                    <p class="text-gray-700">Após realizar a transferência, envie o comprovante para <a href="mailto:pagamentos@learnhub.ht" class="text-primary hover:underline">pagamentos@learnhub.ht</a> ou faça upload abaixo.</p>
-                                </div>
-                                
-                                <div class="mb-4">
-                                    <label for="bank-receipt" class="block text-sm font-medium text-gray-700 mb-1">Comprovante de transferência (opcional)</label>
-                                    <input type="file" id="bank-receipt" name="bank_receipt" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary">
-                                    <p class="mt-1 text-xs text-gray-500">Formatos aceitos: JPG, PNG, PDF. Tamanho máximo: 5MB</p>
-                                </div>
-                                
-                                <div class="mb-4">
-                                    <label for="bank-reference" class="block text-sm font-medium text-gray-700 mb-1">Número de referência da transferência</label>
-                                    <input type="text" id="bank-reference" name="bank_reference" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary" placeholder="Ex: 123456789">
-                                </div>
-                            </div>
-                            
-                            <!-- Remittance Details -->
-                            <div id="remittance-details" class="payment-details hidden">
-                                <div class="bg-purple-50 p-4 rounded-lg mb-4">
-                                    <h3 class="font-semibold text-gray-800 mb-2">Instruções para Western Union / MoneyGram:</h3>
-                                    <p class="text-gray-700 mb-2">Envie o pagamento para:</p>
-                                    
-                                    <div class="bg-white p-3 rounded border border-gray-200 mb-3">
-                                        <div class="grid grid-cols-2 gap-2 text-sm">
-                                            <div class="text-gray-600">Nome:</div>
-                                            <div>Jean Baptiste</div>
-                                            <div class="text-gray-600">País:</div>
-                                            <div>Haiti</div>
-                                            <div class="text-gray-600">Cidade:</div>
-                                            <div>Port-au-Prince</div>
-                                        </div>
-                                    </div>
-                                    
-                                    <p class="text-gray-700">Após realizar o envio, preencha os detalhes abaixo. Não compartilhe o MTCN/número de controle com ninguém além de nós.</p>
-                                </div>
-                                
-                                <div class="space-y-4">
-                                    <div>
-                                        <label for="remittance-service" class="block text-sm font-medium text-gray-700 mb-1">Serviço utilizado</label>
-                                        <select id="remittance-service" name="remittance_service" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary">
-                                            <option value="">Selecione o serviço</option>
-                                            <option value="western_union">Western Union</option>
-                                            <option value="moneygram">MoneyGram</option>
-                                        </select>
-                                    </div>
-                                    
-                                    <div>
-                                        <label for="remittance-sender" class="block text-sm font-medium text-gray-700 mb-1">Nome do remetente</label>
-                                        <input type="text" id="remittance-sender" name="remittance_sender" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary" placeholder="Nome completo do remetente">
-                                    </div>
-                                    
-                                    <div>
-                                        <label for="remittance-mtcn" class="block text-sm font-medium text-gray-700 mb-1">MTCN / Número de controle</label>
-                                        <input type="text" id="remittance-mtcn" name="remittance_mtcn" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary" placeholder="Ex: 1234567890">
-                                    </div>
-                                    
-                                    <div>
-                                        <label for="remittance-amount" class="block text-sm font-medium text-gray-700 mb-1">Valor enviado</label>
-                                        <div class="flex">
-                                            <select id="remittance-currency" name="remittance_currency" class="inline-flex items-center px-3 border border-r-0 border-gray-300 rounded-l-md bg-gray-50">
-                                                <option value="USD">USD</option>
-                                                <option value="EUR">EUR</option>
-                                                <option value="CAD">CAD</option>
-                                            </select>
-                                            <input type="text" id="remittance-amount" name="remittance_amount" class="flex-1 min-w-0 block w-full px-3 py-2 rounded-none rounded-r-md border border-gray-300 focus:ring-primary focus:border-primary" placeholder="Valor">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <!-- Cash Payment Details -->
-                            <div id="cash-details" class="payment-details hidden">
-                                <div class="bg-gray-50 p-4 rounded-lg mb-4">
-                                    <h3 class="font-semibold text-gray-800 mb-2">Instruções para pagamento em dinheiro:</h3>
-                                    <p class="text-gray-700 mb-2">Você pode pagar em dinheiro em um dos nossos pontos de coleta:</p>
-                                    
-                                    <div class="space-y-3 mb-3">
-                                        <div class="bg-white p-3 rounded border border-gray-200">
-                                            <div class="font-semibold text-gray-800">Port-au-Prince</div>
-                                            <p class="text-sm text-gray-600">Delmas 60, Rue Metellus #7<br>Segunda a Sexta: 9h às 17h</p>
-                                        </div>
-                                        
-                                        <div class="bg-white p-3 rounded border border-gray-200">
-                                            <div class="font-semibold text-gray-800">Cap-Haïtien</div>
-                                            <p class="text-sm text-gray-600">Rue 23 L, #45<br>Segunda a Sexta: 9h às 16h</p>
-                                        </div>
-                                    </div>
-                                    
-                                    <p class="text-gray-700">Após selecionar esta opção, você receberá um código de reserva por e-mail. Apresente este código ao fazer o pagamento em um dos nossos pontos de coleta.</p>
-                                </div>
-                                
-                                <div class="mb-4">
-                                    <label for="cash-location" class="block text-sm font-medium text-gray-700 mb-1">Local de pagamento preferido</label>
-                                    <select id="cash-location" name="cash_location" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary">
-                                        <option value="">Selecione o local</option>
-                                        <option value="port_au_prince">Port-au-Prince (Delmas)</option>
-                                        <option value="cap_haitien">Cap-Haïtien</option>
-                                    </select>
-                                </div>
-                                
-                                <div class="mb-4">
-                                    <label for="cash-date" class="block text-sm font-medium text-gray-700 mb-1">Data prevista para pagamento</label>
-                                    <input type="date" id="cash-date" name="cash_date" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary" min="{{ tomorrow_date|date:'Y-m-d' }}">
-                                    <p class="mt-1 text-xs text-gray-500">Selecione a data aproximada em que você planeja fazer o pagamento</p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Informações de contato -->
-                        <div class="mb-6">
-                            <h3 class="text-lg font-semibold text-gray-800 mb-4">Informações de contato</h3>
-                            
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div>
-                                    <label for="contact-name" class="block text-sm font-medium text-gray-700 mb-1">Nome completo</label>
-                                    <input type="text" id="contact-name" name="contact_name" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary" value="{{ user.get_full_name }}" required>
-                                </div>
-                                
-                                <div>
-                                    <label for="contact-email" class="block text-sm font-medium text-gray-700 mb-1">E-mail</label>
-                                    <input type="email" id="contact-email" name="contact_email" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary" value="{{ user.email }}" required>
-                                </div>
-                                
-                                <div>
-                                    <label for="contact-phone" class="block text-sm font-medium text-gray-700 mb-1">Telefone</label>
-                                    <div class="flex">
-                                        <span class="inline-flex items-center px-3 text-gray-500 bg-gray-100 border border-r-0 border-gray-300 rounded-l-md">
-                                            +509
-                                        </span>
-                                        <input type="tel" id="contact-phone" name="contact_phone" class="flex-1 min-w-0 block w-full px-3 py-2 rounded-none rounded-r-md border border-gray-300 focus:ring-primary focus:border-primary" placeholder="3456 7890" value="{{ user.phone_number }}" required>
-                                    </div>
-                                </div>
-                                
-                                <div>
-                                    <label for="contact-address" class="block text-sm font-medium text-gray-700 mb-1">Endereço (opcional)</label>
-                                    <input type="text" id="contact-address" name="contact_address" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary" value="{{ user.address }}">
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Cupom de desconto -->
-                        <div class="mb-6">
-                            <div class="flex items-center">
-                                <h3 class="text-lg font-semibold text-gray-800">Cupom de desconto</h3>
-                                <button type="button" id="toggle-coupon" class="ml-2 text-primary hover:text-primary-dark text-sm">
-                                    <i class="fas fa-plus-circle mr-1"></i> Adicionar
-                                </button>
-                            </div>
-                            
-                            <div id="coupon-form" class="hidden mt-3">
-                                <div class="flex">
-                                    <input type="text" id="coupon-code" name="coupon_code" class="flex-1 min-w-0 block w-full px-3 py-2 rounded-l-md border border-gray-300 focus:ring-primary focus:border-primary" placeholder="Digite o código do cupom">
-                                    <button type="button" id="apply-coupon" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-r-md text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
-                                        Aplicar
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Botão de finalizar -->
-                        <div class="flex justify-end">
-                            <button type="submit" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors">
-                                <i class="fas fa-lock mr-2"></i> Finalizar Pagamento
-                            </button>
-                        </div>
-                    </form>
-                </div>
-                
-                <!-- Informações adicionais -->
-                <div class="bg-white rounded-lg shadow-md p-6">
-                    <h2 class="text-xl font-bold text-gray-800 mb-4">Informações adicionais</h2>
-                    
-                    <div class="space-y-4">
-                        <div class="flex items-start">
-                            <div class="flex-shrink-0">
-                                <i class="fas fa-shield-alt text-primary text-xl"></i>
-                            </div>
-                            <div class="ml-3">
-                                <h3 class="font-semibold text-gray-800">Pagamento Seguro</h3>
-                                <p class="text-gray-600 text-sm">Todas as transações são processadas com segurança e seus dados são protegidos.</p>
-                            </div>
-                        </div>
-                        
-                        <div class="flex items-start">
-                            <div class="flex-shrink-0">
-                                <i class="fas fa-undo-alt text-primary text-xl"></i>
-                            </div>
-                            <div class="ml-3">
-                                <h3 class="font-semibold text-gray-800">Garantia de Satisfação</h3>
-                                <p class="text-gray-600 text-sm">Se você não estiver satisfeito com o curso, oferecemos garantia de devolução do dinheiro em até 30 dias.</p>
-                            </div>
-                        </div>
-                        
-                        <div class="flex items-start">
-                            <div class="flex-shrink-0">
-                                <i class="fas fa-headset text-primary text-xl"></i>
-                            </div>
-                            <div class="ml-3">
-                                <h3 class="font-semibold text-gray-800">Suporte ao Cliente</h3>
-                                <p class="text-gray-600 text-sm">Precisa de ajuda? Entre em contato com nossa equipe de suporte em <a href="mailto:suporte@learnhub.ht" class="text-primary hover:underline">suporte@learnhub.ht</a> ou pelo WhatsApp: <a href="tel:+50934567890" class="text-primary hover:underline">+509 3456 7890</a>.</p>
-                            </div>
-                        </div>
-                        
-                        <div class="flex items-start">
-                            <div class="flex-shrink-0">
-                                <i class="fas fa-language text-primary text-xl"></i>
-                            </div>
-                            <div class="ml-3">
-                                <h3 class="font-semibold text-gray-800">Suporte em Crioulo Haitiano</h3>
-                                <p class="text-gray-600 text-sm">Nou pale kreyòl! Si w bezwen èd nan lang kreyòl, tanpri kontakte nou.</p>
-                            </div>
-                        </div>
+            <!-- Need Help Section -->
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden mt-8">
+                <div class="p-6">
+                    <h2 class="text-xl font-bold mb-4">Need Help?</h2>
+                    <p class="text-gray-600 mb-4">If you have any questions or need assistance with your payment, please don't hesitate to contact us.</p>
+                    <div class="flex flex-wrap">
+                        <a href="{% url 'contact' %}" class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-primary bg-primary-50 hover:bg-primary-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors mr-4 mb-2">
+                            <i class="fas fa-envelope mr-2"></i> Contact Support
+                        </a>
+                        <a href="tel:+50928000000" class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-primary bg-primary-50 hover:bg-primary-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors mb-2">
+                            <i class="fas fa-phone-alt mr-2"></i> Call Us
+                        </a>
                     </div>
                 </div>
             </div>
@@ -496,181 +514,246 @@
 {% endblock %}
 
 {% block extra_js %}
+<script src="https://js.stripe.com/v3/"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Selecionar método de pagamento
-        const paymentMethods = document.querySelectorAll('.payment-method-card');
-        const paymentDetails = document.querySelectorAll('.payment-details');
+        // Payment method tabs
+        const paymentTabs = document.querySelectorAll('.payment-method-tab');
+        const paymentContents = document.querySelectorAll('.payment-method-content');
         
-        paymentMethods.forEach(method => {
-            method.addEventListener('click', function() {
-                // Selecionar o radio button dentro do card
-                const radio = this.querySelector('input[type="radio"]');
-                radio.checked = true;
+        paymentTabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                // Remove active class from all tabs and contents
+                paymentTabs.forEach(t => t.classList.remove('active'));
+                paymentContents.forEach(c => c.classList.remove('active'));
                 
-                // Atualizar estilos
-                paymentMethods.forEach(m => {
-                    m.classList.remove('border-primary', 'bg-blue-50');
-                });
-                this.classList.add('border-primary', 'bg-blue-50');
+                // Add active class to clicked tab
+                this.classList.add('active');
                 
-                // Mostrar detalhes do método selecionado
-                const methodId = this.getAttribute('data-method');
-                paymentDetails.forEach(detail => {
-                    detail.classList.add('hidden');
-                });
-                document.getElementById(`${methodId}-details`).classList.remove('hidden');
+                // Show corresponding content
+                const method = this.getAttribute('data-method');
+                document.getElementById(`${method}-payment`).classList.add('active');
             });
         });
         
-        // Toggle cupom de desconto
-        const toggleCouponBtn = document.getElementById('toggle-coupon');
-        const couponForm = document.getElementById('coupon-form');
+        // Discount code application
+        const applyDiscountBtn = document.getElementById('apply-discount');
+        const discountCodeInput = document.getElementById('discount-code');
+        const discountMessage = document.getElementById('discount-message');
         
-        toggleCouponBtn.addEventListener('click', function() {
-            if (couponForm.classList.contains('hidden')) {
-                couponForm.classList.remove('hidden');
-                this.innerHTML = '<i class="fas fa-minus-circle mr-1"></i> Remover';
-            } else {
-                couponForm.classList.add('hidden');
-                this.innerHTML = '<i class="fas fa-plus-circle mr-1"></i> Adicionar';
-                document.getElementById('coupon-code').value = '';
-            }
-        });
-        
-        // Aplicar cupom (simulação)
-        const applyCouponBtn = document.getElementById('apply-coupon');
-        
-        applyCouponBtn.addEventListener('click', function() {
-            const couponCode = document.getElementById('coupon-code').value.trim();
-            
-            if (!couponCode) {
-                alert('Por favor, digite um código de cupom.');
-                return;
-            }
-            
-            // Simulação de verificação de cupom
-            setTimeout(() => {
-                if (couponCode.toLowerCase() === 'haiti10') {
-                    alert('Cupom aplicado com sucesso! Desconto de 10% aplicado.');
-                    // Aqui você adicionaria a lógica para atualizar o preço
-                } else {
-                    alert('Cupom inválido ou expirado.');
+        if (applyDiscountBtn) {
+            applyDiscountBtn.addEventListener('click', function() {
+                const code = discountCodeInput.value.trim();
+                const courseId = this.getAttribute('data-course-id');
+                
+                if (!code) {
+                    discountMessage.textContent = 'Please enter a discount code.';
+                    discountMessage.className = 'mt-2 text-sm text-red-600';
+                    return;
                 }
-            }, 500);
-        });
+                
+                // Disable button and show loading state
+                applyDiscountBtn.disabled = true;
+                applyDiscountBtn.textContent = 'Applying...';
+                
+                // Send AJAX request
+                const formData = new FormData();
+                formData.append('code', code);
+                formData.append('course_id', courseId);
+                
+                fetch('{% url "apply_discount" %}', {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Update UI with discount
+                        discountMessage.textContent = data.message;
+                        discountMessage.className = 'mt-2 text-sm text-green-600';
+                        
+                        // Update order summary
+                        const orderSummary = document.querySelector('.border-t.border-gray-200.pt-4');
+                        
+                        // Check if discount row already exists
+                        let discountRow = orderSummary.querySelector('.text-green-600');
+                        
+                        if (!discountRow) {
+                            // Create discount row
+                            discountRow = document.createElement('div');
+                            discountRow.className = 'flex justify-between mb-2 text-green-600';
+                            discountRow.innerHTML = `
+                                <span>Discount (${data.discount_info.code})</span>
+                                <span>-{{ course.currency }} ${data.discount_amount.toFixed(2)}</span>
+                            `;
+                            
+                            // Insert after subtotal
+                            const subtotalRow = orderSummary.querySelector('.flex.justify-between.mb-2');
+                            subtotalRow.insertAdjacentElement('afterend', discountRow);
+                        } else {
+                            // Update existing discount row
+                            discountRow.innerHTML = `
+                                <span>Discount (${data.discount_info.code})</span>
+                                <span>-{{ course.currency }} ${data.discount_amount.toFixed(2)}</span>
+                            `;
+                        }
+                        
+                        // Update total
+                        const totalRow = orderSummary.querySelector('.font-bold.text-lg');
+                        totalRow.querySelector('span:last-child').textContent = `{{ course.currency }} ${data.new_total.toFixed(2)}`;
+                        
+                        // Reload page to ensure all calculations are correct
+                        setTimeout(() => {
+                            window.location.reload();
+                        }, 1500);
+                    } else {
+                        // Show error message
+                        discountMessage.textContent = data.message;
+                        discountMessage.className = 'mt-2 text-sm text-red-600';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    discountMessage.textContent = 'An error occurred. Please try again.';
+                    discountMessage.className = 'mt-2 text-sm text-red-600';
+                })
+                .finally(() => {
+                    // Re-enable button
+                    applyDiscountBtn.disabled = false;
+                    applyDiscountBtn.textContent = 'Apply';
+                });
+            });
+        }
         
-        // Validação de formulário
+        // Stripe Elements integration
+        const stripe = Stripe('{{ stripe_public_key }}');
+        const elements = stripe.elements();
+        const paymentElement = elements.create('payment');
+        paymentElement.mount('#payment-element');
+        
         const form = document.getElementById('payment-form');
+        const submitButton = document.getElementById('submit-button');
+        const spinner = document.getElementById('spinner');
+        const buttonText = document.getElementById('button-text');
+        const paymentMessage = document.getElementById('payment-message');
         
-        form.addEventListener('submit', function(event) {
-            const selectedMethod = document.querySelector('input[name="payment_method"]:checked');
-            
-            if (!selectedMethod) {
-                event.preventDefault();
-                alert('Por favor, selecione um método de pagamento.');
-                return;
-            }
-            
-            // Validações específicas para cada método de pagamento
-            const methodId = selectedMethod.value;
-            
-            if (methodId === 'moncash') {
-                const phone = document.getElementById('moncash-phone').value.trim();
-                if (!phone || phone.length < 8) {
-                    event.preventDefault();
-                    alert('Por favor, digite um número de telefone Digicel válido.');
-                    return;
-                }
-            } else if (methodId === 'lajancash') {
-                const phone = document.getElementById('lajancash-phone').value.trim();
-                if (!phone || phone.length < 8) {
-                    event.preventDefault();
-                    alert('Por favor, digite um número de telefone Natcom válido.');
-                    return;
-                }
-            } else if (methodId === 'card') {
-                // Validação básica de cartão
-                const cardName = document.getElementById('card-name').value.trim();
-                const cardNumber = document.getElementById('card-number').value.trim();
-                const cardExpiry = document.getElementById('card-expiry').value.trim();
-                const cardCvc = document.getElementById('card-cvc').value.trim();
-                
-                if (!cardName || !cardNumber || !cardExpiry || !cardCvc) {
-                    event.preventDefault();
-                    alert('Por favor, preencha todos os campos do cartão.');
-                    return;
-                }
-            }
-            
-            // Validação de informações de contato
-            const contactName = document.getElementById('contact-name').value.trim();
-            const contactEmail = document.getElementById('contact-email').value.trim();
-            const contactPhone = document.getElementById('contact-phone').value.trim();
-            
-            if (!contactName || !contactEmail || !contactPhone) {
-                event.preventDefault();
-                alert('Por favor, preencha todas as informações de contato.');
-                return;
-            }
-        });
+        let paymentIntentId = '';
         
-        // Formatação de campos
-        const cardNumber = document.getElementById('card-number');
-        if (cardNumber) {
-            cardNumber.addEventListener('input', function(e) {
-                let value = e.target.value.replace(/\D/g, '');
-                if (value.length > 16) value = value.slice(0, 16);
+        // Create payment intent when form loads
+        createPaymentIntent();
+        
+        async function createPaymentIntent() {
+            try {
+                const response = await fetch('{% url "create_payment_intent" %}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    },
+                    body: JSON.stringify({
+                        course_id: '{{ course.id }}'
+                    })
+                });
                 
-                // Adicionar espaços a cada 4 dígitos
-                let formattedValue = '';
-                for (let i = 0; i < value.length; i++) {
-                    if (i > 0 && i % 4 === 0) formattedValue += ' ';
-                    formattedValue += value[i];
+                const data = await response.json();
+                
+                if (data.error) {
+                    showMessage(data.error);
+                    return;
                 }
                 
-                e.target.value = formattedValue;
+                const { clientSecret } = data;
+                
+                // Store the client secret for later use
+                form.dataset.secret = clientSecret;
+            } catch (error) {
+                showMessage('An error occurred while setting up the payment. Please try again.');
+            }
+        }
+        
+        if (form) {
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                if (!form.dataset.secret) {
+                    showMessage('Payment setup is not complete. Please refresh the page and try again.');
+                    return;
+                }
+                
+                // Disable the submit button to prevent repeated clicks
+                setLoading(true);
+                
+                const { error, paymentIntent } = await stripe.confirmPayment({
+                    elements,
+                    confirmParams: {
+                        return_url: window.location.origin + '{% url "dashboard" %}',
+                    },
+                    redirect: 'if_required'
+                });
+                
+                if (error) {
+                    showMessage(error.message);
+                    setLoading(false);
+                } else if (paymentIntent && paymentIntent.status === 'succeeded') {
+                    // Payment succeeded, submit the form to our server
+                    const hiddenInput = document.createElement('input');
+                    hiddenInput.setAttribute('type', 'hidden');
+                    hiddenInput.setAttribute('name', 'payment_intent_id');
+                    hiddenInput.setAttribute('value', paymentIntent.id);
+                    
+                    const courseIdInput = document.createElement('input');
+                    courseIdInput.setAttribute('type', 'hidden');
+                    courseIdInput.setAttribute('name', 'course_id');
+                    courseIdInput.setAttribute('value', '{{ course.id }}');
+                    
+                    const paymentMethodInput = document.createElement('input');
+                    paymentMethodInput.setAttribute('type', 'hidden');
+                    paymentMethodInput.setAttribute('name', 'payment_method');
+                    paymentMethodInput.setAttribute('value', 'card');
+                    
+                    const csrfInput = document.createElement('input');
+                    csrfInput.setAttribute('type', 'hidden');
+                    csrfInput.setAttribute('name', 'csrfmiddlewaretoken');
+                    csrfInput.setAttribute('value', '{{ csrf_token }}');
+                    
+                    const serverForm = document.createElement('form');
+                    serverForm.setAttribute('method', 'post');
+                    serverForm.setAttribute('action', '{% url "process_payment" %}');
+                    serverForm.appendChild(hiddenInput);
+                    serverForm.appendChild(courseIdInput);
+                    serverForm.appendChild(paymentMethodInput);
+                    serverForm.appendChild(csrfInput);
+                    
+                    document.body.appendChild(serverForm);
+                    serverForm.submit();
+                }
             });
         }
         
-        const cardExpiry = document.getElementById('card-expiry');
-        if (cardExpiry) {
-            cardExpiry.addEventListener('input', function(e) {
-                let value = e.target.value.replace(/\D/g, '');
-                if (value.length > 4) value = value.slice(0, 4);
-                
-                if (value.length > 2) {
-                    e.target.value = value.slice(0, 2) + '/' + value.slice(2);
-                } else {
-                    e.target.value = value;
-                }
-            });
+        function setLoading(isLoading) {
+            if (isLoading) {
+                submitButton.disabled = true;
+                spinner.classList.remove('hidden');
+                buttonText.classList.add('hidden');
+            } else {
+                submitButton.disabled = false;
+                spinner.classList.add('hidden');
+                buttonText.classList.remove('hidden');
+            }
         }
         
-        const cardCvc = document.getElementById('card-cvc');
-        if (cardCvc) {
-            cardCvc.addEventListener('input', function(e) {
-                let value = e.target.value.replace(/\D/g, '');
-                if (value.length > 4) value = value.slice(0, 4);
-                e.target.value = value;
-            });
+        function showMessage(messageText) {
+            paymentMessage.textContent = messageText;
+            paymentMessage.classList.remove('hidden');
+            
+            setTimeout(function() {
+                paymentMessage.classList.add('hidden');
+                paymentMessage.textContent = '';
+            }, 8000);
         }
-        
-        // Formatação de telefone
-        const phoneInputs = document.querySelectorAll('input[type="tel"]');
-        phoneInputs.forEach(input => {
-            input.addEventListener('input', function(e) {
-                let value = e.target.value.replace(/\D/g, '');
-                if (value.length > 8) value = value.slice(0, 8);
-                
-                // Formatar como XXXX XXXX
-                if (value.length > 4) {
-                    e.target.value = value.slice(0, 4) + ' ' + value.slice(4);
-                } else {
-                    e.target.value = value;
-                }
-            });
-        });
     });
 </script>
 {% endblock %}

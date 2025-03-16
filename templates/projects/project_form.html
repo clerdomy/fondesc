@@ -1,0 +1,153 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="max-w-3xl mx-auto">
+        <h1 class="text-3xl font-bold mb-6">{{ title }}</h1>
+        
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <form method="post" enctype="multipart/form-data" class="space-y-6">
+                {% csrf_token %}
+                
+                {% if form.non_field_errors %}
+                <div class="bg-red-50 border-l-4 border-red-500 p-4 mb-6">
+                    <div class="flex">
+                        <div class="flex-shrink-0">
+                            <i class="fas fa-exclamation-circle text-red-500"></i>
+                        </div>
+                        <div class="ml-3">
+                            <p class="text-sm text-red-700">
+                                {{ form.non_field_errors }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                
+                <!-- Title -->
+                <div>
+                    <label for="{{ form.title.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+                        Project Title <span class="text-red-500">*</span>
+                    </label>
+                    {{ form.title }}
+                    {% if form.title.errors %}
+                    <p class="mt-1 text-sm text-red-600">{{ form.title.errors.0 }}</p>
+                    {% endif %}
+                </div>
+                
+                <!-- Description -->
+                <div>
+                    <label for="{{ form.description.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+                        Description <span class="text-red-500">*</span>
+                    </label>
+                    {{ form.description }}
+                    {% if form.description.errors %}
+                    <p class="mt-1 text-sm text-red-600">{{ form.description.errors.0 }}</p>
+                    {% else %}
+                    <p class="mt-1 text-xs text-gray-500">Describe your project in detail. What does it do? What problem does it solve? What did you learn?</p>
+                    {% endif %}
+                </div>
+                
+                <!-- Course -->
+                <div>
+                    <label for="{{ form.course.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+                        Associated Course
+                    </label>
+                    {{ form.course }}
+                    {% if form.course.errors %}
+                    <p class="mt-1 text-sm text-red-600">{{ form.course.errors.0 }}</p>
+                    {% else %}
+                    <p class="mt-1 text-xs text-gray-500">Select a course if this project is related to one of your enrolled courses.</p>
+                    {% endif %}
+                </div>
+                
+                <!-- Is Course Project -->
+                <div class="flex items-start">
+                    <div class="flex items-center h-5">
+                        {{ form.is_course_project }}
+                    </div>
+                    <div class="ml-3 text-sm">
+                        <label for="{{ form.is_course_project.id_for_label }}" class="font-medium text-gray-700">
+                            This is a course project
+                        </label>
+                        <p class="text-gray-500">Check this if the project was part of a course assignment or exercise.</p>
+                    </div>
+                </div>
+                
+                <!-- Image -->
+                <div>
+                    <label for="{{ form.image.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+                        Project Image
+                    </label>
+                    {% if project and project.image %}
+                    <div class="mb-2">
+                        <img src="{{ project.image.url }}" alt="{{ project.title }}" class="h-32 object-cover rounded-md">
+                        <p class="text-xs text-gray-500 mt-1">Current image. Upload a new one to replace it.</p>
+                    </div>
+                    {% endif %}
+                    {{ form.image }}
+                    {% if form.image.errors %}
+                    <p class="mt-1 text-sm text-red-600">{{ form.image.errors.0 }}</p>
+                    {% else %}
+                    <p class="mt-1 text-xs text-gray-500">Upload a screenshot or image that represents your project. Recommended size: 1200x630px.</p>
+                    {% endif %}
+                </div>
+                
+                <!-- Technologies -->
+                <div>
+                    <label for="{{ form.technologies.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+                        Technologies Used <span class="text-red-500">*</span>
+                    </label>
+                    {{ form.technologies }}
+                    {% if form.technologies.errors %}
+                    <p class="mt-1 text-sm text-red-600">{{ form.technologies.errors.0 }}</p>
+                    {% else %}
+                    <p class="mt-1 text-xs text-gray-500">Enter technologies separated by commas (e.g., "Python, Django, JavaScript").</p>
+                    {% endif %}
+                </div>
+                
+                <!-- Repository URL -->
+                <div>
+                    <label for="{{ form.repository_url.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+                        Repository URL
+                    </label>
+                    {{ form.repository_url }}
+                    {% if form.repository_url.errors %}
+                    <p class="mt-1 text-sm text-red-600">{{ form.repository_url.errors.0 }}</p>
+                    {% else %}
+                    <p class="mt-1 text-xs text-gray-500">Link to your GitHub, GitLab, or other code repository.</p>
+                    {% endif %}
+                </div>
+                
+                <!-- Demo URL -->
+                <div>
+                    <label for="{{ form.demo_url.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+                        Live Demo URL
+                    </label>
+                    {{ form.demo_url }}
+                    {% if form.demo_url.errors %}
+                    <p class="mt-1 text-sm text-red-600">{{ form.demo_url.errors.0 }}</p>
+                    {% else %}
+                    <p class="mt-1 text-xs text-gray-500">Link to a live demo of your project if available.</p>
+                    {% endif %}
+                </div>
+                
+                <!-- Submit Buttons -->
+                <div class="flex justify-between pt-4">
+                    <a href="{% if project %}{% url 'project_detail' project.slug %}{% else %}{% url 'my_projects' %}{% endif %}" 
+                       class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded">
+                        Cancel
+                    </a>
+                    <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                        {% if project %}Update Project{% else %}Create Project{% endif %}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

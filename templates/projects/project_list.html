@@ -1,0 +1,173 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Student Projects{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="flex flex-col md:flex-row justify-between items-start mb-8">
+        <div>
+            <h1 class="text-3xl font-bold mb-2">Student Projects</h1>
+            <p class="text-gray-600 mb-4">Explore projects created by our students</p>
+        </div>
+        {% if user.is_authenticated %}
+        <a href="{% url 'create_project' %}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            <i class="fas fa-plus mr-2"></i> Add Your Project
+        </a>
+        {% endif %}
+    </div>
+
+    <!-- Search and Filters -->
+    <div class="bg-white rounded-lg shadow-md p-4 mb-8">
+        <form method="get" action="{% url 'project_list' %}" class="space-y-4">
+            <div class="flex flex-col md:flex-row gap-4">
+                <div class="flex-1">
+                    <label for="q" class="block text-sm font-medium text-gray-700 mb-1">Search Projects</label>
+                    <input type="text" name="q" id="q" value="{{ query }}" placeholder="Search by title, description or technology..." 
+                           class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                </div>
+                
+                <div class="w-full md:w-1/4">
+                    <label for="course" class="block text-sm font-medium text-gray-700 mb-1">Filter by Course</label>
+                    <select name="course" id="course" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                        <option value="">All Courses</option>
+                        {% for course in courses %}
+                        <option value="{{ course.id }}" {% if selected_course == course.id|stringformat:"i" %}selected{% endif %}>{{ course.title }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <div class="w-full md:w-1/4">
+                    <label for="tech" class="block text-sm font-medium text-gray-700 mb-1">Filter by Technology</label>
+                    <select name="tech" id="tech" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                        <option value="">All Technologies</option>
+                        {% for tech in technologies %}
+                        <option value="{{ tech }}" {% if selected_tech == tech %}selected{% endif %}>{{ tech }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex space-x-4">
+                    <label class="inline-flex items-center">
+                        <input type="radio" name="type" value="" {% if not project_type %}checked{% endif %} class="form-radio h-4 w-4 text-blue-600">
+                        <span class="ml-2 text-gray-700">All Projects</span>
+                    </label>
+                    <label class="inline-flex items-center">
+                        <input type="radio" name="type" value="course" {% if project_type == 'course' %}checked{% endif %} class="form-radio h-4 w-4 text-blue-600">
+                        <span class="ml-2 text-gray-700">Course Projects</span>
+                    </label>
+                    <label class="inline-flex items-center">
+                        <input type="radio" name="type" value="personal" {% if project_type == 'personal' %}checked{% endif %} class="form-radio h-4 w-4 text-blue-600">
+                        <span class="ml-2 text-gray-700">Personal Projects</span>
+                    </label>
+                </div>
+                
+                <button type="submit" class="mt-4 md:mt-0 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    <i class="fas fa-filter mr-2"></i> Apply Filters
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Projects Grid -->
+    {% if projects %}
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        {% for project in projects %}
+        <div class="bg-white rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:shadow-lg hover:-translate-y-1">
+            <a href="{{ project.get_absolute_url }}">
+                {% if project.image %}
+                <img src="{{ project.image.url }}" alt="{{ project.title }}" class="w-full h-48 object-cover">
+                {% else %}
+                <div class="w-full h-48 bg-gray-200 flex items-center justify-center">
+                    <i class="fas fa-code text-4xl text-gray-400"></i>
+                </div>
+                {% endif %}
+            </a>
+            
+            <div class="p-4">
+                <div class="flex justify-between items-start mb-2">
+                    <h2 class="text-xl font-semibold truncate">
+                        <a href="{{ project.get_absolute_url }}" class="hover:text-blue-600">{{ project.title }}</a>
+                    </h2>
+                    {% if project.is_course_project %}
+                    <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">Course Project</span>
+                    {% endif %}
+                </div>
+                
+                <p class="text-gray-600 text-sm mb-3 line-clamp-2">{{ project.description|truncatechars:100 }}</p>
+                
+                <div class="flex flex-wrap gap-1 mb-3">
+                    {% for tech in project.get_technologies_list|slice:":3" %}
+                    <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">{{ tech }}</span>
+                    {% endfor %}
+                    {% if project.get_technologies_list|length > 3 %}
+                    <span class="text-xs text-gray-500">+{{ project.get_technologies_list|length|add:"-3" }}</span>
+                    {% endif %}
+                </div>
+                
+                <div class="flex justify-between items-center text-sm text-gray-500">
+                    <div class="flex items-center">
+                        <img src="{% if project.user.profile.avatar %}{{ project.user.profile.avatar.url }}{% else %}{% static 'images/default-avatar.png' %}{% endif %}" 
+                             alt="{{ project.user.username }}" class="w-6 h-6 rounded-full mr-2">
+                        <span>{{ project.user.get_full_name|default:project.user.username }}</span>
+                    </div>
+                    <span>{{ project.created_at|date:"M d, Y" }}</span>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    
+    <!-- Pagination -->
+    {% if projects.has_other_pages %}
+    <div class="flex justify-center mt-8">
+        <div class="flex space-x-1">
+            {% if projects.has_previous %}
+            <a href="?page={{ projects.previous_page_number }}{% if query %}&q={{ query }}{% endif %}{% if selected_course %}&course={{ selected_course }}{% endif %}{% if selected_tech %}&tech={{ selected_tech }}{% endif %}{% if project_type %}&type={{ project_type }}{% endif %}" 
+               class="px-4 py-2 text-gray-700 bg-gray-200 rounded-md hover:bg-blue-600 hover:text-white">
+                <i class="fas fa-chevron-left mr-1"></i> Previous
+            </a>
+            {% endif %}
+            
+            {% for i in projects.paginator.page_range %}
+                {% if projects.number == i %}
+                <span class="px-4 py-2 text-white bg-blue-600 rounded-md">{{ i }}</span>
+                {% elif i > projects.number|add:'-3' and i < projects.number|add:'3' %}
+                <a href="?page={{ i }}{% if query %}&q={{ query }}{% endif %}{% if selected_course %}&course={{ selected_course }}{% endif %}{% if selected_tech %}&tech={{ selected_tech }}{% endif %}{% if project_type %}&type={{ project_type }}{% endif %}" 
+                   class="px-4 py-2 text-gray-700 bg-gray-200 rounded-md hover:bg-blue-600 hover:text-white">{{ i }}</a>
+                {% endif %}
+            {% endfor %}
+            
+            {% if projects.has_next %}
+            <a href="?page={{ projects.next_page_number }}{% if query %}&q={{ query }}{% endif %}{% if selected_course %}&course={{ selected_course }}{% endif %}{% if selected_tech %}&tech={{ selected_tech }}{% endif %}{% if project_type %}&type={{ project_type }}{% endif %}" 
+               class="px-4 py-2 text-gray-700 bg-gray-200 rounded-md hover:bg-blue-600 hover:text-white">
+                Next <i class="fas fa-chevron-right ml-1"></i>
+            </a>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+    
+    {% else %}
+    <div class="bg-white rounded-lg shadow-md p-8 text-center">
+        <i class="fas fa-project-diagram text-5xl text-gray-300 mb-4"></i>
+        <h3 class="text-xl font-semibold mb-2">No projects found</h3>
+        <p class="text-gray-600 mb-4">
+            {% if query or selected_course or selected_tech or project_type %}
+            No projects match your current filters. Try adjusting your search criteria.
+            {% else %}
+            There are no published projects yet. Be the first to share your work!
+            {% endif %}
+        </p>
+        {% if user.is_authenticated %}
+        <a href="{% url 'create_project' %}" class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            <i class="fas fa-plus mr-2"></i> Add Your Project
+        </a>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+

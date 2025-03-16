@@ -12,5 +12,6 @@ urlpatterns = [
     # Instructor routes
     path('create/', views.CourseCreateView.as_view(), name='course_create'),
     path('<slug:slug>/edit/', views.CourseUpdateView.as_view(), name='course_update'),
+    path('<slug:slug>/certificate/', views.certificate_view, name='certificate_view'),
     path('verify-certificate/', views.verify_certificate_view, name='verify_certificate'),
 ]

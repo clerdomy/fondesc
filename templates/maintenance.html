@@ -1,0 +1,353 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Site em Manutenção - PythonLearn</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            300: '#7dd3fc',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        },
+                        secondary: {
+                            50: '#f5f3ff',
+                            100: '#ede9fe',
+                            200: '#ddd6fe',
+                            300: '#c4b5fd',
+                            400: '#a78bfa',
+                            500: '#8b5cf6',
+                            600: '#7c3aed',
+                            700: '#6d28d9',
+                            800: '#5b21b6',
+                            900: '#4c1d95',
+                        },
+                    },
+                    fontFamily: {
+                        'sans': ['Poppins', 'sans-serif'],
+                    },
+                    animation: {
+                        'spin-slow': 'spin 3s linear infinite',
+                        'bounce-slow': 'bounce 2s infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .maintenance-bg {
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%230ea5e9' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        
+        @keyframes wrench {
+            0% { transform: rotate(-12deg); }
+            8% { transform: rotate(12deg); }
+            10% { transform: rotate(24deg); }
+            18% { transform: rotate(-24deg); }
+            20% { transform: rotate(-24deg); }
+            28% { transform: rotate(24deg); }
+            30% { transform: rotate(24deg); }
+            38% { transform: rotate(-24deg); }
+            40% { transform: rotate(-24deg); }
+            48% { transform: rotate(24deg); }
+            50% { transform: rotate(24deg); }
+            58% { transform: rotate(-24deg); }
+            60% { transform: rotate(-24deg); }
+            68% { transform: rotate(24deg); }
+            75%, 100% { transform: rotate(0deg); }
+        }
+        
+        .wrench-animation {
+            animation: wrench 2.5s ease infinite;
+            transform-origin: 90% 35%;
+            display: inline-block;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background-color: #e0f2fe;
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background-color: #0ea5e9;
+            border-radius: 4px;
+            animation: progress 30s linear forwards;
+            width: 0%;
+        }
+        
+        @keyframes progress {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
+        
+        .code-block {
+            font-family: 'Courier New', monospace;
+            background-color: #1e293b;
+            color: #e2e8f0;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin: 1rem 0;
+            overflow-x: auto;
+        }
+        
+        .comment { color: #94a3b8; }
+        .keyword { color: #93c5fd; }
+        .string { color: #86efac; }
+        .function { color: #c4b5fd; }
+        .number { color: #fdba74; }
+        
+        .typing-animation {
+            overflow: hidden;
+            border-right: 2px solid #0ea5e9;
+            white-space: nowrap;
+            margin: 0;
+            animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+        }
+        
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+        
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: #0ea5e9 }
+        }
+    </style>
+</head>
+<body class="font-sans bg-gray-50 maintenance-bg min-h-screen flex flex-col">
+    <div class="flex-grow flex items-center justify-center p-4">
+        <div class="max-w-4xl w-full bg-white rounded-xl shadow-xl overflow-hidden">
+            <div class="md:flex">
+                <div class="md:w-1/2 bg-gradient-to-br from-primary-600 to-primary-800 p-8 text-white flex flex-col justify-between">
+                    <div>
+                        <a href="{% url 'home' %}" class="flex items-center group" data-aos="fade-right">
+                            <svg width="40" height="40" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="mr-3 group-hover:animate-float">
+                                <!-- Símbolo centralizado -->
+                                <g transform="translate(10, 10) scale(0.8)">
+                                    <!-- Forma base - Hexágono modificado -->
+                                    <path d="M60,10 L100,30 L100,70 L60,90 L20,70 L20,30 Z" 
+                                        fill="#1E40AF" opacity="0.9"/>
+                                    
+                                    <!-- Elemento central -->
+                                    <circle cx="60" cy="50" r="15" fill="#FBBF24" opacity="0.9"/>
+                                    
+                                    <!-- Elementos de conexão -->
+                                    <path d="M60,50 L20,30 M60,50 L20,70 M60,50 L60,10 M60,50 L60,90 M60,50 L100,30 M60,50 L100,70" 
+                                        stroke="#ffffff" stroke-width="2" opacity="0.8"/>
+                                    
+                                    <!-- Pontos de conexão -->
+                                    <circle cx="20" cy="30" r="4" fill="#ffffff"/>
+                                    <circle cx="20" cy="70" r="4" fill="#ffffff"/>
+                                    <circle cx="60" cy="10" r="4" fill="#ffffff"/>
+                                    <circle cx="60" cy="90" r="4" fill="#ffffff"/>
+                                    <circle cx="100" cy="30" r="4" fill="#ffffff"/>
+                                    <circle cx="100" cy="70" r="4" fill="#ffffff"/>
+                                </g>
+                            </svg>
+                            <span class="text-white font-bold text-2xl">FOND<span class="text-secondary">ESC</span>
+                        </span>
+                        </a>
+                        <br>
+                        
+                        <h2 class="text-2xl font-semibold mb-4">Site em Manutenção</h2>
+                        <p class="mb-6">Estamos trabalhando para melhorar sua experiência. Voltaremos em breve com novidades!</p>
+                        
+                        <div class="code-block text-sm md:text-base">
+                            <div class="typing-animation">
+                                <span class="comment"># Atualizando o sistema</span><br>
+                                <span class="keyword">def</span> <span class="function">manutenção_site</span>():<br>
+                                &nbsp;&nbsp;<span class="keyword">import</span> time<br>
+                                &nbsp;&nbsp;progresso = <span class="number">0</span><br>
+                                &nbsp;&nbsp;<span class="keyword">while</span> progresso < <span class="number">100</span>:<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;progresso += <span class="number">1</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;time.sleep(<span class="number">0.3</span>)<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;print(<span class="string">f"Progresso: {progresso}%"</span>)<br>
+                                &nbsp;&nbsp;<span class="keyword">return</span> <span class="string">"Site atualizado!"</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8">
+                        <p class="text-sm opacity-80">Siga-nos para atualizações:</p>
+                        <div class="flex space-x-4 mt-2">
+                            <a href="#" class="text-white hover:text-primary-200 transition-colors">
+                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd"></path>
+                                </svg>
+                            </a>
+                            <a href="#" class="text-white hover:text-primary-200 transition-colors">
+                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"></path>
+                                </svg>
+                            </a>
+                            <a href="#" class="text-white hover:text-primary-200 transition-colors">
+                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z" clip-rule="evenodd"></path>
+                                </svg>
+                            </a>
+                            <a href="#" class="text-white hover:text-primary-200 transition-colors">
+                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd"></path>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="md:w-1/2 p-8">
+                    <div class="flex justify-center mb-6">
+                        <div class="wrench-animation">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-24 w-24 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                        </div>
+                    </div>
+                    
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4 text-center">Estamos quase prontos!</h3>
+                    
+                    <div class="mb-6">
+                        <div class="flex justify-between text-sm text-gray-600 mb-1">
+                            <span>Progresso da manutenção</span>
+                            <span id="progress-percentage">0%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progress-bar"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-50 rounded-lg p-4 mb-6">
+                        <h4 class="font-medium text-gray-800 mb-2">O que estamos fazendo:</h4>
+                        <ul class="space-y-2 text-gray-600">
+                            <li class="flex items-start">
+                                <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                                </svg>
+                                <span>Atualizando nossa plataforma de cursos</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                                </svg>
+                                <span>Melhorando a segurança do sistema</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="h-5 w-5 text-yellow-500 mr-2 mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                                </svg>
+                                <span>Adicionando novos recursos</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="h-5 w-5 text-gray-400 mr-2 mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                                </svg>
+                                <span>Otimizando o desempenho</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="text-center">
+                        <p class="text-gray-600 mb-4">Tempo estimado para conclusão:</p>
+                        <div class="flex justify-center space-x-4 text-2xl font-bold text-primary-600" id="countdown">
+                            <div class="flex flex-col items-center">
+                                <span id="hours">00</span>
+                                <span class="text-xs text-gray-500 mt-1">Horas</span>
+                            </div>
+                            <div class="flex flex-col items-center">
+                                <span>:</span>
+                                <span class="text-xs text-transparent mt-1">.</span>
+                            </div>
+                            <div class="flex flex-col items-center">
+                                <span id="minutes">00</span>
+                                <span class="text-xs text-gray-500 mt-1">Minutos</span>
+                            </div>
+                            <div class="flex flex-col items-center">
+                                <span>:</span>
+                                <span class="text-xs text-transparent mt-1">.</span>
+                            </div>
+                            <div class="flex flex-col items-center">
+                                <span id="seconds">00</span>
+                                <span class="text-xs text-gray-500 mt-1">Segundos</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer class="py-4 text-center text-gray-600 text-sm">
+        <p>&copy; {% now "Y" %} PythonLearn. Todos os direitos reservados.</p>
+    </footer>
+    
+    <script>
+        // Progress bar animation
+        const progressBar = document.getElementById('progress-bar');
+        const progressPercentage = document.getElementById('progress-percentage');
+        
+        let progress = 0;
+        const interval = setInterval(() => {
+            progress += 1;
+            progressBar.style.width = `${progress}%`;
+            progressPercentage.textContent = `${progress}%`;
+            
+            if (progress >= 100) {
+                clearInterval(interval);
+            }
+        }, 300);
+        
+        // Countdown timer
+        const countdownDate = new Date();
+        countdownDate.setHours(countdownDate.getHours() + 2); // 2 hours from now
+        
+        const hoursElement = document.getElementById('hours');
+        const minutesElement = document.getElementById('minutes');
+        const secondsElement = document.getElementById('seconds');
+        
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = countdownDate - now;
+            
+            if (distance < 0) {
+                hoursElement.textContent = '00';
+                minutesElement.textContent = '00';
+                secondsElement.textContent = '00';
+                return;
+            }
+            
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            
+            hoursElement.textContent = hours.toString().padStart(2, '0');
+            minutesElement.textContent = minutes.toString().padStart(2, '0');
+            secondsElement.textContent = seconds.toString().padStart(2, '0');
+        }
+        
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+    </script>
+</body>
+</html>
+

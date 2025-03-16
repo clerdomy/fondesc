@@ -14,6 +14,7 @@ from courses.models import Course
 
 # Adicione ou atualize a função de visualização da página inicial
 def home_view(request):
+     
     """Home page view"""
     # Obter cursos em destaque (por exemplo, os 3 mais recentes)
     featured_courses = Course.objects.filter(is_published=True).order_by('-created_at')[:3]

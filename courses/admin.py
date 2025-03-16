@@ -2,8 +2,27 @@
 from django.contrib import admin
 from .models import (
     Category, Course, Module, Lesson, Resource,
-    Quiz, Question, Answer, Enrollment
+    Quiz, Question, Answer, Enrollment, Certificate,
+    Comment, UserProgress
 )
+
+# Optional: Customize the admin interface for UserProgress model
+@admin.register(UserProgress)
+class UserProgressAdmin(admin.ModelAdmin):
+    list_display = ('user', 'course', 'progress_percentage', 'completed', 'last_accessed')
+    list_filter = ('completed',)
+    search_fields = ('user__username', 'course__title')
+    date_hierarchy = 'last_accessed'
+
+# Register the Comment model
+@admin.register(Comment)
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ('user', 'lesson', 'created_at', 'parent')
+    list_filter = ('lesson__module__course', 'created_at')
+    search_fields = ('text', 'user__username', 'lesson__title')
+    date_hierarchy = 'created_at'
+
+
 
 # Register Category model
 @admin.register(Category)
@@ -78,3 +97,5 @@ class EnrollmentAdmin(admin.ModelAdmin):
     list_filter = ('is_paid', 'course')
     search_fields = ('user__username', 'course__title')
     date_hierarchy = 'date_enrolled'
+
+admin.site.register(Certificate)

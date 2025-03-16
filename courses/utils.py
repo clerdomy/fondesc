@@ -12,6 +12,7 @@ from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.platypus import Paragraph
 from django.utils import timezone
 
+
 def generate_certificate_pdf(certificate):
     """Generate a PDF certificate for a completed course"""
     buffer = BytesIO()
@@ -36,7 +37,7 @@ def generate_certificate_pdf(certificate):
     c.rect(0.75*inch, 0.75*inch, width-1.5*inch, height-1.5*inch, stroke=1, fill=0)
     
     # Add logo
-    logo_path = os.path.join(settings.BASE_DIR, 'static', 'images', 'logo.png')
+    logo_path = os.path.join(settings.BASE_DIR, 'static', 'img', 'logo.png')
     if os.path.exists(logo_path):
         c.drawImage(logo_path, width/2 - 1*inch, height - 2*inch, width=2*inch, height=1*inch)
     

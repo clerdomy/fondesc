@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Erro no Servidor | Python Course Platform{% endblock %}
+
+{% block content %}
+<div class="min-h-[calc(100vh-200px)] flex items-center justify-center px-4 py-12">
+    <div class="max-w-3xl w-full text-center">
+        <!-- Código de erro -->
+        <h1 class="text-9xl font-bold text-red-600 mb-4">500</h1>
+        
+        <!-- Ilustração -->
+        <div class="w-48 h-48 mx-auto mb-8 relative">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-full w-full text-gray-300" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+            </svg>
+        </div>
+        
+        <!-- Mensagem de erro -->
+        <h2 class="text-3xl font-bold text-gray-800 mb-4">Erro no Servidor</h2>
+        <p class="text-lg text-gray-600 mb-8">
+            Ops! Algo deu errado no nosso servidor.
+            <br class="hidden md:block">
+            Nossa equipe técnica já foi notificada e está trabalhando para resolver o problema.
+        </p>
+        
+        <!-- Código Python de erro -->
+        <div class="bg-gray-900 text-white p-4 rounded-lg mb-8 max-w-md mx-auto text-left overflow-x-auto">
+            <pre><code class="language-python">try:
+    process_request()
+except ServerError as e:
+    log_error(e)
+    notify_team()
+    return server_error_page()
+    # Estamos trabalhando para resolver!</code></pre>
+        </div>
+        
+        <!-- Links de navegação -->
+        <div class="flex flex-wrap justify-center gap-4 mb-8">
+            <a href="{% url 'home' %}" class="px-6 py-3 bg-primary-600 text-white rounded-md hover:bg-primary-700 transition-colors duration-300 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
+                </svg>
+                Página Inicial
+            </a>
+            <a href="{% url 'contact' %}" class="px-6 py-3 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 transition-colors duration-300 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+                </svg>
+                Contato
+            </a>
+        </div>
+        
+        <!-- Mensagem de suporte -->
+        <p class="text-gray-500">
+            Por favor, tente novamente mais tarde. Se o problema persistir, 
+            <a href="{% url 'contact' %}" class="text-primary-600 hover:underline">entre em contato</a> 
+            com nossa equipe de suporte.
+        </p>
+    </div>
+</div>
+
+<!-- Script para destacar o código Python -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Animação simples para o código
+        const codeBlock = document.querySelector('pre code');
+        if (codeBlock) {
+            const text = codeBlock.textContent;
+            codeBlock.textContent = '';
+            let i = 0;
+            const typeWriter = () => {
+                if (i < text.length) {
+                    codeBlock.textContent += text.charAt(i);
+                    i++;
+                    setTimeout(typeWriter, 20);
+                }
+            };
+            setTimeout(typeWriter, 500);
+        }
+    });
+</script>
+{% endblock %}
+

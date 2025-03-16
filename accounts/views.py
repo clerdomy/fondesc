@@ -6,10 +6,12 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView, DetailView, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
 
-from .forms import CustomUserCreationForm, CustomAuthenticationForm, UserProfileForm
-from .models import User, UserProgress
-from courses.models import Enrollment, Course
+from .forms import CustomUserCreationForm, CustomAuthenticationForm, UserProfileForm, NotificationSettingsForm
+from .models import User, NotificationSettings
+from courses.models import Enrollment, Course, UserProgress
 
 class RegisterView(SuccessMessageMixin, CreateView):
     """User registration view"""
@@ -29,11 +31,16 @@ class ProfileView(LoginRequiredMixin, UpdateView):
     def get_object(self):
         return self.request.user
 
+# Atualize a função dashboard_view para incluir os certificados
 @login_required
 def dashboard_view(request):
     """User dashboard view"""
     enrollments = Enrollment.objects.filter(user=request.user).select_related('course')
     progress_data = UserProgress.objects.filter(user=request.user).select_related('course')
+    
+    # Get certificates
+    from courses.models import Certificate
+    certificates = Certificate.objects.filter(user=request.user).select_related('course')
     
     # Get in-progress courses
     in_progress_courses = []
@@ -53,8 +60,46 @@ def dashboard_view(request):
         'in_progress_courses': in_progress_courses[:3],  # Show only 3 most recent
         'completed_courses': completed_courses,
         'progress_data': progress_data,
+        'certificates': certificates,
     }
     return render(request, 'accounts/dashboard.html', context)
+
+@login_required
+def password_change_view(request):
+    """Change password view"""
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            # Important: update the session to prevent the user from being logged out
+            update_session_auth_hash(request, user)
+            messages.success(request, 'Your password was successfully updated!')
+            return redirect('password_change')
+        else:
+            messages.error(request, 'Please correct the errors below.')
+    else:
+        form = PasswordChangeForm(request.user)
+    
+    return render(request, 'accounts/password_change.html', {'form': form})
+
+
+@login_required
+def notification_settings_view(request):
+    """Notification settings view"""
+    # Get or create notification settings for the user
+    notification_settings, created = NotificationSettings.objects.get_or_create(user=request.user)
+    
+    if request.method == 'POST':
+        form = NotificationSettingsForm(request.POST, instance=notification_settings)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Your notification preferences have been updated!')
+            return redirect('notification_settings')
+    else:
+        form = NotificationSettingsForm(instance=notification_settings)
+    
+    return render(request, 'accounts/notification_settings.html', {'form': form})
+
 
 @login_required
 def my_courses_view(request):
@@ -112,3 +157,5 @@ def instructor_dashboard_view(request):
 def logout_view(request):
     logout(request)
     return render(request, 'accounts/logout.html')
+
+

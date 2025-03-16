@@ -1,0 +1,248 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ project.title }}{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+        <!-- Project Header -->
+        <div class="relative">
+            {% if project.image %}
+            <div class="h-64 md:h-80 w-full">
+                <img src="{{ project.image.url }}" alt="{{ project.title }}" class="w-full h-full object-cover">
+            </div>
+            {% else %}
+            <div class="h-64 md:h-80 w-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center">
+                <i class="fas fa-code text-6xl text-white opacity-50"></i>
+            </div>
+            {% endif %}
+            
+            <!-- Project Type Badge -->
+            <div class="absolute top-4 right-4">
+                {% if project.is_course_project %}
+                <span class="bg-green-100 text-green-800 text-sm px-3 py-1 rounded-full font-medium">
+                    <i class="fas fa-graduation-cap mr-1"></i> Course Project
+                </span>
+                {% else %}
+                <span class="bg-purple-100 text-purple-800 text-sm px-3 py-1 rounded-full font-medium">
+                    <i class="fas fa-user-graduate mr-1"></i> Personal Project
+                </span>
+                {% endif %}
+            </div>
+            
+            <!-- Edit/Delete buttons for project owner -->
+            {% if user == project.user %}
+            <div class="absolute top-4 left-4 flex space-x-2">
+                <a href="{% url 'edit_project' project.slug %}" class="bg-white text-blue-600 hover:bg-blue-600 hover:text-white px-3 py-1 rounded-full text-sm font-medium transition-colors duration-200">
+                    <i class="fas fa-edit mr-1"></i> Edit
+                </a>
+                <a href="{% url 'delete_project' project.slug %}" class="bg-white text-red-600 hover:bg-red-600 hover:text-white px-3 py-1 rounded-full text-sm font-medium transition-colors duration-200">
+                    <i class="fas fa-trash-alt mr-1"></i> Delete
+                </a>
+                
+                {% if project.status == 'draft' %}
+                <form method="post" action="{% url 'publish_project' project.slug %}">
+                    {% csrf_token %}
+                    <button type="submit" class="bg-white text-green-600 hover:bg-green-600 hover:text-white px-3 py-1 rounded-full text-sm font-medium transition-colors duration-200">
+                        <i class="fas fa-check-circle mr-1"></i> Publish
+                    </button>
+                </form>
+                {% endif %}
+            </div>
+            {% endif %}
+        </div>
+        
+        <!-- Project Content -->
+        <div class="p-6">
+            <!-- Title and Status -->
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-4">
+                <h1 class="text-3xl font-bold text-gray-900">{{ project.title }}</h1>
+                
+                {% if project.status == 'draft' %}
+                <span class="mt-2 md:mt-0 bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm font-medium">
+                    <i class="fas fa-pencil-alt mr-1"></i> Draft
+                </span>
+                {% elif project.status == 'featured' %}
+                <span class="mt-2 md:mt-0 bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-sm font-medium">
+                    <i class="fas fa-star mr-1"></i> Featured
+                </span>
+                {% endif %}
+            </div>
+            
+            <!-- Author and Date -->
+            <div class="flex items-center mb-6">
+                <img src="{% if project.user.profile.avatar %}{{ project.user.profile.avatar.url }}{% else %}{% static 'images/default-avatar.png' %}{% endif %}" 
+                     alt="{{ project.user.username }}" class="w-10 h-10 rounded-full mr-3">
+                <div>
+                    <p class="font-medium text-gray-900">{{ project.user.get_full_name|default:project.user.username }}</p>
+                    <p class="text-sm text-gray-500">
+                        Published on {{ project.created_at|date:"F d, Y" }}
+                        {% if project.created_at != project.updated_at %}
+                        <span class="mx-1">•</span> Updated on {{ project.updated_at|date:"F d, Y" }}
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Associated Course -->
+            {% if project.course %}
+            <div class="mb-6 p-4 bg-blue-50 rounded-lg">
+                <h3 class="text-lg font-semibold mb-2">Associated Course</h3>
+                <div class="flex items-center">
+                    {% if project.course.image %}
+                    <img src="{{ project.course.image.url }}" alt="{{ project.course.title }}" class="w-16 h-16 object-cover rounded-md mr-3">
+                    {% else %}
+                    <div class="w-16 h-16 bg-blue-200 rounded-md flex items-center justify-center mr-3">
+                        <i class="fas fa-book text-blue-500 text-2xl"></i>
+                    </div>
+                    {% endif %}
+                    <div>
+                        <a href="{% url 'course_detail' project.course.slug %}" class="text-blue-600 hover:text-blue-800 font-medium">
+                            {{ project.course.title }}
+                        </a>
+                        <p class="text-sm text-gray-600">{{ project.course.short_description|truncatechars:100 }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            
+            <!-- Project Description -->
+            <div class="mb-8">
+                <h2 class="text-xl font-semibold mb-3">Project Description</h2>
+                <div class="prose max-w-none text-gray-700">
+                    {{ project.description|linebreaks }}
+                </div>
+            </div>
+            
+            <!-- Technologies Used -->
+            {% if technologies %}
+            <div class="mb-8">
+                <h2 class="text-xl font-semibold mb-3">Technologies Used</h2>
+                <div class="flex flex-wrap gap-2">
+                    {% for tech in technologies %}
+                    <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">
+                        {{ tech }}
+                    </span>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+            
+            <!-- Project Links -->
+            {% if project.repository_url or project.demo_url %}
+            <div class="mb-8">
+                <h2 class="text-xl font-semibold mb-3">Project Links</h2>
+                <div class="flex flex-col sm:flex-row gap-3">
+                    {% if project.repository_url %}
+                    <a href="{{ project.repository_url }}" target="_blank" rel="noopener noreferrer" 
+                       class="inline-flex items-center bg-gray-800 hover:bg-gray-900 text-white px-4 py-2 rounded-md">
+                        <i class="fab fa-github mr-2"></i> View Repository
+                    </a>
+                    {% endif %}
+                    
+                    {% if project.demo_url %}
+                    <a href="{{ project.demo_url }}" target="_blank" rel="noopener noreferrer"
+                       class="inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md">
+                        <i class="fas fa-external-link-alt mr-2"></i> Live Demo
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    
+    <!-- Comments Section -->
+    <div class="mt-8 bg-white rounded-lg shadow-md p-6">
+        <h2 class="text-2xl font-bold mb-6">Comments ({{ comments.count }})</h2>
+        
+        <!-- Comment Form -->
+        {% if user.is_authenticated %}
+        <div class="mb-8">
+            <h3 class="text-lg font-semibold mb-3">Leave a Comment</h3>
+            <form method="post" action="{% url 'project_detail' project.slug %}">
+                {% csrf_token %}
+                <div class="mb-4">
+                    {{ comment_form.text }}
+                    {% if comment_form.text.errors %}
+                    <p class="text-red-500 text-sm mt-1">{{ comment_form.text.errors.0 }}</p>
+                    {% endif %}
+                </div>
+                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    Post Comment
+                </button>
+            </form>
+        </div>
+        {% else %}
+        <div class="bg-blue-50 p-4 rounded-lg mb-8">
+            <p class="text-blue-800">
+                <i class="fas fa-info-circle mr-2"></i>
+                Please <a href="{% url 'login' %}?next={{ request.path }}" class="font-medium underline">log in</a> to leave a comment.
+            </p>
+        </div>
+        {% endif %}
+        
+        <!-- Comments List -->
+        {% if comments %}
+        <div class="space-y-6">
+            {% for comment in comments %}
+            <div class="flex space-x-4 pb-6 {% if not forloop.last %}border-b border-gray-200{% endif %}">
+                <img src="{% if comment.user.profile.avatar %}{{ comment.user.profile.avatar.url }}{% else %}{% static 'images/default-avatar.png' %}{% endif %}" 
+                     alt="{{ comment.user.username }}" class="w-10 h-10 rounded-full">
+                <div class="flex-1">
+                    <div class="flex items-center mb-1">
+                        <h4 class="font-medium text-gray-900">{{ comment.user.get_full_name|default:comment.user.username }}</h4>
+                        <span class="mx-2 text-gray-300">•</span>
+                        <span class="text-sm text-gray-500">{{ comment.created_at|date:"F d, Y" }} at {{ comment.created_at|time:"H:i" }}</span>
+                    </div>
+                    <div class="text-gray-700">
+                        {{ comment.text|linebreaks }}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="text-center py-8">
+            <i class="far fa-comment-dots text-4xl text-gray-300 mb-3"></i>
+            <p class="text-gray-500">No comments yet. Be the first to share your thoughts!</p>
+        </div>
+        {% endif %}
+    </div>
+    
+    <!-- Related Projects -->
+    {% if related_projects %}
+    <div class="mt-8">
+        <h2 class="text-2xl font-bold mb-6">Related Projects</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {% for related in related_projects %}
+            <div class="bg-white rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:shadow-lg hover:-translate-y-1">
+                <a href="{{ related.get_absolute_url }}">
+                    {% if related.image %}
+                    <img src="{{ related.image.url }}" alt="{{ related.title }}" class="w-full h-40 object-cover">
+                    {% else %}
+                    <div class="w-full h-40 bg-gray-200 flex items-center justify-center">
+                        <i class="fas fa-code text-3xl text-gray-400"></i>
+                    </div>
+                    {% endif %}
+                </a>
+                
+                <div class="p-4">
+                    <h3 class="text-lg font-semibold mb-2 truncate">
+                        <a href="{{ related.get_absolute_url }}" class="hover:text-blue-600">{{ related.title }}</a>
+                    </h3>
+                    <p class="text-gray-600 text-sm mb-3 line-clamp-2">{{ related.description|truncatechars:80 }}</p>
+                    <div class="flex justify-between items-center text-sm text-gray-500">
+                        <span>{{ related.user.username }}</span>
+                        <span>{{ related.created_at|date:"M d, Y" }}</span>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+

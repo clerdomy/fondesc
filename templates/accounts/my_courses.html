@@ -264,7 +264,7 @@
                             <a href="{% url 'course_learn' slug=course_data.enrollment.course.slug %}" class="flex-1 text-center py-3 px-4 bg-primary hover:bg-primary-dark text-white font-semibold rounded-lg transition-colors">
                                 <i class="fas fa-redo mr-2"></i>Revisar
                             </a>
-                            <a href="{% url 'course_certificate' course_slug=course_data.enrollment.course.slug %}" class="flex-1 text-center py-3 px-4 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-lg transition-colors">
+                            <a href="{% url 'certificate_view' course_data.enrollment.course.slug %}" class="flex-1 text-center py-3 px-4 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-lg transition-colors">
                                 <i class="fas fa-certificate mr-2"></i>Certificado
                             </a>
                         </div>

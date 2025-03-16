@@ -68,3 +68,14 @@ class NewsletterSubscriber(models.Model):
         ordering = ['-created_at']
         verbose_name = 'Newsletter Subscriber'
         verbose_name_plural = 'Newsletter Subscribers'
+
+class SecurityLog(models.Model):
+    ip_address = models.GenericIPAddressField()
+    user_agent = models.TextField()
+    query_string = models.TextField(blank=True, null=True)
+    url_path = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    is_blocked = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.ip_address} - {self.created_at}"

@@ -7,10 +7,17 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy, reverse
 from django.utils import timezone
+import time
+from .utils import create_certificate
+from .models import Certificate
 
-from .models import Course, Module, Lesson, Quiz, Question, Answer, Enrollment, Category
-from accounts.models import UserProgress
-from .forms import CourseForm, ModuleForm, LessonForm, QuizForm, QuestionForm
+
+from .models import (
+    Course, Module, Lesson, 
+    Quiz, Question, Answer, Enrollment, 
+    Category, Comment, UserProgress
+)
+from .forms import CourseForm, ModuleForm, LessonForm, QuizForm, QuestionForm, CommentForm
 
 class CourseListView(ListView):
     """View for listing all courses"""
@@ -73,79 +80,155 @@ class CourseDetailView(DetailView):
         
         return context
 
+
 @login_required
 def enroll_course(request, slug):
     """Enroll in a course"""
     course = get_object_or_404(Course, slug=slug)
     
     # Check if already enrolled
-    if Enrollment.objects.filter(user=request.user, course=course).exists():
+    if Enrollment.objects.filter(user=request.user, course=course, is_paid=True).exists():
         messages.info(request, f"You are already enrolled in {course.title}")
         return redirect('course_detail', slug=slug)
     
-    # Create enrollment
-    enrollment = Enrollment.objects.create(
+    # Create enrollment (unpaid initially)
+    enrollment, created = Enrollment.objects.get_or_create(
         user=request.user,
         course=course,
-        is_paid=False  # Will be updated after payment
+        defaults={'is_paid': False}
     )
     
-    # Initialize user progress
-    UserProgress.objects.create(
-        user=request.user,
-        course=course,
-        progress_percentage=0
-    )
-    
-    messages.success(request, f"You have successfully enrolled in {course.title}")
-    
-    # Redirect to payment if course is not free
-    if course.price > 0:
-        return redirect('payment_process', enrollment_id=enrollment.id)
-    else:
-        enrollment.is_paid = True
-        enrollment.save()
-        return redirect('course_learn', slug=slug)
-
-def course_learn_view(request, slug):
-    """View for learning a course"""
-    course = get_object_or_404(Course, slug=slug)
-    
-    # Check if user is enrolled
-    enrollment = get_object_or_404(Enrollment, user=request.user, course=course)
-    
-    # Get course modules and lessons
-    modules = Module.objects.filter(course=course).prefetch_related('lessons')
-    
-    # Get or create user progress
-    progress, created = UserProgress.objects.get_or_create(
+    # Initialize user progress if it doesn't exist
+    UserProgress.objects.get_or_create(
         user=request.user,
         course=course,
         defaults={'progress_percentage': 0}
     )
     
-    # Get lesson to display (first lesson or last accessed)
-    lesson_id = request.GET.get('lesson')
-    if lesson_id:
-        current_lesson = get_object_or_404(Lesson, id=lesson_id, module__course=course)
-    else:
-        # Get first lesson
-        first_module = modules.first()
-        if first_module:
-            current_lesson = Lesson.objects.filter(module=first_module).first()
-        else:
-            current_lesson = None
+    # If course is free, mark as paid immediately
+    if course.price <= 0:
+        enrollment.is_paid = True
+        enrollment.save()
+        messages.success(request, f"You have successfully enrolled in {course.title}")
+        return redirect('course_learn', slug=slug)
     
-    # Update last accessed
-    if current_lesson:
-        progress.last_accessed = timezone.now()
-        progress.save()
+    # For paid courses, redirect to payment process
+    messages.info(request, f"Please complete the payment to access {course.title}")
+    return redirect('payment_process', course_id=course.id)
+
+@login_required
+def course_learn_view(request, slug):
+    """View for learning a course"""
+    course = get_object_or_404(Course, slug=slug)
+    
+    # Check if user is enrolled
+    try:
+        enrollment = Enrollment.objects.get(user=request.user, course=course)
+        if not enrollment.is_paid:
+            messages.info(request, "Si ou deja fè peman an, tanpri tann 1 a 2 jou pou konfimasyon. Si ou bezwen èd, kontakte nou.")
+            
+            return redirect('payment_process', course_id=course.id)
+    except Enrollment.DoesNotExist:
+        messages.error(request, "Ou bezwen enskri nan kou sa a pou ka jwenn aksè ak leson yo.")
+        return redirect('course_detail', slug=slug)
+    
+    # Get all lessons for this course through modules
+    all_lessons = []
+    for module in course.modules.all().order_by('order'):
+        for lesson in module.lessons.all().order_by('order'):
+            all_lessons.append(lesson)
+    
+    # Get current module and lesson
+    lesson_id = request.GET.get('lesson')
+    
+    if lesson_id:
+        current_lesson = get_object_or_404(Lesson, id=lesson_id)
+        current_module = current_lesson.module
+        # Verify that the lesson belongs to this course
+        if current_module.course != course:
+            messages.error(request, "Leson sa a pa fè pati kou sa a.")
+            return redirect('course_learn', slug=slug)
+    else:
+        # Default to first lesson
+        if course.modules.exists():
+            current_module = course.modules.order_by('order').first()
+            if current_module and current_module.lessons.exists():
+                current_lesson = current_module.lessons.order_by('order').first()
+            else:
+                messages.warning(request, "Kou sa a poko gen leson.")
+                return redirect('course_detail', slug=slug)
+        else:
+            messages.warning(request, "Kou sa a poko gen modil.")
+            return redirect('course_detail', slug=slug)
+    
+    # Get previous and next lessons for navigation
+    if all_lessons:
+        current_index = all_lessons.index(current_lesson) if current_lesson in all_lessons else 0
+        prev_lesson = all_lessons[current_index - 1] if current_index > 0 else None
+        next_lesson = all_lessons[current_index + 1] if current_index < len(all_lessons) - 1 else None
+    else:
+        prev_lesson = None
+        next_lesson = None
+    
+    # Get or create user progress
+    progress, created = UserProgress.objects.get_or_create(
+        user=request.user,
+        course=course
+    )
+    
+    # Get completed lessons
+    completed_lessons = list(progress.completed_lessons.all().values_list('id', flat=True))
+    
+    # Check if current lesson is completed
+    current_lesson_completed = current_lesson.id in completed_lessons
+    
+    # Calculate completed lessons per module
+    modules_with_progress = []
+    for module in course.modules.all():
+        module_lessons = module.lessons.all()
+        completed_in_module = sum(1 for lesson in module_lessons if lesson.id in completed_lessons)
+        module_completed = completed_in_module == module_lessons.count() and module_lessons.count() > 0
+        
+        modules_with_progress.append({
+            'module': module,
+            'completed_lessons': completed_in_module,
+            'total_lessons': module_lessons.count(),
+            'is_completed': module_completed
+        })
+    
+    # Handle comment submission
+    comment_form = CommentForm()
+    if request.method == 'POST' and 'submit_comment' in request.POST:
+        comment_form = CommentForm(request.POST)
+        if comment_form.is_valid():
+            comment = comment_form.save(commit=False)
+            comment.user = request.user
+            comment.lesson = current_lesson
+            
+            # Check if it's a reply
+            parent_id = request.POST.get('parent_id')
+            if parent_id:
+                comment.parent = get_object_or_404(Comment, id=parent_id)
+            
+            comment.save()
+            messages.success(request, "Komentè ou a pibliye avèk siksè!")
+            return redirect(f"{request.path}?lesson={current_lesson.id}")
+    
+    # Get comments for current lesson
+    comments = Comment.objects.filter(lesson=current_lesson, parent=None)
     
     context = {
         'course': course,
-        'modules': modules,
+        'current_module': current_module,
         'current_lesson': current_lesson,
+        'prev_lesson': prev_lesson,
+        'next_lesson': next_lesson,
         'progress': progress,
+        'comment_form': comment_form,
+        'comments': comments,
+        'completed_lessons': completed_lessons,
+        'current_lesson_completed': current_lesson_completed,
+        'modules_with_progress': modules_with_progress,
     }
     
     return render(request, 'courses/course_learn.html', context)
@@ -153,41 +236,69 @@ def course_learn_view(request, slug):
 @login_required
 def mark_lesson_complete(request, lesson_id):
     """Mark a lesson as complete"""
-    if request.method == 'POST':
-        lesson = get_object_or_404(Lesson, id=lesson_id)
-        course = lesson.module.course
-        
-        # Check if user is enrolled
-        enrollment = get_object_or_404(Enrollment, user=request.user, course=course)
-        
-        # Get user progress
-        progress, created = UserProgress.objects.get_or_create(
-            user=request.user,
-            course=course,
-            defaults={'progress_percentage': 0}
-        )
-        
-        # Calculate new progress percentage
-        total_lessons = Lesson.objects.filter(module__course=course).count()
-        completed_lessons = request.session.get(f'completed_lessons_{course.id}', [])
-        
-        if lesson_id not in completed_lessons:
-            completed_lessons.append(lesson_id)
-            request.session[f'completed_lessons_{course.id}'] = completed_lessons
-        
-        new_progress = int((len(completed_lessons) / total_lessons) * 100)
-        progress.progress_percentage = new_progress
-        
-        # Check if course is completed
-        if new_progress >= 100:
-            progress.completed = True
-        
-        progress.save()
-        
-        # verificar 
-        return JsonResponse({'success': True, 'progress': new_progress})
+    lesson = get_object_or_404(Lesson, id=lesson_id)
+    current_module = lesson.module
+    course = current_module.course
     
-    return JsonResponse({'success': False}, status=400)
+    # Check if user is enrolled
+    enrollment = get_object_or_404(Enrollment, user=request.user, course=course)
+    
+    # Get or create user progress
+    progress, created = UserProgress.objects.get_or_create(
+        user=request.user,
+        course=course
+    )
+    
+    # Mark lesson as complete
+    progress.completed_lessons.add(lesson)
+    
+    # Calculate progress percentage
+    total_lessons = 0
+    for module in course.modules.all():
+        total_lessons += module.lessons.count()
+    
+    completed_lessons = progress.completed_lessons.count()
+    progress.progress_percentage = int((completed_lessons / total_lessons) * 100) if total_lessons > 0 else 0
+    progress.save()
+    
+    messages.success(request, "Leson an make kòm fini!")
+    
+    # Find next lesson in the same module
+    next_lesson_in_module = None
+    module_lessons = list(current_module.lessons.order_by('order'))
+    
+    try:
+        current_lesson_index = module_lessons.index(lesson)
+        if current_lesson_index < len(module_lessons) - 1:
+            next_lesson_in_module = module_lessons[current_lesson_index + 1]
+    except ValueError:
+        pass
+    
+    # If there's a next lesson in the same module, redirect to it
+    if next_lesson_in_module:
+        return redirect(f"/courses/{course.slug}/learn/?lesson={next_lesson_in_module.id}")
+    
+    # If we've completed all lessons in this module, find the next module
+    modules = list(course.modules.order_by('order'))
+    try:
+        current_module_index = modules.index(current_module)
+        if current_module_index < len(modules) - 1:
+            next_module = modules[current_module_index + 1]
+            # Get the first lesson of the next module
+            first_lesson_of_next_module = next_module.lessons.order_by('order').first()
+            if first_lesson_of_next_module:
+                return redirect(f"/courses/{course.slug}/learn/?lesson={first_lesson_of_next_module.id}")
+    except ValueError:
+        pass
+    
+    # If this was the last lesson of the last module, check if course is 100% complete
+    if progress.progress_percentage == 100:
+        # Redirect to certificate page using the direct URL instead of the named URL
+        return redirect(f'/courses/{course.slug}/certificate/')
+    
+    # If we couldn't find a next lesson or module, redirect to the course detail page
+    return redirect('course_detail', slug=course.slug)
+
 
 class InstructorRequiredMixin(UserPassesTestMixin):
     """Mixin to check if user is an instructor"""
@@ -275,38 +386,50 @@ def take_quiz_view(request, quiz_id):
     
     return render(request, 'courses/take_quiz.html', context)
 
-
-# Adicione estas importações no topo do arquivo
-from .utils import create_certificate
-from .models import Certificate
-
-
-# Adicione esta view para gerar e exibir o certificado
 @login_required
-def certificate_view(request, course_slug):
-    """View for generating and displaying a certificate"""
-    course = get_object_or_404(Course, slug=course_slug)
+def certificate_view(request, slug):
+    """View for displaying a course certificate"""
+    course = get_object_or_404(Course, slug=slug)
     
-    # Check if user is enrolled and has completed the course
-    enrollment = get_object_or_404(Enrollment, user=request.user, course=course)
-    progress = get_object_or_404(UserProgress, user=request.user, course=course)
+    # Check if user is enrolled
+    try:
+        enrollment = Enrollment.objects.get(user=request.user, course=course, is_paid=True)
+    except Enrollment.DoesNotExist:
+        messages.error(request, "Você precisa estar matriculado neste curso para acessar o certificado.")
+        return redirect('course_detail', slug=slug)
     
+    # Get user progress
+    try:
+        progress = UserProgress.objects.get(user=request.user, course=course)
+    except UserProgress.DoesNotExist:
+        messages.error(request, "Você precisa completar o curso para receber o certificado.")
+        return redirect('course_learn', slug=slug)
+    
+    # Check if course is completed
     if progress.progress_percentage < 100:
-        messages.error(request, "Você precisa concluir 100% do curso para obter o certificado.")
-        return redirect('course_learn', slug=course_slug)
+        messages.error(request, "Você precisa completar 100% do curso para receber o certificado.")
+        return redirect('course_learn', slug=slug)
     
     # Get or create certificate
     try:
         certificate = Certificate.objects.get(user=request.user, course=course)
     except Certificate.DoesNotExist:
-        certificate = create_certificate(request.user, course)
+        # Create a new certificate
+        certificate = Certificate(user=request.user, course=course)
+        certificate.save()
+    
+    # Registrar acesso ao certificado (opcional)
+    # CertificateAccess.objects.create(certificate=certificate, ip_address=request.META.get('REMOTE_ADDR'))
     
     context = {
+        'course': course,
         'certificate': certificate,
-        'course': course
+        'user': request.user,
+        'issue_date': certificate.created_at.strftime("%d de %B de %Y"),
     }
     
     return render(request, 'courses/certificate.html', context)
+
 
 # Adicione esta view para verificar certificados
 def verify_certificate_view(request):
