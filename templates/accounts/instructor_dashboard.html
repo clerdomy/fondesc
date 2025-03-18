@@ -1,0 +1,731 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Instructor Dashboard | PythonLearn{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.css">
+<style>
+    .stat-card {
+        transition: all 0.3s ease;
+    }
+    .stat-card:hover {
+        transform: translateY(-5px);
+    }
+    .tab-content {
+        display: none;
+    }
+    .tab-content.active {
+        display: block;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="bg-gradient-to-r from-primary to-primary-light py-8 px-4">
+    <div class="container mx-auto">
+        <h1 class="text-3xl font-bold text-white mb-2" data-aos="fade-right">Instructor Dashboard</h1>
+        <p class="text-white text-opacity-90" data-aos="fade-right" data-aos-delay="100">
+            Manage your courses, students, and track performance
+        </p>
+    </div>
+</div>
+
+<div class="container mx-auto px-4 py-8">
+    <!-- Stats Overview -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div class="bg-white rounded-lg shadow-md p-6 stat-card border-l-4 border-primary" data-aos="fade-up" data-aos-delay="100">
+            <div class="flex items-center">
+                <div class="rounded-full bg-primary bg-opacity-10 p-3 mr-4">
+                    <i class="fas fa-graduation-cap text-primary text-xl"></i>
+                </div>
+                <div>
+                    <p class="text-gray-500 text-sm">Total Courses</p>
+                    <h3 class="text-2xl font-bold text-gray-800">{{ courses_count }}</h3>
+                </div>
+            </div>
+            <div class="mt-4">
+                <div class="flex items-center text-sm">
+                    <span class="text-green-500 flex items-center">
+                        <i class="fas fa-arrow-up mr-1"></i> 12%
+                    </span>
+                    <span class="text-gray-500 ml-2">from last month</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-md p-6 stat-card border-l-4 border-blue-500" data-aos="fade-up" data-aos-delay="200">
+            <div class="flex items-center">
+                <div class="rounded-full bg-blue-500 bg-opacity-10 p-3 mr-4">
+                    <i class="fas fa-users text-blue-500 text-xl"></i>
+                </div>
+                <div>
+                    <p class="text-gray-500 text-sm">Total Students</p>
+                    <h3 class="text-2xl font-bold text-gray-800">{{ students_count }}</h3>
+                </div>
+            </div>
+            <div class="mt-4">
+                <div class="flex items-center text-sm">
+                    <span class="text-green-500 flex items-center">
+                        <i class="fas fa-arrow-up mr-1"></i> 18%
+                    </span>
+                    <span class="text-gray-500 ml-2">from last month</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-md p-6 stat-card border-l-4 border-green-500" data-aos="fade-up" data-aos-delay="300">
+            <div class="flex items-center">
+                <div class="rounded-full bg-green-500 bg-opacity-10 p-3 mr-4">
+                    <i class="fas fa-project-diagram text-green-500 text-xl"></i>
+                </div>
+                <div>
+                    <p class="text-gray-500 text-sm">Student Projects</p>
+                    <h3 class="text-2xl font-bold text-gray-800">{{ projects_count }}</h3>
+                </div>
+            </div>
+            <div class="mt-4">
+                <div class="flex items-center text-sm">
+                    <span class="text-green-500 flex items-center">
+                        <i class="fas fa-arrow-up mr-1"></i> 7%
+                    </span>
+                    <span class="text-gray-500 ml-2">from last month</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-md p-6 stat-card border-l-4 border-purple-500" data-aos="fade-up" data-aos-delay="400">
+            <div class="flex items-center">
+                <div class="rounded-full bg-purple-500 bg-opacity-10 p-3 mr-4">
+                    <i class="fas fa-certificate text-purple-500 text-xl"></i>
+                </div>
+                <div>
+                    <p class="text-gray-500 text-sm">Certificates Issued</p>
+                    <h3 class="text-2xl font-bold text-gray-800">{{ certificates_count }}</h3>
+                </div>
+            </div>
+            <div class="mt-4">
+                <div class="flex items-center text-sm">
+                    <span class="text-green-500 flex items-center">
+                        <i class="fas fa-arrow-up mr-1"></i> 5%
+                    </span>
+                    <span class="text-gray-500 ml-2">from last month</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabs Navigation -->
+    <div class="mb-6 border-b border-gray-200" data-aos="fade-up">
+        <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="tabMenu" role="tablist">
+            <li class="mr-2" role="presentation">
+                <button class="inline-block p-4 border-b-2 border-primary rounded-t-lg active" id="courses-tab" data-target="courses-content" type="button" role="tab" aria-controls="courses" aria-selected="true">
+                    <i class="fas fa-graduation-cap mr-2"></i>My Courses
+                </button>
+            </li>
+            <li class="mr-2" role="presentation">
+                <button class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300" id="students-tab" data-target="students-content" type="button" role="tab" aria-controls="students" aria-selected="false">
+                    <i class="fas fa-users mr-2"></i>Students
+                </button>
+            </li>
+            <li class="mr-2" role="presentation">
+                <button class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300" id="projects-tab" data-target="projects-content" type="button" role="tab" aria-controls="projects" aria-selected="false">
+                    <i class="fas fa-project-diagram mr-2"></i>Projects
+                </button>
+            </li>
+            <li role="presentation">
+                <button class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300" id="analytics-tab" data-target="analytics-content" type="button" role="tab" aria-controls="analytics" aria-selected="false">
+                    <i class="fas fa-chart-line mr-2"></i>Analytics
+                </button>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Tab Contents -->
+    <div class="tab-contents">
+        <!-- Courses Tab -->
+        <div id="courses-content" class="tab-content active" data-aos="fade-up">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-gray-800">My Courses</h2>
+                <a href="{% url 'course_create' %}" class="bg-primary hover:bg-primary-dark text-white font-semibold py-2 px-4 rounded-lg transition-colors flex items-center">
+                    <i class="fas fa-plus mr-2"></i> Create New Course
+                </a>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Course</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Students</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Completion Rate</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            {% for course in courses %}
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <div class="flex-shrink-0 h-10 w-10">
+                                            {% if course.image %}
+                                                <img class="h-10 w-10 rounded-md object-cover" src="{{ course.image.url }}" alt="{{ course.title }}">
+                                            {% else %}
+                                                <div class="h-10 w-10 rounded-md bg-primary-light flex items-center justify-center text-white">
+                                                    <i class="fas fa-book"></i>
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                        <div class="ml-4">
+                                            <div class="text-sm font-medium text-gray-900">{{ course.title }}</div>
+                                            <div class="text-sm text-gray-500">{{ course.category }}</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900">{{ course.enrollment_count }}</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                        <div class="bg-primary h-2.5 rounded-full" style="width: {{ course.completion_rate }}%"></div>
+                                    </div>
+                                    <div class="text-xs text-gray-500 mt-1">{{ course.completion_rate }}% completed</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    {% if course.is_published %}
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                            Published
+                                        </span>
+                                    {% else %}
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                            Draft
+                                        </span>
+                                    {% endif %}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                    <div class="flex space-x-2">
+                                        <a href="{% url 'course_update' course.slug %}" class="text-primary hover:text-primary-dark">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <a href="{% url 'course_modules' course.id %}" class="text-blue-500 hover:text-blue-700">
+                                            <i class="fas fa-list-alt"></i>
+                                        </a>
+                                        <a href="{% url 'course_students' course.id %}" class="text-green-500 hover:text-green-700">
+                                            <i class="fas fa-users"></i>
+                                        </a>
+                                        <a href="{% url 'course_analytics' course.id %}" class="text-purple-500 hover:text-purple-700">
+                                            <i class="fas fa-chart-bar"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="5" class="px-6 py-4 text-center text-gray-500">
+                                    <div class="flex flex-col items-center py-6">
+                                        <i class="fas fa-graduation-cap text-4xl text-gray-300 mb-3"></i>
+                                        <p class="text-lg font-medium">No courses yet</p>
+                                        <p class="text-sm text-gray-500 mb-4">Start creating your first course</p>
+                                        <a href="{% url 'course_create' %}" class="bg-primary hover:bg-primary-dark text-white font-semibold py-2 px-4 rounded-lg transition-colors">
+                                            <i class="fas fa-plus mr-2"></i> Create Course
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Students Tab -->
+        <div id="students-content" class="tab-content" data-aos="fade-up">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-gray-800">My Students</h2>
+                <div class="relative">
+                    <input type="text" id="student-search" placeholder="Search students..." class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                    <div class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+                        <i class="fas fa-search"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Student</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Enrolled Courses</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Progress</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Last Activity</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            {% for student in students %}
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <div class="flex-shrink-0 h-10 w-10">
+                                            {% if student.profile_picture %}
+                                                <img class="h-10 w-10 rounded-full object-cover" src="{{ student.profile_picture.url }}" alt="{{ student.user.username }}">
+                                            {% else %}
+                                                <div class="h-10 w-10 rounded-full bg-primary flex items-center justify-center text-white">
+                                                    {{ student.user.first_name|first|upper }}{{ student.user.last_name|first|upper }}
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                        <div class="ml-4">
+                                            <div class="text-sm font-medium text-gray-900">{{ student.user.get_full_name }}</div>
+                                            <div class="text-sm text-gray-500">{{ student.user.email }}</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900">{{ student.enrolled_courses_count }}</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                        <div class="bg-primary h-2.5 rounded-full" style="width: {{ student.avg_progress }}%"></div>
+                                    </div>
+                                    <div class="text-xs text-gray-500 mt-1">{{ student.avg_progress }}% average progress</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900">{{ student.last_activity|date:"M d, Y" }}</div>
+                                    <div class="text-xs text-gray-500">{{ student.last_activity|time:"H:i" }}</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                    <div class="flex space-x-2">
+                                        <a href="{% url 'student_detail' student.user.id %}" class="text-primary hover:text-primary-dark">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a href="{% url 'student_progress' student.user.id %}" class="text-green-500 hover:text-green-700">
+                                            <i class="fas fa-chart-line"></i>
+                                        </a>
+                                        <a href="{% url 'message_student' student.user.id %}" class="text-blue-500 hover:text-blue-700">
+                                            <i class="fas fa-envelope"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="5" class="px-6 py-4 text-center text-gray-500">
+                                    <div class="flex flex-col items-center py-6">
+                                        <i class="fas fa-users text-4xl text-gray-300 mb-3"></i>
+                                        <p class="text-lg font-medium">No students enrolled yet</p>
+                                        <p class="text-sm text-gray-500">Students will appear here once they enroll in your courses</p>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Projects Tab -->
+        <div id="projects-content" class="tab-content" data-aos="fade-up">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-gray-800">Student Projects</h2>
+                <div class="flex space-x-3">
+                    <div class="relative">
+                        <select id="project-filter" class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent appearance-none">
+                            <option value="all">All Projects</option>
+                            <option value="pending">Pending Review</option>
+                            <option value="approved">Approved</option>
+                            <option value="featured">Featured</option>
+                        </select>
+                        <div class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+                            <i class="fas fa-filter"></i>
+                        </div>
+                        <div class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none">
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <input type="text" id="project-search" placeholder="Search projects..." class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                        <div class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+                            <i class="fas fa-search"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {% for project in projects %}
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <div class="relative">
+                        {% if project.image %}
+                            <img src="{{ project.image.url }}" alt="{{ project.title }}" class="w-full h-48 object-cover">
+                        {% else %}
+                            <div class="w-full h-48 bg-gray-200 flex items-center justify-center">
+                                <i class="fas fa-project-diagram text-4xl text-gray-400"></i>
+                            </div>
+                        {% endif %}
+                        <div class="absolute top-3 right-3">
+                            {% if project.status == 'pending' %}
+                                <span class="px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                    Pending Review
+                                </span>
+                            {% elif project.status == 'approved' %}
+                                <span class="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">
+                                    Approved
+                                </span>
+                            {% elif project.status == 'featured' %}
+                                <span class="px-2 py-1 text-xs font-semibold rounded-full bg-purple-100 text-purple-800">
+                                    Featured
+                                </span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">{{ project.title }}</h3>
+                        <div class="flex items-center mb-3">
+                            <div class="flex-shrink-0 h-8 w-8">
+                                {% if project.user.profile_picture %}
+                                    <img class="h-8 w-8 rounded-full object-cover" src="{{ project.user.profile_picture.url }}" alt="{{ project.user.username }}">
+                                {% else %}
+                                    <div class="h-8 w-8 rounded-full bg-primary flex items-center justify-center text-white text-xs">
+                                        {{ project.user.first_name|first|upper }}{{ project.user.last_name|first|upper }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="ml-2 text-sm text-gray-600">
+                                {{ project.user.get_full_name }}
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-3 line-clamp-2">{{ project.description }}</p>
+                        <div class="flex flex-wrap gap-1 mb-3">
+                            {% for tech in project.technologies.all %}
+                                <span class="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-700">{{ tech.name }}</span>
+                            {% endfor %}
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs text-gray-500">{{ project.created_at|date:"M d, Y" }}</span>
+                            <a href="{% url 'project_detail' project.id %}" class="text-primary hover:text-primary-dark text-sm font-medium">
+                                View Details
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="col-span-full">
+                    <div class="bg-white rounded-lg shadow-md p-8 text-center">
+                        <i class="fas fa-project-diagram text-5xl text-gray-300 mb-4"></i>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">No projects submitted yet</h3>
+                        <p class="text-gray-600 mb-4">Students haven't submitted any projects for your courses yet.</p>
+                        <p class="text-sm text-gray-500">Encourage your students to showcase their work by submitting projects.</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Analytics Tab -->
+        <div id="analytics-content" class="tab-content" data-aos="fade-up">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-gray-800">Performance Analytics</h2>
+                <div class="relative">
+                    <select id="analytics-period" class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent appearance-none">
+                        <option value="week">Last 7 days</option>
+                        <option value="month" selected>Last 30 days</option>
+                        <option value="quarter">Last 3 months</option>
+                        <option value="year">Last 12 months</option>
+                    </select>
+                    <div class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <div class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none">
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                <!-- Enrollments Chart -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Enrollments</h3>
+                    <canvas id="enrollmentsChart" height="300"></canvas>
+                </div>
+
+                <!-- Completion Rate Chart -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Completion Rates</h3>
+                    <canvas id="completionChart" height="300"></canvas>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Student Engagement -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Student Engagement</h3>
+                    <canvas id="engagementChart" height="300"></canvas>
+                </div>
+
+                <!-- Course Popularity -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Course Popularity</h3>
+                    <canvas id="popularityChart" height="300"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Tab switching functionality
+        const tabButtons = document.querySelectorAll('#tabMenu button');
+        const tabContents = document.querySelectorAll('.tab-content');
+        
+        tabButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                // Remove active class from all buttons and contents
+                tabButtons.forEach(btn => {
+                    btn.classList.remove('border-primary');
+                    btn.classList.add('border-transparent');
+                    btn.setAttribute('aria-selected', 'false');
+                });
+                
+                tabContents.forEach(content => {
+                    content.classList.remove('active');
+                });
+                
+                // Add active class to clicked button and corresponding content
+                this.classList.add('border-primary');
+                this.classList.remove('border-transparent');
+                this.setAttribute('aria-selected', 'true');
+                
+                const targetId = this.getAttribute('data-target');
+                document.getElementById(targetId).classList.add('active');
+            });
+        });
+        
+        // Charts initialization
+        const enrollmentsCtx = document.getElementById('enrollmentsChart').getContext('2d');
+        const completionCtx = document.getElementById('completionChart').getContext('2d');
+        const engagementCtx = document.getElementById('engagementChart').getContext('2d');
+        const popularityCtx = document.getElementById('popularityChart').getContext('2d');
+        
+        // Sample data - in a real application, this would come from the backend
+        const enrollmentsChart = new Chart(enrollmentsCtx, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                datasets: [{
+                    label: 'New Enrollments',
+                    data: [12, 19, 15, 17, 22, 28, 25, 30, 35, 32, 40, 45],
+                    backgroundColor: 'rgba(0, 59, 113, 0.1)',
+                    borderColor: '#003b71',
+                    borderWidth: 2,
+                    tension: 0.3,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+        
+        const completionChart = new Chart(completionCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Python Basics', 'Web Development', 'Data Science', 'Machine Learning', 'Advanced Python'],
+                datasets: [{
+                    label: 'Completion Rate (%)',
+                    data: [85, 72, 68, 55, 62],
+                    backgroundColor: [
+                        'rgba(0, 59, 113, 0.7)',
+                        'rgba(0, 119, 200, 0.7)',
+                        'rgba(255, 204, 41, 0.7)',
+                        'rgba(230, 184, 0, 0.7)',
+                        'rgba(0, 42, 80, 0.7)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100
+                    }
+                }
+            }
+        });
+        
+        const engagementChart = new Chart(engagementCtx, {
+            type: 'radar',
+            data: {
+                labels: ['Video Views', 'Quiz Attempts', 'Discussion Posts', 'Assignment Submissions', 'Project Submissions'],
+                datasets: [{
+                    label: 'Current Period',
+                    data: [85, 72, 60, 68, 55],
+                    backgroundColor: 'rgba(0, 59, 113, 0.2)',
+                    borderColor: '#003b71',
+                    borderWidth: 2,
+                    pointBackgroundColor: '#003b71'
+                }, {
+                    label: 'Previous Period',
+                    data: [65, 59, 50, 55, 40],
+                    backgroundColor: 'rgba(255, 204, 41, 0.2)',
+                    borderColor: '#ffcc29',
+                    borderWidth: 2,
+                    pointBackgroundColor: '#ffcc29'
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    r: {
+                        angleLines: {
+                            display: true
+                        },
+                        suggestedMin: 0,
+                        suggestedMax: 100
+                    }
+                }
+            }
+        });
+        
+        const popularityChart = new Chart(popularityCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Python Basics', 'Web Development', 'Data Science', 'Machine Learning', 'Advanced Python'],
+                datasets: [{
+                    label: 'Enrollments',
+                    data: [350, 275, 220, 180, 120],
+                    backgroundColor: [
+                        'rgba(0, 59, 113, 0.7)',
+                        'rgba(0, 119, 200, 0.7)',
+                        'rgba(255, 204, 41, 0.7)',
+                        'rgba(230, 184, 0, 0.7)',
+                        'rgba(0, 42, 80, 0.7)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'right'
+                    }
+                }
+            }
+        });
+        
+        // Analytics period change handler
+        document.getElementById('analytics-period').addEventListener('change', function() {
+            // In a real application, this would fetch new data based on the selected period
+            // For this demo, we'll just simulate a data update
+            const period = this.value;
+            
+            // Update charts with new data
+            if (period === 'week') {
+                updateChartsData([8, 12, 10, 15, 18, 14, 20], [90, 75, 70, 60, 65]);
+            } else if (period === 'month') {
+                updateChartsData([12, 19, 15, 17, 22, 28, 25, 30, 35, 32, 40, 45], [85, 72, 68, 55, 62]);
+            } else if (period === 'quarter') {
+                updateChartsData([35, 42, 50, 65, 80, 95, 110, 105, 120, 115, 130, 145], [80, 68, 65, 50, 58]);
+            } else if (period === 'year') {
+                updateChartsData([120, 150, 180, 210, 250, 280, 320, 350, 390, 420, 450, 480], [75, 65, 60, 45, 55]);
+            }
+        });
+        
+        function updateChartsData(enrollmentData, completionData) {
+            // Update enrollments chart
+            enrollmentsChart.data.datasets[0].data = enrollmentData;
+            enrollmentsChart.update();
+            
+            // Update completion chart
+            completionChart.data.datasets[0].data = completionData;
+            completionChart.update();
+            
+            // For a real application, you would also update the other charts
+        }
+        
+        // Search functionality for students
+        document.getElementById('student-search').addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            const studentRows = document.querySelectorAll('#students-content tbody tr');
+            
+            studentRows.forEach(row => {
+                const studentName = row.querySelector('td:first-child .text-gray-900').textContent.toLowerCase();
+                const studentEmail = row.querySelector('td:first-child .text-gray-500').textContent.toLowerCase();
+                
+                if (studentName.includes(searchTerm) || studentEmail.includes(searchTerm)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+        
+        // Filter functionality for projects
+        document.getElementById('project-filter').addEventListener('change', function() {
+            const filterValue = this.value;
+            const projectCards = document.querySelectorAll('#projects-content .bg-white.rounded-lg');
+            
+            projectCards.forEach(card => {
+                const statusElement = card.querySelector('.absolute.top-3.right-3 span');
+                if (!statusElement) return;
+                
+                const status = statusElement.textContent.trim().toLowerCase();
+                
+                if (filterValue === 'all' || 
+                    (filterValue === 'pending' && status.includes('pending')) ||
+                    (filterValue === 'approved' && status.includes('approved')) ||
+                    (filterValue === 'featured' && status.includes('featured'))) {
+                    card.style.display = '';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+        
+        // Search functionality for projects
+        document.getElementById('project-search').addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            const projectCards = document.querySelectorAll('#projects-content .bg-white.rounded-lg');
+            
+            projectCards.forEach(card => {
+                const projectTitle = card.querySelector('h3').textContent.toLowerCase();
+                const projectDescription = card.querySelector('p.text-sm.text-gray-600').textContent.toLowerCase();
+                
+                if (projectTitle.includes(searchTerm) || projectDescription.includes(searchTerm)) {
+                    card.style.display = '';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}
+

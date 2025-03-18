@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Add Attachment - {{ course.title }}{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="mb-6">
+        <a href="{% url 'course_attachments' course_slug=course.slug %}" class="text-blue-600 hover:text-blue-800">
+            <i class="fas fa-arrow-left mr-2"></i> Back to Attachments
+        </a>
+    </div>
+
+    <div class="bg-white rounded-lg shadow-md p-6">
+        <h1 class="text-2xl font-bold text-gray-800 mb-6">Add Attachment to {{ course.title }}</h1>
+        
+        <form method="post" enctype="multipart/form-data" class="space-y-6">
+            {% csrf_token %}
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label for="{{ form.title.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">Title</label>
+                    {{ form.title }}
+                    {% if form.title.errors %}
+                        <p class="text-red-500 text-xs mt-1">{{ form.title.errors.0 }}</p>
+                    {% endif %}
+                </div>
+                
+                <div>
+                    <label for="{{ form.file_type.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">File Type</label>
+                    {{ form.file_type }}
+                    {% if form.file_type.errors %}
+                        <p class="text-red-500 text-xs mt-1">{{ form.file_type.errors.0 }}</p>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div>
+                <label for="{{ form.description.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                {{ form.description }}
+                {% if form.description.errors %}
+                    <p class="text-red-500 text-xs mt-1">{{ form.description.errors.0 }}</p>
+                {% endif %}
+            </div>
+            
+            <div>
+                <label for="{{ form.file.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">File</label>
+                {{ form.file }}
+                {% if form.file.errors %}
+                    <p class="text-red-500 text-xs mt-1">{{ form.file.errors.0 }}</p>
+                {% endif %}
+                <p class="text-gray-500 text-xs mt-1">Maximum file size: 50MB</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label for="{{ form.order.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">Display Order</label>
+                    {{ form.order }}
+                    {% if form.order.errors %}
+                        <p class="text-red-500 text-xs mt-1">{{ form.order.errors.0 }}</p>
+                    {% endif %}
+                </div>
+                
+                <div class="flex items-center">
+                    <div class="flex items-center h-5">
+                        {{ form.is_free_preview }}
+                    </div>
+                    <div class="ml-3 text-sm">
+                        <label for="{{ form.is_free_preview.id_for_label }}" class="font-medium text-gray-700">Free Preview</label>
+                        <p class="text-gray-500">Make this attachment available to non-enrolled users</p>
+                    </div>
+                    {% if form.is_free_preview.errors %}
+                        <p class="text-red-500 text-xs mt-1">{{ form.is_free_preview.errors.0 }}</p>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="flex justify-end space-x-3">
+                <a href="{% url 'course_attachments' course_slug=course.slug %}" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded">
+                    Cancel
+                </a>
+                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    Add Attachment
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+

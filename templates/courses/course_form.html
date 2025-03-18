@@ -1,0 +1,830 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{% if form.instance.id %}Edit Course{% else %}Create New Course{% endif %} | PythonLearn{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<style>
+    .module-card {
+        transition: all 0.3s ease;
+    }
+    .module-card:hover {
+        transform: translateY(-5px);
+    }
+    .preview-image {
+        max-height: 200px;
+        object-fit: cover;
+    }
+    .drag-handle {
+        cursor: grab;
+    }
+    .drag-handle:active {
+        cursor: grabbing;
+    }
+    .sortable-ghost {
+        opacity: 0.4;
+    }
+    .select2-container--default .select2-selection--single {
+        height: 42px;
+        padding: 6px 12px;
+        border: 1px solid #d1d5db;
+        border-radius: 0.375rem;
+    }
+    .select2-container--default .select2-selection--single .select2-selection__arrow {
+        height: 42px;
+    }
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
+        line-height: 28px;
+    }
+    .form-section {
+        transition: all 0.3s ease;
+    }
+    .form-section.collapsed .form-section-content {
+        display: none;
+    }
+    .form-section-header {
+        cursor: pointer;
+    }
+    .thumbnail-preview {
+        position: relative;
+        width: 100%;
+        max-width: 320px;
+        margin-bottom: 1rem;
+    }
+    .thumbnail-preview img {
+        width: 100%;
+        height: auto;
+        border-radius: 0.375rem;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    }
+    .thumbnail-preview .remove-thumbnail {
+        position: absolute;
+        top: -10px;
+        right: -10px;
+        background: #ef4444;
+        color: white;
+        border-radius: 50%;
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    }
+    .module-form {
+        position: relative;
+        transition: all 0.3s ease;
+    }
+    .module-form.highlight {
+        background-color: #fef3c7;
+    }
+    .module-handle {
+        cursor: move;
+    }
+    .module-form.dragging {
+        opacity: 0.5;
+    }
+    .dropzone {
+        height: 3px;
+        background-color: transparent;
+        transition: height 0.2s ease, background-color 0.2s ease;
+    }
+    .dropzone.active {
+        height: 20px;
+        background-color: #93c5fd;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="max-w-5xl mx-auto">
+        <!-- Breadcrumbs -->
+        <nav class="flex mb-8" aria-label="Breadcrumb">
+            <ol class="inline-flex items-center space-x-1 md:space-x-3">
+                <li class="inline-flex items-center">
+                    <a href="{% url 'home' %}" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-primary">
+                        <i class="fas fa-home mr-2"></i>
+                        Home
+                    </a>
+                </li>
+                <li>
+                    <div class="flex items-center">
+                        <i class="fas fa-chevron-right text-gray-400 mx-2 text-sm"></i>
+                        <a href="{% url 'instructor_dashboard' %}" class="text-sm font-medium text-gray-700 hover:text-primary">
+                            Instructor Dashboard
+                        </a>
+                    </div>
+                </li>
+                <li aria-current="page">
+                    <div class="flex items-center">
+                        <i class="fas fa-chevron-right text-gray-400 mx-2 text-sm"></i>
+                        <span class="text-sm font-medium text-gray-500">
+                            {% if form.instance.id %}Edit Course{% else %}Create New Course{% endif %}
+                        </span>
+                    </div>
+                </li>
+            </ol>
+        </nav>
+
+        <!-- Header -->
+        <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+            <h1 class="text-3xl font-bold text-primary mb-2">
+                {% if form.instance.id %}Edit Course: {{ form.instance.title }}{% else %}Create New Course{% endif %}
+            </h1>
+            <p class="text-gray-600">
+                {% if form.instance.id %}
+                Update your course information, modules, and content.
+                {% else %}
+                Fill in the details below to create a new course. You can add modules and content after saving.
+                {% endif %}
+            </p>
+        </div>
+
+        <!-- Form -->
+        <form method="post" enctype="multipart/form-data" id="courseForm" class="bg-white rounded-lg shadow-md overflow-hidden">
+            {% csrf_token %}
+            
+            <!-- Tabs -->
+            <div class="bg-gray-100 px-6 py-4 border-b border-gray-200">
+                <div class="flex flex-wrap -mb-px">
+                    <button type="button" class="tab-button active mr-2 inline-block p-4 border-b-2 border-primary text-primary rounded-t-lg" data-target="basic-info">
+                        <i class="fas fa-info-circle mr-2"></i>Basic Information
+                    </button>
+                    <button type="button" class="tab-button mr-2 inline-block p-4 border-b-2 border-transparent hover:text-primary hover:border-primary rounded-t-lg" data-target="details">
+                        <i class="fas fa-list-alt mr-2"></i>Course Details
+                    </button>
+                    <button type="button" class="tab-button mr-2 inline-block p-4 border-b-2 border-transparent hover:text-primary hover:border-primary rounded-t-lg" data-target="modules">
+                        <i class="fas fa-cubes mr-2"></i>Modules
+                    </button>
+                    <button type="button" class="tab-button inline-block p-4 border-b-2 border-transparent hover:text-primary hover:border-primary rounded-t-lg" data-target="publishing">
+                        <i class="fas fa-upload mr-2"></i>Publishing
+                    </button>
+                </div>
+            </div>
+
+            <!-- Form Content -->
+            <div class="p-6">
+                <!-- Error Messages -->
+                {% if form.errors or module_formset.errors %}
+                <div class="mb-6 bg-red-50 border-l-4 border-red-500 p-4 rounded-md">
+                    <div class="flex">
+                        <div class="flex-shrink-0">
+                            <i class="fas fa-exclamation-circle text-red-500"></i>
+                        </div>
+                        <div class="ml-3">
+                            <h3 class="text-sm font-medium text-red-800">There were errors with your submission</h3>
+                            <div class="mt-2 text-sm text-red-700">
+                                <ul class="list-disc pl-5 space-y-1">
+                                    {% for field in form %}
+                                        {% if field.errors %}
+                                            {% for error in field.errors %}
+                                                <li>{{ field.label }}: {{ error }}</li>
+                                            {% endfor %}
+                                        {% endif %}
+                                    {% endfor %}
+                                    {% for error in form.non_field_errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                    
+                                    {% if module_formset.non_form_errors %}
+                                        {% for error in module_formset.non_form_errors %}
+                                            <li>{{ error }}</li>
+                                        {% endfor %}
+                                    {% endif %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Basic Information Tab -->
+                <div class="tab-content active" id="basic-info">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <div class="mb-6">
+                                <label for="{{ form.title.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+                                    Course Title <span class="text-red-500">*</span>
+                                </label>
+                                {{ form.title }}
+                                {% if form.title.help_text %}
+                                <p class="mt-1 text-sm text-gray-500">{{ form.title.help_text }}</p>
+                                {% endif %}
+                            </div>
+
+                            <div class="mb-6">
+                                <label for="{{ form.slug.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+                                    URL Slug <span class="text-red-500">*</span>
+                                </label>
+                                {{ form.slug }}
+                                {% if form.slug.help_text %}
+                                <p class="mt-1 text-sm text-gray-500">{{ form.slug.help_text }}</p>
+                                {% else %}
+                                <p class="mt-1 text-sm text-gray-500">URL-friendly name (e.g., "python-basics"). Leave blank to auto-generate from title.</p>
+                                {% endif %}
+                            </div>
+
+                            <div class="mb-6">
+                                <label for="{{ form.category.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+                                    Category <span class="text-red-500">*</span>
+                                </label>
+                                {{ form.category }}
+                            </div>
+
+                            <div class="mb-6">
+                                <label for="{{ form.level.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+                                    Difficulty Level <span class="text-red-500">*</span>
+                                </label>
+                                {{ form.level }}
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="mb-6">
+                                <label for="{{ form.thumbnail.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+                                    Course Image
+                                </label>
+                                <div class="flex items-center space-x-4">
+                                    <div class="flex-1">
+                                        {{ form.thumbnail }}
+                                    </div>
+                                    {% if form.instance.thumbnail %}
+                                    <div>
+                                        <button type="button" id="remove-image" class="text-red-500 hover:text-red-700">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                <p class="mt-1 text-sm text-gray-500">Recommended size: 1200x630 pixels (16:9 ratio)</p>
+                                
+                                <div class="mt-3">
+                                    {% if form.instance.thumbnail %}
+                                    <img src="{{ form.instance.thumbnail.url }}" alt="Course image preview" class="preview-image rounded-lg border border-gray-200" id="image-preview">
+                                    {% else %}
+                                    <img src="{% static 'images/course-placeholder.jpg' %}" alt="Course image preview" class="preview-image rounded-lg border border-gray-200 hidden" id="image-preview">
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <div class="mb-6">
+                                <label for="{{ form.price.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+                                    Price (USD) <span class="text-red-500">*</span>
+                                </label>
+                                {{ form.price }}
+                                <p class="mt-1 text-sm text-gray-500">Set to 0 for free courses</p>
+                            </div>
+
+                            <div class="mb-6">
+                                <label for="{{ form.discount_price.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+                                    Discount Price (USD)
+                                </label>
+                                {{ form.discount_price }}
+                                <p class="mt-1 text-sm text-gray-500">Optional. Leave blank if no discount</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <label for="{{ form.short_description.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+                            Course Short Description <span class="text-red-500">*</span>
+                        </label>
+                        {{ form.short_description }}
+                        <p class="mt-1 text-sm text-gray-500">Brief description that appears in course listings</p>
+                    </div>
+
+                    <div class="mb-6">
+                        <label for="{{ form.description.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+                            Detailed Description <span class="text-red-500">*</span>
+                        </label>
+                        {{ form.description }}
+                        <p class="mt-1 text-sm text-gray-500">Full description with course details, objectives, and what students will learn</p>
+                    </div>
+                </div>
+
+                <!-- Course Details Tab -->
+                <div class="tab-content hidden" id="details">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <div class="mb-6">
+                                <label for="{{ form.language.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+                                    Language
+                                </label>
+                                {{ form.language }}
+                            </div>
+
+                            <div class="mb-6">
+                                <label for="{{ form.duration_in_weeks.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+                                    Duration (weeks)
+                                </label>
+                                {{ form.duration_in_weeks }}
+                                <p class="mt-1 text-sm text-gray-500">Estimated time to complete the course</p>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="mb-6">
+                                <label for="{{ form.prerequisites.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+                                    Prerequisites
+                                </label>
+                                {{ form.prerequisites }}
+                                <p class="mt-1 text-sm text-gray-500">Knowledge required before taking this course</p>
+                            </div>
+
+                            <div class="mb-6">
+                                <label for="{{ form.tags.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+                                    Tags
+                                </label>
+                                {{ form.tags }}
+                                <p class="mt-1 text-sm text-gray-500">Comma-separated list of tags (e.g., "python, web, django")</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <label for="{{ form.learning_outcomes.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+                            What Will Students Learn
+                        </label>
+                        {{ form.learning_outcomes }}
+                        <p class="mt-1 text-sm text-gray-500">Key learning outcomes (one per line)</p>
+                    </div>
+
+                    <div class="mb-6">
+                        <label for="{{ form.target_audience.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+                            Target Audience
+                        </label>
+                        {{ form.target_audience }}
+                        <p class="mt-1 text-sm text-gray-500">Who this course is designed for</p>
+                    </div>
+                </div>
+
+                <!-- Modules Tab -->
+                <div class="tab-content hidden" id="modules">
+                    <div class="mb-6">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-lg font-medium text-gray-900">Course Modules</h3>
+                            {% if not form.instance.id %}
+                            <div class="text-sm text-gray-600">
+                                <i class="fas fa-info-circle mr-1"></i> You can add modules directly below
+                            </div>
+                            {% endif %}
+                        </div>
+                        
+                        <p class="text-gray-600 mb-4">
+                            {% if form.instance.id %}
+                            Organize your course content by adding, editing, or removing modules.
+                            {% else %}
+                            Add initial modules to your course. You can add more modules and lessons later.
+                            {% endif %}
+                        </p>
+
+                        <!-- Module Formset -->
+                        {{ module_formset.management_form }}
+                        <div id="module-formset" class="space-y-4">
+                            {% for module_form in module_formset %}
+                                <div class="module-form bg-gray-50 rounded-lg border border-gray-200 p-4">
+                                    <div class="flex justify-between items-center mb-3">
+                                        <h4 class="font-medium text-gray-900">Module {{ forloop.counter }}</h4>
+                                        <button type="button" class="delete-module-form text-red-500 hover:text-red-700">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                    
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div class="col-span-2">
+                                            <label for="{{ module_form.title.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+                                                Module Title <span class="text-red-500">*</span>
+                                            </label>
+                                            {{ module_form.title }}
+                                            {% if module_form.title.errors %}
+                                                <p class="text-red-500 text-xs mt-1">{{ module_form.title.errors.0 }}</p>
+                                            {% endif %}
+                                        </div>
+                                        
+                                        <div class="col-span-2">
+                                            <label for="{{ module_form.description.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+                                                Module Description
+                                            </label>
+                                            {{ module_form.description }}
+                                            {% if module_form.description.errors %}
+                                                <p class="text-red-500 text-xs mt-1">{{ module_form.description.errors.0 }}</p>
+                                            {% endif %}
+                                        </div>
+                                        
+                                        <div>
+                                            <label for="{{ module_form.order.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+                                                Order
+                                            </label>
+                                            {{ module_form.order }}
+                                            {% if module_form.order.errors %}
+                                                <p class="text-red-500 text-xs mt-1">{{ module_form.order.errors.0 }}</p>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    
+                                    {% for hidden in module_form.hidden_fields %}
+                                        {{ hidden }}
+                                    {% endfor %}
+                                </div>
+                            {% endfor %}
+                        </div>
+                        
+                        <button type="button" id="add-module-form" class="mt-4 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                            <i class="fas fa-plus mr-2"></i>
+                            Add Module
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Publishing Tab -->
+                <div class="tab-content hidden" id="publishing">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <div class="mb-6">
+                                <div class="flex items-start">
+                                    <div class="flex items-center h-5">
+                                        {{ form.is_published }}
+                                    </div>
+                                    <div class="ml-3 text-sm">
+                                        <label for="{{ form.is_published.id_for_label }}" class="font-medium text-gray-700">Publish Course</label>
+                                        <p class="text-gray-500">Make this course visible to students</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mb-6">
+                                <div class="flex items-start">
+                                    <div class="flex items-center h-5">
+                                        {{ form.is_featured }}
+                                    </div>
+                                    <div class="ml-3 text-sm">
+                                        <label for="{{ form.is_featured.id_for_label }}" class="font-medium text-gray-700">Feature Course</label>
+                                        <p class="text-gray-500">Highlight this course on the homepage</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="mb-6">
+                                <label for="{{ form.start_date.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+                                    Start Date
+                                </label>
+                                {{ form.start_date }}
+                                <p class="mt-1 text-sm text-gray-500">When the course becomes available (optional)</p>
+                            </div>
+
+                            <div class="mb-6">
+                                <label for="{{ form.end_date.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+                                    End Date
+                                </label>
+                                {{ form.end_date }}
+                                <p class="mt-1 text-sm text-gray-500">When the course enrollment closes (optional)</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <label for="{{ form.certificate_available.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+                            Certificate
+                        </label>
+                        <div class="flex items-start">
+                            <div class="flex items-center h-5">
+                                {{ form.certificate_available }}
+                            </div>
+                            <div class="ml-3 text-sm">
+                                <label for="{{ form.certificate_available.id_for_label }}" class="font-medium text-gray-700">Certificate Available</label>
+                                <p class="text-gray-500">Students can earn a certificate upon completion</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form Actions -->
+            <div class="bg-gray-50 px-6 py-4 flex justify-between items-center">
+                <div>
+                    {% if form.instance.id %}
+                    <a href="{% url 'course_detail' form.instance.slug %}" target="_blank" class="text-primary hover:text-primary-dark">
+                        <i class="fas fa-external-link-alt mr-1"></i> View Course
+                    </a>
+                    {% endif %}
+                </div>
+                <div class="flex space-x-3">
+                    <a href="{% url 'instructor_dashboard' %}" class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                        Cancel
+                    </a>
+                    <button type="submit" class="inline-flex items-center px-6 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                        {% if form.instance.id %}Update Course{% else %}Create Course{% endif %}
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Tab navigation
+        const tabButtons = document.querySelectorAll('.tab-button');
+        const tabContents = document.querySelectorAll('.tab-content');
+        
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const target = button.dataset.target;
+                
+                // Hide all tab contents
+                tabContents.forEach(content => {
+                    content.classList.add('hidden');
+                    content.classList.remove('active');
+                });
+                
+                // Remove active class from all buttons
+                tabButtons.forEach(btn => {
+                    btn.classList.remove('active');
+                    btn.classList.remove('border-primary');
+                    btn.classList.remove('text-primary');
+                    btn.classList.add('border-transparent');
+                });
+                
+                // Show the selected tab content
+                const selectedContent = document.getElementById(target);
+                selectedContent.classList.remove('hidden');
+                selectedContent.classList.add('active');
+                
+                // Add active class to the clicked button
+                button.classList.add('active');
+                button.classList.add('border-primary');
+                button.classList.add('text-primary');
+                button.classList.remove('border-transparent');
+            });
+        });
+        
+        // Image preview
+        const imageInput = document.getElementById('{{ form.thumbnail.id_for_label }}');
+        const imagePreview = document.getElementById('image-preview');
+        
+        if (imageInput && imagePreview) {
+            imageInput.addEventListener('change', function() {
+                if (this.files && this.files[0]) {
+                    const reader = new FileReader();
+                    
+                    reader.onload = function(e) {
+                        imagePreview.src = e.target.result;
+                        imagePreview.classList.remove('hidden');
+                    }
+                    
+                    reader.readAsDataURL(this.files[0]);
+                }
+            });
+            
+            // Remove image button
+            const removeImageBtn = document.getElementById('remove-image');
+            if (removeImageBtn) {
+                removeImageBtn.addEventListener('click', function() {
+                    imageInput.value = '';
+                    imagePreview.classList.add('hidden');
+                    // Add a hidden input to signal image removal on the server
+                    const hiddenInput = document.createElement('input');
+                    hiddenInput.type = 'hidden';
+                    hiddenInput.name = 'remove_thumbnail';
+                    hiddenInput.value = 'true';
+                    imageInput.parentNode.appendChild(hiddenInput);
+                });
+            }
+        }
+        
+        // Date pickers
+        flatpickr('#{{ form.start_date.id_for_label }}', {
+            enableTime: false,
+            dateFormat: 'Y-m-d',
+        });
+        
+        flatpickr('#{{ form.end_date.id_for_label }}', {
+            enableTime: false,
+            dateFormat: 'Y-m-d',
+        });
+        
+        // Module formset handling
+        const moduleFormset = document.getElementById('module-formset');
+        const addModuleFormBtn = document.getElementById('add-module-form');
+        const totalFormsInput = document.querySelector('[name="modules-TOTAL_FORMS"]');
+        const initialFormsInput = document.querySelector('[name="modules-INITIAL_FORMS"]');
+        const maxFormsInput = document.querySelector('[name="modules-MAX_NUM_FORMS"]');
+        
+        // Add new module form
+        addModuleFormBtn.addEventListener('click', function() {
+            const formCount = parseInt(totalFormsInput.value);
+            const newFormIndex = formCount;
+            
+            // Clone the first form
+            const forms = moduleFormset.querySelectorAll('.module-form');
+            if (forms.length === 0) {
+                // Create a new form from scratch if no forms exist
+                const newForm = document.createElement('div');
+                newForm.className = 'module-form bg-gray-50 rounded-lg border border-gray-200 p-4';
+                newForm.innerHTML = `
+                    <div class="flex justify-between items-center mb-3">
+                        <h4 class="font-medium text-gray-900">Module ${newFormIndex + 1}</h4>
+                        <button type="button" class="delete-module-form text-red-500 hover:text-red-700">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="col-span-2">
+                            <label for="id_modules-${newFormIndex}-title" class="block text-sm font-medium text-gray-700 mb-1">
+                                Module Title <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text" name="modules-${newFormIndex}-title" id="id_modules-${newFormIndex}-title" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary" required>
+                        </div>
+                        
+                        <div class="col-span-2">
+                            <label for="id_modules-${newFormIndex}-description" class="block text-sm font-medium text-gray-700 mb-1">
+                                Module Description
+                            </label>
+                            <textarea name="modules-${newFormIndex}-description" id="id_modules-${newFormIndex}-description" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"></textarea>
+                        </div>
+                        
+                        <div>
+                            <label for="id_modules-${newFormIndex}-order" class="block text-sm font-medium text-gray-700 mb-1">
+                                Order
+                            </label>
+                            <input type="number" name="modules-${newFormIndex}-order" id="id_modules-${newFormIndex}-order" value="${newFormIndex}" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary">
+                        </div>
+                    </div>
+                    
+                    <input type="hidden" name="modules-${newFormIndex}-id" id="id_modules-${newFormIndex}-id">
+                    <input type="hidden" name="modules-${newFormIndex}-course" id="id_modules-${newFormIndex}-course" value="{{ form.instance.id }}">
+                `;
+                
+                moduleFormset.appendChild(newForm);
+            } else {
+                const firstForm = forms[0];
+                const newForm = firstForm.cloneNode(true);
+                
+                // Update form index
+                newForm.innerHTML = newForm.innerHTML.replace(/-\d+-/g, `-${newFormIndex}-`);
+                newForm.innerHTML = newForm.innerHTML.replace(/\[\d+\]/g, `[${newFormIndex}]`);
+                
+                // Clear input values
+                newForm.querySelectorAll('input[type="text"], textarea').forEach(input => {
+                    input.value = '';
+                });
+                
+                // Set default order
+                const orderInput = newForm.querySelector(`input[name="modules-${newFormIndex}-order"]`);
+                if (orderInput) {
+                    orderInput.value = newFormIndex;
+                }
+                
+                // Update module title
+                const moduleTitle = newForm.querySelector('h4');
+                if (moduleTitle) {
+                    moduleTitle.textContent = `Module ${newFormIndex + 1}`;
+                }
+                
+                moduleFormset.appendChild(newForm);
+            }
+            
+            // Update total forms count
+            totalFormsInput.value = formCount + 1;
+            
+            // Add delete event listener to the new form
+            const deleteButtons = moduleFormset.querySelectorAll('.delete-module-form');
+            const newDeleteButton = deleteButtons[deleteButtons.length - 1];
+            newDeleteButton.addEventListener('click', deleteModuleForm);
+        });
+        
+        // Delete module form
+        function deleteModuleForm() {
+            const moduleForm = this.closest('.module-form');
+            const deleteInput = moduleForm.querySelector('input[name$="-DELETE"]');
+            
+            if (deleteInput) {
+                // Mark for deletion if it's an existing form
+                deleteInput.value = 'on';
+                moduleForm.style.display = 'none';
+            } else {
+                // Remove from DOM if it's a new form
+                moduleForm.remove();
+                
+                // Update total forms count
+                const formCount = parseInt(totalFormsInput.value);
+                totalFormsInput.value = formCount - 1;
+            }
+            
+            // Renumber visible forms
+            renumberModuleForms();
+        }
+        
+        // Add delete event listeners to existing delete buttons
+        const deleteButtons = document.querySelectorAll('.delete-module-form');
+        deleteButtons.forEach(button => {
+            button.addEventListener('click', deleteModuleForm);
+        });
+        
+        // Renumber module forms
+        function renumberModuleForms() {
+            const visibleForms = Array.from(moduleFormset.querySelectorAll('.module-form')).filter(form => 
+                form.style.display !== 'none'
+            );
+            
+            visibleForms.forEach((form, index) => {
+                const title = form.querySelector('h4');
+                if (title) {
+                    title.textContent = `Module ${index + 1}`;
+                }
+                
+                // Update order input if it's a new form
+                const orderInputs = form.querySelectorAll('input[name$="-order"]');
+                orderInputs.forEach(input => {
+                    if (!input.value) {
+                        input.value = index;
+                    }
+                });
+            });
+        }
+        
+        // Form validation
+        const courseForm = document.getElementById('courseForm');
+        courseForm.addEventListener('submit', function(e) {
+            let isValid = true;
+            const requiredFields = [
+                '{{ form.title.id_for_label }}',
+                '{{ form.category.id_for_label }}',
+                '{{ form.level.id_for_label }}',
+                '{{ form.price.id_for_label }}',
+                '{{ form.short_description.id_for_label }}',
+                '{{ form.description.id_for_label }}'
+            ];
+            
+            requiredFields.forEach(fieldId => {
+                const field = document.getElementById(fieldId);
+                if (field && !field.value.trim()) {
+                    isValid = false;
+                    field.classList.add('border-red-500');
+                } else if (field) {
+                    field.classList.remove('border-red-500');
+                }
+            });
+            
+            // Check module titles
+            const moduleTitleInputs = document.querySelectorAll('input[name$="-title"]');
+            moduleTitleInputs.forEach(input => {
+                const form = input.closest('.module-form');
+                if (form && form.style.display !== 'none' && !input.value.trim()) {
+                    isValid = false;
+                    input.classList.add('border-red-500');
+                } else if (input) {
+                    input.classList.remove('border-red-500');
+                }
+            });
+            
+            if (!isValid) {
+                e.preventDefault();
+                alert('Please fill in all required fields.');
+                
+                // Switch to the first tab with errors
+                const firstErrorField = document.querySelector('.border-red-500');
+                if (firstErrorField) {
+                    const tabContent = firstErrorField.closest('.tab-content');
+                    if (tabContent) {
+                        const tabId = tabContent.id;
+                        const tabButton = document.querySelector(`.tab-button[data-target="${tabId}"]`);
+                        if (tabButton) {
+                            tabButton.click();
+                        }
+                    }
+                }
+            }
+        });
+        
+        // Auto-generate slug from title
+        const titleInput = document.getElementById('{{ form.title.id_for_label }}');
+        const slugInput = document.getElementById('{{ form.slug.id_for_label }}');
+        
+        if (titleInput && slugInput) {
+            titleInput.addEventListener('blur', function() {
+                if (!slugInput.value) {
+                    // Convert title to slug format
+                    const slug = this.value
+                        .toLowerCase()
+                        .replace(/[^\w\s-]/g, '')
+                        .replace(/[\s_-]+/g, '-')
+                        .replace(/^-+|-+$/g, '');
+                    
+                    slugInput.value = slug;
+                }
+            });
+        }
+    });
+</script>
+{% endblock %}
+

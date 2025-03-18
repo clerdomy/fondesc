@@ -38,6 +38,17 @@ class Course(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     is_published = models.BooleanField(default=False)
     duration_in_weeks = models.PositiveSmallIntegerField(default=1)
+    language = models.CharField(max_length=50, default='English')
+    prerequisites = models.TextField(blank=True, null=True)
+    learning_outcomes = models.TextField(blank=True, null=True)
+    target_audience = models.TextField(blank=True, null=True)
+    tags = models.TextField(blank=True, null=True)
+    end_date = models.DateField(blank=True, null=True)
+    start_date = models.DateField(blank=True, null=True)
+    is_featured = models.BooleanField(default=False)
+    certificate_available = models.BooleanField(default=True)
+    
+
     level = models.CharField(max_length=20, choices=(
         ('beginner', 'Beginner'),
         ('intermediate', 'Intermediate'),
@@ -158,7 +169,6 @@ class Enrollment(models.Model):
     def __str__(self):
         return f"{self.user.username} enrolled in {self.course.title}"
 
-
 class Certificate(models.Model):
     """Certificates for completed courses"""
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='certificates')
@@ -201,7 +211,51 @@ class UserProgress(models.Model):
         return f"{self.user.username}'s progress in {self.course.title}"
     
 
-
+class CourseAttachment(models.Model):
+    """Attachments for courses (PDFs, slides, code samples, etc.)"""
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='attachments')
+    title = models.CharField(max_length=200)
+    description = models.TextField(blank=True)
+    file = models.FileField(upload_to='course_attachments/')
+    file_type = models.CharField(max_length=50, choices=(
+        ('pdf', 'PDF Document'),
+        ('doc', 'Word Document'),
+        ('ppt', 'Presentation'),
+        ('zip', 'Archive/ZIP'),
+        ('code', 'Code Sample'),
+        ('image', 'Image'),
+        ('other', 'Other'),
+    ))
+    is_free_preview = models.BooleanField(default=False, help_text="If checked, this attachment will be available to non-enrolled users")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    order = models.PositiveIntegerField(default=0)
+    download_count = models.PositiveIntegerField(default=0)
+    
+    class Meta:
+        ordering = ['order']
+        verbose_name = _('Course Attachment')
+        verbose_name_plural = _('Course Attachments')
+    
+    def __str__(self):
+        return f"{self.title} - {self.course.title}"
+    
+    @property
+    def file_extension(self):
+        """Return the file extension"""
+        import os
+        name, extension = os.path.splitext(self.file.name)
+        return extension.lower()[1:] if extension else ""
+    
+    @property
+    def file_size(self):
+        """Return the file size in a human-readable format"""
+        size_bytes = self.file.size
+        for unit in ['B', 'KB', 'MB', 'GB']:
+            if size_bytes < 1024.0:
+                return f"{size_bytes:.2f} {unit}"
+            size_bytes /= 1024.0
+        return f"{size_bytes:.2f} TB"
 
 class Comment(models.Model):
     """Comments on lessons"""

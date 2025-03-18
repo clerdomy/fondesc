@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.template.defaultfilters import slugify
 from django.contrib import messages
 from django.db.models import Q, Count, Avg
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseRedirect
+from django.db.models import F
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy, reverse
@@ -15,9 +17,15 @@ from .models import Certificate
 from .models import (
     Course, Module, Lesson, 
     Quiz, Question, Answer, Enrollment, 
-    Category, Comment, UserProgress
+    Category, Comment, UserProgress,
+    CourseAttachment
 )
-from .forms import CourseForm, ModuleForm, LessonForm, QuizForm, QuestionForm, CommentForm
+from .forms import (
+    CourseForm, ModuleForm, 
+    LessonForm, QuizForm, QuestionForm, 
+    CommentForm, CourseAttachmentForm,
+    ModuleFormSet
+)
 
 class CourseListView(ListView):
     """View for listing all courses"""
@@ -312,10 +320,28 @@ class CourseCreateView(LoginRequiredMixin, InstructorRequiredMixin, CreateView):
     template_name = 'courses/course_form.html'
     success_url = reverse_lazy('instructor_dashboard')
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.POST:
+            context['module_formset'] = ModuleFormSet(self.request.POST, instance=self.object)
+        else:
+            context['module_formset'] = ModuleFormSet(instance=self.object)
+        return context
+    
     def form_valid(self, form):
-        form.instance.instructor = self.request.user
-        messages.success(self.request, "Course created successfully!")
-        return super().form_valid(form)
+        context = self.get_context_data()
+        module_formset = context['module_formset']
+        
+        if module_formset.is_valid():
+            form.instance.instructor = self.request.user
+            self.object = form.save()
+            module_formset.instance = self.object
+            module_formset.save()
+            messages.success(self.request, "Course created successfully!")
+            return HttpResponseRedirect(self.get_success_url())
+        else:
+            return self.render_to_response(self.get_context_data(form=form))
+
 
 class CourseUpdateView(LoginRequiredMixin, InstructorRequiredMixin, UpdateView):
     """View for updating a course"""
@@ -330,9 +356,40 @@ class CourseUpdateView(LoginRequiredMixin, InstructorRequiredMixin, UpdateView):
         # Only allow instructors to edit their own courses
         return Course.objects.filter(instructor=self.request.user)
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.POST:
+            context['module_formset'] = ModuleFormSet(self.request.POST, instance=self.object)
+        else:
+            context['module_formset'] = ModuleFormSet(instance=self.object)
+        return context
+    
     def form_valid(self, form):
-        messages.success(self.request, "Course updated successfully!")
-        return super().form_valid(form)
+        context = self.get_context_data()
+        module_formset = context['module_formset']
+        
+        if module_formset.is_valid():
+            self.object = form.save()
+            module_formset.instance = self.object
+            module_formset.save()
+            
+            # Process module orders if they exist
+            for key, value in self.request.POST.items():
+                if key.startswith('module_order_'):
+                    module_id = key.replace('module_order_', '')
+                    try:
+                        module = Module.objects.get(id=module_id, course=self.object)
+                        module.order = int(value)
+                        module.save()
+                    except (Module.DoesNotExist, ValueError):
+                        pass
+            
+            messages.success(self.request, "Course updated successfully!")
+            return HttpResponseRedirect(self.get_success_url())
+        else:
+            return self.render_to_response(self.get_context_data(form=form))
+
+
 
 @login_required
 def take_quiz_view(request, quiz_id):
@@ -450,4 +507,194 @@ def verify_certificate_view(request):
     
     return render(request, 'courses/verify_certificate.html', context)
 
+
+@login_required
+def create_course_view(request):
+    """View for creating a new course"""
+    # Check if user is an instructor
+    if not hasattr(request.user, 'instructor_profile'):
+        messages.error(request, "You need to be an instructor to create courses")
+        return redirect('become_instructor')
+    
+    if request.method == 'POST':
+        form = CourseForm(request.POST, request.FILES)
+        module_formset = ModuleFormSet(request.POST, prefix='modules')
+        
+        if form.is_valid() and module_formset.is_valid():
+            # Create course but don't save to DB yet
+            course = form.save(commit=False)
+            course.instructor = request.user
+            
+            # Generate slug if not provided
+            if not course.slug:
+                course.slug = slugify(course.title)
+            
+            # Save the course
+            course.save()
+            
+            # Save many-to-many relationships
+            form.save_m2m()
+            
+            # Save modules
+            modules = module_formset.save(commit=False)
+            for module in modules:
+                module.course = course
+                module.save()
+            
+            # Delete marked modules
+            for obj in module_formset.deleted_objects:
+                obj.delete()
+            
+            messages.success(request, f"Course '{course.title}' created successfully!")
+            
+            if 'save_and_continue' in request.POST:
+                return redirect('edit_course_modules', course_id=course.id)
+            else:
+                return redirect('instructor_dashboard')
+    else:
+        form = CourseForm()
+        module_formset = ModuleFormSet(prefix='modules')
+    
+    context = {
+        'form': form,
+        'module_formset': module_formset,
+        'categories': Category.objects.all(),
+    }
+    return render(request, 'courses/create_course.html', context)
+
+# Adicione estas views ao arquivo
+
+@login_required
+def course_attachments(request, course_slug):
+    """View to list all attachments for a course"""
+    course = get_object_or_404(Course, slug=course_slug)
+    
+    # Check if user is instructor or enrolled
+    is_instructor = request.user == course.instructor
+    is_enrolled = Enrollment.objects.filter(user=request.user, course=course, is_paid=True).exists()
+    
+    if not (is_instructor or is_enrolled):
+        # If not enrolled or instructor, only show free preview attachments
+        attachments = course.attachments.filter(is_free_preview=True)
+        messages.info(request, "You are viewing free preview materials. Enroll in the course to access all materials.")
+    else:
+        # Show all attachments
+        attachments = course.attachments.all()
+    
+    context = {
+        'course': course,
+        'attachments': attachments,
+        'is_instructor': is_instructor,
+    }
+    
+    return render(request, 'courses/course_attachments.html', context)
+
+@login_required
+def add_course_attachment(request, course_slug):
+    """View to add a new attachment to a course"""
+    course = get_object_or_404(Course, slug=course_slug)
+    
+    # Only instructor can add attachments
+    if request.user != course.instructor:
+        messages.error(request, "You don't have permission to add attachments to this course.")
+        return redirect('course_detail', slug=course_slug)
+    
+    if request.method == 'POST':
+        form = CourseAttachmentForm(request.POST, request.FILES)
+        if form.is_valid():
+            attachment = form.save(commit=False)
+            attachment.course = course
+            attachment.save()
+            messages.success(request, f"Attachment '{attachment.title}' added successfully.")
+            return redirect('course_attachments', course_slug=course_slug)
+    else:
+        form = CourseAttachmentForm()
+    
+    context = {
+        'course': course,
+        'form': form,
+    }
+    
+    return render(request, 'courses/add_course_attachment.html', context)
+
+@login_required
+def edit_course_attachment(request, attachment_id):
+    """View to edit an existing course attachment"""
+    attachment = get_object_or_404(CourseAttachment, id=attachment_id)
+    course = attachment.course
+    
+    # Only instructor can edit attachments
+    if request.user != course.instructor:
+        messages.error(request, "You don't have permission to edit this attachment.")
+        return redirect('course_attachments', course_slug=course.slug)
+    
+    if request.method == 'POST':
+        form = CourseAttachmentForm(request.POST, request.FILES, instance=attachment)
+        if form.is_valid():
+            form.save()
+            messages.success(request, f"Attachment '{attachment.title}' updated successfully.")
+            return redirect('course_attachments', course_slug=course.slug)
+    else:
+        form = CourseAttachmentForm(instance=attachment)
+    
+    context = {
+        'course': course,
+        'attachment': attachment,
+        'form': form,
+    }
+    
+    return render(request, 'courses/edit_course_attachment.html', context)
+
+@login_required
+def delete_course_attachment(request, attachment_id):
+    """View to delete a course attachment"""
+    attachment = get_object_or_404(CourseAttachment, id=attachment_id)
+    course = attachment.course
+    
+    # Only instructor can delete attachments
+    if request.user != course.instructor:
+        messages.error(request, "You don't have permission to delete this attachment.")
+        return redirect('course_attachments', course_slug=course.slug)
+    
+    if request.method == 'POST':
+        attachment_title = attachment.title
+        attachment.delete()
+        messages.success(request, f"Attachment '{attachment_title}' deleted successfully.")
+        return redirect('course_attachments', course_slug=course.slug)
+    
+    context = {
+        'course': course,
+        'attachment': attachment,
+    }
+    
+    return render(request, 'courses/delete_course_attachment.html', context)
+
+@login_required
+def download_attachment(request, attachment_id):
+    """View to download a course attachment"""
+    attachment = get_object_or_404(CourseAttachment, id=attachment_id)
+    course = attachment.course
+    
+    # Check if user is instructor, enrolled, or if it's a free preview
+    is_instructor = request.user == course.instructor
+    is_enrolled = Enrollment.objects.filter(user=request.user, course=course, is_paid=True).exists()
+    is_free_preview = attachment.is_free_preview
+    
+    if not (is_instructor or is_enrolled or is_free_preview):
+        messages.error(request, "You need to enroll in this course to download this attachment.")
+        return redirect('course_detail', slug=course.slug)
+    
+    # Log the download
+    CourseAttachment.objects.filter(id=attachment.id).update(download_count=F('download_count') + 1)
+    
+    # Serve the file
+    import os
+    from django.http import FileResponse
+    from django.utils.encoding import smart_str
+    
+    file_path = attachment.file.path
+    response = FileResponse(open(file_path, 'rb'))
+    response['Content-Disposition'] = f'attachment; filename="{smart_str(os.path.basename(file_path))}"'
+    
+    return response
 

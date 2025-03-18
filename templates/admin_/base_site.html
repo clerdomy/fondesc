@@ -1,0 +1,35 @@
+
+{% load i18n %}
+
+{% block title %}{{ title }} | {{ site_title|default:_('Django site admin') }}{% endblock %}
+
+{% block extrahead %}
+  {{ block.super }}
+  <!-- Tailwind CSS via CDN com tratamento de erro -->
+  <script>
+    // Função para carregar o script com tratamento de erro
+    function loadScript(src) {
+      var script = document.createElement('script');
+      script.src = src;
+      script.onerror = function() {
+        console.error('Erro ao carregar o Tailwind CSS');
+        // Remover o script com erro
+        this.remove();
+      };
+      document.head.appendChild(script);
+    }
+    
+    // Carregar o Tailwind CSS
+    loadScript('https://cdn.tailwindcss.com');
+  </script>
+{% endblock %}
+
+{% block branding %}
+<h1 id="site-name">
+  <a href="{% url 'admin:index' %}">
+    {{ site_header|default:_('Django administration') }}
+  </a>
+</h1>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}

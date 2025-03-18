@@ -1,0 +1,270 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_urls static admin_list %}
+
+{% block extrastyle %}
+  {{ block.super }}
+  <link rel="stylesheet" href="{% static "admin/css/changelists.css" %}">
+  <style>
+    #changelist {
+      background-color: white;
+      border-radius: 0.5rem;
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+      margin-bottom: 1.5rem;
+    }
+    
+    #changelist-filter {
+      background-color: #f9fafb;
+      padding: 1rem;
+      border-top-right-radius: 0.5rem;
+      border-bottom-right-radius: 0.5rem;
+    }
+    
+    #changelist-filter h2 {
+      font-size: 1.125rem;
+      font-weight: 500;
+      margin-bottom: 0.75rem;
+      color: #374151;
+      background: none;
+      padding: 0;
+    }
+    
+    #changelist-filter ul {
+      margin-bottom: 1.5rem;
+    }
+    
+    #changelist-filter li {
+      list-style-type: none;
+      margin-bottom: 0.5rem;
+    }
+    
+    #changelist-filter a {
+      color: #4f46e5;
+      text-decoration: none;
+    }
+    
+    #changelist-filter a:hover {
+      text-decoration: underline;
+    }
+    
+    #changelist-filter li.selected a {
+      font-weight: 600;
+    }
+    
+    #changelist table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    
+    #changelist table thead th {
+      background-color: #f3f4f6;
+      padding: 0.75rem 1rem;
+      text-align: left;
+      font-weight: 500;
+      color: #374151;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    
+    #changelist table thead th.sorted {
+      background-color: #e5e7eb;
+    }
+    
+    #changelist table tbody tr {
+      transition: background-color 0.2s;
+    }
+    
+    #changelist table tbody tr:hover {
+      background-color: #f9fafb;
+    }
+    
+    #changelist table tbody td {
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    
+    #changelist table tbody td a {
+      color: #4f46e5;
+      text-decoration: none;
+    }
+    
+    #changelist table tbody td a:hover {
+      text-decoration: underline;
+    }
+    
+    .paginator {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 1.5rem;
+      background-color: #f9fafb;
+      border-bottom-left-radius: 0.5rem;
+      border-bottom-right-radius: 0.5rem;
+    }
+    
+    .paginator .this-page {
+      background-color: #4f46e5;
+      color: white;
+      padding: 0.25rem 0.75rem;
+      border-radius: 0.375rem;
+    }
+    
+    .paginator a:not(.showall) {
+      color: #4f46e5;
+      text-decoration: none;
+      padding: 0.25rem 0.75rem;
+    }
+    
+    .paginator a:hover:not(.showall) {
+      background-color: #e5e7eb;
+      border-radius: 0.375rem;
+    }
+    
+    .paginator .showall {
+      color: #4f46e5;
+      text-decoration: none;
+    }
+    
+    .paginator .showall:hover {
+      text-decoration: underline;
+    }
+    
+    .object-tools {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+      justify-content: flex-end;
+    }
+    
+    .object-tools a {
+      background-color: #4f46e5;
+      color: white;
+      padding: 0.25rem 0.75rem;
+      border-radius: 0.375rem;
+      text-decoration: none;
+      font-size: 0.875rem;
+      transition: background-color 0.2s;
+    }
+    
+    .object-tools a:hover {
+      background-color: #4338ca;
+    }
+    
+    .actions {
+      padding: 0.75rem 1rem;
+      background-color: #f9fafb;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    
+    .actions label {
+      margin-right: 0.5rem;
+    }
+    
+    .actions select {
+      padding: 0.25rem 0.5rem;
+      border: 1px solid #d1d5db;
+      border-radius: 0.375rem;
+      margin-right: 0.5rem;
+    }
+    
+    .actions button {
+      background-color: #4f46e5;
+      color: white;
+      padding: 0.25rem 0.75rem;
+      border-radius: 0.375rem;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    
+    .actions button:hover {
+      background-color: #4338ca;
+    }
+    
+    #changelist-search {
+      padding: 0.75rem 1rem;
+      background-color: #f9fafb;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    
+    #changelist-search input[type=text] {
+      padding: 0.25rem 0.5rem;
+      border: 1px solid #d1d5db;
+      border-radius: 0.375rem;
+      margin-right: 0.5rem;
+    }
+    
+    #changelist-search input[type=submit] {
+      background-color: #4f46e5;
+      color: white;
+      padding: 0.25rem 0.75rem;
+      border-radius: 0.375rem;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    
+    #changelist-search input[type=submit]:hover {
+      background-color: #4338ca;
+    }
+  </style>
+{% endblock %}
+
+{% block bodyclass %}{{ block.super }} app-{{ opts.app_label }} model-{{ opts.model_name }} change-list{% endblock %}
+
+{% block content %}
+  <div id="content-main">
+    {% block object-tools %}
+      {% if has_add_permission %}
+        <ul class="object-tools">
+          {% block object-tools-items %}
+            <li>
+              {% url cl.opts|admin_urlname:'add' as add_url %}
+              <a href="{% add_preserved_filters add_url is_popup to_field %}" class="addlink">
+                {% blocktranslate with cl.opts.verbose_name as name %}Add {{ name }}{% endblocktranslate %}
+              </a>
+            </li>
+          {% endblock %}
+        </ul>
+      {% endif %}
+    {% endblock %}
+    
+    {% if cl.formset and cl.formset.errors %}
+      <p class="errornote">
+        {% blocktranslate count cl.formset.errors|length as counter %}Please correct the error below.{% plural %}Please correct the errors below.{% endblocktranslate %}
+      </p>
+      {{ cl.formset.non_form_errors }}
+    {% endif %}
+    
+    <div class="module{% if cl.has_filters %} filtered{% endif %}" id="changelist">
+      <div class="changelist-form-container">
+        {% block search %}{% search_form cl %}{% endblock %}
+        {% block date_hierarchy %}{% if cl.date_hierarchy %}{% date_hierarchy cl %}{% endif %}{% endblock %}
+
+        <form id="changelist-form" method="post"{% if cl.formset and cl.formset.is_multipart %} enctype="multipart/form-data"{% endif %} novalidate>{% csrf_token %}
+          {% if cl.formset %}
+            <div>{{ cl.formset.management_form }}</div>
+          {% endif %}
+
+          {% block result_list %}
+            {% if action_form and actions_on_top and cl.show_admin_actions %}{% admin_actions %}{% endif %}
+            {% result_list cl %}
+            {% if action_form and actions_on_bottom and cl.show_admin_actions %}{% admin_actions %}{% endif %}
+          {% endblock %}
+          
+          {% block pagination %}{% pagination cl %}{% endblock %}
+        </form>
+      </div>
+      
+      {% block filters %}
+        {% if cl.has_filters %}
+          <div id="changelist-filter">
+            <h2>{% translate 'Filter' %}</h2>
+            {% if cl.has_active_filters %}<h3 id="changelist-filter-clear">
+              <a href="{{ cl.clear_all_filters_qs }}">&#10006; {% translate "Clear all filters" %}</a>
+            </h3>{% endif %}
+            {% for spec in cl.filter_specs %}{% admin_list_filter cl spec %}{% endfor %}
+          </div>
+        {% endif %}
+      {% endblock %}
+    </div>
+  </div>
+{% endblock %}

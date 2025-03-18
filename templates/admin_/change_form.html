@@ -1,0 +1,273 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_urls static admin_modify %}
+
+{% block extrastyle %}
+  {{ block.super }}
+  <link rel="stylesheet" href="{% static "admin/css/forms.css" %}">
+  <style>
+    .module {
+      background-color: white;
+      border-radius: 0.5rem;
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+      margin-bottom: 1.5rem;
+      overflow: hidden;
+    }
+    
+    .form-row {
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    
+    .form-row:last-child {
+      border-bottom: none;
+    }
+    
+    .form-row label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: #374151;
+    }
+    
+    .form-row input[type=text], .form-row input[type=password], .form-row input[type=email],
+    .form-row input[type=number], .form-row input[type=url], .form-row textarea, .form-row select {
+      width: 100%;
+      padding: 0.5rem 0.75rem;
+      border: 1px solid #d1d5db;
+      border-radius: 0.375rem;
+    }
+    
+    .form-row input[type=text]:focus, .form-row input[type=password]:focus, .form-row input[type=email]:focus,
+    .form-row input[type=number]:focus, .form-row input[type=url]:focus, .form-row textarea:focus, .form-row select:focus {
+      outline: none;
+      border-color: #4f46e5;
+      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+    }
+    
+    .form-row p.help {
+      margin-top: 0.5rem;
+      font-size: 0.875rem;
+      color: #6b7280;
+    }
+    
+    .submit-row {
+      padding: 1rem;
+      background-color: #f9fafb;
+      border-top: 1px solid #e5e7eb;
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.5rem;
+    }
+    
+    .submit-row input {
+      background-color: #4f46e5;
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 0.375rem;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    
+    .submit-row input:hover {
+      background-color: #4338ca;
+    }
+    
+    .submit-row input.default {
+      background-color: #10b981;
+    }
+    
+    .submit-row input.default:hover {
+      background-color: #059669;
+    }
+    
+    .submit-row a.deletelink {
+      background-color: #ef4444;
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 0.375rem;
+      text-decoration: none;
+      transition: background-color 0.2s;
+    }
+    
+    .submit-row a.deletelink:hover {
+      background-color: #dc2626;
+    }
+    
+    .errorlist {
+      color: #b91c1c;
+      padding: 0;
+      margin: 0 0 0.5rem 0;
+      list-style-type: none;
+    }
+    
+    .errors {
+      background-color: #fee2e2;
+      padding: 0.75rem 1rem;
+      border-radius: 0.375rem;
+      margin-bottom: 1rem;
+    }
+    
+    .fieldset {
+      margin-bottom: 1.5rem;
+    }
+    
+    .fieldset h2 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: #1f2937;
+    }
+    
+    .inline-group {
+      margin-bottom: 1.5rem;
+    }
+    
+    .inline-group h2 {
+      background-color: #4f46e5;
+      color: white;
+      padding: 0.5rem 1rem;
+      border-top-left-radius: 0.375rem;
+      border-top-right-radius: 0.375rem;
+      font-size: 1rem;
+      font-weight: 500;
+    }
+    
+    .inline-related {
+      border: 1px solid #e5e7eb;
+      border-radius: 0.375rem;
+      margin-bottom: 1rem;
+      overflow: hidden;
+    }
+    
+    .inline-related h3 {
+      background-color: #f3f4f6;
+      padding: 0.5rem 1rem;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: #374151;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    
+    .object-tools {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+      justify-content: flex-end;
+    }
+    
+    .object-tools a {
+      background-color: #4f46e5;
+      color: white;
+      padding: 0.25rem 0.75rem;
+      border-radius: 0.375rem;
+      text-decoration: none;
+      font-size: 0.875rem;
+      transition: background-color 0.2s;
+    }
+    
+    .object-tools a:hover {
+      background-color: #4338ca;
+    }
+  </style>
+{% endblock %}
+
+{% block bodyclass %}{{ block.super }} app-{{ opts.app_label }} model-{{ opts.model_name }} change-form{% endblock %}
+
+{% block content %}
+  <div id="content-main">
+    {% block object-tools %}
+      {% if change and not is_popup %}
+        <ul class="object-tools">
+          {% block object-tools-items %}
+            {% change_form_object_tools %}
+          {% endblock %}
+        </ul>
+      {% endif %}
+    {% endblock %}
+    
+    <form {% if has_file_field %}enctype="multipart/form-data" {% endif %}{% if form_url %}action="{{ form_url }}" {% endif %}method="post" id="{{ opts.model_name }}_form" novalidate>{% csrf_token %}
+      {% block form_top %}{% endblock %}
+      
+      {% if errors %}
+        <div class="errors">
+          {% if errors|length == 1 %}
+            <p>{% translate "Please correct the error below." %}</p>
+          {% else %}
+            <p>{% translate "Please correct the errors below." %}</p>
+          {% endif %}
+          {{ adminform.form.non_field_errors }}
+        </div>
+      {% endif %}
+      
+      {% block field_sets %}
+        {% for fieldset in adminform %}
+          <div class="fieldset module{% if fieldset.name %} named{% endif %}">
+            {% if fieldset.name %}<h2>{{ fieldset.name }}</h2>{% endif %}
+            {% if fieldset.description %}
+              <div class="description">{{ fieldset.description|safe }}</div>
+            {% endif %}
+            {% for line in fieldset %}
+              <div class="form-row{% if line.fields|length_is:'1' and line.errors %} errors{% endif %}{% if not line.has_visible_field %} hidden{% endif %}{% for field in line %}{% if field.field.name %} field-{{ field.field.name }}{% endif %}{% endfor %}">
+                {% if line.fields|length_is:'1' %}{{ line.errors }}{% endif %}
+                {% for field in line %}
+                  <div{% if not line.fields|length_is:'1' %} class="fieldBox{% if field.field.name %} field-{{ field.field.name }}{% endif %}{% if not field.is_readonly and field.errors %} errors{% endif %}{% if field.field.is_hidden %} hidden{% endif %}"{% endif %}>
+                    {% if not line.fields|length_is:'1' and not field.is_readonly %}{{ field.errors }}{% endif %}
+                    {% if field.is_checkbox %}
+                      {{ field.field }}{{ field.label_tag }}
+                    {% else %}
+                      {{ field.label_tag }}
+                      {% if field.is_readonly %}
+                        <div class="readonly">{{ field.contents }}</div>
+                      {% else %}
+                        {{ field.field }}
+                      {% endif %}
+                    {% endif %}
+                    {% if field.field.help_text %}
+                      <div class="help">{{ field.field.help_text|safe }}</div>
+                    {% endif %}
+                  </div>
+                {% endfor %}
+              </div>
+            {% endfor %}
+          </div>
+        {% endfor %}
+      {% endblock %}
+      
+      {% block after_field_sets %}{% endblock %}
+      
+      {% block inline_field_sets %}
+        {% for inline_admin_formset in inline_admin_formsets %}
+          {% include inline_admin_formset.opts.template %}
+        {% endfor %}
+      {% endblock %}
+      
+      {% block after_related_objects %}{% endblock %}
+      
+      {% block submit_buttons_bottom %}
+        <div class="submit-row">
+          {% if show_save %}
+            <input type="submit" value="{% translate 'Save' %}" class="default" name="_save">
+          {% endif %}
+          {% if show_save_and_continue %}
+            <input type="submit" value="{% translate 'Save and continue editing' %}" name="_continue">
+          {% endif %}
+          {% if show_save_and_add_another %}
+            <input type="submit" value="{% translate 'Save and add another' %}" name="_addanother">
+          {% endif %}
+          {% if show_delete_link and original %}
+            {% url opts|admin_urlname:'delete' original.pk|admin_urlquote as delete_url %}
+            <a href="{% add_preserved_filters delete_url %}" class="deletelink">{% translate "Delete" %}</a>
+          {% endif %}
+        </div>
+      {% endblock %}
+      
+      {% block admin_change_form_document_ready %}
+        <script id="django-admin-form-add-constants" src="{% static 'admin/js/change_form.js' %}" {% if adminform and add %}data-model-name="{{ opts.model_name }}"{% endif %}></script>
+      {% endblock %}
+      
+      {# JavaScript for prepopulated fields #}
+      {% prepopulated_fields_js %}
+    </form>
+  </div>
+{% endblock %}

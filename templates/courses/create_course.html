@@ -1,0 +1,283 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Create New Course{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="max-w-4xl mx-auto">
+        <h1 class="text-3xl font-bold mb-6">Create New Course</h1>
+        
+        <form method="post" enctype="multipart/form-data" class="bg-white shadow-md rounded-lg p-6">
+            {% csrf_token %}
+            
+            {% if form.errors %}
+            <div class="bg-red-50 border-l-4 border-red-500 p-4 mb-6">
+                <div class="flex">
+                    <div class="flex-shrink-0">
+                        <svg class="h-5 w-5 text-red-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                    <div class="ml-3">
+                        <h3 class="text-sm font-medium text-red-800">Please correct the errors below:</h3>
+                        <div class="mt-2 text-sm text-red-700">
+                            {{ form.errors }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            
+            <!-- Basic Information -->
+            <div class="mb-8">
+                <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Basic Information</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="col-span-2">
+                        <label for="{{ form.title.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+                            Course Title*
+                        </label>
+                        {{ form.title }}
+                        {% if form.title.help_text %}
+                        <p class="mt-1 text-sm text-gray-500">{{ form.title.help_text }}</p>
+                        {% endif %}
+                    </div>
+                    
+                    <div>
+                        <label for="{{ form.slug.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+                            URL Slug
+                        </label>
+                        {{ form.slug }}
+                        {% if form.slug.help_text %}
+                        <p class="mt-1 text-sm text-gray-500">{{ form.slug.help_text }}</p>
+                        {% endif %}
+                    </div>
+                    
+                    <div>
+                        <label for="{{ form.category.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+                            Category*
+                        </label>
+                        {{ form.category }}
+                    </div>
+                    
+                    <div class="col-span-2">
+                        <label for="{{ form.short_description.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+                            Short Description*
+                        </label>
+                        {{ form.short_description }}
+                        {% if form.short_description.help_text %}
+                        <p class="mt-1 text-sm text-gray-500">{{ form.short_description.help_text }}</p>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="col-span-2">
+                        <label for="{{ form.description.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+                            Full Description*
+                        </label>
+                        {{ form.description }}
+                        {% if form.description.help_text %}
+                        <p class="mt-1 text-sm text-gray-500">{{ form.description.help_text }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Course Details -->
+            <div class="mb-8">
+                <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Course Details</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="{{ form.level.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+                            Difficulty Level*
+                        </label>
+                        {{ form.level }}
+                    </div>
+                    
+                    <div>
+                        <label for="{{ form.duration_in_weeks.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+                            Duration (weeks)*
+                        </label>
+                        {{ form.duration_in_weeks }}
+                        {% if form.duration_in_weeks.help_text %}
+                        <p class="mt-1 text-sm text-gray-500">{{ form.duration_in_weeks.help_text }}</p>
+                        {% endif %}
+                    </div>
+                    
+                    <div>
+                        <label for="{{ form.price.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+                            Price*
+                        </label>
+                        {{ form.price }}
+                    </div>
+                    
+                    <div>
+                        <label for="{{ form.discount_price.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+                            Discount Price
+                        </label>
+                        {{ form.discount_price }}
+                        {% if form.discount_price.help_text %}
+                        <p class="mt-1 text-sm text-gray-500">{{ form.discount_price.help_text }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Course Image -->
+            <div class="mb-8">
+                <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Course Image</h2>
+                <div class="grid grid-cols-1 gap-6">
+                    <div>
+                        <label for="{{ form.thumbnail.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+                            Course Thumbnail*
+                        </label>
+                        <div class="mt-1 flex items-center">
+                            <div id="thumbnail-preview" class="hidden mr-4 w-32 h-24 bg-gray-100 rounded-md overflow-hidden">
+                                <img id="thumbnail-preview-img" src="#" alt="Thumbnail preview" class="w-full h-full object-cover">
+                            </div>
+                            {{ form.thumbnail }}
+                        </div>
+                        <p class="mt-1 text-sm text-gray-500">Recommended size: 1280x720 pixels (16:9 ratio)</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Modules -->
+            <div class="mb-8">
+                <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Course Modules</h2>
+                <p class="mb-4 text-sm text-gray-600">Add the initial modules for your course. You can add more modules and lessons later.</p>
+                
+                {{ module_formset.management_form }}
+                
+                <div id="module-forms">
+                    {% for module_form in module_formset %}
+                    <div class="module-form bg-gray-50 p-4 rounded-md mb-4">
+                        <div class="flex justify-between items-center mb-2">
+                            <h3 class="text-lg font-medium">Module {{ forloop.counter }}</h3>
+                            {% if module_formset.can_delete %}
+                            <div class="flex items-center">
+                                <label for="{{ module_form.DELETE.id_for_label }}" class="mr-2 text-sm text-gray-600">Delete</label>
+                                {{ module_form.DELETE }}
+                            </div>
+                            {% endif %}
+                        </div>
+                        
+                        {{ module_form.id }}
+                        
+                        <div class="grid grid-cols-1 gap-4">
+                            <div>
+                                <label for="{{ module_form.title.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+                                    Module Title*
+                                </label>
+                                {{ module_form.title }}
+                            </div>
+                            
+                            <div>
+                                <label for="{{ module_form.description.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+                                    Module Description
+                                </label>
+                                {{ module_form.description }}
+                            </div>
+                            
+                            <div>
+                                <label for="{{ module_form.order.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+                                    Order
+                                </label>
+                                {{ module_form.order }}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                
+                <button type="button" id="add-module" class="mt-2 inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                    <svg class="-ml-0.5 mr-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+                    </svg>
+                    Add Module
+                </button>
+            </div>
+            
+            <!-- Publishing Options -->
+            <div class="mb-8">
+                <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Publishing Options</h2>
+                <div class="flex items-start">
+                    <div class="flex items-center h-5">
+                        {{ form.is_published }}
+                    </div>
+                    <div class="ml-3 text-sm">
+                        <label for="{{ form.is_published.id_for_label }}" class="font-medium text-gray-700">{{ form.is_published.label }}</label>
+                        <p class="text-gray-500">If unchecked, the course will be saved as a draft.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Submit Buttons -->
+            <div class="flex justify-end space-x-4">
+                <a href="{% url 'instructor_dashboard' %}" class="inline-flex justify-center py-2 px-4 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                    Cancel
+                </a>
+                <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                    Create Course
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Thumbnail preview
+        const thumbnailInput = document.getElementById('{{ form.thumbnail.id_for_label }}');
+        const thumbnailPreview = document.getElementById('thumbnail-preview');
+        const thumbnailPreviewImg = document.getElementById('thumbnail-preview-img');
+        
+        thumbnailInput.addEventListener('change', function() {
+            if (this.files && this.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    thumbnailPreviewImg.src = e.target.result;
+                    thumbnailPreview.classList.remove('hidden');
+                }
+                reader.readAsDataURL(this.files[0]);
+            }
+        });
+        
+        // Add module functionality
+        const addModuleBtn = document.getElementById('add-module');
+        const moduleContainer = document.getElementById('module-forms');
+        const totalFormsInput = document.getElementById('id_module_set-TOTAL_FORMS');
+        
+        addModuleBtn.addEventListener('click', function() {
+            const formCount = parseInt(totalFormsInput.value);
+            const newForm = moduleContainer.querySelector('.module-form').cloneNode(true);
+            
+            // Update form index
+            newForm.innerHTML = newForm.innerHTML.replace(/-\d+-/g, `-${formCount}-`);
+            newForm.querySelector('h3').textContent = `Module ${formCount + 1}`;
+            
+            // Clear input values
+            newForm.querySelectorAll('input[type="text"], textarea').forEach(input => {
+                input.value = '';
+            });
+            
+            // Set default order
+            const orderInput = newForm.querySelector('input[name$="-order"]');
+            if (orderInput) {
+                orderInput.value = formCount;
+            }
+            
+            // Uncheck DELETE checkbox if it exists
+            const deleteCheckbox = newForm.querySelector('input[name$="-DELETE"]');
+            if (deleteCheckbox) {
+                deleteCheckbox.checked = false;
+            }
+            
+            moduleContainer.appendChild(newForm);
+            totalFormsInput.value = formCount + 1;
+        });
+    });
+</script>
+{% endblock %}
+{% endblock %}
+
