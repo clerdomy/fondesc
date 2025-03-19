@@ -10,12 +10,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True #os.getenv("DEBUG", "False").lower() in ("true", "1", "t", "yes", "on")
+DEBUG = os.getenv("DEBUG", "False").lower() in ("true", "1", "t", "yes", "on")
 
 ALLOWED_HOSTS = ['*']
 
 # Application definition
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -24,8 +25,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     
     # Third-party apps
-    'crispy_forms',
-    'crispy_bootstrap5',
     'rest_framework',
     'django_filters',
     

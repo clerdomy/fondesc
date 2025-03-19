@@ -85,6 +85,7 @@ class CourseDetailView(DetailView):
         
         # Get course modules and lessons
         context['modules'] = Module.objects.filter(course=course).prefetch_related('lessons')
+        context['audience_items'] = course.target_audience.replace('<komanse>', '').replace('</fim>', '').split('\n')
         
         return context
 
@@ -388,7 +389,6 @@ class CourseUpdateView(LoginRequiredMixin, InstructorRequiredMixin, UpdateView):
             return HttpResponseRedirect(self.get_success_url())
         else:
             return self.render_to_response(self.get_context_data(form=form))
-
 
 
 @login_required

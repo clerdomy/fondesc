@@ -139,10 +139,10 @@
                             <div class="flex justify-between items-center">
                                 <div>
                                     {% if course.discount_price %}
-                                    <span class="text-primary font-bold">${{ course.discount_price }}</span>
-                                    <span class="text-gray-500 line-through ml-2">${{ course.price }}</span>
+                                    <span class="text-primary font-bold">HTG{{ course.discount_price }}</span>
+                                    <span class="text-gray-500 line-through ml-2">HTG {{ course.price }}</span>
                                     {% else %}
-                                    <span class="text-primary font-bold">${{ course.price }}</span>
+                                    <span class="text-primary font-bold">HTG {{ course.price }}</span>
                                     {% endif %}
                                 </div>
                                 <a href="{% url 'course_detail' slug=course.slug %}" class="py-2 px-4 bg-secondary hover:bg-secondary-dark text-primary font-semibold rounded-lg transition-colors">View Course</a>

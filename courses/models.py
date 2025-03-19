@@ -32,7 +32,7 @@ class Course(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='courses')
     instructor = models.ForeignKey(User, on_delete=models.CASCADE, related_name='courses')
     thumbnail = models.ImageField(upload_to='course_thumbnails/')
-    price = models.DecimalField(max_digits=6, decimal_places=2)
+    price = models.DecimalField(max_digits=20, decimal_places=2)
     discount_price = models.DecimalField(max_digits=6, decimal_places=2, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

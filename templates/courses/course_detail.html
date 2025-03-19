@@ -228,35 +228,26 @@
                 <div class="bg-white rounded-lg shadow-md p-6 mb-8" data-aos="fade-up" data-aos-delay="200">
                     <h2 class="text-2xl font-bold text-gray-800 mb-4">Requisitos</h2>
                     <ul class="list-disc pl-5 space-y-2">
-                        {% for requirement in course.requirements.all %}
-                        <li>{{ requirement.description }}</li>
-                        {% empty %}
+                        {% if course.prerequisites %}
+                        {{course.prerequisites | safe}}
+
+                        {% else %}
                         <li>Conhecimentos básicos de informática</li>
                         <li>Acesso a um computador com conexão à internet</li>
                         <li>Disposição para aprender e praticar</li>
-                        {% endfor %}
+                        {% endif %}
                     </ul>
                 </div>
                 
                 <div class="bg-white rounded-lg shadow-md p-6 mb-8" data-aos="fade-up" data-aos-delay="300">
                     <h2 class="text-2xl font-bold text-gray-800 mb-4">Para quem é este curso</h2>
                     <ul class="space-y-3">
-                        <li class="flex items-start">
-                            <i class="fas fa-user-check text-primary mt-1 mr-3"></i>
-                            <span>Iniciantes que desejam aprender do zero</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-user-check text-primary mt-1 mr-3"></i>
-                            <span>Profissionais que buscam aprimorar suas habilidades</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-user-check text-primary mt-1 mr-3"></i>
-                            <span>Estudantes que querem complementar seus estudos acadêmicos</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-user-check text-primary mt-1 mr-3"></i>
-                            <span>Entusiastas que desejam expandir seus conhecimentos</span>
-                        </li>
+                        {% for item in audience_items %}
+                            <li class="flex items-start">
+                                <i class="fas fa-user-check text-primary mt-1 mr-3"></i>
+                                <span>{{ item }}</span>
+                            </li>
+                        {% endfor %}
                     </ul>
                 </div>
                 
@@ -440,7 +431,7 @@
                                     <i class="fas fa-star-half-alt"></i>
                                     <span class="text-gray-600 ml-1">(120)</span>
                                 </div>
-                                <p class="text-primary font-semibold">R$ 89,90</p>
+                                <p class="text-primary font-semibold">HTG 89,90</p>
                             </div>
                         </div>
                         
@@ -456,7 +447,7 @@
                                     <i class="far fa-star"></i>
                                     <span class="text-gray-600 ml-1">(85)</span>
                                 </div>
-                                <p class="text-primary font-semibold">R$ 79,90</p>
+                                <p class="text-primary font-semibold">HTG 79,90</p>
                             </div>
                         </div>
                     </div>
@@ -703,8 +694,8 @@
                 <div class="p-6 border-b border-gray-200">
                     {% if course.discount_price %}
                     <div class="flex items-center mb-2">
-                        <div class="text-3xl font-bold text-primary">R$ {{ course.discount_price|floatformat:2 }}</div>
-                        <div class="text-lg text-gray-500 line-through ml-2">R$ {{ course.price|floatformat:2 }}</div>
+                        <div class="text-3xl font-bold text-primary">HTG {{ course.discount_price|floatformat:2 }}</div>
+                        <div class="text-lg text-gray-500 line-through ml-2">HTG {{ course.price|floatformat:2 }}</div>
                     </div>
                     <div class="flex items-center mb-4">
                         <span class="text-green-600 font-semibold">{{ course.discount_percentage }}% de desconto!</span>
@@ -713,7 +704,7 @@
                         </div>
                     </div>
                     {% else %}
-                    <div class="text-3xl font-bold text-primary mb-4">R$ {{ course.price|floatformat:2 }}</div>
+                    <div class="text-3xl font-bold text-primary mb-4">HTG {{ course.price|floatformat:2 }}</div>
                     {% endif %}
                     
                     <a href="{% url 'enroll_course' course.slug %}" class="block w-full bg-primary hover:bg-primary-dark text-white text-center font-semibold py-3 rounded-lg transition-colors mb-4 transform hover:scale-105">
@@ -806,7 +797,7 @@
                             <p class="text-gray-600 text-sm mb-4">Descrição breve do curso relacionado com informações relevantes.</p>
                             <div class="flex justify-between items-center">
                                 <div>
-                                    <span class="text-primary font-bold">R$ 69,90</span>
+                                    <span class="text-primary font-bold">HTG 69,90</span>
                                 </div>
                                 <a href="#" class="py-2 px-4 bg-secondary hover:bg-secondary-dark text-primary font-semibold rounded-lg transition-colors">Ver Curso</a>
                             </div>
@@ -826,7 +817,7 @@
                             <p class="text-gray-600 text-sm mb-4">Descrição breve do curso relacionado com informações relevantes.</p>
                             <div class="flex justify-between items-center">
                                 <div>
-                                    <span class="text-primary font-bold">R$ 89,90</span>
+                                    <span class="text-primary font-bold">HTG 89,90</span>
                                 </div>
                                 <a href="#" class="py-2 px-4 bg-secondary hover:bg-secondary-dark text-primary font-semibold rounded-lg transition-colors">Ver Curso</a>
                             </div>
@@ -846,7 +837,7 @@
                             <p class="text-gray-600 text-sm mb-4">Descrição breve do curso relacionado com informações relevantes.</p>
                             <div class="flex justify-between items-center">
                                 <div>
-                                    <span class="text-primary font-bold">R$ 59,90</span>
+                                    <span class="text-primary font-bold">HTG 59,90</span>
                                 </div>
                                 <a href="#" class="py-2 px-4 bg-secondary hover:bg-secondary-dark text-primary font-semibold rounded-lg transition-colors">Ver Curso</a>
                             </div>
@@ -866,7 +857,7 @@
                             <p class="text-gray-600 text-sm mb-4">Descrição breve do curso relacionado com informações relevantes.</p>
                             <div class="flex justify-between items-center">
                                 <div>
-                                    <span class="text-primary font-bold">R$ 79,90</span>
+                                    <span class="text-primary font-bold">HTG 79,90</span>
                                 </div>
                                 <a href="#" class="py-2 px-4 bg-secondary hover:bg-secondary-dark text-primary font-semibold rounded-lg transition-colors">Ver Curso</a>
                             </div>
