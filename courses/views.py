@@ -10,7 +10,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy, reverse
 from django.utils import timezone
 import time
-from .utils import create_certificate
+from .utils import *
 from .models import Certificate
 
 
@@ -18,7 +18,7 @@ from .models import (
     Course, Module, Lesson, 
     Quiz, Question, Answer, Enrollment, 
     Category, Comment, UserProgress,
-    CourseAttachment
+    CourseAttachment,CourseReview
 )
 from .forms import (
     CourseForm, ModuleForm, 
@@ -78,16 +78,152 @@ class CourseDetailView(DetailView):
         
         # Check if user is enrolled
         if self.request.user.is_authenticated:
-            context['is_enrolled'] = Enrollment.objects.filter(
+            context['user_is_enrolled'] = Enrollment.objects.filter(
                 user=self.request.user, 
                 course=course
             ).exists()
         
         # Get course modules and lessons
         context['modules'] = Module.objects.filter(course=course).prefetch_related('lessons')
-        context['audience_items'] = course.target_audience.replace('<komanse>', '').replace('</fim>', '').split('\n')
+        # context['audience_items'] = course.target_audience.replace('<komanse>', '').replace('</fim>', '').split('\n')
+        context['recent_reviews'] = CourseReview.objects.filter(course=course).order_by('-created_at')[:3]
+        context['total_reviews'] = CourseReview.objects.filter(course=course).count()
+        context['average_rating'] = rating_stars(CourseReview.objects.filter(course=course).aggregate(Avg('rating'))['rating__avg'])
+        context['user_has_reviewed'] = CourseReview.objects.filter(user=self.request.user, course=course).exists()
+        context['rating_distribution'] = {rating: round((CourseReview.objects.filter(course=course, rating=rating).count() / context['total_reviews']
+                ) * 100 if context['total_reviews'] > 0 else 0) for rating in range(1, 6)}
+        
+        # Instructor info
+        instructor = course.instructor
+        instructor_info = {
+            'total_courses': get_instructor_course(instructor),
+            'total_students': get_instructor_students(instructor),
+            'total_rating': get_instructor_rating(instructor),
+            'total_reviews': get_instructor_reviews(instructor),
+        }
+        context['instructor'] = instructor_info
+
+        # curso relacionado
+        context['related_courses'] = Course.objects.filter(category=course.category).exclude(id=course.id).order_by('-created_at')[:5]
+
+        # intructor courses
+        context['instructor_courses'] = Course.objects.filter(instructor=instructor).exclude(id=course.id).order_by('-created_at')[:2]
+        
         
         return context
+
+
+@login_required
+def add_review(request, course_slug):
+    """View to add a review for a course"""
+    course = get_object_or_404(Course, slug=course_slug)
+    
+    # Check if user is enrolled in the course
+    if not Enrollment.objects.filter(user=request.user, course=course).exists():
+        messages.error(request, "You must be enrolled in this course to review it.")
+        return redirect('course_detail', slug=course_slug)
+    
+    # Check if user has already reviewed this course
+    if CourseReview.objects.filter(user=request.user, course=course).exists():
+        messages.error(request, "You have already reviewed this course. You can edit your existing review.")
+        return redirect('edit_review', course_slug=course_slug)
+    
+    if request.method == 'POST':
+        rating = request.POST.get('rating')
+        title = request.POST.get('title')
+        comment = request.POST.get('comment')
+        
+        if not all([rating, title, comment]):
+            messages.error(request, "Please fill in all fields.")
+            return render(request, 'courses/add_review.html', {'course': course})
+        
+        try:
+            rating = int(rating)
+            if rating < 1 or rating > 5:
+                raise ValueError("Rating must be between 1 and 5")
+        except ValueError:
+            messages.error(request, "Invalid rating. Please select a rating between 1 and 5.")
+            return render(request, 'courses/add_review.html', {'course': course})
+        
+        # Create the review
+        CourseReview.objects.create(
+            user=request.user,
+            course=course,
+            rating=rating,
+            title=title,
+            comment=comment
+        )
+        
+        messages.success(request, "Your review has been submitted successfully.")
+        return redirect('course_detail', slug=course_slug)
+    
+    return render(request, 'courses/add_review.html', {'course': course})
+
+def edit_review(request, course_slug):
+    """View to edit an existing review"""
+    course = get_object_or_404(Course, slug=course_slug)
+    review = get_object_or_404(CourseReview, user=request.user, course=course)
+    
+    if request.method == 'POST':
+        rating = request.POST.get('rating')
+        title = request.POST.get('title')
+        comment = request.POST.get('comment')
+        
+        if not all([rating, title, comment]):
+            messages.error(request, "Please fill in all fields.")
+            return render(request, 'courses/edit_review.html', {'course': course, 'review': review})
+        
+        try:
+            rating = int(rating)
+            if rating < 1 or rating > 5:
+                raise ValueError("Rating must be between 1 and 5")
+        except ValueError:
+            messages.error(request, "Invalid rating. Please select a rating between 1 and 5.")
+            return render(request, 'courses/edit_review.html', {'course': course, 'review': review})
+        
+        # Update the review
+        review.rating = rating
+        review.title = title
+        review.comment = comment
+        review.save()
+        
+        messages.success(request, "Your review has been updated successfully.")
+        return redirect('course_detail', slug=course_slug)
+    
+    return render(request, 'courses/edit_review.html', {'course': course, 'review': review})
+
+@login_required
+def delete_review(request, course_slug):
+    """View to delete a review"""
+    course = get_object_or_404(Course, slug=course_slug)
+    review = get_object_or_404(CourseReview, user=request.user, course=course)
+    
+    if request.method == 'POST':
+        review.delete()
+        messages.success(request, "Your review has been deleted successfully.")
+        return redirect('course_detail', slug=course_slug)
+    
+    return render(request, 'courses/delete_review.html', {'course': course, 'review': review})
+
+def course_reviews(request, course_slug):
+    """View to display all reviews for a course"""
+    course = get_object_or_404(Course, slug=course_slug)
+    reviews = course.reviews.filter(is_approved=True).order_by('-created_at')
+    
+    # Check if user has already reviewed this course
+    user_review = None
+    if request.user.is_authenticated:
+        user_review = CourseReview.objects.filter(user=request.user, course=course).first()
+    
+    context = {
+        'course': course,
+        'reviews': reviews,
+        'user_review': user_review,
+        'rating_distribution':  10 #course.rating_distribution,
+    }
+    
+    return render(request, 'courses/course_reviews.html', context)
+
 
 
 @login_required

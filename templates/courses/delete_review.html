@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Delete Review - {{ course.title }} | LearnHub{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="max-w-2xl mx-auto">
+        <div class="mb-6">
+            <a href="{% url 'course_detail' slug=course.slug %}" class="text-primary hover:underline">
+                <i class="fas fa-arrow-left mr-2"></i> Back to Course
+            </a>
+        </div>
+        
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <h1 class="text-2xl font-bold text-gray-800 mb-6">Delete Your Review</h1>
+            
+            <div class="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
+                <p class="text-red-700">Are you sure you want to delete your review for <strong>{{ course.title }}</strong>? This action cannot be undone.</p>
+            </div>
+            
+            <div class="bg-gray-50 rounded-lg p-4 mb-6">
+                <h3 class="font-semibold text-gray-800 mb-2">Your Review</h3>
+                <div class="flex items-center mb-2">
+                    <div class="flex text-yellow-400">
+                        {% for i in "12345" %}
+                            {% if forloop.counter <= review.rating %}
+                                <i class="fas fa-star mr-1"></i>
+                            {% else %}
+                                <i class="far fa-star mr-1"></i>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                <h4 class="font-medium text-gray-800 mb-2">{{ review.title }}</h4>
+                <p class="text-gray-600">{{ review.comment }}</p>
+            </div>
+            
+            <form method="post" class="flex justify-between">
+                {% csrf_token %}
+                <a href="{% url 'edit_review' course_slug=course.slug %}" class="px-6 py-2 border border-gray-300 text-gray-700 hover:bg-gray-100 font-semibold rounded-lg transition-colors">
+                    Cancel
+                </a>
+                <button type="submit" class="px-6 py-2 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg transition-colors">
+                    Delete Review
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

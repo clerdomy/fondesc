@@ -12,6 +12,8 @@ from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.platypus import Paragraph
 from django.utils import timezone
 
+from .models import Course, Enrollment, CourseReview
+
 
 def generate_certificate_pdf(certificate):
     """Generate a PDF certificate for a completed course"""
@@ -132,4 +134,52 @@ def create_certificate(user, course):
         )
         
         return certificate
+    
+
+def rating_stars(rating):
+    """Generate HTML for displaying star ratings"""
+    stars = ""
+    if rating is None:
+        rating = 0
+
+    for i in range(1, 6):
+        if i <= rating:
+            stars += '<i class="fas fa-star"></i>'
+        elif i <= rating + 0.5:
+            stars += '<i class="fas fa-star-half-alt"></i>'
+        else:
+            stars += '<i class="far fa-star"></i>'
+    return stars, round(rating, 1)
+
+
+def get_instructor_course(instructor):
+    """Get the courses for an instructor"""
+    return Course.objects.filter(instructor=instructor).count()
+
+def get_instructor_students(instructor):
+    """Get the total number of students for an instructor"""
+    return Enrollment.objects.filter(course__instructor=instructor).count()
+
+def get_instructor_rating(instructor):
+    """Get the average rating for an instructor's courses"""
+    reviews = CourseReview.objects.filter(course__instructor=instructor)
+    total_rating = sum([review.rating for review in reviews])
+    if reviews:
+        return round(total_rating / len(reviews), 1)
+    return 0.0
+
+def get_instructor_reviews(instructor):
+    """Get the number of reviews for an instructor's courses"""
+    return CourseReview.objects.filter(course__instructor=instructor).count()
+
+def get_instructor_courses(instructor):
+    """Get the courses 2 for an instructor"""
+    return Course.objects.filter(instructor=instructor)[:2]
+
+def get_category_courses(category):
+    """Get the courses 5 for a category"""
+    return Course.objects.filter(category=category, is_published=True)[:5]
+
+
+
 

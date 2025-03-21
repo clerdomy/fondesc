@@ -3,7 +3,7 @@ from django.contrib import admin
 from .models import (
     Category, Course, Module, Lesson, Resource,
     Quiz, Question, Answer, Enrollment, Certificate,
-    Comment, UserProgress
+    Comment, UserProgress, CourseAttachment, CourseReview
 )
 
 # Optional: Customize the admin interface for UserProgress model
@@ -99,3 +99,5 @@ class EnrollmentAdmin(admin.ModelAdmin):
     date_hierarchy = 'date_enrolled'
 
 admin.site.register(Certificate)
+admin.site.register(CourseReview)
+admin.site.register(CourseAttachment)

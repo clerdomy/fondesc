@@ -9,6 +9,7 @@ urlpatterns = [
     path('lesson/<int:lesson_id>/complete/', views.mark_lesson_complete, name='mark_lesson_complete'),
     path('quiz/<int:quiz_id>/take/', views.take_quiz_view, name='take_quiz'),
     path('courses/lesson/<int:lesson_id>/complete/', views.mark_lesson_complete, name='mark_lesson_complete'),
+    
     # Instructor routes
     path('new-course/', views.CourseCreateView.as_view(), name='course_create'),
     path('<slug:slug>/edit/', views.CourseUpdateView.as_view(), name='course_update'),
@@ -22,6 +23,12 @@ urlpatterns = [
     path('course_modules/<int:id>', views.create_course_view, name='course_modules'),
     path('course_students/<int:id>', views.create_course_view, name='course_students'),
     path('course_analytics/<int:id>', views.create_course_view, name='course_analytics'),
+
+
+    path('course/<slug:course_slug>/reviews/', views.course_reviews, name='course_reviews'),
+    path('course/<slug:course_slug>/reviews/add/', views.add_review, name='add_review'),
+    path('course/<slug:course_slug>/reviews/edit/', views.edit_review, name='edit_review'),
+    path('course/<slug:course_slug>/reviews/delete/', views.delete_review, name='delete_review'),
 
 
 

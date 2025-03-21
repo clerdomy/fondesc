@@ -63,6 +63,32 @@ class Course(models.Model):
     def __str__(self):
         return self.title
     
+    @property
+    def discount_percentage(self):
+        if self.discount_price:
+            return round((1 - self.discount_price / self.price) * 100)
+        return None
+    
+    @property
+    def get_rating(self):
+        """Get the average rating for the course"""
+        reviews = CourseReview.objects.filter(course=self)
+        total_rating = sum([review.rating for review in reviews])
+        if reviews:
+            return round(total_rating / len(reviews), 1)
+        return 0.0
+    
+    @property
+    def html_rating_stars(self):
+        """Generate HTML for displaying star ratings"""
+        from courses.utils import rating_stars
+        return rating_stars(self.get_rating)
+    
+    @property
+    def get_review_count(self):
+        """Get the number of reviews for the course"""
+        return CourseReview.objects.filter(course=self).count()
+    
     class Meta:
         verbose_name = _('Course')
         verbose_name_plural = _('Courses')
@@ -273,3 +299,31 @@ class Comment(models.Model):
     
     def __str__(self):
         return f"Comment by {self.user.username} on {self.lesson.title}"
+    
+
+
+class CourseReview(models.Model):
+    """Reviews for courses"""
+    user = models.ForeignKey('accounts.User', on_delete=models.CASCADE, related_name='reviews')
+    course = models.ForeignKey('Course', on_delete=models.CASCADE, related_name='reviews')
+    rating = models.PositiveSmallIntegerField(choices=(
+        (1, '1 - Poor'),
+        (2, '2 - Fair'),
+        (3, '3 - Good'),
+        (4, '4 - Very Good'),
+        (5, '5 - Excellent'),
+    ))
+    title = models.CharField(max_length=255)
+    comment = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    is_approved = models.BooleanField(default=True)
+    
+    class Meta:
+        unique_together = ['user', 'course']
+        ordering = ['-created_at']
+        verbose_name = _('Course Review')
+        verbose_name_plural = _('Course Reviews')
+    
+    def __str__(self):
+        return f"Review by {self.user.username} for {self.course.title}"
