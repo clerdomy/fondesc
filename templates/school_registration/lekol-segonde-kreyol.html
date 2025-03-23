@@ -1,0 +1,620 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Lekòl Segondè | Python Course Platform{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="relative bg-gradient-to-r from-blue-600 to-indigo-800 py-20">
+    <div class="absolute inset-0 overflow-hidden">
+        <div class="absolute left-0 right-0 top-0 bg-black opacity-30 h-full"></div>
+        <img src="{% static 'img/high-school/boy-studying-university-library.jpg' %}" alt="Elèv lekòl segondè" class="w-full h-full object-cover">
+    </div>
+    <div class="container mx-auto px-4 relative z-10">
+        <div class="max-w-3xl">
+            <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">Lekòl Segondè</h1>
+            <p class="text-xl text-white/90 mb-8">Prepare elèv yo pou siksè akademik ak pwofesyonèl atravè yon kourikoulòm konplè ak pwofesè ki gen eksperyans.</p>
+            <div class="flex flex-wrap gap-4">
+                <a href="#pwogram" class="px-6 py-3 bg-white text-blue-700 rounded-md hover:bg-blue-50 transition-colors duration-300 font-medium">
+                    Dekouvri Pwogram Nou
+                </a>
+                <a href="{% url 'enrollment' %}" class="px-6 py-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors duration-300 font-medium">
+                    Enskri Kounye a
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Overview Section -->
+<section class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+        <div class="max-w-3xl mx-auto text-center mb-12">
+            <h2 class="text-3xl font-bold text-gray-800 mb-4">Edikasyon Segondè Kalite Siperyè</h2>
+            <p class="text-lg text-gray-600">Nan Python Course Platform, nou ofri yon edikasyon segondè konplè ki prepare elèv yo pou siksè nan inivèsite ak pi lwen.</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="bg-blue-50 rounded-xl p-6 text-center">
+                <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 mx-auto mb-4">
+                    <i class="fas fa-graduation-cap text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">Kourikoulòm Konplè</h3>
+                <p class="text-gray-600">Yon pwogram etid ekilibre ki kouvri syans, matematik, lang, syans sosyal, ak atizay.</p>
+            </div>
+            
+            <div class="bg-blue-50 rounded-xl p-6 text-center">
+                <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 mx-auto mb-4">
+                    <i class="fas fa-chalkboard-teacher text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">Pwofesè Kalifye</h3>
+                <p class="text-gray-600">Pwofesè ki gen eksperyans ak fòmasyon avanse nan domèn yo.</p>
+            </div>
+            
+            <div class="bg-blue-50 rounded-xl p-6 text-center">
+                <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 mx-auto mb-4">
+                    <i class="fas fa-university text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">Preparasyon pou Inivèsite</h3>
+                <p class="text-gray-600">Konsèy akademik ak preparasyon pou egzamen antre nan inivèsite.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Program Section -->
+<section id="pwogram" class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <div class="max-w-3xl mx-auto text-center mb-12">
+            <h2 class="text-3xl font-bold text-gray-800 mb-4">Pwogram Akademik</h2>
+            <p class="text-lg text-gray-600">Kourikoulòm nou an ofri yon balans ant matyè fondamantal ak opsyon elektif pou devlope talan ak enterè elèv yo.</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+            <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                <div class="bg-blue-600 text-white p-4">
+                    <h3 class="text-xl font-semibold">Matyè Fondamantal</h3>
+                </div>
+                <div class="p-6">
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                            <div>
+                                <span class="font-medium">Matematik</span>
+                                <p class="text-sm text-gray-600">Aljèb, Jewometri, Trigonometri, Kalkil</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                            <div>
+                                <span class="font-medium">Syans</span>
+                                <p class="text-sm text-gray-600">Biyoloji, Chimi, Fizik, Syans Anviwònman</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                            <div>
+                                <span class="font-medium">Lang</span>
+                                <p class="text-sm text-gray-600">Kreyòl Ayisyen, Fransè, Anglè, Espayòl</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                            <div>
+                                <span class="font-medium">Syans Sosyal</span>
+                                <p class="text-sm text-gray-600">Istwa, Jewografi, Ekonomi, Sivik</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                            <div>
+                                <span class="font-medium">Teknoloji</span>
+                                <p class="text-sm text-gray-600">Enfòmatik, Pwogramasyon, Medya Dijital</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                <div class="bg-indigo-600 text-white p-4">
+                    <h3 class="text-xl font-semibold">Matyè Elektif</h3>
+                </div>
+                <div class="p-6">
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                            <div>
+                                <span class="font-medium">Atizay</span>
+                                <p class="text-sm text-gray-600">Mizik, Teyat, Atizay Vizyèl, Dans</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                            <div>
+                                <span class="font-medium">Biznis</span>
+                                <p class="text-sm text-gray-600">Antreprenarya, Kontabilite, Maketing</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                            <div>
+                                <span class="font-medium">Spò</span>
+                                <p class="text-sm text-gray-600">Foutbòl, Basketbòl, Volebòl, Atletis</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                            <div>
+                                <span class="font-medium">Syans Avanse</span>
+                                <p class="text-sm text-gray-600">Wobotik, Byoteknoloji, Syans Konpitè</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                            <div>
+                                <span class="font-medium">Devlopman Pèsonèl</span>
+                                <p class="text-sm text-gray-600">Lidèchip, Kominikasyon, Panse Kritik</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Grade Levels Section -->
+<section class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+        <div class="max-w-3xl mx-auto text-center mb-12">
+            <h2 class="text-3xl font-bold text-gray-800 mb-4">Nivo Klas ak Sètifika</h2>
+            <p class="text-lg text-gray-600">Chak nivo klas ofri yon kourikoulòm espesifik ak sètifika ki rekonèt akonplisman elèv yo.</p>
+        </div>
+        
+        <div class="space-y-8">
+            <!-- 7th Grade -->
+            <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                <div class="md:flex">
+                    <div class="md:w-1/4 bg-blue-600 text-white p-6 flex items-center justify-center">
+                        <h3 class="text-2xl font-bold">7yèm Ane</h3>
+                    </div>
+                    <div class="md:w-3/4 p-6">
+                        <h4 class="text-xl font-semibold text-gray-800 mb-3">Kourikoulòm Debaz</h4>
+                        <p class="text-gray-600 mb-4">Nan 7yèm ane, elèv yo kòmanse avèk yon kourikoulòm fondamantal ki bati yon baz solid nan tout matyè yo.</p>
+                        
+                        <div class="bg-blue-50 p-4 rounded-lg mb-4">
+                            <h5 class="font-medium text-gray-800 mb-2">Matyè Prensipal:</h5>
+                            <ul class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                                <li class="flex items-center"><i class="fas fa-book text-blue-600 mr-2"></i> Matematik Debaz</li>
+                                <li class="flex items-center"><i class="fas fa-book text-blue-600 mr-2"></i> Syans Jeneral</li>
+                                <li class="flex items-center"><i class="fas fa-book text-blue-600 mr-2"></i> Kreyòl Ayisyen</li>
+                                <li class="flex items-center"><i class="fas fa-book text-blue-600 mr-2"></i> Fransè</li>
+                                <li class="flex items-center"><i class="fas fa-book text-blue-600 mr-2"></i> Anglè Debaz</li>
+                                <li class="flex items-center"><i class="fas fa-book text-blue-600 mr-2"></i> Istwa Ayiti</li>
+                                <li class="flex items-center"><i class="fas fa-book text-blue-600 mr-2"></i> Jewografi</li>
+                                <li class="flex items-center"><i class="fas fa-book text-blue-600 mr-2"></i> Edikasyon Fizik</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-green-50 p-4 rounded-lg">
+                            <h5 class="font-medium text-gray-800 mb-2">Sètifika:</h5>
+                            <p class="text-gray-600">Sètifika Akonplisman 7yèm Ane - Rekonèt konpetans fondamantal nan tout matyè debaz yo.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 8th Grade -->
+            <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                <div class="md:flex">
+                    <div class="md:w-1/4 bg-blue-600 text-white p-6 flex items-center justify-center">
+                        <h3 class="text-2xl font-bold">8yèm Ane</h3>
+                    </div>
+                    <div class="md:w-3/4 p-6">
+                        <h4 class="text-xl font-semibold text-gray-800 mb-3">Apwofondisman Konesans</h4>
+                        <p class="text-gray-600 mb-4">Nan 8yèm ane, elèv yo apwofondi konesans yo epi kòmanse devlope konpetans analitik.</p>
+                        
+                        <div class="bg-blue-50 p-4 rounded-lg mb-4">
+                            <h5 class="font-medium text-gray-800 mb-2">Matyè Prensipal:</h5>
+                            <ul class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                                <li class="flex items-center"><i class="fas fa-book text-blue-600 mr-2"></i> Pre-Aljèb</li>
+                                <li class="flex items-center"><i class="fas fa-book text-blue-600 mr-2"></i> Biyoloji Debaz</li>
+                                <li class="flex items-center"><i class="fas fa-book text-blue-600 mr-2"></i> Literati Kreyòl</li>
+                                <li class="flex items-center"><i class="fas fa-book text-blue-600 mr-2"></i> Fransè Avanse</li>
+                                <li class="flex items-center"><i class="fas fa-book text-blue-600 mr-2"></i> Anglè Entèmedyè</li>
+                                <li class="flex items-center"><i class="fas fa-book text-blue-600 mr-2"></i> Istwa Mondyal</li>
+                                <li class="flex items-center"><i class="fas fa-book text-blue-600 mr-2"></i> Enfòmatik Debaz</li>
+                                <li class="flex items-center"><i class="fas fa-book text-blue-600 mr-2"></i> Atizay</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-green-50 p-4 rounded-lg">
+                            <h5 class="font-medium text-gray-800 mb-2">Sètifika:</h5>
+                            <p class="text-gray-600">Sètifika Akonplisman 8yèm Ane - Rekonèt devlopman konpetans analitik ak apwofondisman konesans.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 9th Grade -->
+            <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                <div class="md:flex">
+                    <div class="md:w-1/4 bg-blue-600 text-white p-6 flex items-center justify-center">
+                        <h3 class="text-2xl font-bold">9yèm Ane</h3>
+                    </div>
+                    <div class="md:w-3/4 p-6">
+                        <h4 class="text-xl font-semibold text-gray-800 mb-3">Eksplorasyon ak Espesyalizasyon</h4>
+                        <p class="text-gray-600 mb-4">Nan 9yèm ane, elèv yo kòmanse eksplore domèn espesyalize epi devlope enterè pèsonèl.</p>
+                        
+                        <div class="bg-blue-50 p-4 rounded-lg mb-4">
+                            <h5 class="font-medium text-gray-800 mb-2">Matyè Prensipal:</h5>
+                            <ul class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                                <li class="flex items-center"><i class="fas fa-book text-blue-600 mr-2"></i> Aljèb I</li>
+                                <li class="flex items-center"><i class="fas fa-book text-blue-600 mr-2"></i> Biyoloji</li>
+                                <li class="flex items-center"><i class="fas fa-book text-blue-600 mr-2"></i> Literati ak Redaksyon</li>
+                                <li class="flex items-center"><i class="fas fa-book text-blue-600 mr-2"></i> Fransè Literè</li>
+                                <li class="flex items-center"><i class="fas fa-book text-blue-600 mr-2"></i> Anglè Avanse</li>
+                                <li class="flex items-center"><i class="fas fa-book text-blue-600 mr-2"></i> Istwa Amerik Latin</li>
+                                <li class="flex items-center"><i class="fas fa-book text-blue-600 mr-2"></i> Pwogramasyon Debaz</li>
+                                <li class="flex items-center"><i class="fas fa-book text-blue-600 mr-2"></i> Elektif (Atizay/Spò/Teknoloji)</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-green-50 p-4 rounded-lg">
+                            <h5 class="font-medium text-gray-800 mb-2">Sètifika:</h5>
+                            <p class="text-gray-600">Sètifika Akonplisman 9yèm Ane - Rekonèt konpetans espesyalize ak devlopman enterè pèsonèl.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 10th Grade -->
+            <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                <div class="md:flex">
+                    <div class="md:w-1/4 bg-indigo-600 text-white p-6 flex items-center justify-center">
+                        <h3 class="text-2xl font-bold">10yèm Ane</h3>
+                    </div>
+                    <div class="md:w-3/4 p-6">
+                        <h4 class="text-xl font-semibold text-gray-800 mb-3">Preparasyon Avanse</h4>
+                        <p class="text-gray-600 mb-4">Nan 10yèm ane, elèv yo kòmanse preparasyon pou egzamen ofisyèl yo epi apwofondi espesyalizasyon yo.</p>
+                        
+                        <div class="bg-blue-50 p-4 rounded-lg mb-4">
+                            <h5 class="font-medium text-gray-800 mb-2">Matyè Prensipal:</h5>
+                            <ul class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                                <li class="flex items-center"><i class="fas fa-book text-blue-600 mr-2"></i> Jewometri</li>
+                                <li class="flex items-center"><i class="fas fa-book text-blue-600 mr-2"></i> Chimi</li>
+                                <li class="flex items-center"><i class="fas fa-book text-blue-600 mr-2"></i> Literati Mondyal</li>
+                                <li class="flex items-center"><i class="fas fa-book text-blue-600 mr-2"></i> Fransè Avanse</li>
+                                <li class="flex items-center"><i class="fas fa-book text-blue-600 mr-2"></i> Anglè Biznis</li>
+                                <li class="flex items-center"><i class="fas fa-book text-blue-600 mr-2"></i> Istwa Mondyal</li>
+                                <li class="flex items-center"><i class="fas fa-book text-blue-600 mr-2"></i> Ekonomi</li>
+                                <li class="flex items-center"><i class="fas fa-book text-blue-600 mr-2"></i> Elektif Avanse</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-green-50 p-4 rounded-lg">
+                            <h5 class="font-medium text-gray-800 mb-2">Sètifika:</h5>
+                            <p class="text-gray-600">Sètifika Akonplisman 10yèm Ane - Rekonèt preparasyon pou egzamen ofisyèl ak espesyalizasyon avanse.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 11th Grade -->
+            <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                <div class="md:flex">
+                    <div class="md:w-1/4 bg-indigo-600 text-white p-6 flex items-center justify-center">
+                        <h3 class="text-2xl font-bold">11yèm Ane</h3>
+                    </div>
+                    <div class="md:w-3/4 p-6">
+                        <h4 class="text-xl font-semibold text-gray-800 mb-3">Espesyalizasyon Avanse</h4>
+                        <p class="text-gray-600 mb-4">Nan 11yèm ane, elèv yo apwofondi espesyalizasyon yo epi prepare pou egzamen ofisyèl yo.</p>
+                        
+                        <div class="bg-blue-50 p-4 rounded-lg mb-4">
+                            <h5 class="font-medium text-gray-800 mb-2">Matyè Prensipal:</h5>
+                            <ul class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                                <li class="flex items-center"><i class="fas fa-book text-blue-600 mr-2"></i> Aljèb II</li>
+                                <li class="flex items-center"><i class="fas fa-book text-blue-600 mr-2"></i> Fizik</li>
+                                <li class="flex items-center"><i class="fas fa-book text-blue-600 mr-2"></i> Literati Avanse</li>
+                                <li class="flex items-center"><i class="fas fa-book text-blue-600 mr-2"></i> Fransè Akademik</li>
+                                <li class="flex items-center"><i class="fas fa-book text-blue-600 mr-2"></i> Anglè Akademik</li>
+                                <li class="flex items-center"><i class="fas fa-book text-blue-600 mr-2"></i> Filozofi</li>
+                                <li class="flex items-center"><i class="fas fa-book text-blue-600 mr-2"></i> Syans Politik</li>
+                                <li class="flex items-center"><i class="fas fa-book text-blue-600 mr-2"></i> Preparasyon pou Egzamen</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-green-50 p-4 rounded-lg">
+                            <h5 class="font-medium text-gray-800 mb-2">Sètifika:</h5>
+                            <p class="text-gray-600">Sètifika Akonplisman 11yèm Ane - Rekonèt preparasyon pou egzamen ofisyèl ak espesyalizasyon avanse.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 12th Grade -->
+            <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                <div class="md:flex">
+                    <div class="md:w-1/4 bg-indigo-600 text-white p-6 flex items-center justify-center">
+                        <h3 class="text-2xl font-bold">12yèm Ane</h3>
+                    </div>
+                    <div class="md:w-3/4 p-6">
+                        <h4 class="text-xl font-semibold text-gray-800 mb-3">Preparasyon pou Inivèsite</h4>
+                        <p class="text-gray-600 mb-4">Nan 12yèm ane, elèv yo finalize preparasyon pou inivèsite epi pase egzamen final yo.</p>
+                        
+                        <div class="bg-blue-50 p-4 rounded-lg mb-4">
+                            <h5 class="font-medium text-gray-800 mb-2">Matyè Prensipal:</h5>
+                            <ul class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                                <li class="flex items-center"><i class="fas fa-book text-blue-600 mr-2"></i> Pre-Kalkil/Kalkil</li>
+                                <li class="flex items-center"><i class="fas fa-book text-blue-600 mr-2"></i> Syans Avanse</li>
+                                <li class="flex items-center"><i class="fas fa-book text-blue-600 mr-2"></i> Redaksyon Akademik</li>
+                                <li class="flex items-center"><i class="fas fa-book text-blue-600 mr-2"></i> Literati Fransè</li>
+                                <li class="flex items-center"><i class="fas fa-book text-blue-600 mr-2"></i> Anglè Avanse</li>
+                                <li class="flex items-center"><i class="fas fa-book text-blue-600 mr-2"></i> Preparasyon pou Inivèsite</li>
+                                <li class="flex items-center"><i class="fas fa-book text-blue-600 mr-2"></i> Pwojè Final</li>
+                                <li class="flex items-center"><i class="fas fa-book text-blue-600 mr-2"></i> Elektif Espesyalize</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-green-50 p-4 rounded-lg">
+                            <h5 class="font-medium text-gray-800 mb-2">Sètifika:</h5>
+                            <p class="text-gray-600">Diplòm Lekòl Segondè - Rekonèt akonplisman tout pwogram lekòl segondè a ak preparasyon pou inivèsite.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Tuition Section -->
+<section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <div class="max-w-3xl mx-auto text-center mb-12">
+            <h2 class="text-3xl font-bold text-gray-800 mb-4">Frè Eskolè ak Rabè</h2>
+            <p class="text-lg text-gray-600">Nou ofri plizyè opsyon peman ak rabè pou fanmi yo.</p>
+        </div>
+        
+        <div class="max-w-4xl mx-auto">
+            <div class="bg-white rounded-xl shadow-md overflow-hidden mb-8">
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Opsyon Peman</h3>
+                    
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nivo Klas</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Peman Anyèl</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Peman pa Semès</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Peman pa Mwa</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">7yèm - 9yèm Ane</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">$2,500</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">$1,300</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">$275</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">10yèm - 12yèm Ane</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">$2,800</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">$1,450</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">$310</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                    <div class="bg-green-600 text-white p-4">
+                        <h3 class="text-xl font-semibold">Rabè pou Peman Anyèl</h3>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center justify-center mb-4">
+                            <div class="w-24 h-24 rounded-full bg-green-100 flex items-center justify-center text-green-600">
+                                <span class="text-3xl font-bold">8%</span>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 text-center">Ekonomize 8% lè ou peye frè eskolè a konplètman pou tout ane a.</p>
+                        <div class="mt-4 bg-green-50 p-4 rounded-lg">
+                            <h4 class="font-medium text-gray-800 mb-2">Avantaj:</h4>
+                            <ul class="space-y-2">
+                                <li class="flex items-start">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Ekonomize jiska $224 pou 7yèm-9yèm ane</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Ekonomize jiska $252 pou 10yèm-12yèm ane</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Pa gen okenn frè administratif adisyonèl</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                    <div class="bg-blue-600 text-white p-4">
+                        <h3 class="text-xl font-semibold">Rabè pou Peman pa Semès</h3>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center justify-center mb-4">
+                            <div class="w-24 h-24 rounded-full bg-blue-100 flex items-center justify-center text-blue-600">
+                                <span class="text-3xl font-bold">5%</span>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 text-center">Ekonomize 5% lè ou peye frè eskolè a pa semès (de fwa pa ane).</p>
+                        <div class="mt-4 bg-blue-50 p-4 rounded-lg">
+                            <h4 class="font-medium text-gray-800 mb-2">Avantaj:</h4>
+                            <ul class="space-y-2">
+                                <li class="flex items-start">
+                                    <i class="fas fa-check-circle text-blue-500 mt-1 mr-2"></i>
+                                    <span>Ekonomize jiska $130 pou 7yèm-9yèm ane</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check-circle text-blue-500 mt-1 mr-2"></i>
+                                    <span>Ekonomize jiska $145 pou 10yèm-12yèm ane</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check-circle text-blue-500 mt-1 mr-2"></i>
+                                    <span>Fleksibilite pou ajiste bidjè ou</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-xl shadow-md overflow-hidden mt-8">
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Lòt Frè ak Depans</h3>
+                    
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Deskripsyon</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Montan</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Frekans</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Frè Enskripsyon</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">$100</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Anyèl</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Inifòm</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">$150-$200</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Anyèl</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Liv ak Materyèl</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">$200-$300</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Anyèl</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Aktivite Ekstraskolè</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">$50-$200</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Varye</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Teknoloji</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">$100</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Anyèl</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Certificate Section -->
+<section class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+        <div class="max-w-3xl mx-auto text-center mb-12">
+            <h2 class="text-3xl font-bold text-gray-800 mb-4">Sètifika Konklizyon</h2>
+            <p class="text-lg text-gray-600">Elèv nou yo resevwa sètifika ofisyèl ki rekonèt akonplisman akademik yo.</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                <div class="bg-blue-600 text-white p-4">
+                    <h3 class="text-xl font-semibold">Sètifika Konklizyon Klas</h3>
+                </div>
+                <div class="p-6">
+                    <p class="text-gray-600 mb-4">Chak ane, elèv yo resevwa yon sètifika konklizyon ki rekonèt akonplisman yo nan nivo klas yo.</p>
+                    
+                    <div class="bg-blue-50 p-4 rounded-lg mb-4">
+                        <h4 class="font-medium text-gray-800 mb-2">Sètifika sa a enkli:</h4>
+                        <ul class="space-y-2">
+                            <li class="flex items-start">
+                                <i class="fas fa-certificate text-blue-600 mt-1 mr-2"></i>
+                                <span>Konfimasyon konklizyon nivo klas la</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-certificate text-blue-600 mt-1 mr-2"></i>
+                                <span>Lis matyè yo konplete</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-certificate text-blue-600 mt-1 mr-2"></i>
+                                <span>Nòt final pou chak matyè</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-certificate text-blue-600 mt-1 mr-2"></i>
+                                <span>Rekonesans espesyal pou akonplisman</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <p class="text-gray-600">Sètifika sa yo enpòtan pou dosye akademik elèv la epi yo ka itilize pou transfere nan lòt lekòl si sa nesesè.</p>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                <div class="bg-indigo-600 text-white p-4">
+                    <h3 class="text-xl font-semibold">Diplòm Lekòl Segondè</h3>
+                </div>
+                <div class="p-6">
+                    <p class="text-gray-600 mb-4">Lè elèv yo konplete 12yèm ane a avèk siksè, yo resevwa Diplòm Lekòl Segondè ofisyèl nou an.</p>
+                    
+                    <div class="bg-indigo-50 p-4 rounded-lg mb-4">
+                        <h4 class="font-medium text-gray-800 mb-2">Diplòm sa a:</h4>
+                        <ul class="space-y-2">
+                            <li class="flex items-start">
+                                <i class="fas fa-award text-indigo-600 mt-1 mr-2"></i>
+                                <span>Rekonèt pa Ministè Edikasyon Nasyonal</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-award text-indigo-600 mt-1 mr-2"></i>
+                                <span>Aksepte pa inivèsite lokal ak entènasyonal</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-award text-indigo-600 mt-1 mr-2"></i>
+                                <span>Enkli relve nòt detaye pou tout ane segondè yo</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-award text-indigo-600 mt-1 mr-2"></i>
+                                <span>Sèvi kòm prèv kalifikasyon pou edikasyon siperyè</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <p class="text-gray-600">Diplòm nou an rekonèt entènasyonalman epi li prepare elèv yo pou siksè nan inivèsite ak karyè yo.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-16 bg-gradient-to-r from-blue-600 to-indigo-800 relative">
+    <div class="container mx-auto px-4 relative z-10">
+        <div class="max-w-3xl mx-auto text-center">
+            <h2 class="text-3xl font-bold text-white mb-4">Prepare Pitit Ou pou Siksè</h2>
+            <p class="text-xl text-white/90 mb-8">Enskri pitit ou nan pwogram lekòl segondè nou an jodi a epi ba li edikasyon kalite siperyè li merite.</p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="{% url 'enrollment' %}" class="px-8 py-4 bg-white text-blue-700 rounded-md hover:bg-blue-50 transition-colors duration-300 font-medium text-lg">
+                    Enskri Kounye a
+                </a>
+                <a href="{% url 'contact' %}" class="px-8 py-4 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors duration-300 font-medium text-lg border border-white/30">
+                    Kontakte Nou
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

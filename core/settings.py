@@ -10,13 +10,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv("DEBUG", "False").lower() in ("true", "1", "t", "yes", "on")
+DEBUG = os.environ.get("DEBUG", "False").lower() in ("true", "1", "t", "yes", "on")
 
 ALLOWED_HOSTS = ['*']
 
 # Application definition
 INSTALLED_APPS = [
-    'jazzmin',
+    # 'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'payments',
     'fondescapp',
     'projects',
+    'school_registration',
 ]
 
 # Maintenance mode setting

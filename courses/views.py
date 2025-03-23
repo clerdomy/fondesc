@@ -89,7 +89,11 @@ class CourseDetailView(DetailView):
         context['recent_reviews'] = CourseReview.objects.filter(course=course).order_by('-created_at')[:3]
         context['total_reviews'] = CourseReview.objects.filter(course=course).count()
         context['average_rating'] = rating_stars(CourseReview.objects.filter(course=course).aggregate(Avg('rating'))['rating__avg'])
-        context['user_has_reviewed'] = CourseReview.objects.filter(user=self.request.user, course=course).exists()
+        try:
+            context['user_has_reviewed'] = CourseReview.objects.filter(user=self.request.user, course=course).exists()
+        except :
+            context['user_has_reviewed'] = False
+
         context['rating_distribution'] = {rating: round((CourseReview.objects.filter(course=course, rating=rating).count() / context['total_reviews']
                 ) * 100 if context['total_reviews'] > 0 else 0) for rating in range(1, 6)}
         

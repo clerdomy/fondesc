@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Newsletter Management - PythonLearn{% endblock %}
+{% block title %}Jesyon Bilten - Fondesc {% endblock %}
 
 {% block content %}
 <div class="container mx-auto px-4 py-12">
@@ -8,8 +8,8 @@
         <div class="bg-white rounded-lg shadow-md overflow-hidden">
             <!-- Header -->
             <div class="bg-primary p-6">
-                <h1 class="text-2xl font-bold text-white">Newsletter Management</h1>
-                <p class="text-gray-200 mt-2">Manage your newsletter preferences</p>
+                <h1 class="text-2xl font-bold text-white">Jesyon Bilten</h1>
+                <p class="text-gray-200 mt-2">Jere preferans bilten ou</p>
             </div>
             
             <!-- Content -->
@@ -22,18 +22,18 @@
                             </div>
                             <div class="ml-3">
                                 <p class="text-sm text-green-700">
-                                    You are currently subscribed to our newsletter with the email: <strong>{{ subscriber.email }}</strong>
+                                    Ou aktyèlman abòne nan bilten nou an avèk imèl: <strong>{{ subscriber.email }}</strong>
                                 </p>
                             </div>
                         </div>
                     </div>
                     
-                    <h2 class="text-xl font-semibold text-gray-800 mb-4">Unsubscribe</h2>
-                    <p class="text-gray-600 mb-6">If you no longer wish to receive our newsletter, you can unsubscribe using the button below.</p>
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">Dezabònman</h2>
+                    <p class="text-gray-600 mb-6">Si ou pa vle resevwa bilten nou an ankò, ou ka dezabòne w lè w itilize bouton anba a.</p>
                     
                     <form action="{% url 'newsletter_unsubscribe' subscriber.email %}" method="GET" class="mb-8">
                         <button type="submit" class="bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-md transition-colors">
-                            Unsubscribe from Newsletter
+                            Dezabòne nan Bilten
                         </button>
                     </form>
                     
@@ -45,20 +45,20 @@
                             </div>
                             <div class="ml-3">
                                 <p class="text-sm text-yellow-700">
-                                    You have previously unsubscribed from our newsletter with the email: <strong>{{ subscriber.email }}</strong>
+                                    Ou te dezabòne anvan nan bilten nou an avèk imèl: <strong>{{ subscriber.email }}</strong>
                                 </p>
                             </div>
                         </div>
                     </div>
                     
-                    <h2 class="text-xl font-semibold text-gray-800 mb-4">Resubscribe</h2>
-                    <p class="text-gray-600 mb-6">If you'd like to receive our newsletter again, you can resubscribe using the button below.</p>
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">Re-abònman</h2>
+                    <p class="text-gray-600 mb-6">Si ou ta renmen resevwa bilten nou an ankò, ou ka re-abòne w lè w itilize bouton anba a.</p>
                     
                     <form action="{% url 'newsletter_subscribe' %}" method="POST" class="mb-8">
                         {% csrf_token %}
                         <input type="hidden" name="email" value="{{ subscriber.email }}">
                         <button type="submit" class="bg-primary hover:bg-primary-dark text-white font-medium py-2 px-4 rounded-md transition-colors">
-                            Resubscribe to Newsletter
+                            Re-abòne nan Bilten
                         </button>
                     </form>
                     
@@ -70,45 +70,45 @@
                             </div>
                             <div class="ml-3">
                                 <p class="text-sm text-blue-700">
-                                    You are not currently subscribed to our newsletter.
+                                    Ou pa abòne nan bilten nou an aktyèlman.
                                 </p>
                             </div>
                         </div>
                     </div>
                     
-                    <h2 class="text-xl font-semibold text-gray-800 mb-4">Subscribe to Our Newsletter</h2>
-                    <p class="text-gray-600 mb-6">Stay updated with our latest courses, tutorials, and special offers.</p>
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">Abòne nan Bilten Nou an</h2>
+                    <p class="text-gray-600 mb-6">Rete enfòme sou dènye kou nou yo, titoryèl, ak òf espesyal.</p>
                     
                     <form action="{% url 'newsletter_subscribe' %}" method="POST" class="space-y-4 mb-8">
                         {% csrf_token %}
                         <div>
-                            <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                            <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Adrès Imèl</label>
                             <input type="email" id="email" name="email" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary">
                         </div>
                         <div>
-                            <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Name (Optional)</label>
+                            <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Non (Opsyonèl)</label>
                             <input type="text" id="name" name="name" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary">
                         </div>
                         <div class="pt-2">
                             <button type="submit" class="bg-secondary hover:bg-secondary-dark text-primary font-medium py-2 px-6 rounded-md transition-colors">
-                                Subscribe
+                                Abòne
                             </button>
                         </div>
                     </form>
                 {% endif %}
                 
                 <div class="border-t border-gray-200 pt-6 mt-6">
-                    <h2 class="text-xl font-semibold text-gray-800 mb-4">About Our Newsletter</h2>
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">Enfòmasyon sou Bilten Nou an</h2>
                     <div class="prose text-gray-600">
-                        <p>Our newsletter includes:</p>
+                        <p>Bilten nou an gen ladan:</p>
                         <ul class="list-disc pl-5 space-y-2">
-                            <li>New course announcements and special offers</li>
-                            <li>Python programming tips and tutorials</li>
-                            <li>Industry news and career opportunities</li>
-                            <li>Exclusive content for subscribers only</li>
+                            <li>Anons nouvo kou ak òf espesyal</li>
+                            <li>Konsèy ak titoryèl sou pwogramasyon python</li>
+                            <li>Nouvèl endistri a ak opòtinite karyè</li>
+                            <li>Kontni eksklizif pou abòne sèlman</li>
                         </ul>
-                        <p class="mt-4">We typically send 1-2 emails per month and never share your information with third parties.</p>
-                        <p class="mt-4 text-sm">By subscribing, you agree to our <a href="{% url 'privacy_policy' %}" class="text-primary hover:underline">Privacy Policy</a>.</p>
+                        <p class="mt-4">Nou tipikman voye 1-2 imèl pa mwa epi nou pa janm pataje enfòmasyon ou ak lòt moun.</p>
+                        <p class="mt-4 text-sm">Lè ou abòne, ou dakò ak <a href="{% url 'privacy_policy' %}" class="text-primary hover:underline">Politik Konfidansyalite</a> nou an.</p>
                     </div>
                 </div>
             </div>
@@ -116,4 +116,3 @@
     </div>
 </div>
 {% endblock %}
-

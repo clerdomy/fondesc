@@ -1,0 +1,753 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Enskripsyon Lekòl Primè ak Segondè | Python Course Platform{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="relative bg-gradient-to-r from-primary to-primary-light text-white overflow-hidden">
+    <!-- Eleman dekoratif -->
+    <div class="absolute top-0 right-0 w-96 h-96 bg-secondary opacity-10 rounded-full -mt-24 -mr-24"></div>
+    <div class="absolute bottom-0 left-0 w-64 h-64 bg-secondary opacity-10 rounded-full -mb-32 -ml-32"></div>
+    
+    <div class="container mx-auto px-4 py-16 relative z-10">
+        <div class="flex flex-col lg:flex-row items-center">
+            <div class="w-full lg:w-1/2 mb-12 lg:mb-0" data-aos="fade-right">
+                <h1 class="text-4xl md:text-5xl font-bold mb-6 leading-tight">Enskripsyon Lekòl Primè ak Segondè</h1>
+                <p class="text-xl opacity-90 mb-8">Enskri pitit ou nan pwogram edikasyon nou an ki gen kalite siperyè. Ranpli fòmilè a anba a pou kòmanse pwosesis la.</p>
+                <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                    <a href="#enskripsyon-form" class="btn-gradient bg-gradient-to-r from-secondary to-yellow-400 text-primary font-semibold px-8 py-3 rounded-full shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1 text-center">
+                        Enskri Kounye a
+                    </a>
+                    <a href="#info-section" class="bg-white bg-opacity-20 hover:bg-opacity-30 text-white font-semibold px-8 py-3 rounded-full transition-all text-center">
+                        Plis Enfòmasyon
+                    </a>
+                </div>
+            </div>
+            <div class="w-full lg:w-1/2 relative" data-aos="fade-left">
+                <!-- <div class="relative z-10 animate-float">
+                    <img src="{% static 'images/education.svg' %}" alt="Edikasyon" class="w-full max-w-lg mx-auto" onerror="this.src='https://dummyimage.com/600x400/000/fff&text=Edikasyon'">
+                </div> -->
+                <div class="absolute top-1/4 right-1/4 w-20 h-20 bg-secondary rounded-lg opacity-20 animate-spin-slow"></div>
+                <div class="absolute bottom-1/4 left-1/3 w-16 h-16 bg-primary-light rounded-full opacity-20 animate-bounce-slow"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Live Counter Section -->
+<section class="py-8 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <div class="flex flex-wrap justify-center items-center gap-8 text-center">
+            <div class="bg-white p-6 rounded-xl shadow-md" data-aos="fade-up">
+                <h3 class="text-lg font-semibold text-gray-600 mb-2">Plas ki Rete</h3>
+                <div class="text-4xl font-bold text-primary" id="available-spots">45</div>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-md" data-aos="fade-up" data-aos-delay="100">
+                <h3 class="text-lg font-semibold text-gray-600 mb-2">Enskripsyon Jodi a</h3>
+                <div class="text-4xl font-bold text-primary" id="today-registrations">12</div>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-md" data-aos="fade-up" data-aos-delay="200">
+                <h3 class="text-lg font-semibold text-gray-600 mb-2">Jou ki Rete</h3>
+                <div class="text-4xl font-bold text-primary" id="days-remaining">14</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Info Section -->
+<section id="info-section" class="py-16">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-16" data-aos="fade-up">
+            <h2 class="text-3xl font-bold text-gray-800 mb-4">Enfòmasyon sou Enskripsyon</h2>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">Aprann plis sou pwosesis enskripsyon nou an ak pwogram edikasyon nou yo.</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+            <div class="bg-white rounded-xl shadow-md p-8" data-aos="fade-right">
+                <h3 class="text-2xl font-bold text-gray-800 mb-4">Lekòl Primè</h3>
+                <ul class="space-y-4 text-gray-600">
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle text-primary mt-1 mr-3"></i>
+                        <span>Pou timoun ki gen laj 6 a 11 lane</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle text-primary mt-1 mr-3"></i>
+                        <span>Pwogram ki baze sou kourikoulòm nasyonal la ak metòd modèn</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle text-primary mt-1 mr-3"></i>
+                        <span>Klas ki gen maksimòm 20 elèv pou atansyon pèsonalize</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle text-primary mt-1 mr-3"></i>
+                        <span>Pwofesè ki gen sètifikasyon ak eksperyans nan edikasyon primè</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle text-primary mt-1 mr-3"></i>
+                        <span>Aktivite andeyò lekòl pou devlopman konplè</span>
+                    </li>
+                </ul>
+                <div class="mt-8">
+                    <h4 class="font-bold text-gray-800 mb-2">Dokiman ki Nesesè:</h4>
+                    <ul class="list-disc pl-5 text-gray-600">
+                        <li>Sètifika nesans</li>
+                        <li>Kanè ane anvan an (si aplikab)</li>
+                        <li>Kat vaksinasyon</li>
+                        <li>Foto paspò</li>
+                        <li>Prèv rezidans</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-xl shadow-md p-8" data-aos="fade-left">
+                <h3 class="text-2xl font-bold text-gray-800 mb-4">Lekòl Segondè</h3>
+                <ul class="space-y-4 text-gray-600">
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle text-primary mt-1 mr-3"></i>
+                        <span>Pou jèn ki gen laj 12 a 18 lane</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle text-primary mt-1 mr-3"></i>
+                        <span>Kourikoulòm konplè ki prepare elèv yo pou inivèsite</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle text-primary mt-1 mr-3"></i>
+                        <span>Pwogram syans, teknoloji, ak matematik avanse</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle text-primary mt-1 mr-3"></i>
+                        <span>Opsyon pou aprann plizyè lang etranje</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle text-primary mt-1 mr-3"></i>
+                        <span>Konsèy akademik ak preparasyon pou karyè</span>
+                    </li>
+                </ul>
+                <div class="mt-8">
+                    <h4 class="font-bold text-gray-800 mb-2">Dokiman ki Nesesè:</h4>
+                    <ul class="list-disc pl-5 text-gray-600">
+                        <li>Sètifika nesans</li>
+                        <li>Kanè ane anvan an</li>
+                        <li>Lèt rekòmandasyon (si disponib)</li>
+                        <li>Kat vaksinasyon</li>
+                        <li>Foto paspò</li>
+                        <li>Prèv rezidans</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Registration Form Section -->
+<section id="enskripsyon-form" class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-16" data-aos="fade-up">
+            <h2 class="text-3xl font-bold text-gray-800 mb-4">Fòmilè Enskripsyon</h2>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">Ranpli fòmilè a anba a pou enskri pitit ou. Nou pral kontakte ou nan 48 èdtan.</p>
+        </div>
+        
+        <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-lg overflow-hidden" data-aos="fade-up">
+            <div class="p-8">
+                <form id="registration-form" class="space-y-6" method="POST">
+                    {% csrf_token %}
+                    <!-- Tip lekòl -->
+                    <div class="mb-8">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">Chwazi Nivo Edikasyon</h3>
+                        <div class="flex flex-wrap gap-4">
+                            <label class="relative flex-1 min-w-[200px] cursor-pointer">
+                                <input type="radio" name="school_level" value="primary" class="peer sr-only" required>
+                                <div class="p-4 border-2 rounded-lg peer-checked:border-primary peer-checked:bg-primary-50 transition-colors">
+                                    <div class="flex items-center">
+                                        <i class="fas fa-school text-2xl mr-3 text-primary"></i>
+                                        <div>
+                                            <h4 class="font-bold">Lekòl Primè</h4>
+                                            <p class="text-sm text-gray-600">Klas 1 a 6</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </label>
+                            
+                            <label class="relative flex-1 min-w-[200px] cursor-pointer">
+                                <input type="radio" name="school_level" value="secondary" class="peer sr-only" required>
+                                <div class="p-4 border-2 rounded-lg peer-checked:border-primary peer-checked:bg-primary-50 transition-colors">
+                                    <div class="flex items-center">
+                                        <i class="fas fa-graduation-cap text-2xl mr-3 text-primary"></i>
+                                        <div>
+                                            <h4 class="font-bold">Lekòl Segondè</h4>
+                                            <p class="text-sm text-gray-600">Klas 7 a 12</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Enfòmasyon elèv -->
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">Enfòmasyon Elèv</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="student_first_name" class="block text-sm font-medium text-gray-700 mb-1">Prenon</label>
+                                <input type="text" id="student_first_name" name="student_first_name" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-primary" required>
+                                <div class="hidden text-red-500 text-sm mt-1" id="student_first_name_error"></div>
+                            </div>
+                            
+                            <div>
+                                <label for="student_last_name" class="block text-sm font-medium text-gray-700 mb-1">Siyati</label>
+                                <input type="text" id="student_last_name" name="student_last_name" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-primary" required>
+                                <div class="hidden text-red-500 text-sm mt-1" id="student_last_name_error"></div>
+                            </div>
+                            
+                            <div>
+                                <label for="student_dob" class="block text-sm font-medium text-gray-700 mb-1">Dat Nesans</label>
+                                <input type="date" id="student_dob" name="student_dob" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-primary" required>
+                                <div class="hidden text-red-500 text-sm mt-1" id="student_dob_error"></div>
+                            </div>
+                            
+                            <div>
+                                <label for="student_gender" class="block text-sm font-medium text-gray-700 mb-1">Sèks</label>
+                                <select id="student_gender" name="student_gender" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-primary" required>
+                                    <option value="">Chwazi...</option>
+                                    <option value="male">Gason</option>
+                                    <option value="female">Fi</option>
+                                    <option value="other">Lòt</option>
+                                </select>
+                                <div class="hidden text-red-500 text-sm mt-1" id="student_gender_error"></div>
+                            </div>
+                            
+                            <div class="md:col-span-2">
+                                <label for="previous_school" class="block text-sm font-medium text-gray-700 mb-1">Lekòl Anvan (si genyen)</label>
+                                <input type="text" id="previous_school" name="previous_school" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-primary">
+                            </div>
+                            
+                            <div>
+                                <label for="grade_applying" class="block text-sm font-medium text-gray-700 mb-1">Klas w ap Aplike pou li</label>
+                                <select id="grade_applying" name="grade_applying" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-primary" required>
+                                    <option value="">Chwazi...</option>
+                                    <optgroup label="Lekòl Primè" id="primary_grades">
+                                        <option value="grade1">1ye Ane</option>
+                                        <option value="grade2">2yèm Ane</option>
+                                        <option value="grade3">3yèm Ane</option>
+                                        <option value="grade4">4yèm Ane</option>
+                                        <option value="grade5">5yèm Ane</option>
+                                        <option value="grade6">6yèm Ane</option>
+                                    </optgroup>
+                                    <optgroup label="Lekòl Segondè" id="secondary_grades">
+                                        <option value="grade7">7yèm Ane</option>
+                                        <option value="grade8">8yèm Ane</option>
+                                        <option value="grade9">9yèm Ane</option>
+                                        <option value="grade10">10yèm Ane</option>
+                                        <option value="grade11">11yèm Ane</option>
+                                        <option value="grade12">12yèm Ane</option>
+                                    </optgroup>
+                                </select>
+                                <div class="hidden text-red-500 text-sm mt-1" id="grade_applying_error"></div>
+                            </div>
+                            
+                            <div>
+                                <label for="academic_year" class="block text-sm font-medium text-gray-700 mb-1">Ane Akademik</label>
+                                <select id="academic_year" name="academic_year" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-primary" required>
+                                    <option value="">Chwazi...</option>
+                                    <option value="2023-2024">2023-2024</option>
+                                    <option value="2024-2025" selected>2024-2025</option>
+                                </select>
+                                <div class="hidden text-red-500 text-sm mt-1" id="academic_year_error"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Enfòmasyon paran/responsab -->
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">Enfòmasyon Paran/Responsab</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="parent_first_name" class="block text-sm font-medium text-gray-700 mb-1">Prenon</label>
+                                <input type="text" id="parent_first_name" name="parent_first_name" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-primary" required>
+                                <div class="hidden text-red-500 text-sm mt-1" id="parent_first_name_error"></div>
+                            </div>
+                            
+                            <div>
+                                <label for="parent_last_name" class="block text-sm font-medium text-gray-700 mb-1">Siyati</label>
+                                <input type="text" id="parent_last_name" name="parent_last_name" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-primary" required>
+                                <div class="hidden text-red-500 text-sm mt-1" id="parent_last_name_error"></div>
+                            </div>
+                            
+                            <div>
+                                <label for="relationship" class="block text-sm font-medium text-gray-700 mb-1">Relasyon ak Elèv</label>
+                                <select id="relationship" name="relationship" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-primary" required>
+                                    <option value="">Chwazi...</option>
+                                    <option value="parent">Paran</option>
+                                    <option value="guardian">Responsab Legal</option>
+                                    <option value="other">Lòt</option>
+                                </select>
+                                <div class="hidden text-red-500 text-sm mt-1" id="relationship_error"></div>
+                            </div>
+                            
+                            <div>
+                                <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">Telefòn</label>
+                                <input type="tel" id="phone" name="phone" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-primary" required>
+                                <div class="hidden text-red-500 text-sm mt-1" id="phone_error"></div>
+                            </div>
+                            
+                            <div class="md:col-span-2">
+                                <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Imèl</label>
+                                <input type="email" id="email" name="email" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-primary" required>
+                                <div class="hidden text-red-500 text-sm mt-1" id="email_error"></div>
+                            </div>
+                            
+                            <div class="md:col-span-2">
+                                <label for="address" class="block text-sm font-medium text-gray-700 mb-1">Adrès</label>
+                                <textarea id="address" name="address" rows="3" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-primary" required></textarea>
+                                <div class="hidden text-red-500 text-sm mt-1" id="address_error"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Enfòmasyon adisyonèl -->
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">Enfòmasyon Adisyonèl</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <label for="special_needs" class="block text-sm font-medium text-gray-700 mb-1">Èske elèv la gen nenpòt bezwen espesyal oswa andikap?</label>
+                                <div class="flex items-center space-x-4">
+                                    <label class="inline-flex items-center">
+                                        <input type="radio" name="special_needs" value="yes" class="text-primary focus:ring-primary">
+                                        <span class="ml-2">Wi</span>
+                                    </label>
+                                    <label class="inline-flex items-center">
+                                        <input type="radio" name="special_needs" value="no" class="text-primary focus:ring-primary" checked>
+                                        <span class="ml-2">Non</span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div id="special_needs_details_container" class="hidden">
+                                <label for="special_needs_details" class="block text-sm font-medium text-gray-700 mb-1">Tanpri bay detay:</label>
+                                <textarea id="special_needs_details" name="special_needs_details" rows="3" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-primary"></textarea>
+                            </div>
+                            
+                            <div>
+                                <label for="emergency_contact" class="block text-sm font-medium text-gray-700 mb-1">Kontak Ijans (Non ak Telefòn)</label>
+                                <input type="text" id="emergency_contact" name="emergency_contact" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-primary" required>
+                                <div class="hidden text-red-500 text-sm mt-1" id="emergency_contact_error"></div>
+                            </div>
+                            
+                            <div>
+                                <label for="how_heard" class="block text-sm font-medium text-gray-700 mb-1">Kijan ou te tande pale de nou?</label>
+                                <select id="how_heard" name="how_heard" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-primary">
+                                    <option value="">Chwazi...</option>
+                                    <option value="friend">Zanmi oswa Fanmi</option>
+                                    <option value="social_media">Rezo Sosyal</option>
+                                    <option value="website">Sit Entènèt</option>
+                                    <option value="newspaper">Jounal</option>
+                                    <option value="other">Lòt</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Akò ak soumisyon -->
+                    <div class="pt-4 border-t">
+                        <div class="mb-6">
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" name="agree_terms" class="text-primary focus:ring-primary" required>
+                                <span class="ml-2 text-gray-700">Mwen dakò ak <a href="{% url 'terms_of_service' %}" class="text-primary hover:underline" target="_blank">Tèm ak Kondisyon</a> yo epi mwen konfime ke tout enfòmasyon yo kòrèk.</span>
+                            </label>
+                            <div class="hidden text-red-500 text-sm mt-1" id="agree_terms_error"></div>
+                        </div>
+                        
+                        <div class="flex justify-center">
+                            <button type="submit" id="submit-btn" class="px-8 py-3 bg-primary hover:bg-primary-dark text-white font-semibold rounded-lg transition-colors flex items-center">
+                                <span>Soumèt Enskripsyon</span>
+                                <span id="loading-spinner" class="ml-2 hidden">
+                                    <i class="fas fa-spinner fa-spin"></i>
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                
+                <!-- Confirmation message (hidden by default) -->
+                <div id="confirmation-message" class="hidden text-center py-8">
+                    <div class="text-5xl text-green-500 mb-4">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-2">Enskripsyon Soumèt!</h3>
+                    <p class="text-gray-600 mb-6">Mèsi pou enskripsyon ou. Nou pral kontakte ou nan 48 èdtan pou konfime enskripsyon an ak bay plis enfòmasyon.</p>
+                    <p class="text-gray-600">Yon imèl konfimasyon te voye bay <span id="confirmation-email" class="font-semibold"></span></p>
+                    <div class="mt-8">
+                        <a href="{% url 'home' %}" class="px-6 py-2 bg-primary hover:bg-primary-dark text-white font-semibold rounded-lg transition-colors">
+                            Retounen nan Paj Akèy
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ Section -->
+<section class="py-16">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-16" data-aos="fade-up">
+            <h2 class="text-3xl font-bold text-gray-800 mb-4">Kesyon Moun Poze Souvan</h2>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">Jwenn repons pou kesyon komen sou pwosesis enskripsyon nou an.</p>
+        </div>
+        
+        <div class="max-w-4xl mx-auto" data-aos="fade-up">
+            <div class="space-y-6">
+                <!-- FAQ Item 1 -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                    <button class="faq-toggle w-full px-6 py-4 text-left flex justify-between items-center focus:outline-none">
+                        <h3 class="text-lg font-semibold text-gray-800">Ki lè pwosesis enskripsyon an kòmanse ak fini?</h3>
+                        <i class="fas fa-chevron-down text-primary transition-transform"></i>
+                    </button>
+                    <div class="faq-content hidden px-6 py-4 border-t">
+                        <p class="text-gray-600">Pwosesis enskripsyon an kòmanse 1ye Mas epi fini 30 Jen chak ane. Sepandan, nou ankouraje fanmi yo enskri bonè paske plas yo ranpli vit.</p>
+                    </div>
+                </div>
+                
+                <!-- FAQ Item 2 -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                    <button class="faq-toggle w-full px-6 py-4 text-left flex justify-between items-center focus:outline-none">
+                        <h3 class="text-lg font-semibold text-gray-800">Èske gen yon frè enskripsyon?</h3>
+                        <i class="fas fa-chevron-down text-primary transition-transform"></i>
+                    </button>
+                    <div class="faq-content hidden px-6 py-4 border-t">
+                        <p class="text-gray-600">Wi, gen yon frè enskripsyon ki pa ranbousab de HTG 1,500 ki dwe peye lè w ap soumèt aplikasyon an. Frè sa a kouvri pwosesis aplikasyon an ak tès evalyasyon yo.</p>
+                    </div>
+                </div>
+                
+                <!-- FAQ Item 3 -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                    <button class="faq-toggle w-full px-6 py-4 text-left flex justify-between items-center focus:outline-none">
+                        <h3 class="text-lg font-semibold text-gray-800">Ki dokiman mwen bezwen pou enskripsyon an?</h3>
+                        <i class="fas fa-chevron-down text-primary transition-transform"></i>
+                    </button>
+                    <div class="faq-content hidden px-6 py-4 border-t">
+                        <p class="text-gray-600">Ou pral bezwen sètifika nesans elèv la, kanè ane anvan an, kat vaksinasyon, foto paspò, ak prèv rezidans. Pou lekòl segondè, nou ka mande tou lèt rekòmandasyon.</p>
+                    </div>
+                </div>
+                
+                <!-- FAQ Item 4 -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                    <button class="faq-toggle w-full px-6 py-4 text-left flex justify-between items-center focus:outline-none">
+                        <h3 class="text-lg font-semibold text-gray-800">Èske gen yon tès admisyon?</h3>
+                        <i class="fas fa-chevron-down text-primary transition-transform"></i>
+                    </button>
+                    <div class="faq-content hidden px-6 py-4 border-t">
+                        <p class="text-gray-600">Wi, tout elèv yo dwe pran yon tès evalyasyon pou detèmine nivo akademik yo. Tès la adapte ak laj elèv la ak nivo klas li. Nou pral pwograme tès la apre nou resevwa aplikasyon ou.</p>
+                    </div>
+                </div>
+                
+                <!-- FAQ Item 5 -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                    <button class="faq-toggle w-full px-6 py-4 text-left flex justify-between items-center focus:outline-none">
+                        <h3 class="text-lg font-semibold text-gray-800">Kijan mwen ka peye frè lekòl yo?</h3>
+                        <i class="fas fa-chevron-down text-primary transition-transform"></i>
+                    </button>
+                    <div class="faq-content hidden px-6 py-4 border-t">
+                        <p class="text-gray-600">Nou ofri plizyè opsyon peman, ki gen ladan peman anyèl, pa semès, oswa mansyèl. Nou aksepte transfè bankè, kat kredi, ak peman an espès nan biwo nou an. Gen yon rabè 5% pou peman anyèl konplè.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <div class="bg-gradient-to-r from-primary to-primary-light rounded-2xl overflow-hidden shadow-xl" data-aos="fade-up">
+            <div class="p-12 md:p-16 text-center">
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">Ou Gen Kesyon?</h2>
+                <p class="text-xl text-white text-opacity-90 mb-8 max-w-3xl mx-auto">Kontakte ekip admisyon nou an pou plis enfòmasyon sou pwogram nou yo ak pwosesis enskripsyon an.</p>
+                <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+                    <a href="{% url 'contact' %}" class="btn-gradient bg-gradient-to-r from-secondary to-yellow-400 text-primary font-semibold px-8 py-3 rounded-full shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1 text-center">
+                        Kontakte Nou
+                    </a>
+                    <a href="tel:+50928123456" class="bg-white text-primary font-semibold px-8 py-3 rounded-full shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1 text-center flex items-center justify-center">
+                        <i class="fas fa-phone-alt mr-2"></i> +509 2812-3456
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Animasyon pou eleman ki gen klas animate-float
+        const floatElements = document.querySelectorAll('.animate-float');
+        floatElements.forEach(element => {
+            element.style.animation = 'float 3s ease-in-out infinite';
+        });
+        
+        // Animasyon pou eleman ki gen klas animate-spin-slow
+        const spinElements = document.querySelectorAll('.animate-spin-slow');
+        spinElements.forEach(element => {
+            element.style.animation = 'spin 15s linear infinite';
+        });
+        
+        // Animasyon pou eleman ki gen klas animate-bounce-slow
+        const bounceElements = document.querySelectorAll('.animate-bounce-slow');
+        bounceElements.forEach(element => {
+            element.style.animation = 'bounce 3s ease-in-out infinite';
+        });
+        
+        // Defini animasyon CSS
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes float {
+                0% { transform: translateY(0px); }
+                50% { transform: translateY(-10px); }
+                100% { transform: translateY(0px); }
+            }
+            
+            @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+            }
+            
+            @keyframes bounce {
+                0%, 100% { transform: translateY(0); }
+                50% { transform: translateY(-20px); }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Fonksyonalite "live" pou kontè yo
+        function updateCounters() {
+            const availableSpots = document.getElementById('available-spots');
+            const todayRegistrations = document.getElementById('today-registrations');
+            const daysRemaining = document.getElementById('days-remaining');
+            
+            // Simile chanjman an dirèk nan plas ki disponib yo
+            if (availableSpots && Math.random() > 0.7) {
+                const currentValue = parseInt(availableSpots.textContent);
+                if (currentValue > 1) {
+                    availableSpots.textContent = currentValue - 1;
+                    
+                    // Ogmante enskripsyon jodi a
+                    if (todayRegistrations) {
+                        const regValue = parseInt(todayRegistrations.textContent);
+                        todayRegistrations.textContent = regValue + 1;
+                    }
+                    
+                    // Efè animasyon
+                    availableSpots.classList.add('text-red-500');
+                    setTimeout(() => {
+                        availableSpots.classList.remove('text-red-500');
+                    }, 1000);
+                }
+            }
+        }
+        
+        // Mete ajou kontè yo chak 30 segonn
+        setInterval(updateCounters, 30000);
+        
+        // Fonksyonalite pou FAQ toggle
+        const faqToggles = document.querySelectorAll('.faq-toggle');
+        faqToggles.forEach(toggle => {
+            toggle.addEventListener('click', function() {
+                const content = this.nextElementSibling;
+                const icon = this.querySelector('i');
+                
+                // Toggle kontni FAQ a
+                content.classList.toggle('hidden');
+                
+                // Wotasyon ikòn an
+                if (content.classList.contains('hidden')) {
+                    icon.style.transform = 'rotate(0deg)';
+                } else {
+                    icon.style.transform = 'rotate(180deg)';
+                }
+            });
+        });
+        
+        // Fonksyonalite pou montre/kache detay bezwen espesyal
+        const specialNeedsRadios = document.querySelectorAll('input[name="special_needs"]');
+        const specialNeedsDetails = document.getElementById('special_needs_details_container');
+        
+        specialNeedsRadios.forEach(radio => {
+            radio.addEventListener('change', function() {
+                if (this.value === 'yes') {
+                    specialNeedsDetails.classList.remove('hidden');
+                } else {
+                    specialNeedsDetails.classList.add('hidden');
+                }
+            });
+        });
+        
+        // Fonksyonalite pou filtre klas selon nivo lekòl
+        const schoolLevelRadios = document.querySelectorAll('input[name="school_level"]');
+        const primaryGrades = document.getElementById('primary_grades');
+        const secondaryGrades = document.getElementById('secondary_grades');
+        const gradeSelect = document.getElementById('grade_applying');
+        
+        schoolLevelRadios.forEach(radio => {
+            radio.addEventListener('change', function() {
+                // Retire tout opsyon aktyèl yo
+                while (gradeSelect.firstChild) {
+                    gradeSelect.removeChild(gradeSelect.firstChild);
+                }
+                
+                // Ajoute opsyon "Chwazi..."
+                const defaultOption = document.createElement('option');
+                defaultOption.value = '';
+                defaultOption.textContent = 'Chwazi...';
+                gradeSelect.appendChild(defaultOption);
+                
+                // Ajoute opsyon ki apwopriye yo
+                if (this.value === 'primary') {
+                    const primaryOptgroup = document.createElement('optgroup');
+                    primaryOptgroup.label = 'Lekòl Primè';
+                    
+                    const options = [
+                        { value: 'grade1', text: '1ye Ane' },
+                        { value: 'grade2', text: '2yèm Ane' },
+                        { value: 'grade3', text: '3yèm Ane' },
+                        { value: 'grade4', text: '4yèm Ane' },
+                        { value: 'grade5', text: '5yèm Ane' },
+                        { value: 'grade6', text: '6yèm Ane' }
+                    ];
+                    
+                    options.forEach(opt => {
+                        const option = document.createElement('option');
+                        option.value = opt.value;
+                        option.textContent = opt.text;
+                        primaryOptgroup.appendChild(option);
+                    });
+                    
+                    gradeSelect.appendChild(primaryOptgroup);
+                } else if (this.value === 'secondary') {
+                    const secondaryOptgroup = document.createElement('optgroup');
+                    secondaryOptgroup.label = 'Lekòl Segondè';
+                    
+                    const options = [
+                        { value: 'grade7', text: '7yèm Ane' },
+                        { value: 'grade8', text: '8yèm Ane' },
+                        { value: 'grade9', text: '9yèm Ane' },
+                        { value: 'grade10', text: '10yèm Ane' },
+                        { value: 'grade11', text: '11yèm Ane' },
+                        { value: 'grade12', text: '12yèm Ane' }
+                    ];
+                    
+                    options.forEach(opt => {
+                        const option = document.createElement('option');
+                        option.value = opt.value;
+                        option.textContent = opt.text;
+                        secondaryOptgroup.appendChild(option);
+                    });
+                    
+                    gradeSelect.appendChild(secondaryOptgroup);
+                }
+            });
+        });
+        
+        // Fonksyonalite pou soumèt fòm nan
+        const form = document.getElementById('registration-form');
+        const submitBtn = document.getElementById('submit-btn');
+        const loadingSpinner = document.getElementById('loading-spinner');
+        const confirmationMessage = document.getElementById('confirmation-message');
+        const confirmationEmail = document.getElementById('confirmation-email');
+        
+        // form.addEventListener('submit', function(e) {
+        //     e.preventDefault();
+            
+        //     // Valide fòm nan
+        //     if (validateForm()) {
+        //         // Montre spinner chajman
+        //         submitBtn.disabled = true;
+        //         loadingSpinner.classList.remove('hidden');
+                
+        //         // Simile soumisyon fòm nan (ta ranplase ak vrè kòd soumisyon)
+        //         setTimeout(() => {
+        //             // Kache fòm nan epi montre mesaj konfimasyon
+        //             submitBtn.disabled = false
+        //             form.classList.add('hidden');
+        //             confirmationMessage.classList.remove('hidden');
+                    
+        //             // Montre imèl ki te antre a
+        //             const email = document.getElementById('email').value;
+        //             confirmationEmail.textContent = email;
+                    
+        //             // Woule monte nan tèt fòm nan
+        //             confirmationMessage.scrollIntoView({ behavior: 'smooth' });
+        //         }, 2000);
+        //     }
+        // });
+        
+        // Fonksyon pou valide fòm nan
+        function validateForm() {
+            let isValid = true;
+            
+            // Valide chan obligatwa yo
+            const requiredFields = [
+                'student_first_name', 'student_last_name', 'student_dob', 'student_gender',
+                'grade_applying', 'academic_year', 'parent_first_name', 'parent_last_name',
+                'relationship', 'phone', 'email', 'address', 'emergency_contact'
+            ];
+            
+            requiredFields.forEach(field => {
+                const input = document.getElementById(field);
+                const errorElement = document.getElementById(`${field}_error`);
+                
+                if (!input.value.trim()) {
+                    isValid = false;
+                    input.classList.add('border-red-500');
+                    
+                    if (errorElement) {
+                        errorElement.textContent = 'Chan sa a obligatwa.';
+                        errorElement.classList.remove('hidden');
+                    }
+                } else {
+                    input.classList.remove('border-red-500');
+                    
+                    if (errorElement) {
+                        errorElement.classList.add('hidden');
+                    }
+                }
+            });
+            
+            // Valide imèl
+            const emailInput = document.getElementById('email');
+            const emailError = document.getElementById('email_error');
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            
+            if (emailInput.value.trim() && !emailRegex.test(emailInput.value.trim())) {
+                isValid = false;
+                emailInput.classList.add('border-red-500');
+                
+                if (emailError) {
+                    emailError.textContent = 'Tanpri antre yon adrès imèl valid.';
+                    emailError.classList.remove('hidden');
+                }
+            }
+            
+            // Valide akò tèm yo
+            const agreeTerms = document.querySelector('input[name="agree_terms"]');
+            const agreeTermsError = document.getElementById('agree_terms_error');
+            
+            if (!agreeTerms.checked) {
+                isValid = false;
+                
+                if (agreeTermsError) {
+                    agreeTermsError.textContent = 'Ou dwe dakò ak tèm ak kondisyon yo.';
+                    agreeTermsError.classList.remove('hidden');
+                }
+            } else {
+                if (agreeTermsError) {
+                    agreeTermsError.classList.add('hidden');
+                }
+            }
+            
+            return isValid;
+        }
+    });
+</script>
+{% endblock %}

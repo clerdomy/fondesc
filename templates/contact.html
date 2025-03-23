@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Contato | PythonLearn{% endblock %}
+{% block title %}Kontak | Fondesc {% endblock %}
 
 {% block content %}
 <!-- Hero Section -->
@@ -12,9 +12,9 @@
     
     <div class="container mx-auto px-4 relative z-10">
         <div class="max-w-3xl mx-auto text-center">
-            <h1 class="text-4xl md:text-5xl font-bold mb-6" data-aos="fade-up">Entre em Contato</h1>
+            <h1 class="text-4xl md:text-5xl font-bold mb-6" data-aos="fade-up">Kontakte Nou</h1>
             <p class="text-xl opacity-90" data-aos="fade-up" data-aos-delay="100">
-                Estamos aqui para ajudar. Envie-nos uma mensagem e responderemos o mais breve possível.
+                Nou la pou ede w. Voye nou yon mesaj epi n ap reponn ou pi vit posib.
             </p>
         </div>
     </div>
@@ -27,7 +27,7 @@
             <!-- Contact Form -->
             <div data-aos="fade-right">
                 <div class="bg-white rounded-xl shadow-md p-8">
-                    <h2 class="text-2xl font-bold text-gray-800 mb-6">Envie-nos uma mensagem</h2>
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6">Voye nou yon mesaj</h2>
                     
                     {% if messages %}
                     <div class="mb-6">
@@ -60,20 +60,20 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <!-- Name Field -->
                             <div>
-                                <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Nome completo</label>
+                                <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Non konplè</label>
                                 <input type="text" id="name" name="name" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary" required>
                             </div>
                             
                             <!-- Email Field -->
                             <div>
-                                <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                                <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Imèl</label>
                                 <input type="email" id="email" name="email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary" required>
                             </div>
                         </div>
                         
                         <!-- Phone Field -->
                         <div>
-                            <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">Telefone</label>
+                            <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">Telefòn</label>
                             <div class="flex">
                                 <span class="inline-flex items-center px-3 text-gray-500 bg-gray-100 border border-r-0 border-gray-300 rounded-l-md">
                                     +509
@@ -84,28 +84,28 @@
                         
                         <!-- Subject Field -->
                         <div>
-                            <label for="subject" class="block text-sm font-medium text-gray-700 mb-1">Assunto</label>
+                            <label for="subject" class="block text-sm font-medium text-gray-700 mb-1">Sijè</label>
                             <select id="subject" name="subject" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary" required>
-                                <option value="">Selecione um assunto</option>
-                                <option value="general">Informações gerais</option>
-                                <option value="courses">Dúvidas sobre cursos</option>
-                                <option value="technical">Suporte técnico</option>
-                                <option value="billing">Pagamentos e faturamento</option>
-                                <option value="partnership">Parcerias</option>
-                                <option value="other">Outro assunto</option>
+                                <option value="">Chwazi yon sijè</option>
+                                <option value="general">Enfòmasyon jeneral</option>
+                                <option value="courses">Kesyon sou kou yo</option>
+                                <option value="technical">Sipò teknik</option>
+                                <option value="billing">Peman ak faktirasyon</option>
+                                <option value="partnership">Patenarya</option>
+                                <option value="other">Lòt sijè</option>
                             </select>
                         </div>
                         
                         <!-- Message Field -->
                         <div>
-                            <label for="message" class="block text-sm font-medium text-gray-700 mb-1">Mensagem</label>
+                            <label for="message" class="block text-sm font-medium text-gray-700 mb-1">Mesaj</label>
                             <textarea id="message" name="message" rows="5" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary resize-none" required></textarea>
                         </div>
                         
                         <!-- Submit Button -->
                         <div>
                             <button type="submit" class="w-full bg-primary hover:bg-primary-dark text-white font-semibold py-3 px-4 rounded-lg transition-colors shadow-md hover:shadow-lg">
-                                <i class="fas fa-paper-plane mr-2"></i>Enviar Mensagem
+                                <i class="fas fa-paper-plane mr-2"></i>Voye Mesaj
                             </button>
                         </div>
                     </form>
@@ -115,7 +115,7 @@
             <!-- Contact Information -->
             <div data-aos="fade-left">
                 <div class="bg-white rounded-xl shadow-md p-8 mb-8">
-                    <h2 class="text-2xl font-bold text-gray-800 mb-6">Informações de Contato</h2>
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6">Enfòmasyon Kontak</h2>
                     
                     <div class="space-y-6">
                         <!-- Address -->
@@ -126,10 +126,10 @@
                                 </div>
                             </div>
                             <div>
-                                <h3 class="text-lg font-semibold text-gray-800 mb-1">Endereço</h3>
+                                <h3 class="text-lg font-semibold text-gray-800 mb-1">Adrès</h3>
                                 <p class="text-gray-600">
-                                    Delmas 60, Rue Metellus #7<br>
-                                    Port-au-Prince, Haiti
+                                    Delmas 60, Ri Metellus #7<br>
+                                    Pòtoprens, Ayiti
                                 </p>
                             </div>
                         </div>
@@ -142,7 +142,7 @@
                                 </div>
                             </div>
                             <div>
-                                <h3 class="text-lg font-semibold text-gray-800 mb-1">Telefone</h3>
+                                <h3 class="text-lg font-semibold text-gray-800 mb-1">Telefòn</h3>
                                 <p class="text-gray-600">
                                     <a href="tel:+50934567890" class="hover:text-primary transition-colors">+509 3456 7890</a><br>
                                     <a href="tel:+50928901234" class="hover:text-primary transition-colors">+509 2890 1234</a>
@@ -158,10 +158,10 @@
                                 </div>
                             </div>
                             <div>
-                                <h3 class="text-lg font-semibold text-gray-800 mb-1">Email</h3>
+                                <h3 class="text-lg font-semibold text-gray-800 mb-1">Imèl</h3>
                                 <p class="text-gray-600">
-                                    <a href="mailto:info@pythonlearn.ht" class="hover:text-primary transition-colors">info@pythonlearn.ht</a><br>
-                                    <a href="mailto:suporte@pythonlearn.ht" class="hover:text-primary transition-colors">suporte@pythonlearn.ht</a>
+                                    <a href="mailto:info@fondesc.com" class="hover:text-primary transition-colors">info@fondesc.com</a><br>
+                                    <a href="mailto:suporte@fondesc.com" class="hover:text-primary transition-colors">sipò@fondesc.com</a>
                                 </p>
                             </div>
                         </div>
@@ -174,10 +174,10 @@
                                 </div>
                             </div>
                             <div>
-                                <h3 class="text-lg font-semibold text-gray-800 mb-1">Horário de Atendimento</h3>
+                                <h3 class="text-lg font-semibold text-gray-800 mb-1">Orè Sèvis</h3>
                                 <p class="text-gray-600">
-                                    Segunda a Sexta: 8h às 18h<br>
-                                    Sábado: 9h às 13h
+                                    Lendi a Vandredi: 8è a 18è<br>
+                                    Samdi: 9è a 13è
                                 </p>
                             </div>
                         </div>
@@ -186,7 +186,7 @@
                 
                 <!-- Social Media -->
                 <div class="bg-white rounded-xl shadow-md p-8">
-                    <h2 class="text-2xl font-bold text-gray-800 mb-6">Siga-nos</h2>
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6">Swiv Nou</h2>
                     
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                         <a href="#" class="flex flex-col items-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
@@ -227,9 +227,9 @@
 <section class="py-16 bg-gray-50">
     <div class="container mx-auto px-4">
         <div class="text-center mb-12" data-aos="fade-up">
-            <h2 class="text-3xl font-bold text-gray-800 mb-4">Nossa Localização</h2>
+            <h2 class="text-3xl font-bold text-gray-800 mb-4">Lokalizasyon Nou</h2>
             <p class="text-xl text-gray-600 max-w-3xl mx-auto">
-                Visite nosso escritório em Port-au-Prince
+                Vizite biwo nou nan Pòtoprens
             </p>
             <div class="w-20 h-1 bg-primary mx-auto mt-6"></div>
         </div>
@@ -247,9 +247,9 @@
 <section class="py-16 bg-white">
     <div class="container mx-auto px-4">
         <div class="text-center mb-12" data-aos="fade-up">
-            <h2 class="text-3xl font-bold text-gray-800 mb-4">Perguntas Frequentes sobre Contato</h2>
+            <h2 class="text-3xl font-bold text-gray-800 mb-4">Kesyon Moun Poze Souvan sou Kontak</h2>
             <p class="text-xl text-gray-600 max-w-3xl mx-auto">
-                Respostas para as dúvidas mais comuns sobre como entrar em contato conosco
+                Repons pou kesyon ki pi komen sou kijan pou kontakte nou
             </p>
             <div class="w-20 h-1 bg-primary mx-auto mt-6"></div>
         </div>
@@ -259,12 +259,12 @@
                 <!-- FAQ Item 1 -->
                 <div class="border border-gray-200 rounded-lg overflow-hidden">
                     <div class="bg-gray-50 px-4 py-3 flex justify-between items-center cursor-pointer faq-header">
-                        <h3 class="font-semibold text-gray-800">Qual é o tempo médio de resposta para mensagens?</h3>
+                        <h3 class="font-semibold text-gray-800">Ki tan mwayèn repons pou mesaj yo?</h3>
                         <i class="fas fa-chevron-down text-gray-600 transition-transform"></i>
                     </div>
                     <div class="faq-content hidden px-4 py-3">
                         <p class="text-gray-600">
-                            Nosso tempo médio de resposta é de 24 horas úteis. Para questões urgentes, recomendamos entrar em contato por telefone para um atendimento mais rápido.
+                            Tan mwayèn repons nou an se 24 èdtan travay. Pou kesyon ijan, nou rekòmande kontakte nou pa telefòn pou yon sèvis pi rapid.
                         </p>
                     </div>
                 </div>
@@ -272,12 +272,12 @@
                 <!-- FAQ Item 2 -->
                 <div class="border border-gray-200 rounded-lg overflow-hidden">
                     <div class="bg-gray-50 px-4 py-3 flex justify-between items-center cursor-pointer faq-header">
-                        <h3 class="font-semibold text-gray-800">Vocês oferecem suporte em crioulo haitiano?</h3>
+                        <h3 class="font-semibold text-gray-800">Èske nou ofri sipò an kreyòl ayisyen?</h3>
                         <i class="fas fa-chevron-down text-gray-600 transition-transform"></i>
                     </div>
                     <div class="faq-content hidden px-4 py-3">
                         <p class="text-gray-600">
-                            Sim, nossa equipe de suporte é bilíngue e oferece atendimento tanto em crioulo haitiano quanto em francês. Basta indicar sua preferência de idioma ao entrar em contato conosco.
+                            Wi, ekip sipò nou an pale de lang epi ofri sèvis ni an kreyòl ayisyen ni an fransè. Jis endike preferans lang ou lè w kontakte nou.
                         </p>
                     </div>
                 </div>
@@ -285,12 +285,12 @@
                 <!-- FAQ Item 3 -->
                 <div class="border border-gray-200 rounded-lg overflow-hidden">
                     <div class="bg-gray-50 px-4 py-3 flex justify-between items-center cursor-pointer faq-header">
-                        <h3 class="font-semibold text-gray-800">Como posso agendar uma visita ao escritório?</h3>
+                        <h3 class="font-semibold text-gray-800">Kijan mwen ka pran randevou pou vizite biwo a?</h3>
                         <i class="fas fa-chevron-down text-gray-600 transition-transform"></i>
                     </div>
                     <div class="faq-content hidden px-4 py-3">
                         <p class="text-gray-600">
-                            Para agendar uma visita ao nosso escritório, entre em contato por telefone ou email com pelo menos 24 horas de antecedência. Isso nos permite garantir que teremos um membro da equipe disponível para atendê-lo adequadamente.
+                            Pou pran randevou pou vizite biwo nou an, kontakte nou pa telefòn oswa imèl omwen 24 èdtan davans. Sa pèmèt nou asire ke n ap gen yon manm ekip la disponib pou resevwa ou kòrèkteman.
                         </p>
                     </div>
                 </div>
@@ -298,12 +298,12 @@
                 <!-- FAQ Item 4 -->
                 <div class="border border-gray-200 rounded-lg overflow-hidden">
                     <div class="bg-gray-50 px-4 py-3 flex justify-between items-center cursor-pointer faq-header">
-                        <h3 class="font-semibold text-gray-800">Como posso reportar problemas técnicos na plataforma?</h3>
+                        <h3 class="font-semibold text-gray-800">Kijan mwen ka rapòte pwoblèm teknik sou platfòm nan?</h3>
                         <i class="fas fa-chevron-down text-gray-600 transition-transform"></i>
                     </div>
                     <div class="faq-content hidden px-4 py-3">
                         <p class="text-gray-600">
-                            Para reportar problemas técnicos, envie um email para suporte@pythonlearn.ht com o assunto "Problema Técnico" ou use o formulário de contato selecionando "Suporte técnico" no campo de assunto. Inclua detalhes como o dispositivo utilizado, navegador e uma descrição detalhada do problema.
+                            Pou rapòte pwoblèm teknik, voye yon imèl bay sipò@fondesc.com ak sijè a "Pwoblèm Teknik" oswa itilize fòmilè kontak la epi chwazi "Sipò teknik" nan chan sijè a. Enkli detay tankou aparèy ou itilize, navigatè, ak yon deskripsyon detaye pwoblèm nan.
                         </p>
                     </div>
                 </div>
@@ -311,12 +311,12 @@
                 <!-- FAQ Item 5 -->
                 <div class="border border-gray-200 rounded-lg overflow-hidden">
                     <div class="bg-gray-50 px-4 py-3 flex justify-between items-center cursor-pointer faq-header">
-                        <h3 class="font-semibold text-gray-800">Vocês oferecem suporte fora do horário comercial?</h3>
+                        <h3 class="font-semibold text-gray-800">Èske nou ofri sipò andeyò lè travay yo?</h3>
                         <i class="fas fa-chevron-down text-gray-600 transition-transform"></i>
                     </div>
                     <div class="faq-content hidden px-4 py-3">
                         <p class="text-gray-600">
-                            Para questões urgentes fora do horário comercial, oferecemos suporte limitado via email. Mensagens enviadas fora do horário comercial serão respondidas no próximo dia útil, mas tentamos monitorar emails urgentes mesmo fora do expediente.
+                            Pou kesyon ijan andeyò lè travay yo, nou ofri sipò limite via imèl. Mesaj ki voye andeyò lè travay yo ap jwenn repons nan pwochen jou travay la, men nou eseye siveye imèl ijan yo menm andeyò lè travay yo.
                         </p>
                     </div>
                 </div>
@@ -329,16 +329,16 @@
 <section class="py-16 bg-gradient-to-r from-primary to-primary-light text-white">
     <div class="container mx-auto px-4">
         <div class="max-w-3xl mx-auto text-center" data-aos="fade-up">
-            <h2 class="text-3xl font-bold mb-6">Ainda tem dúvidas?</h2>
+            <h2 class="text-3xl font-bold mb-6">Ou toujou gen kesyon?</h2>
             <p class="text-xl opacity-90 mb-8">
-                Nossa equipe está pronta para ajudar. Entre em contato conosco hoje mesmo!
+                Ekip nou an pare pou ede w. Kontakte nou jodi a!
             </p>
             <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
                 <a href="tel:+50934567890" class="btn-gradient bg-gradient-to-r from-secondary to-yellow-400 text-primary font-semibold px-8 py-3 rounded-full shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1 text-center">
-                    <i class="fas fa-phone-alt mr-2"></i> Ligue Agora
+                    <i class="fas fa-phone-alt mr-2"></i> Rele Kounye a
                 </a>
-                <a href="mailto:info@pythonlearn.ht" class="bg-white bg-opacity-20 hover:bg-opacity-30 text-white font-semibold px-8 py-3 rounded-full transition-all text-center">
-                    <i class="fas fa-envelope mr-2"></i> Envie um Email
+                <a href="mailto:info@fondesc.ht" class="bg-white bg-opacity-20 hover:bg-opacity-30 text-white font-semibold px-8 py-3 rounded-full transition-all text-center">
+                    <i class="fas fa-envelope mr-2"></i> Voye yon Imèl
                 </a>
             </div>
         </div>
@@ -429,4 +429,3 @@
     });
 </script>
 {% endblock %}
-
