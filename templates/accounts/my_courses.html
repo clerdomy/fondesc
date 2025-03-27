@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Meus Cursos | PythonLearn{% endblock %}
+{% block title %}Kou Mwen Yo | Fondesc {% endblock %}
 
 {% block content %}
 <div class="bg-gray-50 min-h-screen py-12">
@@ -9,11 +9,11 @@
         <!-- Cabeçalho da página -->
         <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8" data-aos="fade-up">
             <div class="mb-4 md:mb-0">
-                <h1 class="text-3xl font-bold text-gray-800">Meus Cursos</h1>
-                <p class="text-gray-600 mt-1">Gerencie e continue seu aprendizado</p>
+                <h1 class="text-3xl font-bold text-gray-800">Kou Mwen Yo</h1>
+                <p class="text-gray-600 mt-1">Jere epi kontinye aprantisaj ou</p>
             </div>
             <a href="{% url 'course_list' %}" class="btn-gradient bg-gradient-to-r from-primary to-primary-light text-white font-semibold px-6 py-3 rounded-lg shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5">
-                <i class="fas fa-plus mr-2"></i>Explorar Novos Cursos
+                <i class="fas fa-plus mr-2"></i>Eksplore Nouvo Kou
             </a>
         </div>
 
@@ -22,13 +22,13 @@
             <div class="border-b border-gray-200">
                 <nav class="flex overflow-x-auto" aria-label="Tabs">
                     <button class="tab-button text-gray-600 py-4 px-6 block hover:text-primary border-b-2 border-transparent font-medium whitespace-nowrap active" id="all-tab" data-tab="all-courses">
-                        <i class="fas fa-th-large mr-2"></i>Todos os Cursos
+                        <i class="fas fa-th-large mr-2"></i>Tout Kou Yo
                     </button>
                     <button class="tab-button text-gray-600 py-4 px-6 block hover:text-primary border-b-2 border-transparent font-medium whitespace-nowrap" id="in-progress-tab" data-tab="in-progress">
-                        <i class="fas fa-spinner mr-2"></i>Em Progresso
+                        <i class="fas fa-spinner mr-2"></i>An Pwogrè
                     </button>
                     <button class="tab-button text-gray-600 py-4 px-6 block hover:text-primary border-b-2 border-transparent font-medium whitespace-nowrap" id="completed-tab" data-tab="completed">
-                        <i class="fas fa-check-circle mr-2"></i>Concluídos
+                        <i class="fas fa-check-circle mr-2"></i>Konplete
                     </button>
                 </nav>
             </div>
@@ -45,7 +45,7 @@
                         <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end">
                             <div class="p-4 w-full">
                                 <div class="flex justify-between items-center text-white mb-1">
-                                    <span class="font-medium">Progresso</span>
+                                    <span class="font-medium">Pwogrè</span>
                                     <span class="font-bold">{{ course_data.progress }}%</span>
                                 </div>
                                 <div class="w-full bg-gray-300 bg-opacity-40 rounded-full h-2">
@@ -63,7 +63,7 @@
                         {% if course_data.progress == 100 %}
                         <div class="absolute top-4 right-4">
                             <span class="px-3 py-1 bg-green-500 text-white text-xs font-semibold rounded-full shadow-md flex items-center">
-                                <i class="fas fa-check-circle mr-1"></i> Concluído
+                                <i class="fas fa-check-circle mr-1"></i> Konplete
                             </span>
                         </div>
                         {% endif %}
@@ -76,7 +76,7 @@
                         <div class="flex items-center text-sm text-gray-500 mb-4">
                             <div class="flex items-center mr-4">
                                 <i class="far fa-clock mr-1 text-primary"></i>
-                                <span>{{ course_data.enrollment.course.duration_in_weeks }} semanas</span>
+                                <span>{{ course_data.enrollment.course.duration_in_weeks }} semèn</span>
                             </div>
                             {% if course_data.last_accessed %}
                             <div class="flex items-center">
@@ -88,11 +88,11 @@
                         
                         <a href="{% url 'course_learn' slug=course_data.enrollment.course.slug %}" class="block w-full text-center py-3 px-4 bg-primary hover:bg-primary-dark text-white font-semibold rounded-lg transition-colors">
                             {% if course_data.progress == 0 %}
-                            <i class="fas fa-play mr-2"></i>Iniciar Curso
+                            <i class="fas fa-play mr-2"></i>Kòmanse Kou
                             {% elif course_data.progress == 100 %}
-                            <i class="fas fa-redo mr-2"></i>Revisar Curso
+                            <i class="fas fa-redo mr-2"></i>Revize Kou
                             {% else %}
-                            <i class="fas fa-book-reader mr-2"></i>Continuar Aprendendo
+                            <i class="fas fa-book-reader mr-2"></i>Kontinye Aprann
                             {% endif %}
                         </a>
                     </div>
@@ -105,10 +105,10 @@
                     <div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
                         <i class="fas fa-book text-gray-400 text-4xl"></i>
                     </div>
-                    <h3 class="text-2xl font-bold text-gray-800 mb-2">Você ainda não se inscreveu em nenhum curso</h3>
-                    <p class="text-gray-600 mb-6 max-w-md mx-auto">Explore nosso catálogo de cursos para encontrar o curso perfeito para você e comece sua jornada de aprendizado.</p>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-2">Ou poko enskri nan okenn kou</h3>
+                    <p class="text-gray-600 mb-6 max-w-md mx-auto">Eksplore katalòg kou nou yo pou jwenn kou ki pafè pou ou epi kòmanse vwayaj aprantisaj ou.</p>
                     <a href="{% url 'course_list' %}" class="inline-block py-3 px-6 bg-primary hover:bg-primary-dark text-white font-semibold rounded-lg transition-colors">
-                        <i class="fas fa-search mr-2"></i>Explorar Cursos
+                        <i class="fas fa-search mr-2"></i>Eksplore Kou Yo
                     </a>
                 </div>
             </div>
@@ -127,7 +127,7 @@
                         <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end">
                             <div class="p-4 w-full">
                                 <div class="flex justify-between items-center text-white mb-1">
-                                    <span class="font-medium">Progresso</span>
+                                    <span class="font-medium">Pwogrè</span>
                                     <span class="font-bold">{{ course_data.progress }}%</span>
                                 </div>
                                 <div class="w-full bg-gray-300 bg-opacity-40 rounded-full h-2">
@@ -150,7 +150,7 @@
                         <div class="flex items-center text-sm text-gray-500 mb-4">
                             <div class="flex items-center mr-4">
                                 <i class="far fa-clock mr-1 text-primary"></i>
-                                <span>{{ course_data.enrollment.course.duration_in_weeks }} semanas</span>
+                                <span>{{ course_data.enrollment.course.duration_in_weeks }} semèn</span>
                             </div>
                             {% if course_data.last_accessed %}
                             <div class="flex items-center">
@@ -161,7 +161,7 @@
                         </div>
                         
                         <a href="{% url 'course_learn' slug=course_data.enrollment.course.slug %}" class="block w-full text-center py-3 px-4 bg-primary hover:bg-primary-dark text-white font-semibold rounded-lg transition-colors">
-                            <i class="fas fa-book-reader mr-2"></i>Continuar Aprendendo
+                            <i class="fas fa-book-reader mr-2"></i>Kontinye Aprann
                         </a>
                     </div>
                 </div>
@@ -175,14 +175,14 @@
                     <div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
                         <i class="fas fa-tasks text-gray-400 text-4xl"></i>
                     </div>
-                    <h3 class="text-2xl font-bold text-gray-800 mb-2">Nenhum curso em progresso</h3>
-                    <p class="text-gray-600 mb-6 max-w-md mx-auto">Você não tem nenhum curso que tenha começado mas ainda não concluiu.</p>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-2">Pa gen kou an pwogrè</h3>
+                    <p class="text-gray-600 mb-6 max-w-md mx-auto">Ou pa gen okenn kou ou te kòmanse men ou poko fini.</p>
                     <div class="flex flex-col sm:flex-row justify-center gap-3">
                         <a href="{% url 'course_list' %}" class="py-3 px-6 bg-primary hover:bg-primary-dark text-white font-semibold rounded-lg transition-colors">
-                            <i class="fas fa-search mr-2"></i>Explorar Cursos
+                            <i class="fas fa-search mr-2"></i>Eksplore Kou Yo
                         </a>
                         <button class="py-3 px-6 bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 font-semibold rounded-lg transition-colors" data-tab="all-courses">
-                            <i class="fas fa-th-large mr-2"></i>Ver Todos os Cursos
+                            <i class="fas fa-th-large mr-2"></i>Wè Tout Kou Yo
                         </button>
                     </div>
                 </div>
@@ -194,14 +194,14 @@
                     <div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
                         <i class="fas fa-tasks text-gray-400 text-4xl"></i>
                     </div>
-                    <h3 class="text-2xl font-bold text-gray-800 mb-2">Nenhum curso em progresso</h3>
-                    <p class="text-gray-600 mb-6 max-w-md mx-auto">Você não tem nenhum curso que tenha começado mas ainda não concluiu.</p>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-2">Pa gen kou an pwogrè</h3>
+                    <p class="text-gray-600 mb-6 max-w-md mx-auto">Ou pa gen okenn kou ou te kòmanse men ou poko fini.</p>
                     <div class="flex flex-col sm:flex-row justify-center gap-3">
                         <a href="{% url 'course_list' %}" class="py-3 px-6 bg-primary hover:bg-primary-dark text-white font-semibold rounded-lg transition-colors">
-                            <i class="fas fa-search mr-2"></i>Explorar Cursos
+                            <i class="fas fa-search mr-2"></i>Eksplore Kou Yo
                         </a>
                         <button class="py-3 px-6 bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 font-semibold rounded-lg transition-colors" data-tab="all-courses">
-                            <i class="fas fa-th-large mr-2"></i>Ver Todos os Cursos
+                            <i class="fas fa-th-large mr-2"></i>Wè Tout Kou Yo
                         </button>
                     </div>
                 </div>
@@ -221,7 +221,7 @@
                         <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end">
                             <div class="p-4 w-full">
                                 <div class="flex justify-between items-center text-white mb-1">
-                                    <span class="font-medium">Concluído</span>
+                                    <span class="font-medium">Konplete</span>
                                     <span class="font-bold">100%</span>
                                 </div>
                                 <div class="w-full bg-gray-300 bg-opacity-40 rounded-full h-2">
@@ -238,7 +238,7 @@
                         <!-- Badge de conclusão -->
                         <div class="absolute top-4 right-4">
                             <span class="px-3 py-1 bg-green-500 text-white text-xs font-semibold rounded-full shadow-md flex items-center">
-                                <i class="fas fa-check-circle mr-1"></i> Concluído
+                                <i class="fas fa-check-circle mr-1"></i> Konplete
                             </span>
                         </div>
                     </div>
@@ -250,22 +250,22 @@
                         <div class="flex items-center text-sm text-gray-500 mb-4">
                             <div class="flex items-center mr-4">
                                 <i class="far fa-clock mr-1 text-primary"></i>
-                                <span>{{ course_data.enrollment.course.duration_in_weeks }} semanas</span>
+                                <span>{{ course_data.enrollment.course.duration_in_weeks }} semèn</span>
                             </div>
                             {% if course_data.last_accessed %}
                             <div class="flex items-center">
                                 <i class="fas fa-trophy mr-1 text-green-500"></i>
-                                <span>Concluído em {{ course_data.last_accessed|date:"d M, Y" }}</span>
+                                <span>Konplete nan {{ course_data.last_accessed|date:"d M, Y" }}</span>
                             </div>
                             {% endif %}
                         </div>
                         
                         <div class="flex flex-col sm:flex-row gap-2">
                             <a href="{% url 'course_learn' slug=course_data.enrollment.course.slug %}" class="flex-1 text-center py-3 px-4 bg-primary hover:bg-primary-dark text-white font-semibold rounded-lg transition-colors">
-                                <i class="fas fa-redo mr-2"></i>Revisar
+                                <i class="fas fa-redo mr-2"></i>Revize
                             </a>
                             <a href="{% url 'certificate_view' course_data.enrollment.course.slug %}" class="flex-1 text-center py-3 px-4 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-lg transition-colors">
-                                <i class="fas fa-certificate mr-2"></i>Certificado
+                                <i class="fas fa-certificate mr-2"></i>Sètifika
                             </a>
                         </div>
                     </div>
@@ -280,14 +280,14 @@
                     <div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
                         <i class="fas fa-trophy text-gray-400 text-4xl"></i>
                     </div>
-                    <h3 class="text-2xl font-bold text-gray-800 mb-2">Nenhum curso concluído ainda</h3>
-                    <p class="text-gray-600 mb-6 max-w-md mx-auto">Continue aprendendo para concluir seus cursos e ganhar certificados!</p>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-2">Pa gen kou konplete ankò</h3>
+                    <p class="text-gray-600 mb-6 max-w-md mx-auto">Kontinye aprann pou fini kou ou yo epi genyen sètifika!</p>
                     <div class="flex flex-col sm:flex-row justify-center gap-3">
                         <a href="{% url 'course_list' %}" class="py-3 px-6 bg-primary hover:bg-primary-dark text-white font-semibold rounded-lg transition-colors">
-                            <i class="fas fa-search mr-2"></i>Explorar Cursos
+                            <i class="fas fa-search mr-2"></i>Eksplore Kou Yo
                         </a>
                         <button class="py-3 px-6 bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 font-semibold rounded-lg transition-colors" data-tab="in-progress">
-                            <i class="fas fa-spinner mr-2"></i>Ver Em Progresso
+                            <i class="fas fa-spinner mr-2"></i>Wè An Pwogrè
                         </button>
                     </div>
                 </div>
@@ -299,14 +299,14 @@
                     <div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
                         <i class="fas fa-trophy text-gray-400 text-4xl"></i>
                     </div>
-                    <h3 class="text-2xl font-bold text-gray-800 mb-2">Nenhum curso concluído ainda</h3>
-                    <p class="text-gray-600 mb-6 max-w-md mx-auto">Continue aprendendo para concluir seus cursos e ganhar certificados!</p>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-2">Pa gen kou konplete ankò</h3>
+                    <p class="text-gray-600 mb-6 max-w-md mx-auto">Kontinye aprann pou fini kou ou yo epi genyen sètifika!</p>
                     <div class="flex flex-col sm:flex-row justify-center gap-3">
                         <a href="{% url 'course_list' %}" class="py-3 px-6 bg-primary hover:bg-primary-dark text-white font-semibold rounded-lg transition-colors">
-                            <i class="fas fa-search mr-2"></i>Explorar Cursos
+                            <i class="fas fa-search mr-2"></i>Eksplore Kou Yo
                         </a>
                         <button class="py-3 px-6 bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 font-semibold rounded-lg transition-colors" data-tab="in-progress">
-                            <i class="fas fa-spinner mr-2"></i>Ver Em Progresso
+                            <i class="fas fa-spinner mr-2"></i>Wè An Pwogrè
                         </button>
                     </div>
                 </div>
@@ -387,4 +387,3 @@
 </script>
 {% endblock %}
 {% endblock %}
-

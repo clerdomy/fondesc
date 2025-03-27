@@ -12,10 +12,11 @@ class User(AbstractUser):
     
     # User type choices
     USER_TYPE_CHOICES = (
-        ('student', 'Student'),
-        ('instructor', 'Instructor'),
-        ('admin', 'Administrator'),
+    ('student', 'Etidyan'),
+    ('instructor', 'Enstriktè'),
+    ('admin', 'Administratè'),
     )
+
     user_type = models.CharField(max_length=10, choices=USER_TYPE_CHOICES, default='student')
     
     # Additional fields for instructors

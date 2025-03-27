@@ -1,8 +1,6 @@
-# yourapp/admin.py
 from django.contrib import admin
-from .models import User  # Import your models
+from .models import User
 
-# Optional: Customize the admin interface for User model
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
     list_display = ('username', 'email', 'user_type', 'is_staff', 'date_joined')

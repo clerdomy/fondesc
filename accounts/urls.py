@@ -2,38 +2,54 @@ from django.urls import path
 from django.contrib.auth import views as auth_views
 from . import views
 
-urlpatterns = [
-    path('register/', views.RegisterView.as_view(), name='register'),
-    path('login/', auth_views.LoginView.as_view(
-        template_name='accounts/login.html',
-        authentication_form=views.CustomAuthenticationForm
-    ), name='login'),
-    path('password-change/', views.password_change_view, name='password_change'),
-    path('notification-settings/', views.notification_settings_view, name='notification_settings'),
+# Authentication URLs
+authentication_patterns = [
+    path('enskri/', views.RegisterView.as_view(), name='register'),  # Register
+    path('konsekte/', views.CustomLoginView.as_view(), name='login'), # Login
+    path('dekonekte/', views.logout_view, name='logout'),  # Logout
+]
 
-    path('logout/', views.logout_view, name='logout'),
-    path('profile/', views.ProfileView.as_view(), name='profile'),
-    path('dashboard/', views.dashboard_view, name='dashboard'),
-    path('my-courses/', views.my_courses_view, name='my_courses'),
-    path('instructor-dashboard/', views.instructor_dashboard_view, name='instructor_dashboard'),
+# User Profile & Dashboard URLs
+user_patterns = [
+    path('profil/', views.ProfileView.as_view(), name='profile'),  # User profile
+    path('panèl/', views.dashboard_view, name='dashboard'),  # Dashboard
+    path('kour-mwen/', views.my_courses_view, name='my_courses'),  # My courses
+    path('panèl-enstriktè/', views.instructor_dashboard_view, name='instructor_dashboard'),  # Instructor dashboard
+]
 
-    # Password reset URLs with explicit template names
-    path('password-reset/', 
-         auth_views.PasswordResetView.as_view(
-             template_name='accounts/password_reset.html',
-             email_template_name='accounts/password_reset_email.html',
-             subject_template_name='accounts/password_reset_subject.txt',
-             success_url='/accounts/password-reset/done/'
-         ), 
-         name='password_reset'),
+# Password Management URLs
+password_patterns = [
+    path('chanjman-modpas/', views.password_change_view, name='password_change'),  # Change password
+    
+    path('rekipere-modpas/', auth_views.PasswordResetView.as_view(  # Password reset
+        template_name='accounts/password_reset.html',
+        email_template_name='accounts/password_reset_email.html',
+        subject_template_name='accounts/password_reset_subject.txt',
+        success_url='/kont/rekipere-modpas-fini/'
+    ), name='password_reset'),
 
-    path('password-reset/done/', auth_views.PasswordResetDoneView.as_view(
+    path('rekipere-modpas-fini/', auth_views.PasswordResetDoneView.as_view(  # Password reset done
         template_name='accounts/password_reset_done.html'
     ), name='password_reset_done'),
-    path('password-reset-confirm/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(
+
+    path('konfime-modpas/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(  # Password reset confirmation
         template_name='accounts/password_reset_confirm.html'
     ), name='password_reset_confirm'),
-    path('password-reset-complete/', auth_views.PasswordResetCompleteView.as_view(
+
+    path('modpas-reyisi/', auth_views.PasswordResetCompleteView.as_view(  # Password reset complete
         template_name='accounts/password_reset_complete.html'
     ), name='password_reset_complete'),
 ]
+
+# Notification Settings URLs
+settings_patterns = [
+    path('anviwonman-notifikasyon/', views.notification_settings_view, name='notification_settings'),  # Notification settings
+]
+
+# Combine all URL patterns
+urlpatterns = (
+    authentication_patterns + 
+    user_patterns + 
+    password_patterns + 
+    settings_patterns
+)

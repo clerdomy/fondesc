@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Dashboard | PythonLearn{% endblock %}
+{% block title %}Tablo Kontwòl | Fondesc {% endblock %}
 
 {% block content %}
 <div class="container mx-auto py-12 px-4">
@@ -23,10 +23,10 @@
                     
                     <div class="grid grid-cols-1 gap-2">
                         <a href="{% url 'profile' %}" class="py-2 px-4 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-lg transition-colors">
-                            <i class="fas fa-user-circle mr-2 text-primary"></i> Meu Perfil
+                            <i class="fas fa-user-circle mr-2 text-primary"></i> Pwofil Mwen
                         </a>
                         <a href="{% url 'my_courses' %}" class="py-2 px-4 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-lg transition-colors">
-                            <i class="fas fa-graduation-cap mr-2 text-primary"></i> Meus Cursos
+                            <i class="fas fa-graduation-cap mr-2 text-primary"></i> Kou Mwen Yo
                         </a>
                     </div>
                 </div>
@@ -35,23 +35,23 @@
             <div class="mt-6 bg-white rounded-xl shadow-md overflow-hidden" data-aos="fade-right" data-aos-delay="100">
                 <div class="p-6">
                     <h5 class="font-bold text-gray-800 mb-4 flex items-center">
-                        <i class="fas fa-chart-line text-primary mr-2"></i> Estatísticas
+                        <i class="fas fa-chart-line text-primary mr-2"></i> Estatistik
                     </h5>
                     <div class="space-y-4">
                         <div class="flex justify-between items-center">
-                            <span class="text-gray-600">Cursos inscritos</span>
+                            <span class="text-gray-600">Kou enskri</span>
                             <span class="font-bold text-gray-800">{{ enrollments_count }}</span>
                         </div>
                         <div class="flex justify-between items-center">
-                            <span class="text-gray-600">Cursos em progresso</span>
+                            <span class="text-gray-600">Kou an pwogrè</span>
                             <span class="font-bold text-gray-800">{{ in_progress_courses|length }}</span>
                         </div>
                         <div class="flex justify-between items-center">
-                            <span class="text-gray-600">Cursos concluídos</span>
+                            <span class="text-gray-600">Kou konplete</span>
                             <span class="font-bold text-gray-800">{{ completed_courses|length }}</span>
                         </div>
                         <div class="flex justify-between items-center">
-                            <span class="text-gray-600">Certificados</span>
+                            <span class="text-gray-600">Sètifika</span>
                             <span class="font-bold text-gray-800">{{ certificates|length }}</span>
                         </div>
                     </div>
@@ -64,17 +64,17 @@
             <!-- Mensagem de boas-vindas -->
             <div class="bg-white rounded-xl shadow-md overflow-hidden mb-8" data-aos="fade-up">
                 <div class="p-6">
-                    <h2 class="text-2xl font-bold text-gray-800 mb-2">Bem-vindo(a), {{ user.first_name|default:user.username }}!</h2>
-                    <p class="text-gray-600">Acompanhe seu progresso e continue aprendendo.</p>
+                    <h2 class="text-2xl font-bold text-gray-800 mb-2">Byenveni, {{ user.first_name|default:user.username }}!</h2>
+                    <p class="text-gray-600">Swiv pwogrè ou epi kontinye aprann.</p>
                 </div>
             </div>
             
             <!-- Cursos em progresso -->
             <div class="mb-8" data-aos="fade-up" data-aos-delay="100">
                 <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-xl font-bold text-gray-800">Cursos em Progresso</h3>
-                    <a href="{% url 'my_courses' %}?tab=in-progress" class="text-primary hover:text-primary-dark transition-colors">
-                        Ver todos <i class="fas fa-arrow-right ml-1"></i>
+                    <h3 class="text-xl font-bold text-gray-800">Kou an Pwogrè</h3>
+                    <a href="{% url 'my_courses' %}#in-progress" class="text-primary hover:text-primary-dark transition-colors">
+                        Wè tout <i class="fas fa-arrow-right ml-1"></i>
                     </a>
                 </div>
                 
@@ -87,7 +87,7 @@
                             <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end">
                                 <div class="p-4 w-full">
                                     <div class="flex justify-between items-center text-white mb-1">
-                                        <span class="font-medium">Progresso</span>
+                                        <span class="font-medium">Pwogrè</span>
                                         <span class="font-bold">{{ course_data.progress }}%</span>
                                     </div>
                                     <div class="w-full bg-gray-300 bg-opacity-40 rounded-full h-2">
@@ -99,7 +99,7 @@
                         <div class="p-4">
                             <h4 class="font-bold text-gray-800 mb-2 line-clamp-1">{{ course_data.course.title }}</h4>
                             <a href="{% url 'course_learn' slug=course_data.course.slug %}" class="block w-full text-center py-2 px-4 bg-primary hover:bg-primary-dark text-white font-medium rounded-lg transition-colors mt-2">
-                                Continuar
+                                Kontinye
                             </a>
                         </div>
                     </div>
@@ -110,10 +110,10 @@
                     <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
                         <i class="fas fa-book text-gray-400 text-2xl"></i>
                     </div>
-                    <h4 class="font-bold text-gray-800 mb-2">Nenhum curso em progresso</h4>
-                    <p class="text-gray-600 mb-4">Comece a aprender hoje mesmo!</p>
+                    <h4 class="font-bold text-gray-800 mb-2">Pa gen kou an pwogrè</h4>
+                    <p class="text-gray-600 mb-4">Kòmanse aprann jodi a menm!</p>
                     <a href="{% url 'course_list' %}" class="inline-block py-2 px-6 bg-primary hover:bg-primary-dark text-white font-medium rounded-lg transition-colors">
-                        Explorar Cursos
+                        Eksplore Kou Yo
                     </a>
                 </div>
                 {% endif %}
@@ -122,9 +122,9 @@
             <!-- Cursos concluídos recentemente -->
             <div class="mb-8" data-aos="fade-up" data-aos-delay="200">
                 <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-xl font-bold text-gray-800">Cursos Concluídos</h3>
-                    <a href="{% url 'my_courses' %}?tab=completed" class="text-primary hover:text-primary-dark transition-colors">
-                        Ver todos <i class="fas fa-arrow-right ml-1"></i>
+                    <h3 class="text-xl font-bold text-gray-800">Kou Konplete</h3>
+                    <a href="{% url 'my_courses' %}#completed" class="text-primary hover:text-primary-dark transition-colors">
+                        Wè tout <i class="fas fa-arrow-right ml-1"></i>
                     </a>
                 </div>
                 
@@ -136,7 +136,7 @@
                             <img src="{{ course.thumbnail.url }}" class="w-full h-40 object-cover" alt="{{ course.title }}">
                             <div class="absolute top-3 right-3">
                                 <span class="px-3 py-1 bg-green-500 text-white text-xs font-semibold rounded-full shadow-md flex items-center">
-                                    <i class="fas fa-check-circle mr-1"></i> Concluído
+                                    <i class="fas fa-check-circle mr-1"></i> Konplete
                                 </span>
                             </div>
                         </div>
@@ -144,10 +144,10 @@
                             <h4 class="font-bold text-gray-800 mb-2 line-clamp-1">{{ course.title }}</h4>
                             <div class="flex space-x-2">
                                 <a href="{% url 'course_learn' slug=course.slug %}" class="flex-1 text-center py-2 px-3 bg-primary hover:bg-primary-dark text-white font-medium rounded-lg transition-colors text-sm">
-                                    Revisar
+                                    Revize
                                 </a>
                                 <a href="{% url 'certificate_view' course.slug %}" class="flex-1 text-center py-2 px-3 bg-green-500 hover:bg-green-600 text-white font-medium rounded-lg transition-colors text-sm">
-                                    Certificado
+                                    Sètifika
                                 </a>
                             </div>
                         </div>
@@ -159,106 +159,112 @@
                     <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
                         <i class="fas fa-trophy text-gray-400 text-2xl"></i>
                     </div>
-                    <h4 class="font-bold text-gray-800 mb-2">Nenhum curso concluído</h4>
-                    <p class="text-gray-600 mb-4">Continue estudando para concluir seus cursos!</p>
+                    <h4 class="font-bold text-gray-800 mb-2">Pa gen kou konplete</h4>
+                    <p class="text-gray-600 mb-4">Kontinye etidye pou fini kou ou yo!</p>
                     <a href="{% url 'my_courses' %}" class="inline-block py-2 px-6 bg-primary hover:bg-primary-dark text-white font-medium rounded-lg transition-colors">
-                        Meus Cursos
+                        Kou Mwen Yo
                     </a>
                 </div>
                 {% endif %}
             </div>
             
-            <!-- Recomendações de cursos -->
             <div class="mb-8" data-aos="fade-up" data-aos-delay="300">
                 <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-xl font-bold text-gray-800">Recomendados para Você</h3>
+                    <h3 class="text-xl font-bold text-gray-800">Rekòmande pou Ou</h3>
                     <a href="{% url 'course_list' %}" class="text-primary hover:text-primary-dark transition-colors">
-                        Ver todos <i class="fas fa-arrow-right ml-1"></i>
+                        Wè tout <i class="fas fa-arrow-right ml-1"></i>
                     </a>
                 </div>
                 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <!-- Cursos recomendados (estáticos para demonstração) -->
-                    <div class="bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg transform hover:-translate-y-1">
-                        <div class="relative">
-                            <img src="https://via.placeholder.com/400x200?text=Python+Avancado" class="w-full h-40 object-cover" alt="Python Avançado">
-                            <div class="absolute top-3 left-3">
-                                <span class="px-3 py-1 bg-primary text-white text-xs font-semibold rounded-full shadow-md">
-                                    Avançado
-                                </span>
-                            </div>
-                        </div>
-                        <div class="p-4">
-                            <h4 class="font-bold text-gray-800 mb-2">Python Avançado: Recursos Poderosos</h4>
-                            <p class="text-gray-600 text-sm mb-3 line-clamp-2">Explore recursos avançados do Python como geradores, decoradores, metaclasses e mais.</p>
-                            <div class="flex justify-between items-center">
-                                <span class="font-bold text-primary">HTG 74,99</span>
-                                <a href="#" class="py-1 px-3 bg-secondary hover:bg-secondary-dark text-primary font-medium rounded-lg transition-colors text-sm">
-                                    Ver Detalhes
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg transform hover:-translate-y-1">
-                        <div class="relative">
-                            <img src="https://via.placeholder.com/400x200?text=Data+Science" class="w-full h-40 object-cover" alt="Data Science">
-                            <div class="absolute top-3 left-3">
-                                <span class="px-3 py-1 bg-primary text-white text-xs font-semibold rounded-full shadow-md">
-                                    Intermediário
-                                </span>
-                            </div>
-                        </div>
-                        <div class="p-4">
-                            <h4 class="font-bold text-gray-800 mb-2">Python para Ciência de Dados</h4>
-                            <p class="text-gray-600 text-sm mb-3 line-clamp-2">Domine as principais bibliotecas Python para análise e visualização de dados.</p>
-                            <div class="flex justify-between items-center">
-                                <span class="font-bold text-primary">HTG 69,99</span>
-                                <a href="#" class="py-1 px-3 bg-secondary hover:bg-secondary-dark text-primary font-medium rounded-lg transition-colors text-sm">
-                                    Ver Detalhes
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg transform hover:-translate-y-1">
-                        <div class="relative">
-                            <img src="https://via.placeholder.com/400x200?text=Machine+Learning" class="w-full h-40 object-cover" alt="Machine Learning">
-                            <div class="absolute top-3 left-3">
-                                <span class="px-3 py-1 bg-primary text-white text-xs font-semibold rounded-full shadow-md">
-                                    Avançado
-                                </span>
-                            </div>
-                            <div class="absolute top-3 right-3">
-                                <span class="px-3 py-1 bg-red-500 text-white text-xs font-semibold rounded-full shadow-md">
-                                    -20%
-                                </span>
-                            </div>
-                        </div>
-                        <div class="p-4">
-                            <h4 class="font-bold text-gray-800 mb-2">Machine Learning com Python</h4>
-                            <p class="text-gray-600 text-sm mb-3 line-clamp-2">Aprenda a criar modelos de machine learning para resolver problemas reais.</p>
-                            <div class="flex justify-between items-center">
-                                <div>
-                                    <span class="font-bold text-primary">HTG 63,99</span>
-                                    <span class="text-gray-500 line-through text-sm ml-2">HTG 79,99</span>
+                <!-- Carrossel para mobile / Grid para desktop -->
+                <div class="block md:hidden course-swiper relative">
+                    <div class="overflow-hidden">
+                        <div class="course-swiper-wrapper flex transition-transform duration-300 ease-in-out">
+                            {% for course in recommended_course %}
+                            <div class="course-slide w-full flex-shrink-0">
+                                <div class="bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg transform hover:-translate-y-1 mx-2">
+                                    <div class="relative">
+                                        <img src="{{ course.thumbnail.url }}" class="w-full h-48 object-cover" alt="{{ course.title }}">
+                                        <div class="absolute top-3 left-3">
+                                            <span class="px-3 py-1 bg-primary text-white text-xs font-semibold rounded-full shadow-md">
+                                                {{ course.level }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="p-4">
+                                        <h4 class="font-bold text-gray-800 mb-2">{{course.title }}</h4>
+                                        <p class="text-gray-600 text-sm mb-3 line-clamp-2">{{ course.short_description|truncatechars:100 }}</p>
+                                        <div class="flex justify-between items-center">
+                                        {% if course.discount_price %}
+                                        <span class="text-primary font-bold">${{ course.discount_price }}</span>
+                                        {% else %}
+                                        <span class="text-primary font-bold">${{ course.price }}</span>
+                                        {% endif %}
+                                        <a href="{% url 'course_detail' course.slug %}" class="py-1 px-3 bg-secondary hover:bg-secondary-dark text-primary font-medium rounded-lg transition-colors text-sm">
+                                            Wè Detay
+                                        </a>
+                                        </div>
+                                    </div>
                                 </div>
-                                <a href="#" class="py-1 px-3 bg-secondary hover:bg-secondary-dark text-primary font-medium rounded-lg transition-colors text-sm">
-                                    Ver Detalhes
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    
+                    <!-- Indicadores de navegação (dots) -->
+                    <div class="course-swiper-pagination flex justify-center mt-4">
+                        {% for i in recommended_course %}
+                        <button class="w-2 h-2 rounded-full bg-gray-300 mx-1 focus:outline-none course-swiper-dot {% if forloop.first %}active bg-primary{% endif %}" data-index="{{ forloop.counter0 }}"></button>
+                        {% endfor %}
+                    </div>
+                    
+                    <!-- Setas de navegação (opcional) -->
+                    <button class="course-swiper-prev absolute top-1/2 left-0 transform -translate-y-1/2 bg-white/80 rounded-full p-2 shadow-md z-10 focus:outline-none">
+                        <i class="fas fa-chevron-left text-gray-600"></i>
+                    </button>
+                    <button class="course-swiper-next absolute top-1/2 right-0 transform -translate-y-1/2 bg-white/80 rounded-full p-2 shadow-md z-10 focus:outline-none">
+                        <i class="fas fa-chevron-right text-gray-600"></i>
+                    </button>
+                </div>
+                
+                <!-- Grid para tablets e desktop -->
+                <div class="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {% for course in recommended_course %}
+                    <div class="bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg transform hover:-translate-y-1" data-aos="fade-up" data-aos-delay="{{ forloop.counter|add:'100' }}">
+                        <div class="relative">
+                            <img src="{{ course.thumbnail.url }}" class="w-full h-40 object-cover" alt="{{ course.title }}">
+                            <div class="absolute top-3 left-3">
+                                <span class="px-3 py-1 bg-primary text-white text-xs font-semibold rounded-full shadow-md">
+                                    {{ course.level }}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h4 class="font-bold text-gray-800 mb-2">{{ curse.title }}</h4>
+                            <p class="text-gray-600 text-sm mb-3 line-clamp-2">{{ course.short_description|truncatechars:100 }}</p>
+                            <div class="flex justify-between items-center">
+                            {% if course.discount_price %}
+                            <span class="text-primary font-bold">${{ course.discount_price }}</span>
+                            {% else %}
+                            <span class="text-primary font-bold">${{ course.price }}</span>
+                            {% endif %}
+                            <a href="{% url 'course_detail' course.slug %}" class="py-1 px-3 bg-secondary hover:bg-secondary-dark text-primary font-medium rounded-lg transition-colors text-sm">
+                                    Wè Detay
                                 </a>
                             </div>
                         </div>
                     </div>
+                    {% endfor %}
                 </div>
             </div>
-            
+             
             <!-- Certificates Section -->
             <div class="mt-5" data-aos="fade-up" data-aos-delay="400">
                 <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-xl font-bold text-gray-800">Meus Certificados</h2>
+                    <h2 class="text-xl font-bold text-gray-800">Sètifika Mwen Yo</h2>
                     {% if certificates %}
-                    <a href="{% url 'my_courses' %}?tab=completed" class="text-primary hover:text-primary-dark transition-colors">
-                        Ver todos <i class="fas fa-arrow-right ml-1"></i>
+                    <a href="{% url 'my_courses' %}#completed" class="text-primary hover:text-primary-dark transition-colors">
+                        Wè tout <i class="fas fa-arrow-right ml-1"></i>
                     </a>
                     {% endif %}
                 </div>
@@ -272,14 +278,14 @@
                                 <i class="fas fa-certificate text-primary fa-2x me-3"></i>
                                 <h5 class="font-bold text-gray-800">{{ certificate.course.title }}</h5>
                             </div>
-                            <p class="text-gray-600 text-sm mb-3">Certificado emitido em {{ certificate.created_at|date:"d/m/Y" }}</p>
+                            <p class="text-gray-600 text-sm mb-3">Sètifika emèt nan {{ certificate.created_at|date:"d/m/Y" }}</p>
                             <p class="text-gray-500 text-xs mb-4">Nº {{ certificate.certificate_number }}</p>
                             <div class="flex space-x-2">
                                 <a href="#" class="flex-1 text-center py-2 px-3 bg-gray-100 hover:bg-gray-200 text-gray-800 font-medium rounded-lg transition-colors text-sm" target="_blank">
-                                    <i class="fas fa-eye mr-1"></i> Visualizar
+                                    <i class="fas fa-eye mr-1"></i> Gade
                                 </a>
                                 <a href="#" class="flex-1 text-center py-2 px-3 bg-primary hover:bg-primary-dark text-white font-medium rounded-lg transition-colors text-sm" download>
-                                    <i class="fas fa-download mr-1"></i> Baixar
+                                    <i class="fas fa-download mr-1"></i> Telechaje
                                 </a>
                             </div>
                         </div>
@@ -291,10 +297,10 @@
                     <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
                         <i class="fas fa-certificate text-gray-400 text-2xl"></i>
                     </div>
-                    <h4 class="font-bold text-gray-800 mb-2">Nenhum certificado ainda</h4>
-                    <p class="text-gray-600 mb-4">Complete um curso para obter seu primeiro certificado.</p>
+                    <h4 class="font-bold text-gray-800 mb-2">Pa gen sètifika ankò</h4>
+                    <p class="text-gray-600 mb-4">Konplete yon kou pou jwenn premye sètifika ou.</p>
                     <a href="{% url 'course_list' %}" class="inline-block py-2 px-6 bg-primary hover:bg-primary-dark text-white font-medium rounded-lg transition-colors">
-                        Explorar Cursos
+                        Eksplore Kou Yo
                     </a>
                 </div>
                 {% endif %}
@@ -302,5 +308,98 @@
         </div>
     </div>
 </div>
-{% endblock %}
 
+<!-- JavaScript para o carrossel -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Elementos do carrossel
+        const wrapper = document.querySelector('.course-swiper-wrapper');
+        const slides = document.querySelectorAll('.course-slide');
+        const dots = document.querySelectorAll('.course-swiper-dot');
+        const prevBtn = document.querySelector('.course-swiper-prev');
+        const nextBtn = document.querySelector('.course-swiper-next');
+        
+        if (!wrapper || slides.length === 0) return;
+        
+        let currentIndex = 0;
+        const slideWidth = 100; // 100% da largura
+        
+        // Função para atualizar o carrossel
+        function updateCarousel() {
+            // Atualizar a posição do wrapper
+            wrapper.style.transform = `translateX(-${currentIndex * slideWidth}%)`;
+            
+            // Atualizar os dots
+            dots.forEach((dot, index) => {
+                if (index === currentIndex) {
+                    dot.classList.add('active', 'bg-primary');
+                    dot.classList.remove('bg-gray-300');
+                } else {
+                    dot.classList.remove('active', 'bg-primary');
+                    dot.classList.add('bg-gray-300');
+                }
+            });
+        }
+        
+        // Event listeners para os dots
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                currentIndex = index;
+                updateCarousel();
+            });
+        });
+        
+        // Event listeners para os botões de navegação
+        if (prevBtn) {
+            prevBtn.addEventListener('click', () => {
+                if (currentIndex > 0) {
+                    currentIndex--;
+                    updateCarousel();
+                }
+            });
+        }
+        
+        if (nextBtn) {
+            nextBtn.addEventListener('click', () => {
+                if (currentIndex < slides.length - 1) {
+                    currentIndex++;
+                    updateCarousel();
+                }
+            });
+        }
+        
+        // Suporte para gestos de swipe
+        let touchStartX = 0;
+        let touchEndX = 0;
+        
+        wrapper.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+        
+        wrapper.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, { passive: true });
+        
+        function handleSwipe() {
+            const swipeThreshold = 50; // Mínimo de pixels para considerar um swipe
+            
+            if (touchEndX < touchStartX - swipeThreshold) {
+                // Swipe para a esquerda (próximo slide)
+                if (currentIndex < slides.length - 1) {
+                    currentIndex++;
+                    updateCarousel();
+                }
+            }
+            
+            if (touchEndX > touchStartX + swipeThreshold) {
+                // Swipe para a direita (slide anterior)
+                if (currentIndex > 0) {
+                    currentIndex--;
+                    updateCarousel();
+                }
+            }
+        }
+    });
+    </script>
+{% endblock %}

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Platfòm Kou Python{% endblock %}</title>
+    <title>{% block title %}FondescPlatfòm{% endblock %}</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com" ></script>
     </script>
@@ -101,8 +101,8 @@
         <div class="bg-primary-dark py-2 px-4 hidden md:block">
             <div class="container mx-auto flex justify-between items-center text-white text-sm">
                 <div class="flex items-center space-x-4">
-                    <a href="mailto:info@pythonlearn.com" class="flex items-center hover:text-secondary transition-colors">
-                        <i class="fas fa-envelope mr-2"></i> info@pythonlearn.com
+                    <a href="mailto:info@fondesc.com" class="flex items-center hover:text-secondary transition-colors">
+                        <i class="fas fa-envelope mr-2"></i> info@fondesc.com
                     </a>
                     <a href="tel:+1234567890" class="flex items-center hover:text-secondary transition-colors">
                         <i class="fas fa-phone-alt mr-2"></i> (123) 456-7890
@@ -258,33 +258,6 @@
     </header>
 
     <main class="flex-grow">
-        {% if messages %}
-            <div class="container mx-auto px-4 mt-6">
-                {% for message in messages %}
-                    <div class="flex items-center p-4 mb-4 rounded-lg shadow-md {% if message.tags == 'success' %}bg-green-50 border-l-4 border-green-500{% elif message.tags == 'warning' %}bg-yellow-50 border-l-4 border-yellow-500{% elif message.tags == 'error' %}bg-red-50 border-l-4 border-red-500{% else %}bg-blue-50 border-l-4 border-blue-500{% endif %}" role="alert" data-aos="fade-up">
-                        <div class="flex-shrink-0 mr-3">
-                            {% if message.tags == 'success' %}
-                                <i class="fas fa-check-circle text-green-500 text-xl"></i>
-                            {% elif message.tags == 'warning' %}
-                                <i class="fas fa-exclamation-triangle text-yellow-500 text-xl"></i>
-                            {% elif message.tags == 'error' %}
-                                <i class="fas fa-times-circle text-red-500 text-xl"></i>
-                            {% else %}
-                                <i class="fas fa-info-circle text-blue-500 text-xl"></i>
-                            {% endif %}
-                        </div>
-                        <div class="flex-1 text-sm font-medium {% if message.tags == 'success' %}text-green-700{% elif message.tags == 'warning' %}text-yellow-700{% elif message.tags == 'error' %}text-red-700{% else %}text-blue-700{% endif %}">
-                            {{ message }}
-                        </div>
-                        <button type="button" class="ml-auto -mx-1.5 -my-1.5 rounded-lg focus:ring-2 p-1.5 inline-flex h-8 w-8 {% if message.tags == 'success' %}text-green-500 hover:bg-green-100 focus:ring-green-400{% elif message.tags == 'warning' %}text-yellow-500 hover:bg-yellow-100 focus:ring-yellow-400{% elif message.tags == 'error' %}text-red-500 hover:bg-red-100 focus:ring-red-400{% else %}text-blue-500 hover:bg-blue-100 focus:ring-blue-400{% endif %}" data-dismiss-target="#alert-1" aria-label="Close">
-                            <span class="sr-only">Fèmen</span>
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>
-                {% endfor %}
-            </div>
-        {% endif %}
-
         {% block content %}{% endblock %}
     </main>
 

@@ -1,15 +1,15 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Register | PythonLearn{% endblock %}
+{% block title %}Enskri | Fondesc {% endblock %}
 
 {% block content %}
 <div class="container mx-auto py-12 px-4">
     <div class="max-w-2xl mx-auto">
         <!-- Cabeçalho da página -->
         <div class="text-center mb-8" data-aos="fade-up">
-            <h1 class="text-3xl font-bold text-gray-800 mb-2">Create Your Account</h1>
-            <p class="text-gray-600">Join our community of Python learners</p>
+            <h1 class="text-3xl font-bold text-gray-800 mb-2">Kreye Kont Ou</h1>
+            <p class="text-gray-600">Antre nan kominote moun k ap aprann Fondesc</p>
         </div>
         
         <!-- Cartão de registro -->
@@ -37,7 +37,7 @@
                     
                     <!-- Username field -->
                     <div>
-                        <label for="{{ form.username.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">Username</label>
+                        <label for="{{ form.username.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">Non Itilizatè</label>
                         <input type="text" name="username" id="{{ form.username.id_for_label }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary transition-colors" {% if form.username.value %}value="{{ form.username.value }}"{% endif %} required>
                         {% if form.username.errors %}
                         <p class="mt-1 text-sm text-red-600">
@@ -50,7 +50,7 @@
                     
                     <!-- Email field -->
                     <div>
-                        <label for="{{ form.email.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                        <label for="{{ form.email.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">Imèl</label>
                         <input type="email" name="email" id="{{ form.email.id_for_label }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary transition-colors" {% if form.email.value %}value="{{ form.email.value }}"{% endif %} required>
                         {% if form.email.errors %}
                         <p class="mt-1 text-sm text-red-600">
@@ -63,7 +63,7 @@
                     
                     <!-- Password field -->
                     <div>
-                        <label for="{{ form.password1.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                        <label for="{{ form.password1.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">Modpas</label>
                         <input type="password" name="password1" id="{{ form.password1.id_for_label }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary transition-colors" required>
                         {% if form.password1.errors %}
                         <p class="mt-1 text-sm text-red-600">
@@ -72,12 +72,12 @@
                             {% endfor %}
                         </p>
                         {% endif %}
-                        <p class="mt-1 text-xs text-gray-500">Your password must be at least 8 characters and can't be entirely numeric.</p>
+                        <p class="mt-1 text-xs text-gray-500">Modpas ou dwe gen omwen 8 karaktè epi li pa kapab konpozé sèlman ak chif.</p>
                     </div>
                     
                     <!-- Confirm Password field -->
                     <div>
-                        <label for="{{ form.password2.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">Confirm Password</label>
+                        <label for="{{ form.password2.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">Konfime Modpas</label>
                         <input type="password" name="password2" id="{{ form.password2.id_for_label }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary transition-colors" required>
                         {% if form.password2.errors %}
                         <p class="mt-1 text-sm text-red-600">
@@ -91,13 +91,13 @@
                     <!-- Submit button -->
                     <div>
                         <button type="submit" class="w-full bg-gradient-to-r from-primary to-primary-light text-white font-semibold py-3 px-4 rounded-lg shadow hover:shadow-lg transition-all transform hover:-translate-y-0.5">
-                            Create Account
+                            Kreye Kont
                         </button>
                     </div>
                     
                     <!-- Login link -->
                     <div class="text-center mt-6">
-                        <p class="text-gray-600">Already have an account? <a href="{% url 'login' %}" class="text-primary hover:text-primary-light font-medium">Log in</a></p>
+                        <p class="text-gray-600">Ou gen yon kont deja? <a href="{% url 'login' %}" class="text-primary hover:text-primary-light font-medium">Konekte</a></p>
                     </div>
                 </form>
             </div>
@@ -110,8 +110,8 @@
                     <i class="fas fa-shield-alt text-primary text-xl"></i>
                 </div>
                 <div class="ml-4">
-                    <h5 class="font-semibold text-gray-800">Secure Registration</h5>
-                    <p class="text-gray-600 text-sm">Your data is encrypted and never shared with third parties.</p>
+                    <h5 class="font-semibold text-gray-800">Enskripsyon Sekirize</h5>
+                    <p class="text-gray-600 text-sm">Done ou yo kripte epi yo pa janm pataje ak lòt konpayi.</p>
                 </div>
             </div>
         </div>
