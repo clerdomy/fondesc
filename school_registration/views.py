@@ -63,7 +63,7 @@ def enrollment_view(request):
                 print(f"Erè nan voye imèl: {e}")
             
             messages.success(request, 'Enskripsyon ou te soumèt avèk siksè!')
-            return render(request, 'enrollment_success.html', {
+            return render(request, 'school_registration/enrollment_success.html', {
                 'enrollment': enrollment,
                 'document_upload_url': enrollment.get_document_upload_url(),
                 'application_status_url': enrollment.get_application_status_url()

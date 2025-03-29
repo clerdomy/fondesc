@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Certificado: {{ course.title }} | PythonLearn{% endblock %}
+{% block title %}Certificado: {{ course.title }} | Fondesc{% endblock %}
 
 {% block extra_css %}
 <style>
@@ -138,12 +138,12 @@
       <div class="front">
         <div id="certificateFront" class="certificate-page certificate-container certificate-border p-8 shadow-lg">
           <!-- Watermark -->
-          <div class="watermark certificate-font">PYTHONLEARN</div>
+          <div class="watermark certificate-font">fondesc</div>
           
           <!-- Cabeçalho -->
           <div class="flex justify-between items-center mb-6">
             <div class="flex items-center">
-              <img src="{% static 'img/logo.png' %}" alt="Logo PythonLearn" class="h-16">
+              <img src="{% static 'img/logo.png' %}" alt="Logo Fondesc" class="h-16">
             </div>
             <div class="text-right">
               <div class="text-sm text-gray-600">Certificado Nº</div>
@@ -172,7 +172,7 @@
             <div class="text-center mb-6 md:mb-0">
               <div class="border-t-2 border-gray-400 w-48 mx-auto pt-2">
                 <p class="font-bold">Diretor Acadêmico</p>
-                <p class="text-sm text-gray-600">PythonLearn</p>
+                <p class="text-sm text-gray-600">Fondesc</p>
               </div>
             </div>
             
@@ -310,7 +310,7 @@
           <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ request.build_absolute_uri }}" target="_blank" class="btn btn-outline-primary">
             <i class="fab fa-linkedin me-2"></i> LinkedIn
           </a>
-          <a href="https://twitter.com/intent/tweet?text=Acabei%20de%20concluir%20o%20curso%20{{ course.title|urlencode }}%20na%20PythonLearn!&url={{ request.build_absolute_uri }}" target="_blank" class="btn btn-outline-primary">
+          <a href="https://twitter.com/intent/tweet?text=Acabei%20de%20concluir%20o%20curso%20{{ course.title|urlencode }}%20na%20fondesc!&url={{ request.build_absolute_uri }}" target="_blank" class="btn btn-outline-primary">
             <i class="fab fa-twitter me-2"></i> Twitter
           </a>
           <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" target="_blank" class="btn btn-outline-primary">

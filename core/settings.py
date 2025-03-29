@@ -13,7 +13,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = 1#os.environ.get("DEBUG", "False").lower() in ("true", "1", "t", "yes", "on")
+DEBUG = os.environ.get("DEBUG", "False").lower() in ("true", "1", "t", "yes", "on")
 
 ALLOWED_HOSTS = ['*']
 
@@ -130,8 +130,6 @@ LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
 LOGIN_URL = 'login'
 
-# Email settings (for development)
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # Stripe settings (for payments)
 STRIPE_PUBLIC_KEY = os.environ.get('STRIPE_PUBLIC_KEY')

@@ -92,6 +92,9 @@
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         }
     </style>
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/favicon/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'img/favicon/favicon-16x16.png' %}">
+    <link rel="apple-touch-icon" href="{% static 'img/favicon/apple-touch-icon.png' %}">
     {% block extra_css %}{% endblock %}
 </head>
 <body class="min-h-screen flex flex-col bg-gray-50">
@@ -159,8 +162,8 @@
                 <!-- Lyen navigasyon pou desktop -->
                 <div class="hidden md:flex items-center space-x-8" data-aos="fade-down" data-aos-delay="100">
                     <a href="{% url 'home' %}" class="nav-link text-white hover:text-secondary transition-colors {% if request.path == '/' %}active{% endif %}">Akèy</a>
-                    <a href="{% url 'course_list' %}" class="nav-link text-white hover:text-secondary transition-colors {% if '/courses/' in request.path %}active{% endif %}">Kou yo</a>
-                    <a href="{% url 'about' %}" class="nav-link text-white hover:text-secondary transition-colors {% if '/about/' in request.path %}active{% endif %}">Sou Nou</a>
+                    <a href="{% url 'course_list' %}" class="nav-link text-white hover:text-secondary transition-colors {% if '/kou/' in request.path %}active{% endif %}">Kou yo</a>
+                    <a href="{% url 'about' %}" class="nav-link text-white hover:text-secondary transition-colors {% if '/sou-nou/' in request.path %}active{% endif %}">Sou Nou</a>
                     <a href="{% url 'contact' %}" class="nav-link text-white hover:text-secondary transition-colors {% if '/contact/' in request.path %}active{% endif %}">Kontakte</a>
                     <a href="{% url 'project_list' %}" class="nav-link text-white hover:text-secondary transition-colors {% if '/projects/' in request.path %}active{% endif %}">Pwojè yo</a>
                       

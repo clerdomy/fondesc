@@ -94,7 +94,7 @@ def generate_certificate_pdf(certificate):
     c.drawCentredString(width/2, 2*inch, "João Silva")
     c.setFont('Roboto', 12)
     c.drawCentredString(width/2, 1.7*inch, "Diretor de Educação")
-    c.drawCentredString(width/2, 1.4*inch, "PythonLearn")
+    c.drawCentredString(width/2, 1.4*inch, "Fondesc")
     
     # Add verification text
     c.setFont('Roboto', 8)

@@ -23,17 +23,31 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.views.generic import TemplateView
 
-
-
 urlpatterns = [
+    # Admin panel route
     path('admin/', admin.site.urls),
-    path('', include('fondescapp.urls')),
-    path('accounts/', include('accounts.urls')),
-    path('courses/', include('courses.urls')),
-    path('payments/', include('payments.urls')),
-    path('projects/', include('projects.urls')),
-    path('school-registration/', include('school_registration.urls')),
+    
+    # Main application route (Fondescapp)
+    path('', include('fondescapp.urls')),  
+    
+    # User accounts routes (translated 'accounts' to 'kont')
+    path('kont/', include('accounts.urls')),  # Path for user accounts
+    
+    # Courses routes (translated 'courses' to 'kou')
+    path('kou/', include('courses.urls')),  # Path for courses
+    
+    # Payments routes (translated 'payments' to 'peman')
+    path('peman/', include('payments.urls')),  # Path for payments
+    
+    # Projects routes (translated 'projects' to 'pwojè yo')
+    path('pwoje-yo/', include('projects.urls')),  # Path for projects
+    
+    # School registration routes (translated 'school-registration' to 'enskri-lekol')
+    path('enskri-lekol/', include('school_registration.urls')),  # Path for school registration
 ]
+
+
+
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

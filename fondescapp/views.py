@@ -106,7 +106,7 @@ def contact_view(request):
             )
             
             # Send confirmation email to user
-            confirmation_subject = "Recebemos sua mensagem - PythonLearn"
+            confirmation_subject = "Recebemos sua mensagem - Fondesc"
             send_html_email(
                 confirmation_subject,
                 'emails/contact_confirmation.html',

@@ -28,6 +28,11 @@
                         class="bg-white bg-opacity-20 hover:bg-opacity-30 text-white font-semibold px-8 py-3 rounded-full transition-all text-center">
                         Aprann Plis
                     </a>
+                    <a href="{% url 'high_school' %}"
+                        class="btn-gradient bg-gradient-to-r from-secondary to-yellow-400 text-primary font-semibold px-8 py-3 rounded-full shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1 text-center">
+                        Lekol la
+                    </a>
+
                 </div>
             </div>
             <div class="w-full lg:w-1/2 relative" data-aos="fade-left">
@@ -146,10 +151,10 @@
                     onerror="this.src='https://dummyimage.com/400x250/000/fff&/400x200?text=Python+Course'">
                 <div class="p-6">
                     <div class="flex justify-between items-center mb-3">
-                        <span class="px-3 py-1 bg-primary text-white text-xs font-semibold rounded-full">{{
-                            course.get_level_display }}</span>
-                        <span class="text-gray-600 text-sm"><i class="far fa-clock mr-1"></i>{{ course.duration_in_weeks
-                            }} semèn</span>
+                        <span class="px-3 py-1 bg-primary text-white text-xs font-semibold rounded-full">
+                            {{ course.get_level_display }}</span>
+                        <span class="text-gray-600 text-sm"><i class="far fa-clock mr-1"></i>
+                            {{ course.duration_in_weeks}} semèn</span>
                     </div>
                     <h5 class="text-xl font-bold text-gray-800 mb-2">{{ course.title }}</h5>
                     <p class="text-gray-600 text-sm mb-4">{{ course.short_description|truncatechars:100 }}</p>
@@ -251,7 +256,7 @@
         <div class="text-center mb-16" data-aos="fade-up">
             <h2 class="text-3xl font-bold text-gray-800 mb-4">Sa Elèv Nou yo Di</h2>
             <p class="text-xl text-gray-600 max-w-3xl mx-auto">Tande kominote apranti nou yo pale sou eksperyans yo ak
-                PythonLearn</p>
+                Fondesc</p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -259,7 +264,7 @@
             <div class="bg-white rounded-xl shadow-md p-8 relative" data-aos="fade-up" data-aos-delay="100">
                 <div class="absolute -top-5 left-8 text-5xl text-primary opacity-20">"</div>
                 <div class="relative z-10">
-                    <p class="text-gray-600 mb-6">PythonLearn konplètman chanje chemen karyè mwen. Mwen te soti nan pa
+                    <p class="text-gray-600 mb-6">Fondesc konplètman chanje chemen karyè mwen. Mwen te soti nan pa
                         konnen anyen sou pwogramasyon pou jwenn yon travay kòm yon devlopè Python nan sèlman 6 mwa!</p>
                     <div class="flex items-center">
                         <div
@@ -296,7 +301,7 @@
                 <div class="absolute -top-5 left-8 text-5xl text-primary opacity-20">"</div>
                 <div class="relative z-10">
                     <p class="text-gray-600 mb-6">Kòm yon moun ki pa gen okenn eksperyans teknik, mwen te enkyè pou
-                        aprann kode. PythonLearn te fè li aksesib epi amizan. Kounye a mwen otomatize travay nan biwo
+                        aprann kode. Fondesc te fè li aksesib epi amizan. Kounye a mwen otomatize travay nan biwo
                         mwen!</p>
                     <div class="flex items-center">
                         <div
